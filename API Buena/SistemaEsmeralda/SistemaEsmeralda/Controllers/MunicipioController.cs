@@ -27,7 +27,7 @@ namespace SistemaEsmeralda.API.Controllers
         public IActionResult Index()
         {
             var list = _generalServices.ListadoMunicipio();
-            return Ok(list);
+            return Ok(list.Data);
         }
 
 
@@ -50,7 +50,7 @@ namespace SistemaEsmeralda.API.Controllers
                 Muni_FechaCreacion = DateTime.Now,
             };
             var list = _generalServices.InsertarMunicipio(modelo);
-            return Ok(list);
+            return Ok(list.Data);
         }
 
 
@@ -62,7 +62,7 @@ namespace SistemaEsmeralda.API.Controllers
         {
 
             var list = _generalServices.obterMunicipio(id);
-            return Json(list);
+            return Json(list.Data);
         }
 
 
@@ -80,14 +80,14 @@ namespace SistemaEsmeralda.API.Controllers
                 Muni_FechaModificacion = DateTime.Now
             };
             var list = _generalServices.EditarMunicipio(modelo);
-            return Ok(list);
+            return Ok(list.Data);
         }
 
         [HttpDelete("Delete")]
         public IActionResult Delete(string Muni_Codigo)
         {
             var list = _generalServices.EliminarMunicipio(Muni_Codigo);
-            return Ok(list);
+            return Ok(list.Data);
         }
 
 

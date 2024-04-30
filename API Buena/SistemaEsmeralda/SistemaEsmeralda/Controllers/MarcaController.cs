@@ -10,8 +10,11 @@ using System.Threading.Tasks;
 
 namespace SistemaEsmeralda.API.Controllers
 {
+    [ApiController]
+    [Route("API/[controller]")]
     public class MarcaController : Controller
     {
+
         private readonly GeneralServices _generalServices;
 
         private readonly IMapper _mapper;
@@ -24,8 +27,8 @@ namespace SistemaEsmeralda.API.Controllers
         [HttpGet("List")]
         public IActionResult Index()
         {
-            var list = _generalServices.ListadoCateoria();
-            return Ok(list);
+            var list = _generalServices.ListadoMarca();
+            return Ok(list.Data);
         }
 
 
@@ -42,7 +45,7 @@ namespace SistemaEsmeralda.API.Controllers
                 Marc_FechaCreacion = item.Marc_FechaCreacion,
             };
             var list = _generalServices.InsertarMarcas(modelo);
-            return Ok(list);
+            return Ok(list.Data);
         }
 
 
@@ -54,7 +57,7 @@ namespace SistemaEsmeralda.API.Controllers
         {
 
             var list = _generalServices.obterMarcas(id);
-            return Json(list);
+            return Json(list.Data);
         }
 
 
@@ -70,14 +73,14 @@ namespace SistemaEsmeralda.API.Controllers
                 Marc_FechaModificacion = DateTime.Now
             };
             var list = _generalServices.EditarMarca(modelo);
-            return Ok(list);
+            return Ok(list.Data);
         }
 
         [HttpDelete("Delete")]
         public IActionResult Delete(string Marc_Id)
         {
             var list = _generalServices.EliminarMarcas(Marc_Id);
-            return Ok(list);
+            return Ok(list.Data);
         }
 
     }

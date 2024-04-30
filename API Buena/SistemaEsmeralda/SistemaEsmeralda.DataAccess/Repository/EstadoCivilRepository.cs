@@ -36,7 +36,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
 
         public IEnumerable<tbEstadosCiviles> List()
         {
-            const string sql = "Gral.sp_EstadoCivil_listar";
+            const string sql = "Gral.sp_EstadosCiviles_listar";
 
             List<tbEstadosCiviles> result = new List<tbEstadosCiviles>();
 

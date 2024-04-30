@@ -27,7 +27,7 @@ namespace SistemaEsmeralda.API.Controllers
         public IActionResult Index()
         {
             var list = _generalServices.ListadoCateoria();
-            return Ok(list);
+            return Ok(list.Data);
         }
 
 
@@ -44,7 +44,7 @@ namespace SistemaEsmeralda.API.Controllers
                 Cate_FechaCreacion = item.Cate_FechaCreacion,
             };
             var list = _generalServices.InsertarCategorias(modelo);
-            return Ok(list);
+            return Ok(list.Data);
         }
 
 
@@ -56,7 +56,7 @@ namespace SistemaEsmeralda.API.Controllers
         {
 
             var list = _generalServices.obterCategorias(id);
-            return Json(list);
+            return Json(list.Data);
         }
 
 
@@ -72,14 +72,14 @@ namespace SistemaEsmeralda.API.Controllers
                 Cate_FechaModificacion = DateTime.Now
             };
             var list = _generalServices.EditarCategoria(modelo);
-            return Ok(list);
+            return Ok(list.Data);
         }
 
         [HttpDelete("Delete")]
         public IActionResult Delete(string Cate_Id)
         {
             var list = _generalServices.EliminarCategorias(Cate_Id);
-            return Ok(list);
+            return Ok(list.Data);
         }
 
 

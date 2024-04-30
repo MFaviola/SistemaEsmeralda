@@ -10,3 +10,15 @@ C:\Users\TOSHIBA\Desktop\SitemaparaEsmeraldas\SistemaEsmeralda\SistemaEsmeralda.
 C:\Users\TOSHIBA\Desktop\SitemaparaEsmeraldas\SistemaEsmeralda\SistemaEsmeralda.Entities\obj\Debug\net5.0\SistemaEsmeralda.Entities.dll
 C:\Users\TOSHIBA\Desktop\SitemaparaEsmeraldas\SistemaEsmeralda\SistemaEsmeralda.Entities\obj\Debug\net5.0\ref\SistemaEsmeralda.Entities.dll
 C:\Users\TOSHIBA\Desktop\SitemaparaEsmeraldas\SistemaEsmeralda\SistemaEsmeralda.Entities\obj\Debug\net5.0\SistemaEsmeralda.Entities.pdb
+C:\Users\TOSHIBA\Desktop\SistemaEsmeraldaRepo\SistemaEsmeralda\API Buena\SistemaEsmeralda\SistemaEsmeralda.Entities\bin\Debug\net5.0\SistemaEsmeralda.Entities.deps.json
+C:\Users\TOSHIBA\Desktop\SistemaEsmeraldaRepo\SistemaEsmeralda\API Buena\SistemaEsmeralda\SistemaEsmeralda.Entities\bin\Debug\net5.0\SistemaEsmeralda.Entities.dll
+C:\Users\TOSHIBA\Desktop\SistemaEsmeraldaRepo\SistemaEsmeralda\API Buena\SistemaEsmeralda\SistemaEsmeralda.Entities\bin\Debug\net5.0\ref\SistemaEsmeralda.Entities.dll
+C:\Users\TOSHIBA\Desktop\SistemaEsmeraldaRepo\SistemaEsmeralda\API Buena\SistemaEsmeralda\SistemaEsmeralda.Entities\bin\Debug\net5.0\SistemaEsmeralda.Entities.pdb
+C:\Users\TOSHIBA\Desktop\SistemaEsmeraldaRepo\SistemaEsmeralda\API Buena\SistemaEsmeralda\SistemaEsmeralda.Entities\obj\Debug\net5.0\SistemaEsmeralda.Entities.csproj.AssemblyReference.cache
+C:\Users\TOSHIBA\Desktop\SistemaEsmeraldaRepo\SistemaEsmeralda\API Buena\SistemaEsmeralda\SistemaEsmeralda.Entities\obj\Debug\net5.0\SistemaEsmeralda.Entities.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\TOSHIBA\Desktop\SistemaEsmeraldaRepo\SistemaEsmeralda\API Buena\SistemaEsmeralda\SistemaEsmeralda.Entities\obj\Debug\net5.0\SistemaEsmeralda.Entities.AssemblyInfoInputs.cache
+C:\Users\TOSHIBA\Desktop\SistemaEsmeraldaRepo\SistemaEsmeralda\API Buena\SistemaEsmeralda\SistemaEsmeralda.Entities\obj\Debug\net5.0\SistemaEsmeralda.Entities.AssemblyInfo.cs
+C:\Users\TOSHIBA\Desktop\SistemaEsmeraldaRepo\SistemaEsmeralda\API Buena\SistemaEsmeralda\SistemaEsmeralda.Entities\obj\Debug\net5.0\SistemaEsmeralda.Entities.csproj.CoreCompileInputs.cache
+C:\Users\TOSHIBA\Desktop\SistemaEsmeraldaRepo\SistemaEsmeralda\API Buena\SistemaEsmeralda\SistemaEsmeralda.Entities\obj\Debug\net5.0\SistemaEsmeralda.Entities.dll
+C:\Users\TOSHIBA\Desktop\SistemaEsmeraldaRepo\SistemaEsmeralda\API Buena\SistemaEsmeralda\SistemaEsmeralda.Entities\obj\Debug\net5.0\ref\SistemaEsmeralda.Entities.dll
+C:\Users\TOSHIBA\Desktop\SistemaEsmeraldaRepo\SistemaEsmeralda\API Buena\SistemaEsmeralda\SistemaEsmeralda.Entities\obj\Debug\net5.0\SistemaEsmeralda.Entities.pdb

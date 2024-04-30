@@ -86,5 +86,43 @@ namespace SistemaEsmeralda.DataAccess.Repository
         public static string MarcasEliminar = "Gral.sp_Marcas_eliminar";
 
         #endregion
+
+
+
+
+        #region Materiales
+        public static string MaterialesListar = "Gral.sp_Materiales_listar";
+        public static string Materialesllenar = "Gral.sp_Materiales_buscar";
+        public static string MaterialesActualizar = "Gral.sp_Materiales_actualizar";
+        public static string MaterialesEliminar = "Gral.sp_Materiales_eliminar";
+
+        #endregion
+
+
+
+        #region MetodosPago
+        public static string MetodosPagoListar = "Gral.sp_MetodosPago_listar";
+        public static string MMetodosPagollenar = "Gral.sp_MetodosPago_buscar";
+        public static string MetodosPagoActualizar = "Gral.sp_MetodosPago_actualizar";
+        public static string MetodosPagoEliminar = "Gral.sp_MetodosPago_eliminar";
+
+        #endregion
+
+
+
+
+
+
+        #region Clientes
+        public static string ClientesListar = "Gral.sp_Clientes_listar";
+        public static string Clientesllenar = "Gral.sp_Clientes_buscar";
+        public static string ClientesActualizar = "Gral.sp_Clientes_actualizar";
+        public static string ClientesEliminar = "Gral.sp_Clientes_eliminar";
+
+        #endregion
+
+
+
+
     }
 }

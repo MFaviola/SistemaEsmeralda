@@ -16,7 +16,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
 
         public RequestStatus Insert(tbMarcas item)
         {
-            const string sql = "[Gral].[sp_Marca_insertar]";
+            const string sql = "[Gral].[sp_Marcas_insertar]";
 
 
 
@@ -24,7 +24,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
             {
                 var parametro = new DynamicParameters();
                 parametro.Add("@Marc_Marca", item.Marc_Marca);
-                parametro.Add("@Marc_UsuarioCreacion", item.Marc_UsuarioCreacion);
+                parametro.Add("@Marc_UsuarioCreacion", 1);
                 parametro.Add("@Marc_FechaCreacion", item.Marc_FechaCreacion);
 
 
@@ -36,7 +36,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
 
         public IEnumerable<tbMarcas> List()
         {
-            const string sql = "Gral.sp_Marca_listar";
+            const string sql = "Gral.sp_Marcas_listar";
 
             List<tbMarcas> result = new List<tbMarcas>();
 

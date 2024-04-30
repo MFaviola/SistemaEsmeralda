@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\TOSHIBA\\Desktop\\SitemaparaEsmeraldas\\SistemaEsmeralda\\SistemaEsmeralda.BusinessLogic\\SistemaEsmeralda.BusinessLogic.csproj": {}
+    "C:\\Users\\TOSHIBA\\Desktop\\SistemaEsmeraldaRepo\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.BusinessLogic\\SistemaEsmeralda.BusinessLogic.csproj": {}
   },
   "projects": {
-    "C:\\Users\\TOSHIBA\\Desktop\\SitemaparaEsmeraldas\\SistemaEsmeralda\\SistemaEsmeralda.BusinessLogic\\SistemaEsmeralda.BusinessLogic.csproj": {
+    "C:\\Users\\TOSHIBA\\Desktop\\SistemaEsmeraldaRepo\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.BusinessLogic\\SistemaEsmeralda.BusinessLogic.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\TOSHIBA\\Desktop\\SitemaparaEsmeraldas\\SistemaEsmeralda\\SistemaEsmeralda.BusinessLogic\\SistemaEsmeralda.BusinessLogic.csproj",
+        "projectUniqueName": "C:\\Users\\TOSHIBA\\Desktop\\SistemaEsmeraldaRepo\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.BusinessLogic\\SistemaEsmeralda.BusinessLogic.csproj",
         "projectName": "SistemaEsmeralda.BusinessLogic",
-        "projectPath": "C:\\Users\\TOSHIBA\\Desktop\\SitemaparaEsmeraldas\\SistemaEsmeralda\\SistemaEsmeralda.BusinessLogic\\SistemaEsmeralda.BusinessLogic.csproj",
+        "projectPath": "C:\\Users\\TOSHIBA\\Desktop\\SistemaEsmeraldaRepo\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.BusinessLogic\\SistemaEsmeralda.BusinessLogic.csproj",
         "packagesPath": "C:\\Users\\TOSHIBA\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\TOSHIBA\\Desktop\\SitemaparaEsmeraldas\\SistemaEsmeralda\\SistemaEsmeralda.BusinessLogic\\obj\\",
+        "outputPath": "C:\\Users\\TOSHIBA\\Desktop\\SistemaEsmeraldaRepo\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.BusinessLogic\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -32,8 +32,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "C:\\Users\\TOSHIBA\\Desktop\\SitemaparaEsmeraldas\\SistemaEsmeralda\\SistemaEsmeralda.DataAccess\\SistemaEsmeralda.DataAccess.csproj": {
-                "projectPath": "C:\\Users\\TOSHIBA\\Desktop\\SitemaparaEsmeraldas\\SistemaEsmeralda\\SistemaEsmeralda.DataAccess\\SistemaEsmeralda.DataAccess.csproj"
+              "C:\\Users\\TOSHIBA\\Desktop\\SistemaEsmeraldaRepo\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.DataAccess\\SistemaEsmeralda.DataAccess.csproj": {
+                "projectPath": "C:\\Users\\TOSHIBA\\Desktop\\SistemaEsmeraldaRepo\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.DataAccess\\SistemaEsmeralda.DataAccess.csproj"
               }
             }
           }
@@ -42,11 +42,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -58,8 +53,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -68,18 +62,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.416\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\TOSHIBA\\Desktop\\SitemaparaEsmeraldas\\SistemaEsmeralda\\SistemaEsmeralda.DataAccess\\SistemaEsmeralda.DataAccess.csproj": {
+    "C:\\Users\\TOSHIBA\\Desktop\\SistemaEsmeraldaRepo\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.DataAccess\\SistemaEsmeralda.DataAccess.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\TOSHIBA\\Desktop\\SitemaparaEsmeraldas\\SistemaEsmeralda\\SistemaEsmeralda.DataAccess\\SistemaEsmeralda.DataAccess.csproj",
+        "projectUniqueName": "C:\\Users\\TOSHIBA\\Desktop\\SistemaEsmeraldaRepo\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.DataAccess\\SistemaEsmeralda.DataAccess.csproj",
         "projectName": "SistemaEsmeralda.DataAccess",
-        "projectPath": "C:\\Users\\TOSHIBA\\Desktop\\SitemaparaEsmeraldas\\SistemaEsmeralda\\SistemaEsmeralda.DataAccess\\SistemaEsmeralda.DataAccess.csproj",
+        "projectPath": "C:\\Users\\TOSHIBA\\Desktop\\SistemaEsmeraldaRepo\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.DataAccess\\SistemaEsmeralda.DataAccess.csproj",
         "packagesPath": "C:\\Users\\TOSHIBA\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\TOSHIBA\\Desktop\\SitemaparaEsmeraldas\\SistemaEsmeralda\\SistemaEsmeralda.DataAccess\\obj\\",
+        "outputPath": "C:\\Users\\TOSHIBA\\Desktop\\SistemaEsmeraldaRepo\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.DataAccess\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -100,8 +94,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "C:\\Users\\TOSHIBA\\Desktop\\SitemaparaEsmeraldas\\SistemaEsmeralda\\SistemaEsmeralda.Entities\\SistemaEsmeralda.Entities.csproj": {
-                "projectPath": "C:\\Users\\TOSHIBA\\Desktop\\SitemaparaEsmeraldas\\SistemaEsmeralda\\SistemaEsmeralda.Entities\\SistemaEsmeralda.Entities.csproj"
+              "C:\\Users\\TOSHIBA\\Desktop\\SistemaEsmeraldaRepo\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.Entities\\SistemaEsmeralda.Entities.csproj": {
+                "projectPath": "C:\\Users\\TOSHIBA\\Desktop\\SistemaEsmeraldaRepo\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.Entities\\SistemaEsmeralda.Entities.csproj"
               }
             }
           }
@@ -110,11 +104,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -140,8 +129,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -150,18 +138,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.416\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\TOSHIBA\\Desktop\\SitemaparaEsmeraldas\\SistemaEsmeralda\\SistemaEsmeralda.Entities\\SistemaEsmeralda.Entities.csproj": {
+    "C:\\Users\\TOSHIBA\\Desktop\\SistemaEsmeraldaRepo\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.Entities\\SistemaEsmeralda.Entities.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\TOSHIBA\\Desktop\\SitemaparaEsmeraldas\\SistemaEsmeralda\\SistemaEsmeralda.Entities\\SistemaEsmeralda.Entities.csproj",
+        "projectUniqueName": "C:\\Users\\TOSHIBA\\Desktop\\SistemaEsmeraldaRepo\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.Entities\\SistemaEsmeralda.Entities.csproj",
         "projectName": "SistemaEsmeralda.Entities",
-        "projectPath": "C:\\Users\\TOSHIBA\\Desktop\\SitemaparaEsmeraldas\\SistemaEsmeralda\\SistemaEsmeralda.Entities\\SistemaEsmeralda.Entities.csproj",
+        "projectPath": "C:\\Users\\TOSHIBA\\Desktop\\SistemaEsmeraldaRepo\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.Entities\\SistemaEsmeralda.Entities.csproj",
         "packagesPath": "C:\\Users\\TOSHIBA\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\TOSHIBA\\Desktop\\SitemaparaEsmeraldas\\SistemaEsmeralda\\SistemaEsmeralda.Entities\\obj\\",
+        "outputPath": "C:\\Users\\TOSHIBA\\Desktop\\SistemaEsmeraldaRepo\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.Entities\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -188,11 +176,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -204,8 +187,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -214,7 +196,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.416\\RuntimeIdentifierGraph.json"
         }
       }
     }

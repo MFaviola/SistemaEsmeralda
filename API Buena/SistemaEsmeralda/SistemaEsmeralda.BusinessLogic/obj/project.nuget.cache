@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "5VOape/JxeOWQXEr/jfZpbJl3Y1K88K321zzw8OkqyNf0Tsjb8uGT5OwKw5Dr7Et+ppecoi2sw+qf1nFGpHyEw==",
+  "dgSpecHash": "s/cP6KqORm3xpq5l8ckJlX2L0lNO+iqmKXCKm2CLNJbSXisHUxfHNoHGGNbtZBhLKc6HyVAv1R2KmNKjgrT9vA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\TOSHIBA\\Desktop\\SitemaparaEsmeraldas\\SistemaEsmeralda\\SistemaEsmeralda.BusinessLogic\\SistemaEsmeralda.BusinessLogic.csproj",
+  "projectFilePath": "C:\\Users\\TOSHIBA\\Desktop\\SistemaEsmeraldaRepo\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.BusinessLogic\\SistemaEsmeralda.BusinessLogic.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\TOSHIBA\\.nuget\\packages\\dapper\\2.1.35\\dapper.2.1.35.nupkg.sha512",
     "C:\\Users\\TOSHIBA\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",

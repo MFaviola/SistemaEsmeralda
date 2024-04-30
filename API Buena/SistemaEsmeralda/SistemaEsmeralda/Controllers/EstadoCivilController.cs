@@ -27,7 +27,7 @@ namespace SistemaEsmeralda.API.Controllers
         public IActionResult Index()
         {
             var list = _generalServices.ListadoEstadosCiviles();
-            return Ok(list);
+            return Ok(list.Data);
         }
 
 
@@ -47,7 +47,7 @@ namespace SistemaEsmeralda.API.Controllers
                 Esta_FechaCreacion = item.Esta_FechaCreacion,
             };
             var list = _generalServices.InsertarEstadoCiviles(modelo);
-            return Ok(list);
+            return Ok(list.Data);
         }
 
 
@@ -58,8 +58,8 @@ namespace SistemaEsmeralda.API.Controllers
         public IActionResult Llenar(int id)
         {
 
-            var list = _generalServices.obterCargos(id);
-            return Json(list);
+            var list = _generalServices.obterEstadosCiviles(id);
+            return Json(list.Data);
         }
 
 
@@ -75,14 +75,14 @@ namespace SistemaEsmeralda.API.Controllers
                 Esta_FechaModificacion = DateTime.Now
             };
             var list = _generalServices.EditarEstadosCiviles(modelo);
-            return Ok(list);
+            return Ok(list.Data);
         }
 
         [HttpDelete("Delete")]
         public IActionResult Delete(string Esta_Id)
         {
-            var list = _generalServices.EliminarCargo(Esta_Id);
-            return Ok(list);
+            var list = _generalServices.EliminarEstadosCiviles(Esta_Id);
+            return Ok(list.Data);
         }
 
 

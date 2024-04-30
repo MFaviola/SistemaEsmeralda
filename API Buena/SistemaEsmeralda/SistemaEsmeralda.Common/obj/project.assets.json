@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\TOSHIBA\\Desktop\\SitemaparaEsmeraldas\\SistemaEsmeralda\\SistemaEsmeralda.Common\\SistemaEsmeralda.Common.csproj",
+      "projectUniqueName": "C:\\Users\\TOSHIBA\\Desktop\\SistemaEsmeraldaRepo\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.Common\\SistemaEsmeralda.Common.csproj",
       "projectName": "SistemaEsmeralda.Common",
-      "projectPath": "C:\\Users\\TOSHIBA\\Desktop\\SitemaparaEsmeraldas\\SistemaEsmeralda\\SistemaEsmeralda.Common\\SistemaEsmeralda.Common.csproj",
+      "projectPath": "C:\\Users\\TOSHIBA\\Desktop\\SistemaEsmeraldaRepo\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.Common\\SistemaEsmeralda.Common.csproj",
       "packagesPath": "C:\\Users\\TOSHIBA\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\TOSHIBA\\Desktop\\SitemaparaEsmeraldas\\SistemaEsmeralda\\SistemaEsmeralda.Common\\obj\\",
+      "outputPath": "C:\\Users\\TOSHIBA\\Desktop\\SistemaEsmeraldaRepo\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.Common\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -45,11 +45,6 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -61,8 +56,7 @@
           "net47",
           "net471",
           "net472",
-          "net48",
-          "net481"
+          "net48"
         ],
         "assetTargetFallback": true,
         "warn": true,
@@ -71,7 +65,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.416\\RuntimeIdentifierGraph.json"
       }
     }
   }

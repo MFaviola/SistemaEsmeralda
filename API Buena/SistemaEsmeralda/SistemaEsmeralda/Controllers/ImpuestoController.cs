@@ -27,7 +27,7 @@ namespace SistemaEsmeralda.API.Controllers
         public IActionResult Index()
         {
             var list = _generalServices.ListadoImpuesto();
-            return Ok(list);
+            return Ok(list.Data);
         }
 
 
@@ -47,7 +47,7 @@ namespace SistemaEsmeralda.API.Controllers
                 Impu_FechaCreacion = item.Impu_FechaCreacion,
             };
             var list = _generalServices.InsertarImpuestos(modelo);
-            return Ok(list);
+            return Ok(list.Data);
         }
 
 
@@ -59,7 +59,7 @@ namespace SistemaEsmeralda.API.Controllers
         {
 
             var list = _generalServices.obterImpuestos(id);
-            return Json(list);
+            return Json(list.Data);
         }
 
 
@@ -75,14 +75,14 @@ namespace SistemaEsmeralda.API.Controllers
                 Impu_FechaModificacion = DateTime.Now
             };
             var list = _generalServices.EditarImpuestos(modelo);
-            return Ok(list);
+            return Ok(list.Data);
         }
 
         [HttpDelete("Delete")]
         public IActionResult Delete(string Impu_Id)
         {
             var list = _generalServices.EliminarImpuestos(Impu_Id);
-            return Ok(list);
+            return Ok(list.Data);
         }
 
 

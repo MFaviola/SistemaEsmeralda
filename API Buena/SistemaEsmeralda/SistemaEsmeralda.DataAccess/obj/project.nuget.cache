@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "c2F0HrRAgHE2IRV2ajaLhYlqvje5l7qCIGyUs4oDgmuafevgpEtvruXVHJ8iL+vXst61p7PyQZl21oDhTA/Qgg==",
+  "dgSpecHash": "dUVrwuwGgfiB45mrLJAPAgAnl4ky1bip5QiSfvtU0RyaABED3GzCogmDCQgD/n0q+J2nMf5p5HJ2ay154K7pdA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\TOSHIBA\\Desktop\\SitemaparaEsmeraldas\\SistemaEsmeralda\\SistemaEsmeralda.DataAccess\\SistemaEsmeralda.DataAccess.csproj",
+  "projectFilePath": "C:\\Users\\TOSHIBA\\Desktop\\SistemaEsmeraldaRepo\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.DataAccess\\SistemaEsmeralda.DataAccess.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\TOSHIBA\\.nuget\\packages\\dapper\\2.1.35\\dapper.2.1.35.nupkg.sha512",
     "C:\\Users\\TOSHIBA\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",

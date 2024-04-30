@@ -16,14 +16,16 @@ namespace SistemaEsmeralda.BusinessLogic.Services
         private readonly CategoriaRepository _categoriaRepository;
         private readonly ImpuestoRepository _impuestoRepository;
         private readonly MarcaRepository  _marcaRepository;
+        private readonly MateriaRepositorycs _materiaRepositorycs;
+        private readonly MetodoPagoRepository _metodoPagoRepository;
 
-
+        private readonly ClienteRepository _clienteRepository;
 
 
         private readonly EstadoCivilRepository _estadoCivilRepository;
 
 
-        public GeneralServices(DepartamentosRepository departamentosRepository, MunicipioRepository municipioRepository, CargosRepository cargosRepository, CategoriaRepository categoriaRepository, EstadoCivilRepository estadoCivilRepository, ImpuestoRepository impuestoRepository, MarcaRepository marcaRepository)
+        public GeneralServices(DepartamentosRepository departamentosRepository, MunicipioRepository municipioRepository, CargosRepository cargosRepository, CategoriaRepository categoriaRepository, EstadoCivilRepository estadoCivilRepository, ImpuestoRepository impuestoRepository, MarcaRepository marcaRepository, MateriaRepositorycs materiaRepositorycs, MetodoPagoRepository metodoPagoRepository, ClienteRepository clienteRepository)
         {
             _departamentosRepository = departamentosRepository;
             _municipioRepository = municipioRepository;
@@ -32,6 +34,9 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             _impuestoRepository = impuestoRepository;
              _estadoCivilRepository = estadoCivilRepository;
             _marcaRepository = marcaRepository;
+            _materiaRepositorycs = materiaRepositorycs;
+            _metodoPagoRepository = metodoPagoRepository;
+            _clienteRepository = clienteRepository;
 
 
 
@@ -849,5 +854,354 @@ namespace SistemaEsmeralda.BusinessLogic.Services
 
 
         #endregion
+
+
+
+
+
+
+
+        #region Materiales
+        public ServiceResult ListadoMateriales()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _materiaRepositorycs.List();
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
+
+
+
+
+
+        public ServiceResult EditarMaterial(tbMateriales item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _materiaRepositorycs.Update(item);
+                if (list.CodeStatus > 0)
+                {
+                    return result.Ok("okis", list);
+                }
+                else
+                {
+                    return result.Error("Y existe un registro con ese nombre");
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
+        public ServiceResult EliminarMateriales(string Mate_Id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _materiaRepositorycs.Delete(Mate_Id);
+                if (list.CodeStatus > 0)
+                {
+                    return result.Ok($"La accion ha sido existosa", list);
+                }
+                else
+                {
+                    return result.Error("No se pudo realizar la accion");
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
+
+
+        public ServiceResult InsertarMateriales(tbMateriales item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _materiaRepositorycs.Insert(item);
+                if (list.CodeStatus > 0)
+                {
+                    return result.Ok(list);
+                }
+                else
+                {
+                    return result.Error(list);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+
+
+        public ServiceResult obterMateriales(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _materiaRepositorycs.Fill(id);
+
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
+
+
+
+
+
+        #endregion
+
+
+
+
+
+
+        #region MetodoPago
+        public ServiceResult ListadoMetodoPago()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _metodoPagoRepository.List();
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
+
+
+
+
+
+        public ServiceResult EditarMetodoPago(tbMetodosPago item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _metodoPagoRepository.Update(item);
+                if (list.CodeStatus > 0)
+                {
+                    return result.Ok("okis", list);
+                }
+                else
+                {
+                    return result.Error("Y existe un registro con ese nombre");
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
+        public ServiceResult EliminarMetodoPago(string Mepa_Id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _metodoPagoRepository.Delete(Mepa_Id);
+                if (list.CodeStatus > 0)
+                {
+                    return result.Ok($"La accion ha sido existosa", list);
+                }
+                else
+                {
+                    return result.Error("No se pudo realizar la accion");
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
+
+
+        public ServiceResult InsertarMetodoPago(tbMetodosPago item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _metodoPagoRepository.Insert(item);
+                if (list.CodeStatus > 0)
+                {
+                    return result.Ok(list);
+                }
+                else
+                {
+                    return result.Error(list);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+
+
+        public ServiceResult obterMetodoPago(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _metodoPagoRepository.Fill(id);
+
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
+
+
+
+
+
+        #endregion
+
+
+
+
+
+        #region Clientes
+        public ServiceResult ListadoClientes()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _clienteRepository.List();
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
+
+
+
+
+
+        public ServiceResult EditarCliente(tbClientes item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _clienteRepository.Update(item);
+                if (list.CodeStatus > 0)
+                {
+                    return result.Ok("okis", list);
+                }
+                else
+                {
+                    return result.Error("Y existe un registro con ese nombre");
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
+        public ServiceResult EliminarClientes(string Clie_Id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _clienteRepository.Delete(Clie_Id);
+                if (list.CodeStatus > 0)
+                {
+                    return result.Ok($"La accion ha sido existosa", list);
+                }
+                else
+                {
+                    return result.Error("No se pudo realizar la accion");
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
+
+
+        public ServiceResult InsertarCliente(tbClientes item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _clienteRepository.Insert(item);
+                if (list.CodeStatus > 0)
+                {
+                    return result.Ok(list);
+                }
+                else
+                {
+                    return result.Error(list);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+
+
+        public ServiceResult obterCliente(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _clienteRepository.Fill(id);
+
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
+
+
+
+
+
+        #endregion
+
     }
 }

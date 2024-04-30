@@ -19,6 +19,12 @@ namespace SistemaEsmeralda.API.Extensions
             CreateMap<EstadoCivilViewModel, tbEstadosCiviles>().ReverseMap();
             CreateMap<ImpuestoViewModel, tbImpuestos>().ReverseMap();
             CreateMap<MarcaViewModel, tbMarcas>().ReverseMap();
+            CreateMap<MaterialViewModel, tbMateriales>().ReverseMap();
+            CreateMap<MetodoPagoViewModel, tbMetodosPago>().ReverseMap();
+            CreateMap<ClienteViewModel, tbClientes>().ReverseMap();
+
+
+
 
 
 
