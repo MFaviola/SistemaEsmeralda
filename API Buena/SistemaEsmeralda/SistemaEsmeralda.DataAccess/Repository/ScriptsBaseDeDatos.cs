@@ -41,6 +41,11 @@ namespace SistemaEsmeralda.DataAccess.Repository
 
         #endregion
 
+        #region Usuarios
+        public static string Usuarios_ValidarReestablecer = "Gral.sp_Cargos_listar";
+
+
+        #endregion
 
 
 
