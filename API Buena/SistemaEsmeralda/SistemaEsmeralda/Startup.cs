@@ -15,6 +15,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using SistemaEsmeralda.API.Extensions;
 using SistemaEsmeralda.API;
+using SistemaRestaurante.API.Herramientas;
 
 namespace SistemaEsmeralda
 {
@@ -44,11 +45,12 @@ namespace SistemaEsmeralda
             // Configurar CORS
             services.AddCors(options =>
             {
-                options.AddPolicy("AllowAll", builder =>
+                options.AddPolicy("AllowAllOrigins", builder =>
                 {
-                    builder.AllowAnyOrigin()
-                           .AllowAnyMethod()
-                           .AllowAnyHeader();
+                    builder
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
                 });
             });
             services.AddControllers();
@@ -75,7 +77,7 @@ namespace SistemaEsmeralda
             app.UseRouting();
 
             app.UseAuthorization();
-
+            app.UseCors("AllowAllOrigins");
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

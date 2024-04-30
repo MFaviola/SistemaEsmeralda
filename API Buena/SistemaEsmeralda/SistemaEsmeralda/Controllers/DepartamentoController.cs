@@ -27,14 +27,14 @@ namespace SistemaEsmeralda.API.Controllers
         public IActionResult Index()
         {
             var list = _generalServices.ListadoDepartamentos();
-            return Ok(list);
+            return Ok(list.Data);
         }
 
 
 
 
 
-
+       
         [HttpPost("Create")]
         public IActionResult Insert(DepartamentoViewModel item)
         {
