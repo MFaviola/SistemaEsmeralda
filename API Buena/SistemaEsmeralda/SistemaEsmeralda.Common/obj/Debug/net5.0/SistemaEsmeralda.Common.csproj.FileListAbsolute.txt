@@ -1,0 +1,12 @@
+C:\Users\TOSHIBA\Desktop\SitemaparaEsmeraldas\SistemaEsmeralda\SistemaEsmeralda.Common\bin\Debug\net5.0\SistemaEsmeralda.Common.deps.json
+C:\Users\TOSHIBA\Desktop\SitemaparaEsmeraldas\SistemaEsmeralda\SistemaEsmeralda.Common\bin\Debug\net5.0\SistemaEsmeralda.Common.dll
+C:\Users\TOSHIBA\Desktop\SitemaparaEsmeraldas\SistemaEsmeralda\SistemaEsmeralda.Common\bin\Debug\net5.0\ref\SistemaEsmeralda.Common.dll
+C:\Users\TOSHIBA\Desktop\SitemaparaEsmeraldas\SistemaEsmeralda\SistemaEsmeralda.Common\bin\Debug\net5.0\SistemaEsmeralda.Common.pdb
+C:\Users\TOSHIBA\Desktop\SitemaparaEsmeraldas\SistemaEsmeralda\SistemaEsmeralda.Common\obj\Debug\net5.0\SistemaEsmeralda.Common.csproj.AssemblyReference.cache
+C:\Users\TOSHIBA\Desktop\SitemaparaEsmeraldas\SistemaEsmeralda\SistemaEsmeralda.Common\obj\Debug\net5.0\SistemaEsmeralda.Common.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\TOSHIBA\Desktop\SitemaparaEsmeraldas\SistemaEsmeralda\SistemaEsmeralda.Common\obj\Debug\net5.0\SistemaEsmeralda.Common.AssemblyInfoInputs.cache
+C:\Users\TOSHIBA\Desktop\SitemaparaEsmeraldas\SistemaEsmeralda\SistemaEsmeralda.Common\obj\Debug\net5.0\SistemaEsmeralda.Common.AssemblyInfo.cs
+C:\Users\TOSHIBA\Desktop\SitemaparaEsmeraldas\SistemaEsmeralda\SistemaEsmeralda.Common\obj\Debug\net5.0\SistemaEsmeralda.Common.csproj.CoreCompileInputs.cache
+C:\Users\TOSHIBA\Desktop\SitemaparaEsmeraldas\SistemaEsmeralda\SistemaEsmeralda.Common\obj\Debug\net5.0\SistemaEsmeralda.Common.dll
+C:\Users\TOSHIBA\Desktop\SitemaparaEsmeraldas\SistemaEsmeralda\SistemaEsmeralda.Common\obj\Debug\net5.0\ref\SistemaEsmeralda.Common.dll
+C:\Users\TOSHIBA\Desktop\SitemaparaEsmeraldas\SistemaEsmeralda\SistemaEsmeralda.Common\obj\Debug\net5.0\SistemaEsmeralda.Common.pdb
