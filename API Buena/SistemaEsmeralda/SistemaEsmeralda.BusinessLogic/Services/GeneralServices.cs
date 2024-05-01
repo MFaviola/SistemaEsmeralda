@@ -18,14 +18,14 @@ namespace SistemaEsmeralda.BusinessLogic.Services
         private readonly MarcaRepository  _marcaRepository;
         private readonly MateriaRepositorycs _materiaRepositorycs;
         private readonly MetodoPagoRepository _metodoPagoRepository;
-        private readonly SucursalRepository _sucursalRepository;
+
         private readonly ClienteRepository _clienteRepository;
         private readonly EmpleadoRepository _empleadoRepository;
         private readonly ProveedorRepository _proveedorRepository;
         private readonly EstadoCivilRepository _estadoCivilRepository;
 
 
-        public GeneralServices(DepartamentosRepository departamentosRepository, MunicipioRepository municipioRepository, CargosRepository cargosRepository, CategoriaRepository categoriaRepository, EstadoCivilRepository estadoCivilRepository, ImpuestoRepository impuestoRepository, MarcaRepository marcaRepository, MateriaRepositorycs materiaRepositorycs, MetodoPagoRepository metodoPagoRepository, ClienteRepository clienteRepository, EmpleadoRepository empleadoRepository, ProveedorRepository proveedorRepository, SucursalRepository sucursalRepository)
+        public GeneralServices(DepartamentosRepository departamentosRepository, MunicipioRepository municipioRepository, CargosRepository cargosRepository, CategoriaRepository categoriaRepository, EstadoCivilRepository estadoCivilRepository, ImpuestoRepository impuestoRepository, MarcaRepository marcaRepository, MateriaRepositorycs materiaRepositorycs, MetodoPagoRepository metodoPagoRepository, ClienteRepository clienteRepository, EmpleadoRepository empleadoRepository, ProveedorRepository proveedorRepository)
         {
             _departamentosRepository = departamentosRepository;
             _municipioRepository = municipioRepository;
@@ -39,7 +39,7 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             _clienteRepository = clienteRepository;
             _empleadoRepository = empleadoRepository;
             _proveedorRepository = proveedorRepository;
-            _sucursalRepository = sucursalRepository;
+
 
 
         }
@@ -1327,7 +1327,7 @@ namespace SistemaEsmeralda.BusinessLogic.Services
 
 
 
-        #region Proveedor
+        #region Empleado
         public ServiceResult ListadoProveedor()
         {
             var result = new ServiceResult();
@@ -1437,125 +1437,6 @@ namespace SistemaEsmeralda.BusinessLogic.Services
 
 
         #endregion
-
-
-
-
-        #region Sucursal
-        public ServiceResult ListadoSucursal()
-        {
-            var result = new ServiceResult();
-            try
-            {
-                var list = _sucursalRepository.List();
-                return result.Ok(list);
-            }
-
-            catch (Exception ex)
-            {
-
-                return result.Error(ex.Message);
-            }
-        }
-
-
-
-
-
-
-        public ServiceResult EditarSucursal(tbSucursales item)
-        {
-            var result = new ServiceResult();
-            try
-            {
-                var list = _sucursalRepository.Update(item);
-                if (list.CodeStatus > 0)
-                {
-                    return result.Ok("okis", list);
-                }
-                else
-                {
-                    return result.Error("Y existe un registro con ese nombre");
-                }
-            }
-            catch (Exception ex)
-            {
-                return result.Error(ex);
-            }
-        }
-
-        public ServiceResult EliminarSucursal(string Sucu_Id)
-        {
-            var result = new ServiceResult();
-            try
-            {
-                var list = _sucursalRepository.Delete(Sucu_Id);
-                if (list.CodeStatus > 0)
-                {
-                    return result.Ok($"Exelente chiquit@", list);
-                }
-                else
-                {
-                    return result.Error("Hijole ahi si te quedo mal tito");
-                }
-            }
-            catch (Exception ex)
-            {
-                return result.Error(ex);
-            }
-        }
-
-
-
-        public ServiceResult InsertarSucursal(tbSucursales item)
-        {
-            var result = new ServiceResult();
-            try
-            {
-                var list = _sucursalRepository.Insert(item);
-                if (list.CodeStatus > 0)
-                {
-                    return result.Ok(list);
-                }
-                else
-                {
-                    return result.Error(list);
-                }
-            }
-            catch (Exception ex)
-            {
-                return result.Error(ex.Message);
-            }
-        }
-
-
-
-        public ServiceResult obterSucursal(int id)
-        {
-            var result = new ServiceResult();
-            try
-            {
-                var list = _sucursalRepository.Fill(id);
-
-                return result.Ok(list);
-            }
-            catch (Exception ex)
-            {
-                return result.Error(ex);
-            }
-        }
-
-
-
-
-
-
-        #endregion
-
-
-
-
-        
 
 
     }

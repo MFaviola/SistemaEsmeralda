@@ -24,10 +24,6 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             service.AddScoped<ClienteRepository>();
             service.AddScoped<EmpleadoRepository>();
             service.AddScoped<ProveedorRepository>();
-            service.AddScoped<SucursalRepository>();
-            service.AddScoped<JoyaRepository>();
-
-
 
 
 
@@ -45,9 +41,6 @@ namespace SistemaEsmeralda.BusinessLogic.Services
         public static void BusinessLogic(this IServiceCollection service)
         {
             service.AddScoped<GeneralServices>();
-            service.AddScoped<VentasServices>();
-
-
 
         }
     }
