@@ -4,7 +4,7 @@ import { Product } from 'src/app/demo/api/product';
 import {Router} from '@angular/router';
 import { Table } from 'primeng/table';
 import { Departamento } from 'src/app/Models/DepartamentoViewModel';
-import { ServiceService } from 'src/app/Service/service.service';
+import { ServiceService } from 'src/app/Service/Departamento.service';
 @Component({
     templateUrl: './Departamentodemo.component.html',
     providers: [ConfirmationService, MessageService]

@@ -51,7 +51,7 @@ export class AppMenuComponent implements OnInit {
                             {
                                 label: 'Municipios',
                                 icon: 'pi pi-fw pi-times-circle',
-                                routerLink: ['/auth/error']
+                                routerLink: ['/generales/municipio']
                             },
                         ]
                     },
