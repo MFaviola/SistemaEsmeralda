@@ -15,6 +15,8 @@ namespace SistemaEsmeralda.Entities.Entities
             tbMaquillajes = new HashSet<tbMaquillajes>();
         }
 
+        [NotMapped]
+        public string Muni_Municipio { get; set; }
         public int Prov_Id { get; set; }
         public string Prov_Proveedor { get; set; }
         public string Prov_Telefono { get; set; }

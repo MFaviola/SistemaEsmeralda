@@ -13,7 +13,8 @@ namespace SistemaEsmeralda.Entities.Entities
         {
             tbEmpleados = new HashSet<tbEmpleados>();
         }
-
+        [NotMapped]
+        public string Muni_Municipio { get; set; }
         public int Sucu_Id { get; set; }
         public string Sucu_Nombre { get; set; }
         public string Muni_Codigo { get; set; }

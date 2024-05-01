@@ -9,6 +9,12 @@ namespace SistemaEsmeralda.Entities.Entities
 {
     public partial class tbJoyas
     {
+        [NotMapped]
+        public string Mate_Material { get; set; }
+        [NotMapped]
+        public string Prov_Proveedor { get; set; }
+        [NotMapped]
+        public string Cate_Categoria { get; set; }
         public int Joya_Id { get; set; }
         public string Joya_Nombre { get; set; }
         public decimal Joya_PrecioCompra { get; set; }

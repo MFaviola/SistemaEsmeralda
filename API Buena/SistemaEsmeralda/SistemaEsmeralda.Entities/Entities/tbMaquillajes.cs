@@ -9,6 +9,11 @@ namespace SistemaEsmeralda.Entities.Entities
 {
     public partial class tbMaquillajes
     {
+        [NotMapped]
+        public string Prov_Proveedor { get; set; }
+
+        [NotMapped]
+        public string Marc_Marca { get; set; }
         public int Maqu_Id { get; set; }
         public string Maqu_Nombre { get; set; }
         public decimal Maqu_PrecioCompra { get; set; }
