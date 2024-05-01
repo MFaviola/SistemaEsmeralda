@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SistemaEsmeralda.DataAccess.Repository
 {
-   public class ClienteRepository: IRepository<tbClientes>
+   public class ClienteRepository : IRepository<tbClientes>
     {
 
 
@@ -63,7 +63,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
             {
                 var parameter = new DynamicParameters();
                 parameter.Add("Clie_Id", id);
-                result = db.QueryFirst<tbClientes>(ScriptsBaseDeDatos.Cargosllenar, parameter, commandType: CommandType.StoredProcedure);
+                result = db.QueryFirst<tbClientes>(ScriptsBaseDeDatos.Clientesllenar, parameter, commandType: CommandType.StoredProcedure);
                 return result;
             }
 
