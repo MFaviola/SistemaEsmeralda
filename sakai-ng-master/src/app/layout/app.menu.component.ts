@@ -53,6 +53,21 @@ export class AppMenuComponent implements OnInit {
                                 icon: 'pi pi-fw pi-times-circle',
                                 routerLink: ['/generales/municipio']
                             },
+                            {
+                                label: 'Estado Civil',
+                                icon: 'pi pi-fw pi-times-circle',
+                                routerLink: ['/generales/estado']
+                            },
+                            {
+                                label: 'Impuesto',
+                                icon: 'pi pi-fw pi-times-circle',
+                                routerLink: ['/generales/impuesto']
+                            },
+                            {
+                                label: 'Cliente',
+                                icon: 'pi pi-fw pi-times-circle',
+                                routerLink: ['/generales/cliente']
+                            },
                         ]
                     },
                     

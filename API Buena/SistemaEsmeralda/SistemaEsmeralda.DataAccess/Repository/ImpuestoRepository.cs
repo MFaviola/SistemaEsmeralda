@@ -42,7 +42,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
 
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
             {
-                result = db.Query<tbImpuestos>(sql, commandType: CommandType.Text).ToList();
+                result = db.Query<tbImpuestos>(ScriptsBaseDeDatos.ImpuestoListar, commandType: CommandType.StoredProcedure).ToList();
 
                 return result;
             }
