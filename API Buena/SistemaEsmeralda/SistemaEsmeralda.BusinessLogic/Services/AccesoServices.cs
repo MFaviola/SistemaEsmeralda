@@ -1,4 +1,5 @@
 ﻿using SistemaEsmeralda.DataAccess.Repository;
+using SistemaEsmeralda.Entities.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +11,155 @@ namespace SistemaEsmeralda.BusinessLogic.Services
     public class AccesoServices
     {
         private readonly UsuarioRepository _usuarioRepository;
-        public AccesoServices(UsuarioRepository usuarioRepository)
+        public readonly RolRepository _rolRepository;
+        public readonly PantallaRolesRepository _pantallaRolesRepository;
+        public AccesoServices(UsuarioRepository usuarioRepository, RolRepository rolRepository, PantallaRolesRepository pantallaRolesRepository)
         {
             _usuarioRepository = usuarioRepository;
+            _rolRepository = rolRepository;
+            _pantallaRolesRepository = pantallaRolesRepository;
         }
 
+
+
+        #region Roles
+        public ServiceResult ListadoRol()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _rolRepository.List();
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
+
+
+
+        public ServiceResult EditarRol(tbRoles item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _rolRepository.Update(item);
+                if (list.CodeStatus > 0)
+                {
+                    return result.Ok("okis", list);
+                }
+                else
+                {
+                    return result.Error("Y existe un registro con ese nombre");
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+        public ServiceResult EliminarRol(string Role_Id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _rolRepository.Delete(Role_Id);
+                if (list.CodeStatus > 0)
+                {
+                    return result.Ok($"La accion ha sido existosa", list);
+                }
+                else
+                {
+                    return result.Error("No se pudo realizar la accion");
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
+
+
+
+
+
+
+
+        public ServiceResult InsertarRol(tbRoles item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _rolRepository.Insert(item);
+                if (list.CodeStatus > 0)
+                {
+                    return result.Ok(list);
+                }
+                else
+                {
+                    return result.Error(list);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+
+
+        public ServiceResult obterRol(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _rolRepository.Fill(id);
+
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
+
+
+
+
+
+
+        public ServiceResult ListadoPantallas()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _rolRepository.Listpantallas();
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
+
+
+
+
+        #endregion
+
+
+
+
+        #region Usuario
         public ServiceResult ValidarReestablecer(string usuario)
         {
             var result = new ServiceResult();
@@ -29,5 +174,262 @@ namespace SistemaEsmeralda.BusinessLogic.Services
                 return result.Error(ex.Message);
             }
         }
+
+
+
+
+
+
+
+
+
+        public ServiceResult ListadoUsuario()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _usuarioRepository.List();
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
+
+
+
+        public ServiceResult EditarUsuario(tbUsuarios item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _usuarioRepository.Update(item);
+                if (list.CodeStatus > 0)
+                {
+                    return result.Ok("okis", list);
+                }
+                else
+                {
+                    return result.Error("Y existe un registro con ese nombre");
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+        public ServiceResult EliminarUsuario(string Usua_Id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _usuarioRepository.Delete(Usua_Id);
+                if (list.CodeStatus > 0)
+                {
+                    return result.Ok($"La accion ha sido existosa", list);
+                }
+                else
+                {
+                    return result.Error("No se pudo realizar la accion");
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
+
+
+
+
+
+
+
+        public ServiceResult InsertarUsuario(tbUsuarios item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _usuarioRepository.Insert(item);
+                if (list.CodeStatus > 0)
+                {
+                    return result.Ok(list);
+                }
+                else
+                {
+                    return result.Error(list);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+
+
+        public ServiceResult obterUsuario(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _usuarioRepository.Fill(id);
+
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+        #endregion
+
+
+
+
+
+
+
+
+        #region RolesPantalla
+    
+
+
+
+
+
+
+        public ServiceResult ListadoPantallaRoles()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _pantallaRolesRepository.List();
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
+
+
+
+        public ServiceResult EditarRolesPantalla(tbPantallasXRoles item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _pantallaRolesRepository.Update(item);
+                if (list.CodeStatus > 0)
+                {
+                    return result.Ok("okis", list);
+                }
+                else
+                {
+                    return result.Error("Y existe un registro con ese nombre");
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+        public ServiceResult EliminarRolesPantalla(string Paxr_Id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _pantallaRolesRepository.Delete(Paxr_Id);
+                if (list.CodeStatus > 0)
+                {
+                    return result.Ok($"La accion ha sido existosa", list);
+                }
+                else
+                {
+                    return result.Error("No se pudo realizar la accion");
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
+
+
+
+
+
+
+
+        public ServiceResult InsertarRolesPantalla(tbPantallasXRoles item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _pantallaRolesRepository.Insert(item);
+                if (list.CodeStatus > 0)
+                {
+                    return result.Ok(list);
+                }
+                else
+                {
+                    return result.Error(list);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+
+
+        public ServiceResult obterRolesPantalla(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _pantallaRolesRepository.Fill(id);
+
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+        #endregion
     }
 }

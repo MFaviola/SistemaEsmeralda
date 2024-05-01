@@ -7,15 +7,13 @@ using System.Threading.Tasks;
 
 namespace SistemaEsmeralda.Common.Models
 {
-  public  class DepartamentoViewModel
+   public  class PantallaRolViewModel
     {
-        public string Depa_Codigo { get; set; }
-        public string Depa_Departamento { get; set; }
-        public int Depa_UsuarioCreacion { get; set; }
-        public DateTime Depa_FechaCreacion { get; set; }
-        public int? Depa_UsuarioModificacion { get; set; }
-        public DateTime? Depa_FechaModificacion { get; set; }
-
+        public int Paxr_Id { get; set; }
+        public int? Role_Id { get; set; }
+        public int? Pant_Id { get; set; }
+        [NotMapped]
+        public int? Pantalla { get; set; }
         [NotMapped]
         public string UsuarioCreacion { get; set; }
 
