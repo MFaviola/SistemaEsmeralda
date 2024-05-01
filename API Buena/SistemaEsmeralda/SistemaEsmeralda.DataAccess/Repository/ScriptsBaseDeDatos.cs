@@ -8,6 +8,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
 {
    public class ScriptsBaseDeDatos
     {
+        #region Gral
 
         #region Departamentos
         public static string DepartamentoListar = "Gral.sp_Departamentos_listar";
@@ -26,11 +27,6 @@ namespace SistemaEsmeralda.DataAccess.Repository
         public static string MunicipioEliminar = "Gral.sp_Municipios_eliminar";
 
         #endregion
-
-
-
-
-
 
 
         #region Cargos
@@ -140,6 +136,45 @@ namespace SistemaEsmeralda.DataAccess.Repository
         public static string Proveedoresllenar = "Gral.sp_Proveedores_buscar";
         public static string ProveedoressActualizar = "Gral.sp_Proveedores_actualizar";
         public static string ProveedoresEliminar = "Gral.sp_Proveedores_eliminar";
+
+        #endregion
+
+
+
+
+        #region Proveedores
+        public static string SucursalessListar = "Gral.sp_Sucursales_listar";
+        public static string Sucursalesllenar = "Gral.sp_Sucursales_buscar";
+        public static string SucursalesActualizar = "Gral.sp_Sucursales_actualizar";
+        public static string SucursalesEliminar = "Gral.sp_Sucursales_eliminar";
+
+        #endregion
+
+
+
+        #endregion
+
+
+
+
+
+
+
+        #region Ventas
+
+        #region Joya
+    
+        public static string JoyasListar = "Vent.sp_Joyas_listar";
+        public static string Joyasllenar = "Vent.sp_Joyas_buscar";
+        public static string JoyasActualizar = "Vent.sp_Joyas_actualizar";
+        public static string JoyasEliminar = "Vent.sp_Joyas_eliminar";
+
+        #endregion
+
+
+
+
+
 
         #endregion
 
