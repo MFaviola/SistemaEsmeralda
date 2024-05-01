@@ -22,6 +22,10 @@ namespace SistemaEsmeralda.API.Extensions
             CreateMap<MaterialViewModel, tbMateriales>().ReverseMap();
             CreateMap<MetodoPagoViewModel, tbMetodosPago>().ReverseMap();
             CreateMap<ClienteViewModel, tbClientes>().ReverseMap();
+            CreateMap<EmpleadoViewModel, tbEmpleados>().ReverseMap();
+            CreateMap<ProveedorViewModel, tbProveedores>().ReverseMap();
+
+
 
 
 

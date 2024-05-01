@@ -126,8 +126,22 @@ namespace SistemaEsmeralda.DataAccess.Repository
 
         #endregion
 
+        #region Empleados
+        public static string EmpleadosListar = "Gral.sp_Empleados_listar";
+        public static string Empleadosllenar = "Gral.sp_Empleados_buscar";
+        public static string EmpleadosActualizar = "Gral.sp_Empleados_actualizar";
+        public static string EmpleadosEliminar = "Gral.sp_Empleados_eliminar";
+
+        #endregion
 
 
+        #region Proveedores
+        public static string ProveedoresListar = "Gral.sp_Proveedores_listar";
+        public static string Proveedoresllenar = "Gral.sp_Proveedores_buscar";
+        public static string ProveedoressActualizar = "Gral.sp_Proveedores_actualizar";
+        public static string ProveedoresEliminar = "Gral.sp_Proveedores_eliminar";
+
+        #endregion
 
     }
 }

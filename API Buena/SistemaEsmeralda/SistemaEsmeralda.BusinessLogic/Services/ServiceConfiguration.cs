@@ -22,6 +22,10 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             service.AddScoped<MateriaRepositorycs>();
             service.AddScoped<MetodoPagoRepository>();
             service.AddScoped<ClienteRepository>();
+            service.AddScoped<EmpleadoRepository>();
+            service.AddScoped<ProveedorRepository>();
+
+
 
 
 

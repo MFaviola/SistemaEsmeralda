@@ -20,12 +20,12 @@ namespace SistemaEsmeralda.BusinessLogic.Services
         private readonly MetodoPagoRepository _metodoPagoRepository;
 
         private readonly ClienteRepository _clienteRepository;
-
-
+        private readonly EmpleadoRepository _empleadoRepository;
+        private readonly ProveedorRepository _proveedorRepository;
         private readonly EstadoCivilRepository _estadoCivilRepository;
 
 
-        public GeneralServices(DepartamentosRepository departamentosRepository, MunicipioRepository municipioRepository, CargosRepository cargosRepository, CategoriaRepository categoriaRepository, EstadoCivilRepository estadoCivilRepository, ImpuestoRepository impuestoRepository, MarcaRepository marcaRepository, MateriaRepositorycs materiaRepositorycs, MetodoPagoRepository metodoPagoRepository, ClienteRepository clienteRepository)
+        public GeneralServices(DepartamentosRepository departamentosRepository, MunicipioRepository municipioRepository, CargosRepository cargosRepository, CategoriaRepository categoriaRepository, EstadoCivilRepository estadoCivilRepository, ImpuestoRepository impuestoRepository, MarcaRepository marcaRepository, MateriaRepositorycs materiaRepositorycs, MetodoPagoRepository metodoPagoRepository, ClienteRepository clienteRepository, EmpleadoRepository empleadoRepository, ProveedorRepository proveedorRepository)
         {
             _departamentosRepository = departamentosRepository;
             _municipioRepository = municipioRepository;
@@ -37,6 +37,8 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             _materiaRepositorycs = materiaRepositorycs;
             _metodoPagoRepository = metodoPagoRepository;
             _clienteRepository = clienteRepository;
+            _empleadoRepository = empleadoRepository;
+            _proveedorRepository = proveedorRepository;
 
 
 
@@ -94,11 +96,11 @@ namespace SistemaEsmeralda.BusinessLogic.Services
                 var list = _departamentosRepository.Delete(Depa_Codigo);
                 if (list.CodeStatus > 0)
                 {
-                    return result.Ok($"La accion ha sido existosa", list);
+                    return result.Ok($"Exitos chiquit@", list);
                 }
                 else
                 {
-                    return result.Error("No se pudo realizar la accion");
+                    return result.Error("Hijole ahi si te quedo mal tito");
                 }
             }
             catch (Exception ex)
@@ -1202,6 +1204,240 @@ namespace SistemaEsmeralda.BusinessLogic.Services
 
 
         #endregion
+
+
+
+
+
+
+        #region Empleado
+        public ServiceResult ListadoEmpleado()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _empleadoRepository.List();
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
+
+
+
+
+
+        public ServiceResult EditarEmpleado(tbEmpleados item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _empleadoRepository.Update(item);
+                if (list.CodeStatus > 0)
+                {
+                    return result.Ok("okis", list);
+                }
+                else
+                {
+                    return result.Error("Y existe un registro con ese nombre");
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
+        public ServiceResult EliminarEmpleado(string Empl_Id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _empleadoRepository.Delete(Empl_Id);
+                if (list.CodeStatus > 0)
+                {
+                    return result.Ok($"La accion ha sido existosa", list);
+                }
+                else
+                {
+                    return result.Error("No se pudo realizar la accion");
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
+
+
+        public ServiceResult InsertarEmpleado(tbEmpleados item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _empleadoRepository.Insert(item);
+                if (list.CodeStatus > 0)
+                {
+                    return result.Ok(list);
+                }
+                else
+                {
+                    return result.Error(list);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+
+
+        public ServiceResult obterEmpleado(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _empleadoRepository.Fill(id);
+
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
+
+
+
+
+
+        #endregion
+
+        
+
+
+
+
+
+        #region Empleado
+        public ServiceResult ListadoProveedor()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _proveedorRepository.List();
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
+
+
+
+
+
+        public ServiceResult EditarProveedor(tbProveedores item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _proveedorRepository.Update(item);
+                if (list.CodeStatus > 0)
+                {
+                    return result.Ok("okis", list);
+                }
+                else
+                {
+                    return result.Error("Y existe un registro con ese nombre");
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
+        public ServiceResult EliminarProveedor(string Prov_Id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _proveedorRepository.Delete(Prov_Id);
+                if (list.CodeStatus > 0)
+                {
+                    return result.Ok($"Exelente chiquit@", list);
+                }
+                else
+                {
+                    return result.Error("Hijole ahi si te quedo mal tito");
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
+
+
+        public ServiceResult InsertarProveedor(tbProveedores item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _proveedorRepository.Insert(item);
+                if (list.CodeStatus > 0)
+                {
+                    return result.Ok(list);
+                }
+                else
+                {
+                    return result.Error(list);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+
+
+        public ServiceResult obterProveedor(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _proveedorRepository.Fill(id);
+
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
+
+
+
+
+
+        #endregion
+
 
     }
 }
