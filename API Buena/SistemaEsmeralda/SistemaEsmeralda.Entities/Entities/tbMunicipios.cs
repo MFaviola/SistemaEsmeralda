@@ -35,5 +35,10 @@ namespace SistemaEsmeralda.Entities.Entities
         public virtual ICollection<tbEmpleados> tbEmpleados { get; set; }
         public virtual ICollection<tbProveedores> tbProveedores { get; set; }
         public virtual ICollection<tbSucursales> tbSucursales { get; set; }
+        [NotMapped]
+        public string UsuarioCreacion { get; set; }
+
+        [NotMapped]
+        public string UsuarioModificacion { get; set; }
     }
 }

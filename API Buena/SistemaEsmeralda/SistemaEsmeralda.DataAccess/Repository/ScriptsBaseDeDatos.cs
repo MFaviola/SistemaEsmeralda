@@ -172,11 +172,73 @@ namespace SistemaEsmeralda.DataAccess.Repository
         #endregion
 
 
+        #region Maquillaje
+
+        public static string MaquillajesListar = "Vent.sp_Maquillajes_listar";
+        public static string Maquillajesllenar = "Vent.sp_Maquillajes_buscar";
+        public static string MaquillajesActualizar = "Vent.sp_Maquillajes_actualizar";
+        public static string MaquillajesEliminar = "Vent.sp_Maquillajes_eliminar";
+
+        #endregion
+
+
+
 
 
 
 
         #endregion
+
+
+
+
+
+        #region Acceso
+
+        #region Roles
+
+        public static string RolesListar = "Acce.sp_Roles_listar";
+        public static string Rolesllenar = "Acce.sp_Roles_buscar";
+        public static string RolesActualizar = "Acce.sp_Roles_actualizar";
+        public static string RolesEliminar = "Acce.sp_Roles_eliminar";
+
+        #endregion
+
+
+
+
+        #region RolesPorPantalla
+
+        public static string PantallasRolesListar = "Acce.sp_PantallasXRoles_listar";
+        public static string PantallasRolesllenar = "Acce.sp_PantallasXRoles_buscar";
+        public static string PantallasRolesActualizar = "Acce.sp_PantallasXRoles_actualizar";
+        public static string PantallasRolesEliminar = "Acce.sp_PantallasXRoles_eliminar";
+
+        #endregion
+
+
+
+
+        #region Usuario
+
+        public static string UsuariosListar = "Acce.sp_Usuarios_listar";
+        public static string Usuariosllenar = "Acce.sp_Usuarios_buscar";
+        public static string UsuariosActualizar = "Acce.sp_Usuarios_actualizar";
+        public static string UsuariosEliminar = "Acce.sp_Usuarios_eliminar";
+
+        #endregion
+
+
+
+
+
+
+
+        #endregion
+
+
+
+
 
     }
 }

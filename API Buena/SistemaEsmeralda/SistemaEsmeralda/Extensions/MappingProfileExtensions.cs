@@ -26,6 +26,13 @@ namespace SistemaEsmeralda.API.Extensions
             CreateMap<ProveedorViewModel, tbProveedores>().ReverseMap();
             CreateMap<SucursalViewModel, tbSucursales>().ReverseMap();
             CreateMap<JoyasViewModel, tbJoyas>().ReverseMap();
+            CreateMap<MaquillajeViewModel, tbMaquillajes>().ReverseMap();
+            CreateMap<RolViewModel, tbRoles>().ReverseMap();
+            CreateMap<UsuariosViewModel, tbUsuarios>().ReverseMap();
+            CreateMap<PantallaRolViewModel, tbPantallasXRoles>().ReverseMap();
+
+
+
 
 
 

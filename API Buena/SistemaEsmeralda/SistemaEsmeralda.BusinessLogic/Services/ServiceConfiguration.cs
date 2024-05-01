@@ -26,6 +26,13 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             service.AddScoped<ProveedorRepository>();
             service.AddScoped<SucursalRepository>();
             service.AddScoped<JoyaRepository>();
+            service.AddScoped<MaquillajeRepository>();
+            service.AddScoped<RolRepository>();
+            service.AddScoped<UsuarioRepository>();
+            service.AddScoped<PantallaRolesRepository>();
+
+
+
 
 
 
@@ -46,6 +53,7 @@ namespace SistemaEsmeralda.BusinessLogic.Services
         {
             service.AddScoped<GeneralServices>();
             service.AddScoped<VentasServices>();
+            service.AddScoped<AccesoServices>();
 
 
 

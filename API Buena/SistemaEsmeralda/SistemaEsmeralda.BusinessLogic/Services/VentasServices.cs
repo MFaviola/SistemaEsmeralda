@@ -12,9 +12,11 @@ namespace SistemaEsmeralda.BusinessLogic.Services
     {
 
         private readonly JoyaRepository _joyaRepository;
-        public VentasServices(JoyaRepository joyaRepository)
+        private readonly MaquillajeRepository _maquillajeRepository;
+        public VentasServices(JoyaRepository joyaRepository, MaquillajeRepository maquillajeRepository)
         {
             _joyaRepository = joyaRepository;
+            _maquillajeRepository = maquillajeRepository;
         }
 
 
@@ -131,6 +133,118 @@ namespace SistemaEsmeralda.BusinessLogic.Services
         #endregion
 
 
+
+
+        #region Maquillaje
+        public ServiceResult ListadoMaquillaje()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _maquillajeRepository.List();
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
+
+        public ServiceResult EditarMaquillaje(tbMaquillajes item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _maquillajeRepository.Update(item);
+                if (list.CodeStatus > 0)
+                {
+                    return result.Ok("okis", list);
+                }
+                else
+                {
+                    return result.Error("Y existe un registro con ese nombre");
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+        public ServiceResult EliminarMaquillaje(string Maqu_Id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _maquillajeRepository.Delete(Maqu_Id);
+                if (list.CodeStatus > 0)
+                {
+                    return result.Ok($"La accion ha sido existosa", list);
+                }
+                else
+                {
+                    return result.Error("No se pudo realizar la accion");
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
+
+
+
+
+
+
+
+        public ServiceResult InsertarMaquillaje(tbMaquillajes item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _maquillajeRepository.Insert(item);
+                if (list.CodeStatus > 0)
+                {
+                    return result.Ok(list);
+                }
+                else
+                {
+                    return result.Error(list);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+
+
+        public ServiceResult obterMaquillaje(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _maquillajeRepository.Fill(id);
+
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
+
+
+
+
+
+        #endregion
 
 
 

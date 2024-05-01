@@ -19,8 +19,13 @@ namespace SistemaEsmeralda.Common.Models
 
         [NotMapped]
         public string Departamento { get; set; }
+        [NotMapped]
+        public string UsuarioCreacion { get; set; }
 
-        
+        [NotMapped]
+        public string UsuarioModificacion { get; set; }
+
+
 
     }
 }

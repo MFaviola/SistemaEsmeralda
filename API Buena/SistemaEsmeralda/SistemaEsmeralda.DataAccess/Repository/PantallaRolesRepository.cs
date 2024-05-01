@@ -10,26 +10,22 @@ using System.Threading.Tasks;
 
 namespace SistemaEsmeralda.DataAccess.Repository
 {
-    public class UsuarioRepository : IRepository<tbUsuarios>
+    public class PantallaRolesRepository : IRepository<tbPantallasXRoles>
     {
 
 
-        public RequestStatus Insert(tbUsuarios item)
+        public RequestStatus Insert(tbPantallasXRoles item)
         {
-            const string sql = "[Acce].[sp_Usuarios_insertar]";
+            const string sql = "[Acce].[sp_PantallasRoles_insertar]";
 
 
 
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
             {
                 var parametro = new DynamicParameters();
-                parametro.Add("@Usua_Usuario", item.Usua_Usuario);
-                parametro.Add("@Usua_Contra ", item.Usua_Contraseña);
-                parametro.Add("@Usua_Admin", item.Usua_Administrador);
-                parametro.Add("@Empl_Id", item.Empl_Id);
                 parametro.Add("@Role_Id", item.Role_Id);
-                parametro.Add("@Usua_UsuarioCreacion", 1);
-                parametro.Add("@Usua_FechaCreacion", item.Usua_FechaCreacion);
+                parametro.Add("@Pant_Id ", item.Pant_Id);
+           
 
 
 
@@ -39,49 +35,45 @@ namespace SistemaEsmeralda.DataAccess.Repository
             }
         }
 
-        public IEnumerable<tbUsuarios> List()
+        public IEnumerable<tbPantallasXRoles> List()
         {
-            const string sql = "Acce.sp_Usuarios_listar";
+            const string sql = "Acce.sp_PantallasRoles_listar";
 
-            List<tbUsuarios> result = new List<tbUsuarios>();
+            List<tbPantallasXRoles> result = new List<tbPantallasXRoles>();
 
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
             {
-                result = db.Query<tbUsuarios>(sql, commandType: CommandType.Text).ToList();
+                result = db.Query<tbPantallasXRoles>(sql, commandType: CommandType.Text).ToList();
 
                 return result;
             }
         }
 
-        public tbUsuarios Fill(int id)
+        public tbPantallasXRoles Fill(int id)
         {
 
-            tbUsuarios result = new tbUsuarios();
+            tbPantallasXRoles result = new tbPantallasXRoles();
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
             {
                 var parameter = new DynamicParameters();
-                parameter.Add("Usua_Id", id);
-                result = db.QueryFirst<tbUsuarios>(ScriptsBaseDeDatos.Usuariosllenar, parameter, commandType: CommandType.StoredProcedure);
+                parameter.Add("Paxr_Id", id);
+                result = db.QueryFirst<tbPantallasXRoles>(ScriptsBaseDeDatos.PantallasRolesllenar, parameter, commandType: CommandType.StoredProcedure);
                 return result;
             }
 
         }
 
-        public RequestStatus Update(tbUsuarios item)
+        public RequestStatus Update(tbPantallasXRoles item)
         {
-            string sql = ScriptsBaseDeDatos.UsuariosActualizar;
+            string sql = ScriptsBaseDeDatos.PantallasRolesActualizar;
 
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
             {
                 var parameter = new DynamicParameters();
-                parameter.Add("@Usua_Id", item.Usua_Id);
-                parameter.Add("@Usua_Usuario", item.Usua_Usuario);
-                parameter.Add("@Usua_Contra", item.Usua_Contraseña);
-                parameter.Add("@Usua_Admin", item.Usua_Administrador);
-                parameter.Add("@Empl_Id", item.Empl_Id);
+                parameter.Add("@Paxr_Id", item.Paxr_Id);
                 parameter.Add("@Role_Id", item.Role_Id);
-                parameter.Add("@Usua_UsuarioModificacion", item.Usua_UsuarioModificacion);
-                parameter.Add("@Usua_FechaCreacion", item.Usua_FechaCreacion);
+                parameter.Add("@Pant_Id", item.Pant_Id);
+              
                 var result = db.Execute(sql, parameter, commandType: CommandType.StoredProcedure);
                 string mensaje = (result == 1) ? "exito" : "error";
                 return new RequestStatus { CodeStatus = result, MessageStatus = mensaje };
@@ -91,14 +83,14 @@ namespace SistemaEsmeralda.DataAccess.Repository
 
 
 
-        public RequestStatus Delete(string Usua_Id)
+        public RequestStatus Delete(string Paxr_Id)
         {
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
             {
                 var parameter = new DynamicParameters();
-                parameter.Add("Usua_Id", Usua_Id);
+                parameter.Add("Paxr_Id", Paxr_Id);
 
-                var result = db.QueryFirst(ScriptsBaseDeDatos.UsuariosEliminar, parameter, commandType: CommandType.StoredProcedure);
+                var result = db.QueryFirst(ScriptsBaseDeDatos.PantallasRolesEliminar, parameter, commandType: CommandType.StoredProcedure);
                 return new RequestStatus { CodeStatus = result.Resultado, MessageStatus = (result.Resultado == 1) ? "Exito" : "Error" };
             }
         }
@@ -113,15 +105,15 @@ namespace SistemaEsmeralda.DataAccess.Repository
 
 
 
-        public IEnumerable<tbUsuarios> ValidarReestablecer(string usuario)
+        public IEnumerable<tbPantallasXRoles> ValidarReestablecer(string usuario)
         {
 
 
-            List<tbUsuarios> result = new List<tbUsuarios>();
+            List<tbPantallasXRoles> result = new List<tbPantallasXRoles>();
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
             {
                 var parameters = new { Usua_Usuario = usuario };
-                result = db.Query<tbUsuarios>(ScriptsBaseDeDatos.Usuarios_ValidarReestablecer, parameters, commandType: CommandType.StoredProcedure).ToList();
+                result = db.Query<tbPantallasXRoles>(ScriptsBaseDeDatos.Usuarios_ValidarReestablecer, parameters, commandType: CommandType.StoredProcedure).ToList();
                 return result;
             }
         }
@@ -133,15 +125,17 @@ namespace SistemaEsmeralda.DataAccess.Repository
             throw new NotImplementedException();
         }
 
-        public tbUsuarios Details(int? id)
+        public tbPantallasXRoles Details(int? id)
         {
             throw new NotImplementedException();
         }
 
-        public tbUsuarios find(int? id)
+        public tbPantallasXRoles find(int? id)
         {
             throw new NotImplementedException();
         }
+
+
 
     }
 }

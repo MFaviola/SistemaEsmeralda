@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SistemaEsmeralda.BusinessLogic.Services;
+using SistemaEsmeralda.Common.Models;
+using SistemaEsmeralda.Entities.Entities;
 using SistemaRestaurante.API.Herramientas;
 using System;
 using System.Collections.Generic;
@@ -13,15 +15,15 @@ namespace SistemaEsmeralda.API.Controllers
     [Route("API/[controller]")]
     public class UsuarioController : Controller
     {   
-        private readonly IMailService _mailService;
+        //private readonly IMailService _mailService;
         private readonly AccesoServices _accesoServices;
         private readonly IMapper _mapper;
 
-        public UsuarioController(AccesoServices accesoServices, IMapper mapper, IMailService _MailService)
+        public UsuarioController(AccesoServices accesoServices, IMapper mapper/*, IMailService _MailService*/)
         {
             _mapper = mapper;
             _accesoServices = accesoServices;
-            _mailService = _MailService;
+            //_mailService = _MailService;
 
         }
         [HttpGet("ValidarReestablecer/{usuario}")]
@@ -47,5 +49,89 @@ namespace SistemaEsmeralda.API.Controllers
             return Ok(estado);
 
         }
+
+
+
+
+
+
+
+
+        [HttpGet("List")]
+        public IActionResult Index()
+        {
+            var list = _accesoServices.ListadoUsuario();
+            return Ok(list.Data);
+        }
+
+
+
+
+
+
+
+        [HttpPost("Create")]
+        public IActionResult Insert(UsuariosViewModel item)
+        {
+            var model = _mapper.Map<tbUsuarios>(item);
+            var modelo = new tbUsuarios()
+            {
+                Usua_Usuario = item.Usua_Usuario,
+                Usua_Contraseña = item.Usua_Contraseña,
+                Usua_Administrador = item.Usua_Administrador,
+                Empl_Id = item.Empl_Id,
+                Role_Id = item.Role_Id,
+                Usua_UsuarioCreacion = 1,
+                Usua_FechaCreacion = item.Usua_FechaCreacion
+            };
+            var list = _accesoServices.InsertarUsuario(modelo);
+            return Ok(list.Data);
+        }
+
+
+
+
+        [HttpGet("Fill/{id}")]
+
+        public IActionResult Llenar(int id)
+        {
+
+            var list = _accesoServices.obterRol(id);
+            return Json(list.Data);
+        }
+
+
+        [HttpPut("Edit")]
+        public IActionResult Update(UsuariosViewModel item)
+        {
+            _mapper.Map<tbUsuarios>(item);
+            var modelo = new tbUsuarios()
+            {
+                Usua_Id= item.Usua_Id,
+                Usua_Usuario = item.Usua_Usuario,
+                Usua_Contraseña = item.Usua_Contraseña,
+                Usua_Administrador = item.Usua_Administrador,
+
+                Empl_Id = item.Empl_Id,
+                Role_Id = item.Role_Id,
+                Usua_UsuarioModificacion = 1,
+                Usua_FechaCreacion = DateTime.Now
+            };
+            var list = _accesoServices.EditarUsuario(modelo);
+            return Ok(list.Data);
+        }
+
+        [HttpDelete("Delete")]
+        public IActionResult Delete(string Usua_Id)
+        {
+            var list = _accesoServices.EliminarUsuario(Usua_Id);
+            return Ok(list.Data);
+        }
+
+
+
+
+
+
     }
 }
