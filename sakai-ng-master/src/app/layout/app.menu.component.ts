@@ -23,7 +23,7 @@ export class AppMenuComponent implements OnInit {
                             {
                                 label: 'Usuarios',
                                 icon: 'pi pi-fw pi-sign-in',
-                                routerLink: ['/uikit/departamento']
+                                routerLink: ['/generales/departamento']
                             },
                             {
                                 label: 'Roles',
@@ -46,7 +46,7 @@ export class AppMenuComponent implements OnInit {
                             {
                                 label: 'Departamentos',
                                 icon: 'pi pi-fw pi-sign-in',
-                                routerLink: ['/auth/login']
+                                routerLink: ['/generales/departamento']
                             },
                             {
                                 label: 'Municipios',
