@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {Departamento} from '../Models/DepartamentoViewModel';
+import { Municipio } from '../Models/MunicipioViewModel';
 import { HttpClient } from '@angular/common/http';
-
+import { BASE_URL } from './ulrsettings';
 
 
 
@@ -14,9 +14,9 @@ export class ServiceService {
   constructor(private http:HttpClient) { }
 
 
-  url = 'https://localhost:44310/API/Departamento/List'
+  url = BASE_URL + 'API/Municipio/List'
 
-  getDepartamentos(){
-    return this.http.get<Departamento[]>(this.url)
+  getMunicipios(){
+    return this.http.get<Municipio[]>(this.url)
   }
 }
