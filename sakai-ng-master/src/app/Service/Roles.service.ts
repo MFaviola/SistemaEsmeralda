@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
 import { BASE_URL } from './ulrsettings';
-
-import { Usuario } from '../Models/UsuarioVIewModel';
+import { Rol } from '../Models/RolViewModel';
 
 
 
@@ -16,9 +15,9 @@ export class ServiceService {
   constructor(private http:HttpClient) { }
 
 
-  url = BASE_URL + 'API/Usuario/List'
+  url = BASE_URL + 'API/Rol/List'
 
-  getUsuario(){
-    return this.http.get<Usuario[]>(this.url)
+  getRol(){
+    return this.http.get<Rol[]>(this.url)
   }
 }
