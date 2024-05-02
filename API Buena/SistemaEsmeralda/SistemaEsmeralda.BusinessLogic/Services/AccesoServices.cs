@@ -294,6 +294,27 @@ namespace SistemaEsmeralda.BusinessLogic.Services
 
 
 
+        public ServiceResult ValidarUsuario(string usua, string contra)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _usuarioRepository.Validar(usua, contra);
+
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error("Lo siento Tit@ Acceso denegado");
+            }
+        }
+
+
+
+
+
+
+
 
 
 
@@ -308,7 +329,7 @@ namespace SistemaEsmeralda.BusinessLogic.Services
 
 
         #region RolesPantalla
-    
+
 
 
 

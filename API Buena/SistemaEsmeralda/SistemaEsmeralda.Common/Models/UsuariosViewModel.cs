@@ -28,5 +28,13 @@ namespace SistemaEsmeralda.Common.Models
         [NotMapped]
         public string UsuarioModificacion { get; set; }
 
+        [NotMapped]
+        public string Empl_Nombre { get; set; }
+
+
+        [NotMapped]
+        public string pant_descripcion { get; set; }
+ 
+
     }
 }

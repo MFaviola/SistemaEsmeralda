@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
-import { Router } from '@angular/router';
+
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ServiceService } from '../../../../Service/Login.Service';
 import { Login } from '../../../../Models/ValidarViewModel';
@@ -25,7 +25,7 @@ export class LoginComponent {
 
     loginForm: FormGroup;
 
-    constructor(public layoutService: LayoutService, private formBuilder: FormBuilder, private service: ServiceService,private router: Router) {
+    constructor(public layoutService: LayoutService, private formBuilder: FormBuilder, private service: ServiceService) {
 
         this.loginForm = this.formBuilder.group({
             usuario: ['', [Validators.required]],
@@ -41,12 +41,7 @@ export class LoginComponent {
           const loginData: Login = this.loginForm.value;
           this.service.login(loginData).subscribe(
             response => {
-
               console.log('Respuesta del servidor:', response);
-              if (response!="Error"){
-             
-              this.router.navigate(['/dash']);
-              }
 
             },
             error => {

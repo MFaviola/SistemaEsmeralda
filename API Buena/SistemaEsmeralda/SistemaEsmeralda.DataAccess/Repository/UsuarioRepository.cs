@@ -108,6 +108,21 @@ namespace SistemaEsmeralda.DataAccess.Repository
 
 
 
+        public IEnumerable<tbUsuarios> Validar(string usua, string contra)
+        {
+
+            List<tbUsuarios> result = new List<tbUsuarios>();
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+                var parameter = new DynamicParameters();
+                parameter.Add("Usuario", usua);
+                parameter.Add("Contra", contra);
+
+                result = db.Query<tbUsuarios>(ScriptsBaseDeDatos.InicioSesion, parameter, commandType: CommandType.StoredProcedure).ToList();
+                return result;
+            }
+
+        }
 
 
 

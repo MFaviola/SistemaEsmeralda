@@ -67,6 +67,12 @@ namespace SistemaEsmeralda.Entities.Entities
         public int? Usua_UsuarioModificacion { get; set; }
         public DateTime? Usua_FechaModificacion { get; set; }
 
+ 
+
+
+        [NotMapped]
+        public string pant_descripcion { get; set; }
+
         public virtual ICollection<tbCargos> tbCargosCarg_UsuarioCreacionNavigation { get; set; }
         public virtual ICollection<tbCargos> tbCargosCarg_UsuarioModificacionNavigation { get; set; }
         public virtual ICollection<tbCategorias> tbCategoriasCate_UsuarioCreacionNavigation { get; set; }

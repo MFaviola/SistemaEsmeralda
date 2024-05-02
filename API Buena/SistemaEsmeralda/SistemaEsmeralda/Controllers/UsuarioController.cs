@@ -101,6 +101,38 @@ namespace SistemaEsmeralda.API.Controllers
         }
 
 
+
+
+
+
+
+
+        [HttpGet("Validar/{usuario},{contra}")]
+
+        public IActionResult Validar(string usuario, string contra)
+        {
+
+
+
+            var list = _accesoServices.ValidarUsuario(usuario, contra);
+
+
+            var prueba = list.Data as List<tbUsuarios>;
+            if (prueba.Count > 0)
+            {
+                return Ok(list.Data);
+            }
+            else
+            {
+                list.Message = "Error";
+                return Ok(list.Message);
+            }
+
+            //return Json(list.Data);
+        }
+
+
+
         [HttpPut("Edit")]
         public IActionResult Update(UsuariosViewModel item)
         {
