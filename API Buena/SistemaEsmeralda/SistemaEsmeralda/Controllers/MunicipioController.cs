@@ -27,6 +27,7 @@ namespace SistemaEsmeralda.API.Controllers
         public IActionResult Index()
         {
             var list = _generalServices.ListadoMunicipio();
+            
             return Ok(list.Data);
         }
 
@@ -50,7 +51,8 @@ namespace SistemaEsmeralda.API.Controllers
                 Muni_FechaCreacion = DateTime.Now,
             };
             var list = _generalServices.InsertarMunicipio(modelo);
-            return Ok(list.Data);
+
+            return Ok(new { success = true, message = list.Message });
         }
 
 

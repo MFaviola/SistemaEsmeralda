@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import {Departamento} from '../Models/DepartamentoViewModel';
+import {dropDepartamento} from '../Models/DepartamentoViewModel';
 import { HttpClient } from '@angular/common/http';
 import { BASE_URL } from './ulrsettings';
+import { Dropdown } from 'primeng/dropdown';
 
 
 
@@ -20,3 +22,4 @@ export class ServiceService {
     return this.http.get<Departamento[]>(this.url)
   }
 }
+

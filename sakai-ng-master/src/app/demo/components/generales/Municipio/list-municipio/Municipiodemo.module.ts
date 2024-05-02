@@ -10,6 +10,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { TableModule } from 'primeng/table';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { SidebarModule } from 'primeng/sidebar';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RippleModule } from 'primeng/ripple';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { TooltipModule } from 'primeng/tooltip';
@@ -24,6 +25,7 @@ import { DropdownModule } from "primeng/dropdown";
 		FormsModule,
 		TooltipModule,
 		InputTextModule,
+		ReactiveFormsModule,
 		DropdownModule,
 		ButtonModule,
 		OverlayPanelModule,
