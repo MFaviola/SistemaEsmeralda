@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Product } from 'src/app/demo/api/product';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
+import { Observable } from 'rxjs';
 import { ProductService } from 'src/app/demo/service/product.service';
 
 @Component({

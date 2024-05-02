@@ -83,33 +83,33 @@ export class AppMenuComponent implements OnInit {
                             {
 
                                 label: 'Cargo',
-                                icon: 'pi pi-fw pi-times-circle',
+                                icon: 'pi pi-fw pi-key',
                                 routerLink: ['/generales/cargo']
 
                             },
 
                             {
                                 label: 'Material',
-                                icon: 'pi pi-fw pi-times-circle',
+                                icon: 'pi pi-fw pi-inbox',
                                 routerLink: ['/generales/material']
 
                             },
                             {
                                 label: 'Metodo Pago',
-                                icon: 'pi pi-fw pi-times-circle',
+                                icon: 'pi pi-fw pi-wallet',
                                 routerLink: ['/generales/metodo']
 
                             },
 
                             {
                                 label: 'Proveedor',
-                                icon: 'pi pi-fw pi-times-circle',
+                                icon: 'pi pi-fw pi-truck',
                                 routerLink: ['/generales/proveedor']
 
                             },
                             {
                                 label: 'Sucursales',
-                                icon: 'pi pi-fw pi-times-circle',
+                                icon: 'pi pi-fw pi-building',
                                 routerLink: ['/generales/sucursal']
 
                             },
