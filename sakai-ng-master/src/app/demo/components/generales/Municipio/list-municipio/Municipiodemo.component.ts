@@ -4,6 +4,7 @@ import { Product } from 'src/app/demo/api/product';
 import { Router } from '@angular/router';
 import { Municipio,MunicipioEnviar } from 'src/app/Models/MunicipioViewModel';
 import { dropDepartamento } from 'src/app/Models/DepartamentoViewModel';
+import { MensajeViewModel } from 'src/app/Models/MensajeViewModel';
 import { ServiceService } from 'src/app/Service/Municipio.service';
 import { ProductService } from 'src/app/demo/service/product.service';
 import { FormGroup, FormControl,  Validators  } from '@angular/forms';
@@ -13,36 +14,19 @@ import { FormGroup, FormControl,  Validators  } from '@angular/forms';
 })
 export class MunicipioDemoComponent implements OnInit {
     Municipio!: Municipio[];
-  
-
-    statuses: any[] = [];
-    selectedProducts: Product[] = [];
-    products: Product[] = [];
-    productDialog: boolean = false;
-    rowGroupMetadata: any;
+    MensajeViewModel!: MensajeViewModel[];
     submitted: boolean = false;
-
     display: boolean = false;
-    activityValues: number[] = [0, 100];
-
-    isExpanded: boolean = false;
-
-    idFrozen: boolean = false;
-
     loading: boolean = false;
-   
-    @ViewChild('filter') filter!: ElementRef;
-
-    selectedState: any = null;
-
-    cities1: any[] = [];
     departamentos: any[] = [];
-    cities2: any[] = [];
-
-    city1: any = null;
-    city2: any = null;
+    mensaje: any[] = [];
     viewModel: MunicipioEnviar = new MunicipioEnviar();
     municipioForm: FormGroup;
+    MunicipioEditarForm: FormGroup;
+        @ViewChild('filter') filter!: ElementRef;
+
+  
+  
 
     constructor(
         private service: ServiceService, 
@@ -56,50 +40,48 @@ export class MunicipioDemoComponent implements OnInit {
     }
     
     ngOnInit(): void {
+        //Inicializar  el FormGroup
         this.municipioForm = new FormGroup({
             Muni_Codigo: new FormControl("",Validators.required),
             Muni_Municipio: new FormControl("", Validators.required),
             Depa_Codigo: new FormControl('0', [Validators.required])
           });
 
-
+        //Cargar los dropDowns
         this.service.getDropDownsDepartamentos().subscribe((data: dropDepartamento[]) => {
             this.departamentos = data;
-        }, error => {
-            console.log(error);
         });
        
         this.service.getMunicipios().subscribe((data: Municipio[]) => {
             console.log(data);
             this.Municipio = data;
-        }, error => {
-            console.log(error);
         });
     }
 
 
     onSubmit() {
-        
     if (this.municipioForm.valid && this.municipioForm.get('Depa_Codigo').value !== '0') {
-        this.viewModel = this.municipioForm.value;
-        this.service.EnviarMunicipios(this.viewModel).subscribe({
-            next: (response) => {
-                console.log('Respuesta del servidor:', response);
-              if (response.success) {
-                console.log('Respuesta del servidor:', response.success);
-                this.messageService.add({ key: 'tst', severity: 'success', summary: 'Insertado con Exito', detail: 'Exito' });
-                window.location.reload();
-            } else {
-
-                this.messageService.add({ key: 'tst', severity: 'error', summary: 'No se inserto', detail: 'Error' });
-              }
-            },
-            error: (error) => {
-              // handle error
-            }
+       this.viewModel = this.municipioForm.value;
+       this.service.EnviarMunicipios(this.viewModel).subscribe((data: MensajeViewModel[]) => {
+       console.log(data["message"])
+       if(data["message"] == "Operación completada exitosamente."){
+        this.service.getMunicipios().subscribe((data: Municipio[]) => {
+            this.Municipio = data;
+        }, error => {
+            console.log(error);
+        }); 
+        this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Insertado con Exito', life: 1000 });
+        this.display = false;
+        this.municipioForm = new FormGroup({
+            Muni_Codigo: new FormControl("",Validators.required),
+            Muni_Municipio: new FormControl("", Validators.required),
+            Depa_Codigo: new FormControl('0', [Validators.required])
           });
-        
-
+       }else{
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro insertar', life: 1000 });
+       }
+       
+    })
     } else {
         this.submitted = true;
     }

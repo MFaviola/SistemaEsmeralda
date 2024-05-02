@@ -16,20 +16,12 @@ import { Observable } from 'rxjs';
 
 
   UrlLogin = BASE_URL + 'API/Usuario/Validar/';
-
-
   login(loginData: Login): Observable<any> {
       return this.http.get<any>(`${this.UrlLogin}${loginData.usuario},${loginData.contra}`, {});
     }
-  
-
 
   //  getLogin(){
   //    return this.http.get<Login[]>(this.url)
-
-
-
-
    }
 
 

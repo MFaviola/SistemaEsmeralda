@@ -27,11 +27,7 @@ export class ServiceService {
     return this.http.get<Municipio[]>(this.url)
   }
 
-  EnviarMunicipios(formData: any): Observable<any> {
-    return this.http.post<any>(BASE_URL + 'API/Municipio/Create/', formData).pipe(
-      map(response => {
-        return response;
-      }),
-    );
+  EnviarMunicipios(formData){
+    return this.http.post(BASE_URL + 'API/Municipio/Create/', formData)
   }
 }
