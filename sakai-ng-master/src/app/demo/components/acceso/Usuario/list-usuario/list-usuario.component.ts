@@ -3,18 +3,16 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { Product } from 'src/app/demo/api/product';
 import {Router} from '@angular/router';
 import { Table } from 'primeng/table';
-import { Cliente } from 'src/app/Models/ClienteViewModel';
-import { ServiceService } from 'src/app/Service/Cliente.service';
+import { Usuario } from 'src/app/Models/UsuarioVIewModel';
+import { ServiceService } from 'src/app/Service/Usuario.service';
 
 @Component({
-  templateUrl: './list-cliente.component.html',
-  styleUrl: './list-cliente.component.scss',
+  templateUrl: './list-usuario.component.html',
+  styleUrl: './list-usuario.component.scss',
   providers: [ConfirmationService, MessageService]
 })
-export class ListClienteComponent implements OnInit{
-  Cliente!:Cliente[];
-   
-
+export class ListUsuarioComponent {
+  Usuario!:Usuario[];
   statuses: any[] = [];
 
   products: Product[] = [];
@@ -28,20 +26,9 @@ export class ListClienteComponent implements OnInit{
   isExpanded: boolean = false;
 
   idFrozen: boolean = false;
-  originalClienteData: any[];
-  loading: boolean = false;
-  fields: string[] = ['clie_Id', 'clie_Nombre', 'clie_Apellido', 'clie_FechaNac', 'clie_Sexo', 'estado_Civil', 'municipio'];
 
-onGlobalFilter(filterValue: string) {
-    console.log("Filtering for:", filterValue);
-    console.log("Original data:", this.originalClienteData);
-    this.Cliente = this.originalClienteData.filter(clie =>
-        this.fields.some(field =>
-            clie[field].toString().toLowerCase().includes(filterValue.toLowerCase())
-        )
-    );
-    console.log("Filtered data:", this.Cliente);
-}
+  loading: boolean = false;
+ 
   @ViewChild('filter') filter!: ElementRef;
 
   selectedState: any = null;
@@ -62,15 +49,7 @@ onGlobalFilter(filterValue: string) {
       { name: 'Option 3', code: 'Option 3' },
       
   ];
-  @ViewChild('dt1') dt1!: Table;
-  clear() {
 
-    this.Cliente = [...this.originalClienteData];
-
-
-    this.dt1.filters = {}; 
-    this.dt1.reset();       
-}
   cities1: any[] = [];
 
   cities2: any[] = [];
@@ -85,13 +64,12 @@ onGlobalFilter(filterValue: string) {
 
 
   ngOnInit(): void {
-    this.service.getClientes().subscribe((data: any)=>{
-        console.log(data);
-        this.Cliente = data;
-        this.originalClienteData = [...data];  // Clonamos los datos en originalClienteData
-    }, error => {
+      this.service.getUsuario().subscribe((data: any)=>{
+          console.log(data);
+          this.Usuario = data;
+      },error=>{
         console.log(error);
-    });
-}
+      });
+   }
   
 }

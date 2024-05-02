@@ -48,7 +48,14 @@ namespace SistemaEsmeralda.Entities.Entities
             tbSucursalesSucu_UsuarioCreacionNavigation = new HashSet<tbSucursales>();
             tbSucursalesSucu_UsuarioModificacionNavigation = new HashSet<tbSucursales>();
         }
+        [NotMapped]
+        public string Role_Rol { get; set; }
+        [NotMapped]
+        public string Usua_Administradores { get; set; }
+        [NotMapped]
 
+
+        public string Empl_Nombre { get; set; }
         public int Usua_Id { get; set; }
         public string Usua_Usuario { get; set; }
         public string Usua_Contraseña { get; set; }

@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-
 import { HttpClient } from '@angular/common/http';
 import { BASE_URL } from './ulrsettings';
-
-import { Usuario } from '../Models/UsuarioVIewModel';
+import { Factura } from '../Models/FacturaViewModel';
 
 
 
@@ -16,9 +14,9 @@ export class ServiceService {
   constructor(private http:HttpClient) { }
 
 
-  url = BASE_URL + 'API/Usuario/List'
+  url = BASE_URL + 'API/Factura/List'
 
-  getUsuario(){
-    return this.http.get<Usuario[]>(this.url)
+  getFacturas(){
+    return this.http.get<Factura[]>(this.url)
   }
 }

@@ -12,7 +12,7 @@ import { RouterModule } from '@angular/router';
         { path: 'estado', data: { breadcrumb: 'Estado' }, loadChildren: () => import('./EstadoCivil/EstadoCivildemo.module').then(m => m.EstadoCivilDemoModule) },
         { path: 'impuesto', data: { breadcrumb: 'Impuesto' }, loadChildren: () => import('./Impuesto/list-impuesto/Impuestodemo.module').then(m => m.ImpuestoDemoModule) },
         { path: 'cliente', data: { breadcrumb: 'Cliente' }, loadChildren: () => import('./Cliente/list-cliente/Clientedemo.module').then(m => m.ClienteDemoModule) },
-        { path: 'empleado', data: { breadcrumb: 'Empleado' }, loadChildren: () => import('./Cliente/list-cliente/Clientedemo.module').then(m => m.ClienteDemoModule) },
+        { path: 'empleado', data: { breadcrumb: 'Empleado' }, loadChildren: () => import('./Empleado/list-empleado/empleadodemo.module').then(m => m.EmpleadoDemoModule) },
         { path: '**', redirectTo: '/notfound' }
     ])],
     exports: [RouterModule]

@@ -13,10 +13,12 @@ namespace SistemaEsmeralda.BusinessLogic.Services
 
         private readonly JoyaRepository _joyaRepository;
         private readonly MaquillajeRepository _maquillajeRepository;
-        public VentasServices(JoyaRepository joyaRepository, MaquillajeRepository maquillajeRepository)
+        private readonly FacturaRepository _facturaRepository;
+        public VentasServices(JoyaRepository joyaRepository, MaquillajeRepository maquillajeRepository, FacturaRepository facturaRepository)
         {
             _joyaRepository = joyaRepository;
             _maquillajeRepository = maquillajeRepository;
+            _facturaRepository = facturaRepository;
         }
 
 
@@ -247,6 +249,30 @@ namespace SistemaEsmeralda.BusinessLogic.Services
         #endregion
 
 
+        #region Joyas
+        public ServiceResult ListadoFactura()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _facturaRepository.List();
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
+
+       
+
+
+
+
+        #endregion
 
     }
 }

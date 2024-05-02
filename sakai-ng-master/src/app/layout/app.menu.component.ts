@@ -23,12 +23,12 @@ export class AppMenuComponent implements OnInit {
                             {
                                 label: 'Usuarios',
                                 icon: 'pi pi-fw pi-sign-in',
-                                routerLink: ['/generales/departamento']
+                                routerLink: ['/acceso/usuario']
                             },
                             {
                                 label: 'Roles',
                                 icon: 'pi pi-fw pi-times-circle',
-                                routerLink: ['/auth/error']
+                                routerLink: ['/acceso/rol']
                             },
                         ]
                     },
@@ -75,6 +75,12 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['/generales/cliente']
 
                             },
+                            {
+                                label: 'Empleado',
+                                icon: 'pi pi-fw pi-times-circle',
+                                routerLink: ['/generales/empleado']
+
+                            },
                         ]
                     },
                     
@@ -91,12 +97,17 @@ export class AppMenuComponent implements OnInit {
                             {
                                 label: 'Joyas',
                                 icon: 'pi pi-fw pi-sign-in',
-                                routerLink: ['/auth/login']
+                                routerLink: ['/venta/joya']
                             },
                             {
                                 label: 'Maquillajes',
                                 icon: 'pi pi-fw pi-times-circle',
-                                routerLink: ['/auth/error']
+                                routerLink: ['/venta/maquillaje']
+                            },
+                            {
+                                label: 'Facturas',
+                                icon: 'pi pi-fw pi-times-circle',
+                                routerLink: ['/venta/factura']
                             },
                         ]
                     },

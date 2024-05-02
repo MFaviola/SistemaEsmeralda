@@ -1,6 +1,7 @@
+<p>list-maquillaje works!</p>
 <div class="main-card mb-3 card"> 
     <div class="card-header">
-        <h3 class="card-title">Clientes</h3>
+        <h3 class="card-title">Municipios</h3>
     </div>
     <div class="card-body">
         <p-dialog header="Dialog" [(visible)]="display" [modal]="true" showEffect="fade" [style]="{width: '30vw'}" [breakpoints]="{'960px': '75vw'}">
@@ -18,6 +19,19 @@
 					<p-dropdown [options]="dropdownItems" optionLabel="name" [(ngModel)]="selectedState"></p-dropdown>
 				</div>
 			</div>
+       
+            
+             
+                 
+                       
+            
+              
+            
+                   
+          
+         
+     
+                  
             <ng-template pTemplate="footer">
                     <button pButton icon="pi pi-check" (click)="display=false" label="Ok" class="p-button-outlined"></button>
             </ng-template>
@@ -27,13 +41,13 @@
                 <button (click)="display=true" pButton icon="pi pi-external-link" label="Agregar"></button>
             </div>
         </div>
-        <p-table #dt1 [value]="Cliente" dataKey="clie_Id" [rows]="10" [loading]="loading" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" [globalFilterFields]="['clie_Id,clie_Nombre,clie_Apellido,clie_FechaNac,clie_Sexo,estado_Civil,municipio']" responsiveLayout="scroll">
+        <p-table #dt1 [value]="Maquillaje" dataKey="maqu_Id" [rows]="10" [loading]="loading" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" [globalFilterFields]="['maqu_Id,maqu_Nombre,maqu_PrecioCompra,maqu_PrecioVenta,maqu_PrecioMayor,prov_Proveedor,marc_Marca']" responsiveLayout="scroll">
             <ng-template pTemplate="caption">
                 <div class="flex justify-content-between flex-column sm:flex-row">
-                    <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clear()"></button>
+                    <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clear(dt1)"></button>
                     <span class="p-input-icon-left mb-2">
                         <i class="pi pi-search"></i>
-                        <input pInputText type="text" (input)="onGlobalFilter($event.target.value)" placeholder="Search Keyword" class="w-full"/>
+                        <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Search Keyword" class="w-full"/>
                     </span>
                 </div>
             </ng-template>
@@ -41,73 +55,76 @@
                 <tr>
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
-                             ID
-                            <p-columnFilter type="text" field="clie_Id" display="menu" placeholder="Search by name"></p-columnFilter>
+                            ID
+                            <p-columnFilter type="text" field="maqu_Id" display="menu" placeholder="Search by name"></p-columnFilter>
                         </div>
                     </th>
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
-                            Nombre
-                            <p-columnFilter type="text" field="clie_Nombre" display="menu" placeholder="Search by country"></p-columnFilter>
+                            Maquillaje
+                            <p-columnFilter type="text" field="maqu_Nombre" display="menu" placeholder="Search by country"></p-columnFilter>
                         </div>
                     </th>
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
-                            Apellido
-                            <p-columnFilter type="text" field="clie_Apellido" display="menu" placeholder="Search by country"></p-columnFilter>
+                            Precio Compra
+                            <p-columnFilter type="text" field="maqu_PrecioCompra" display="menu" placeholder="Search by country"></p-columnFilter>
                         </div>
                     </th>
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
-                            Fecha
-                            <p-columnFilter type="text" field="clie_FechaNac" display="menu" placeholder="Search by country"></p-columnFilter>
+                            Precio Mayor
+                            <p-columnFilter type="text" field="maqu_PrecioMayor" display="menu" placeholder="Search by country"></p-columnFilter>
                         </div>
                     </th>
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
-                            Sexo
-                            <p-columnFilter type="text" field="clie_Sexo" display="menu" placeholder="Search by country"></p-columnFilter>
+                            Precio Venta
+                            <p-columnFilter type="text" field="maqu_PrecioVenta" display="menu" placeholder="Search by country"></p-columnFilter>
                         </div>
                     </th>
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
-                            Estado Civil
-                            <p-columnFilter type="text" field="estado_Civil" display="menu" placeholder="Search by country"></p-columnFilter>
+                            Proveedor
+                            <p-columnFilter type="text" field="prov_Proveedor" display="menu" placeholder="Search by country"></p-columnFilter>
                         </div>
                     </th>
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
-                            Municipio
-                            <p-columnFilter type="text" field="municipio" display="menu" placeholder="Search by country"></p-columnFilter>
+                            Marca
+                            <p-columnFilter type="text" field="marc_Marca" display="menu" placeholder="Search by country"></p-columnFilter>
                         </div>
                     </th>
                     <th style="min-width: 14rem">
+                        
                             Acciones
+    
+                    
                     </th>
                 </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-clie>
+            <ng-template pTemplate="body" let-maqu>
                 <tr>
                     <td>
-                        {{clie.clie_Id}}
+                        {{maqu.maqu_Id}}
                     </td>
                     <td>
-                        {{clie.clie_Nombre}}
+                        {{maqu.maqu_Nombre}}
                     </td>
                     <td>
-                        {{clie.clie_Apellido}}
+                        {{maqu.maqu_PrecioCompra}}
                     </td>
                     <td>
-                        {{clie.clie_FechaNac}}
+                        {{maqu.maqu_PrecioMayor}}
                     </td>
                     <td>
-                        {{clie.clie_Sexo}}
+                        {{maqu.maqu_PrecioVenta}}
                     </td>
                     <td>
-                        {{clie.estado_Civil}}
+                        {{maqu.prov_Proveedor}}
                     </td>
                     <td>
-                        {{clie.municipio}}
+                        {{maqu.marc_Marca}}
                     </td>
                     <td style="display: flex; justify-content: space-around;">
                         <button pButton pRipple type="button" label="Editar" class="p-button-raised p-button-success"></button>
