@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { BASE_URL } from './ulrsettings';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs';
+import { MensajeViewModel } from '../Models/MensajeViewModel';
 
 
 
@@ -30,7 +31,16 @@ export class ServiceService {
   getFill(codigo: string): Observable<Fill> {
     return this.http.get<Fill>(`${BASE_URL + 'API/Municipio/Fill/' + codigo}`);
   }
+  getDetalles(codigo: string): Observable<Fill> {
+    return this.http.get<Fill>(`${BASE_URL + 'API/Municipio/Fill/' + codigo}`);
+  }
   EnviarMunicipios(formData){
     return this.http.post(BASE_URL + 'API/Municipio/Create/', formData)
+  }
+  EliminarMunicipios(ID): Observable<any>{
+    return this.http.delete<any>(`${BASE_URL + 'API/Municipio/Delete/' + ID}`)
+  }
+  ActualizarMunicipios(formData){
+    return this.http.put(BASE_URL + 'API/Municipio/Edit/', formData)
   }
 }

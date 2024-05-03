@@ -16,7 +16,11 @@ namespace SistemaEsmeralda.Entities.Entities
             tbProveedores = new HashSet<tbProveedores>();
             tbSucursales = new HashSet<tbSucursales>();
         }
+        [NotMapped]
+        public string FechaModificacion { get; set; }
 
+        [NotMapped]
+        public string FechaCreacion { get; set; }
         public string Muni_Codigo { get; set; }
         public string Muni_Municipio { get; set; }
         public string Depa_Codigo { get; set; }

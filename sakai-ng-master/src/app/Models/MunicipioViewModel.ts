@@ -15,4 +15,9 @@ export class Fill {
     muni_Codigo: string;
     muni_Municipio: string;
     depa_Codigo: string;
+    departamento: string;
+    usuarioCreacion: string;
+    usuarioModificacion: string;
+    fechaCreacion : string;
+    fechaModificacion : string;
 }

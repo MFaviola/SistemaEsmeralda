@@ -69,7 +69,7 @@ namespace SistemaEsmeralda.API.Controllers
 
 
         [HttpPut("Edit")]
-        public IActionResult Update(MunicipioViewModel item)
+        public IActionResult Edit(MunicipioViewModel item)
         {
             _mapper.Map<tbMunicipios>(item);
             var modelo = new tbMunicipios()
@@ -82,14 +82,15 @@ namespace SistemaEsmeralda.API.Controllers
                 Muni_FechaModificacion = DateTime.Now
             };
             var list = _generalServices.EditarMunicipio(modelo);
-            return Ok(list.Data);
+
+            return Ok(new { success = true, message = list.Message });
         }
 
-        [HttpDelete("Delete")]
-        public IActionResult Delete(string Muni_Codigo)
+        [HttpDelete("Delete/{id}")]
+        public IActionResult Delete(string id)
         {
-            var list = _generalServices.EliminarMunicipio(Muni_Codigo);
-            return Ok(list.Data);
+            var list = _generalServices.EliminarMunicipio(id);
+            return Ok(new { success = true, message = list.Message });
         }
 
 

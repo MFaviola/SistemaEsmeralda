@@ -191,7 +191,7 @@ namespace SistemaEsmeralda.BusinessLogic.Services
                 var list = _municipioRepository.Update(item);
                 if (list.CodeStatus > 0)
                 {
-                    return result.Ok("okis", list);
+                    return result.Ok(list);
                 }
                 else
                 {

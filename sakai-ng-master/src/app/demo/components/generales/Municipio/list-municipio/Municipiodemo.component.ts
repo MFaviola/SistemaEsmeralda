@@ -23,11 +23,23 @@ export class MunicipioDemoComponent implements OnInit {
     @ViewChild('filter') filter!: ElementRef;
     Collapse: boolean = false;
     DataTable: boolean = true;
+    Detalles: boolean = false;
     Agregar: boolean = true;
     MunCodigo: boolean = true;
     Valor: string = "";
+    staticData = [{}];
 
 
+    deleteProductDialog: boolean = false;
+    //Detalle
+    Muni: String = "";
+    Codigo: String = "";
+    Depa: String = "";
+    UsuarioCreacion: String = "";
+    UsuarioModificacion: String = "";
+    FechaCreacion: String = "";
+    FechaModificacion: String = "";
+    ID: String = "";
     constructor(
         private service: ServiceService, 
         private router: Router,
@@ -58,11 +70,31 @@ export class MunicipioDemoComponent implements OnInit {
         this.Collapse= true;
         this.DataTable = false;
         this.Valor = "Agregar";
+        this.Agregar= false;
+        this.Detalles = false;
+    }
+    detalles(codigo){
+        this.Collapse= false;
+        this.DataTable = false;
+        this.Agregar= false;
+        this.Detalles = true;
+        this.service.getDetalles(codigo).subscribe({
+            next: (data: Fill) => {
+               this.Muni = data.muni_Municipio,
+               this.Codigo = data.muni_Codigo,
+               this.Depa = data.departamento,
+               this.UsuarioCreacion = data.usuarioCreacion,
+               this.UsuarioModificacion = data.usuarioModificacion
+               this.FechaCreacion = data.fechaCreacion,
+               this.FechaModificacion = data.fechaModificacion
+            }
+          });
     }
     //Cerrar Collapse y reiniciar el form
     cancelar(){
         this.Collapse= false;
         this.DataTable = true;
+        this.Detalles = false;
         this.municipioForm = new FormGroup({
             Muni_Codigo: new FormControl("",Validators.required),
             Muni_Municipio: new FormControl("", Validators.required),
@@ -100,6 +132,7 @@ export class MunicipioDemoComponent implements OnInit {
              this.Collapse= false;
              this.DataTable = true;
              this.submitted = false;
+             this.Detalles = false;
              this.municipioForm = new FormGroup({
                  Muni_Codigo: new FormControl("",Validators.required),
                  Muni_Municipio: new FormControl("", Validators.required),
@@ -112,7 +145,27 @@ export class MunicipioDemoComponent implements OnInit {
             
          })
        } else {
-
+            this.service.ActualizarMunicipios(this.viewModel).subscribe((data: MensajeViewModel[]) => {
+            if(data["message"] == "Operación completada exitosamente."){
+             this.service.getMunicipios().subscribe((data: Municipio[]) => {
+                 this.Municipio = data;
+             });
+             this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Actualizado con Exito', life: 3000 });
+             this.Collapse= false;
+             this.DataTable = true;
+             this.Detalles = false;
+             this.submitted = false;
+             this.municipioForm = new FormGroup({
+                 Muni_Codigo: new FormControl("",Validators.required),
+                 Muni_Municipio: new FormControl("", Validators.required),
+                 Depa_Codigo: new FormControl('0', [Validators.required])
+             });
+     
+            }else{
+             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro actualizar', life: 3000 });
+            }
+            
+         })
        }  
        
     }   
@@ -123,8 +176,37 @@ export class MunicipioDemoComponent implements OnInit {
     }
 
 
-
-
+    deleteSelectedProducts(codigo) {
+        this.deleteProductDialog = true;
+        this.ID = codigo;
+        console.log("El codigo es" + codigo);
+    }
+    confirmDelete() {
+        this.service.EliminarMunicipios(this.ID).subscribe({
+            next: (response) => {
+                if(response.message == "La accion ha sido existosa"){
+                    this.service.getMunicipios().subscribe((data: Municipio[]) => {
+                        this.Municipio = data;
+                    });
+                    this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Eliminado con Exito', life: 3000 });
+                    this.Collapse= false;
+                    this.DataTable = true;
+                    this.Detalles = false;
+                    this.submitted = false;
+                    this.municipioForm = new FormGroup({
+                        Muni_Codigo: new FormControl("",Validators.required),
+                        Muni_Municipio: new FormControl("", Validators.required),
+                        Depa_Codigo: new FormControl('0', [Validators.required])
+                    });
+                    this.deleteProductDialog = false;
+                   }else{
+                    this.deleteProductDialog = false;
+                    this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro eliminar', life: 3000 });
+                   }
+            },
+        });
+    
+    }
     Fill(codigo) {
         this.service.getFill(codigo).subscribe({
             next: (data: Fill) => {
@@ -137,6 +219,7 @@ export class MunicipioDemoComponent implements OnInit {
                 this.DataTable = false;
                 this.Agregar = false;
                 this.MunCodigo = false;
+                this.Detalles = false;
                 this.Valor = "Editar";
             }
           });
