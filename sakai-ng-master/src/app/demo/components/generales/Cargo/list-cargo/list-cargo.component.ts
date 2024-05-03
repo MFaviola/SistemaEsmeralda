@@ -5,6 +5,10 @@ import {Router} from '@angular/router';
 import { Table } from 'primeng/table';
 import { Cargo } from 'src/app/Models/CargoViewModel';
 import { ServiceService } from 'src/app/Service/Cargo.service';
+import { FormGroup, FormControl,  Validators  } from '@angular/forms';
+
+
+
 @Component({
   templateUrl: './list-cargo.component.html',
   styleUrl: './list-cargo.component.scss',
