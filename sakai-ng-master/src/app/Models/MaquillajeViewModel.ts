@@ -7,3 +7,14 @@ export class Maquillaje{
     prov_Proveedor?:String;
     marc_Marca?:String;
 }
+export class MaquillajeEnviar {
+    Maqu_Nombre: string;
+    Maqu_PrecioCompra: string;
+    Maqu_PrecioVenta: string;
+    Maqu_PrecioMayor: string;
+    Maqu_Imagen: string;
+    Prov_Id: string;
+    Marc_Id: string;
+
+
+}

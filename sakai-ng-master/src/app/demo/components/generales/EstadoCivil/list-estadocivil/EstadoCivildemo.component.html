@@ -1,22 +1,16 @@
 <div class="main-card mb-3 card"> 
     <div class="card-header">
-        <h3 class="card-title">Municipios</h3>
+        <h3 class="card-title">Estado Civil</h3>
     </div>
     <div class="card-body">
-        <p-dialog header="Dialog" [(visible)]="display" [modal]="true" showEffect="fade" [style]="{width: '30vw'}" [breakpoints]="{'960px': '75vw'}">
+        <p-dialog header="Insertar Estado Civil" [(visible)]="display" [modal]="true" showEffect="fade" [style]="{width: '30vw'}" [breakpoints]="{'960px': '75vw'}">
             <div class="p-fluid p-formgrid grid">
+				
 				<div class="field col-12 md:col-6">
-					<label htmlFor="firstname2">Codigo</label>
-					<input pInputText id="firstname2" type="text" />
+					<label htmlFor="esta_EstadoCivil">Descripcion</label>
+					<input pInputText id="esta_EstadoCivil" type="text" />
 				</div>
-				<div class="field col-12 md:col-6">
-					<label htmlFor="lastname2">Municipio</label>
-					<input pInputText id="lastname2" type="text" />
-				</div>
-                <div class="field col-12 md:col-6">
-					<label htmlFor="state">State</label>
-					<p-dropdown [options]="dropdownItems" optionLabel="name" [(ngModel)]="selectedState"></p-dropdown>
-				</div>
+        
 			</div>
        
             

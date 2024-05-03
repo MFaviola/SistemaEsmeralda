@@ -10,10 +10,12 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { TableModule } from 'primeng/table';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { SidebarModule } from 'primeng/sidebar';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RippleModule } from 'primeng/ripple';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { TooltipModule } from 'primeng/tooltip';
 import { InputTextModule } from 'primeng/inputtext';
+
 @NgModule({
 	imports: [
 		CommonModule,
@@ -23,6 +25,7 @@ import { InputTextModule } from 'primeng/inputtext';
 		FormsModule,
 		TooltipModule,
 		InputTextModule,
+		ReactiveFormsModule,
 		ButtonModule,
 		OverlayPanelModule,
 		TableModule,

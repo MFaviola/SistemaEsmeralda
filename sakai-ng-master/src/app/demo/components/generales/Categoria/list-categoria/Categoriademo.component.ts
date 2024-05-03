@@ -3,8 +3,12 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { Product } from 'src/app/demo/api/product';
 import {Router} from '@angular/router';
 import { Table } from 'primeng/table';
-import { Categoria } from 'src/app/Models/CategoriaViewModel';
+import { Categoria,CategoriaEnviar } from 'src/app/Models/CategoriaViewModel';
 import { ServiceService } from 'src/app/Service/Categoria.service';
+import { FormGroup, FormControl,  Validators  } from '@angular/forms';
+
+
+
 @Component({
     templateUrl: './Categoriademo.component.html',
     providers: [ConfirmationService, MessageService]
@@ -30,6 +34,10 @@ export class CategoriaDemoComponent implements OnInit {
     loading: boolean = false;
    
     @ViewChild('filter') filter!: ElementRef;
+
+    viewModel: CategoriaEnviar = new CategoriaEnviar();
+    categoriaForm: FormGroup;
+
 
     selectedState: any = null;
 
@@ -58,12 +66,25 @@ export class CategoriaDemoComponent implements OnInit {
 
     city2: any = null;
 
-    constructor(private service: ServiceService, private router: Router
-    
+    constructor( private service: ServiceService, 
+        private router: Router,
+        private confirmationService: ConfirmationService, 
+        private messageService: MessageService
     ) { }
   
 
     ngOnInit(): void {
+
+        this.categoriaForm = new FormGroup({
+            cate_Id: new FormControl("",Validators.required),
+            cate_Categoria: new FormControl("", Validators.required),
+          });
+
+
+
+
+
+        
         this.service.getCategoria().subscribe((data: any)=>{
             console.log(data);
             this.Categoria = data;
@@ -73,6 +94,42 @@ export class CategoriaDemoComponent implements OnInit {
      }
     
     
+
+
+
+
+     onSubmit() {
+        
+        if (this.categoriaForm.valid && this.categoriaForm.get('Cate_Id').value !== '0') {
+            this.viewModel = this.categoriaForm.value;
+            this.service.EnviarCategoria(this.viewModel).subscribe({
+                next: (response) => {
+                    console.log('Respuesta del servidor:', response);
+                  if (response.success) {
+                    console.log('Respuesta del servidor:', response.success);
+                    this.messageService.add({ key: 'tst', severity: 'success', summary: 'Insertado con Exito', detail: 'Exito' });
+                    window.location.reload();
+                } else {
+    
+                    this.messageService.add({ key: 'tst', severity: 'error', summary: 'No se inserto', detail: 'Error' });
+                  }
+                },
+                error: (error) => {
+                }
+              });
+            
+    
+        } else {
+            this.submitted = true;
+        }
+          }
+
+
+
+
+
+
+
       
 }
 

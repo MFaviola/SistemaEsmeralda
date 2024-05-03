@@ -5,6 +5,8 @@ import { BASE_URL } from './ulrsettings';
 
 
 import { Sucursal } from '../Models/SucursalViewModel';
+import { Observable } from 'rxjs/internal/Observable';
+import { map } from 'rxjs';
 
 
 
@@ -21,5 +23,14 @@ export class ServiceService {
 
   getSucursal(){
     return this.http.get<Sucursal[]>(this.url)
+  }
+
+  
+  EnviarRol(formData: any): Observable<any> {
+    return this.http.post<any>(BASE_URL + 'API/Sucursal/Create/', formData).pipe(
+      map(response => {
+        return response;
+      }),
+    );
   }
 }

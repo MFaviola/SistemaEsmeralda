@@ -5,6 +5,8 @@ import { BASE_URL } from './ulrsettings';
 
 
 import { Maquillaje } from '../Models/MaquillajeViewModel';
+import { Observable } from 'rxjs/internal/Observable';
+import { map } from 'rxjs';
 
 
 
@@ -21,5 +23,15 @@ export class ServiceService {
 
   getMaquillaje(){
     return this.http.get<Maquillaje[]>(this.url)
+  }
+
+
+
+  EnviarMaquillaje(formData: any): Observable<any> {
+    return this.http.post<any>(BASE_URL + 'API/Maquillaje/Create/', formData).pipe(
+      map(response => {
+        return response;
+      }),
+    );
   }
 }

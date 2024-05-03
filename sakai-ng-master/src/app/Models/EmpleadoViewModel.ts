@@ -9,3 +9,18 @@ export class Empleado{
     empl_Sexo?:String;    
     empl_FechaNac?:String;
 }
+
+
+export class EmpleadoEnviar {
+    Empl_Nombre: string;
+    Empl_Apellido: string;
+    Empl_FechaNac: string;
+    Empl_Sexo: string;
+    Muni_Codigo: string;
+    Esta_Id: string;
+    Carg_Id: string;
+    Sucu_Id: string;
+
+
+}
+
