@@ -3,7 +3,8 @@
         <h3 class="card-title">Departamento</h3>
     </div>
     <div class="card-body">
-        <p-dialog header="Agregar Departamento" [(visible)]="display" [modal]="true" showEffect="fade" [style]="{width: '30vw'}" [breakpoints]="{'960px': '75vw'}">
+        <div [class.hidden]="!Collapse" style="margin-top: 20px;">
+        
             <form [formGroup]="departamentoForm" (ngSubmit)="onSubmit()">
                 <div class="p-fluid p-formgrid grid">
                   <div class="field col-12 md:col-6">
@@ -16,26 +17,21 @@
                     <input pInputText id="lastname2" formControlName="Depa_Departamento" type="text" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && departamentoForm.get('Depa_Departamento').value === ''}" />
                     <small class="ng-dirty ng-invalid" *ngIf="submitted && departamentoForm.controls['Depa_Departamento'].invalid" style="color: red !important;">El Nombre es Requerido</small>
                   </div>
-                  <!-- <div class="field col-12 md:col-6">
-                    <label for="state">Departamento</label>
-                    <select formControlName="Depa_Codigo" pInputText id="municipio" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && municipioForm.get('Depa_Codigo').value === '0'}" >
-                      <option *ngFor="let departamento of departamentos" [value]="departamento.value">{{ departamento.text }}</option>
-                    </select>
-                    <small *ngIf="submitted && departamentoForm.get('Depa_Codigo').value === '0'" style="color: red;">Departamento Requerido</small>
-                  </div> -->
+              
                 </div>
                 <div style="display: flex; justify-content: flex-end; margin-top: 1rem; grid-gap: 5px;">
                   <button pButton icon="pi pi-check" type="submit" label="Agregar" class="p-button-outlined"></button>
-                  <button pButton icon="pi pi-stop" type="button" (click)="display=false" label="Cancelar" class="p-button-outlined"></button>
+                  <button pButton icon="pi pi-stop" type="button" (click)="cancelar()" label="Cancelar" class="p-button-outlined"></button>
                 </div>
               </form>
-        </p-dialog>
+        
+        </div>
+      
         <div class="grid">
             <div class="col-12">
-                <button (click)="display=true" pButton icon="pi pi-plus" label="Agregar"></button>
-            </div>
+                <button (click)="collapse()" pButton icon="pi pi-plus" style="margin-bottom: 10px ;" [class.hidden]="!Agregar">Agregar</button>            </div>
         </div>
-        <p-table #dt1 [value]="departamento" dataKey="muni_Codigo" [rows]="10" [loading]="loading" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" [globalFilterFields]="['muni_Codigo,muni_Municipio,departamento']" responsiveLayout="scroll">
+        <p-table #dt1 [value]="departamento" dataKey="muni_Codigo" [rows]="10" [loading]="loading" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" [globalFilterFields]="['muni_Codigo,muni_Municipio,departamento']" responsiveLayout="scroll"[class.hidden]="!DataTable">
             <ng-template pTemplate="caption">
                 <div class="flex justify-content-between flex-column sm:flex-row">
                     <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clear(dt1)"></button>
@@ -45,6 +41,9 @@
                     </span>
                 </div>
             </ng-template>
+
+
+
 
 
 

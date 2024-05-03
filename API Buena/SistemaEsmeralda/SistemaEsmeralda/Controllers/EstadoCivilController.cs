@@ -47,7 +47,8 @@ namespace SistemaEsmeralda.API.Controllers
                 Esta_FechaCreacion = item.Esta_FechaCreacion,
             };
             var list = _generalServices.InsertarEstadoCiviles(modelo);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
+
         }
 
 

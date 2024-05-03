@@ -47,7 +47,7 @@ namespace SistemaEsmeralda.API.Controllers
                 Impu_FechaCreacion = item.Impu_FechaCreacion,
             };
             var list = _generalServices.InsertarImpuestos(modelo);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
 

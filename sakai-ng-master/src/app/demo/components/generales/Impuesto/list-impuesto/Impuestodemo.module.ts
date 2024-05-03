@@ -15,6 +15,8 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { TooltipModule } from 'primeng/tooltip';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from "primeng/dropdown";
+import { ReactiveFormsModule } from '@angular/forms';
+
 @NgModule({
 	imports: [
 		CommonModule,
@@ -25,6 +27,7 @@ import { DropdownModule } from "primeng/dropdown";
 		TooltipModule,
 		InputTextModule,
 		DropdownModule,
+		ReactiveFormsModule,
 		ButtonModule,
 		OverlayPanelModule,
 		TableModule,

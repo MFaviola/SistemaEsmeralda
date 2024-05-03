@@ -10,11 +10,17 @@ import { FormGroup, FormControl,  Validators  } from '@angular/forms';
 
 @Component({
     templateUrl: './Departamentodemo.component.html',
+    styleUrl: './list-departamento.component.css',
     providers: [ConfirmationService, MessageService]
 })
 export class DepartamentoDemoComponent implements OnInit {
     departamento!:Departamento[];
    
+    Collapse: boolean = false;
+    DataTable: boolean = true;
+    Agregar: boolean = true;
+    MunCodigo: boolean = true;
+    Valor: string = "";
 
     statuses: any[] = [];
     selectedProducts: Product[] = [];
@@ -90,6 +96,29 @@ export class DepartamentoDemoComponent implements OnInit {
         }
           }
     
-      
+          collapse(){
+            this.Collapse= true;
+            this.DataTable = false;
+            this.Valor = "Agregar";
+        }
+        //Cerrar Collapse y reiniciar el form
+        cancelar(){
+            this.Collapse= false;
+            this.DataTable = true;
+            this.departamentoForm = new FormGroup({
+                Deoa_Codigo: new FormControl("",Validators.required),
+                Depa_Departamento: new FormControl("", Validators.required),
+            });
+            this.submitted = false;
+            this.Agregar= true;
+            this.MunCodigo=true;
+            this.Valor = "";
+        }
 }
+
+
+
+
+
+
 

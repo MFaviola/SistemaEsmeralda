@@ -6,16 +6,25 @@ import { Table } from 'primeng/table';
 import { Categoria,CategoriaEnviar } from 'src/app/Models/CategoriaViewModel';
 import { ServiceService } from 'src/app/Service/Categoria.service';
 import { FormGroup, FormControl,  Validators  } from '@angular/forms';
+import { MensajeViewModel } from 'src/app/Models/MensajeViewModel';
 
 
 
 @Component({
     templateUrl: './Categoriademo.component.html',
+    styleUrl: './list-categoria.component.css',
+
     providers: [ConfirmationService, MessageService]
 })
 export class CategoriaDemoComponent implements OnInit {
     Categoria!:Categoria[];
-   
+    MensajeViewModel!: MensajeViewModel[];
+
+    Collapse: boolean = false;
+    DataTable: boolean = true;
+    Agregar: boolean = true;
+    MunCodigo: boolean = true;
+    Valor: string = "";
 
     statuses: any[] = [];
 
@@ -76,7 +85,6 @@ export class CategoriaDemoComponent implements OnInit {
     ngOnInit(): void {
 
         this.categoriaForm = new FormGroup({
-            cate_Id: new FormControl("",Validators.required),
             cate_Categoria: new FormControl("", Validators.required),
           });
 
@@ -94,36 +102,81 @@ export class CategoriaDemoComponent implements OnInit {
      }
     
     
+ 
+    onSubmit() {
+      if (this.categoriaForm.valid ) {
+         this.viewModel = this.categoriaForm.value;
+         if (this.Valor == "Agregar") {
+          this.service.EnviarCategoria(this.viewModel).subscribe((data: MensajeViewModel[]) => {
+              if(data["message"] == "Operación completada exitosamente."){
+               this.service.getCategoria().subscribe((data: Categoria[]) => {
+                   this.Categoria = data;
+               });
+               this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Insertado con Exito', life: 3000 });
+               this.Collapse= false;
+               this.DataTable = true;
+               this.submitted = false;
+              
+        this.categoriaForm = new FormGroup({
+          cate_Categoria: new FormControl("", Validators.required),
+        });
 
-
-
-
-     onSubmit() {
-        
-        if (this.categoriaForm.valid && this.categoriaForm.get('Cate_Id').value !== '0') {
-            this.viewModel = this.categoriaForm.value;
-            this.service.EnviarCategoria(this.viewModel).subscribe({
-                next: (response) => {
-                    console.log('Respuesta del servidor:', response);
-                  if (response.success) {
-                    console.log('Respuesta del servidor:', response.success);
-                    this.messageService.add({ key: 'tst', severity: 'success', summary: 'Insertado con Exito', detail: 'Exito' });
-                    window.location.reload();
-                } else {
-    
-                    this.messageService.add({ key: 'tst', severity: 'error', summary: 'No se inserto', detail: 'Error' });
-                  }
-                },
-                error: (error) => {
-                }
-              });
-            
-    
-        } else {
-            this.submitted = true;
-        }
+       
+              }else{
+               this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro insertar', life: 3000 });
+              }
+              
+           })
+         } else {
+  
+         }  
+         
+      }   
+          else 
+          {
+              this.submitted = true;
           }
+      }
+  
+  
+  
 
+
+
+
+collapse(){
+        this.Collapse= true;
+        this.DataTable = false;
+        this.Valor = "Agregar";
+    }
+    //Cerrar Collapse y reiniciar el form
+    cancelar(){
+        this.Collapse= false;
+        this.DataTable = true;
+        this.categoriaForm = new FormGroup({
+          cate_Categoria: new FormControl("", Validators.required),
+     
+        });
+        this.submitted = false;
+        this.Agregar= true;
+        this.MunCodigo=true;
+        this.Valor = "";
+    }
+
+
+
+
+    ValidarNumeros(event: KeyboardEvent) {
+      if (!/[0-9]/.test(event.key) && event.key !== 'Backspace' && event.key !== 'Tab') {
+          event.preventDefault();
+      }
+  }
+  validarTexto(event: KeyboardEvent) {
+
+      if (!/^[a-zA-Z\s]+$/.test(event.key) && event.key !== 'Backspace' && event.key !== 'Tab' && event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {
+          event.preventDefault();
+      }
+  }
 
 
 
