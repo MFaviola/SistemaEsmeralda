@@ -58,11 +58,11 @@ namespace SistemaEsmeralda.API.Controllers
             {
                 Depa_Codigo = item.Depa_Codigo,
                 Depa_Departamento = item.Depa_Departamento,
-                Depa_UsuarioCreacion = item.Depa_UsuarioCreacion,
-                Depa_FechaCreacion = item.Depa_FechaCreacion,
+                Depa_UsuarioCreacion = 1,
+                Depa_FechaCreacion = DateTime.Now,
             };
             var list = _generalServices.InsertarDepto(modelo);
-            return Ok(list);
+            return Ok(new { success = true, message = list.Message });
         }
 
 

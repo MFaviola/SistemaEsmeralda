@@ -4,6 +4,8 @@ import {dropDepartamento} from '../Models/DepartamentoViewModel';
 import { HttpClient } from '@angular/common/http';
 import { BASE_URL } from './ulrsettings';
 import { Dropdown } from 'primeng/dropdown';
+import { Observable } from 'rxjs/internal/Observable';
+import { map } from 'rxjs';
 
 
 
@@ -20,6 +22,16 @@ export class ServiceService {
 
   getDepartamentos(){
     return this.http.get<Departamento[]>(this.url)
+  }
+
+
+
+  DepartamentoEnviar(formData: any): Observable<any> {
+    return this.http.post<any>(BASE_URL + 'API/Departamento/Create/', formData).pipe(
+      map(response => {
+        return response;
+      }),
+    );
   }
 }
 

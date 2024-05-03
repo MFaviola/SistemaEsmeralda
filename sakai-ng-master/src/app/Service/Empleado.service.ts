@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { BASE_URL } from './ulrsettings';
 
 import { Empleado } from '../Models/EmpleadoViewModel';
+import { Observable } from 'rxjs/internal/Observable';
+import { map } from 'rxjs';
 
 
 
@@ -18,4 +20,15 @@ export class ServiceService {
   getEmpleados(){
     return this.http.get<Empleado[]>(this.url)
   }
+
+
+
+  EnviarEmpleado(formData: any): Observable<any> {
+    return this.http.post<any>(BASE_URL + 'API/Empleado/Create/', formData).pipe(
+      map(response => {
+        return response;
+      }),
+    );
+  }
+
 }

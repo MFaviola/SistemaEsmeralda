@@ -5,6 +5,8 @@ import { BASE_URL } from './ulrsettings';
 
 
 import { Metodo } from '../Models/MetodoPagoViewModel';
+import { Observable } from 'rxjs/internal/Observable';
+import { map } from 'rxjs';
 
 
 
@@ -21,5 +23,13 @@ export class ServiceService {
 
   getMetodo(){
     return this.http.get<Metodo[]>(this.url)
+  }
+
+  EnviarMetodoPago(formData: any): Observable<any> {
+    return this.http.post<any>(BASE_URL + 'API/MetodoPago/Create/', formData).pipe(
+      map(response => {
+        return response;
+      }),
+    );
   }
 }

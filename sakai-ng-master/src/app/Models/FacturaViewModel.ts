@@ -5,3 +5,8 @@ export class Factura{
     clie_Nombre?:String;
     fact_Id?:String;
 }
+
+export class FacturaEnviar {
+    Esta_EstadoCivil: string;
+
+}

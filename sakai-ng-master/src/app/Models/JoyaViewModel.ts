@@ -8,3 +8,16 @@ export class Joya{
     prov_Proveedor?:String;
     cate_Categoria?:String;
 }
+
+export class JoyaEnviar {
+    Joya_Nombre: string;
+    Joya_PrecioCompra: string;
+    Joya_PrecioVenta: string;
+    Joya_PrecioMayor: string;
+    Joya_Imagen: string;
+    Prov_Id: string;
+    Mate_Id: string;
+    Cate_Id: string;
+
+}
+
