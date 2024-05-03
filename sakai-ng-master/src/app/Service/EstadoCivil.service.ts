@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Estado} from '../Models/EstadoCivilViewModel';
+import {Estado,Fill} from '../Models/EstadoCivilViewModel';
 import { HttpClient } from '@angular/common/http';
 import { BASE_URL } from './ulrsettings';
 import { Observable } from 'rxjs/internal/Observable';
@@ -27,5 +27,14 @@ export class ServiceService {
         return response;
       }),
     );
+  }
+  getFill(codigo: string): Observable<Fill> {
+    return this.http.get<Fill>(`${BASE_URL + 'API/EstadoCivil/Fill/' + codigo}`);
+  }
+  EliminarEstadoCivil(ID): Observable<any>{
+    return this.http.delete<any>(`${BASE_URL + 'API/EstadoCivil/Delete/' + ID}`)
+  }
+  ActualizarEstadoCivil(formData){
+    return this.http.put(BASE_URL + 'API/EstadoCivil/Edit/', formData)
   }
 }

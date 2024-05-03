@@ -14,6 +14,10 @@ namespace SistemaEsmeralda.Entities.Entities
             tbFactura = new HashSet<tbFactura>();
         }
         [NotMapped]
+        public string Depa_Codigo { get; set; }
+        [NotMapped]
+        public string Depa_Departamento { get; set; }
+        [NotMapped]
         public string Municipio { get; set; }
         [NotMapped]
         public string Estado_Civil { get; set; }

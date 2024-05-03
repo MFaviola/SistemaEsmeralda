@@ -75,9 +75,9 @@ namespace SistemaEsmeralda.API.Controllers
             var list = _generalServices.EditarMarca(modelo);
             return Ok(new { success = true, message = list.Message });
         }
+        [HttpDelete("Delete/{id}")]
 
-        [HttpDelete("Delete")]
-        public IActionResult Delete(string Marc_Id)
+        public IActionResult Delete(string id)
         {
             var list = _generalServices.EliminarMarcas(Marc_Id);
             return Ok(new { success = true, message = list.Message });

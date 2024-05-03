@@ -79,8 +79,8 @@ namespace SistemaEsmeralda.API.Controllers
             return Ok(new { success = true, message = list.Message });
         }
 
-        [HttpDelete("Delete")]
-        public IActionResult Delete(string Esta_Id)
+        [HttpDelete("Delete/{id}")]
+        public IActionResult Delete(string id)
         {
             var list = _generalServices.EliminarEstadosCiviles(Esta_Id);
             return Ok(new { success = true, message = list.Message });

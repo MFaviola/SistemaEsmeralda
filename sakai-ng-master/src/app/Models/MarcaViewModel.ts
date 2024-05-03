@@ -7,3 +7,11 @@ export class MarcaEnviar {
     Marc_Marca: string;
 }
 
+export class Fill {
+    marc_Id: string;
+    marc_Marca: string;
+    usuarioCreacion: string;
+    usuarioModificacion: string;
+    fechaCreacion : string;
+    fechaModificacion : string;
+}

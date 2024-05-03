@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { BASE_URL } from './ulrsettings';
 
 
-import { Metodo } from '../Models/MetodoPagoViewModel';
+import { Metodo,Fill } from '../Models/MetodoPagoViewModel';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs';
 
@@ -31,5 +31,14 @@ export class ServiceService {
         return response;
       }),
     );
+  }
+  getFill(codigo: string): Observable<Fill> {
+    return this.http.get<Fill>(`${BASE_URL + 'API/MetodoPago/Fill/' + codigo}`);
+  }
+  EliminarMetodoPago(ID): Observable<any>{
+    return this.http.delete<any>(`${BASE_URL + 'API/MetodoPago/Delete/' + ID}`)
+  }
+  ActualizarMetodoPago(formData){
+    return this.http.put(BASE_URL + 'API/MetodoPago/Edit/', formData)
   }
 }

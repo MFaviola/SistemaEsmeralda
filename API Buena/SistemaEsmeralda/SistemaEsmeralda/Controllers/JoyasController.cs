@@ -92,8 +92,8 @@ namespace SistemaEsmeralda.API.Controllers
             return Ok(new { success = true, message = list.Message });
         }
 
-        [HttpDelete("Delete")]
-        public IActionResult Delete(string Joya_Id)
+        [HttpDelete("Delete/{id}")]
+        public IActionResult Delete(string id)
         {
             var list = _ventasServices.EliminarJoya(Joya_Id);
             return Ok(new { success = true, message = list.Message });

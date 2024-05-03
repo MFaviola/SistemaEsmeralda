@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BASE_URL } from './ulrsettings';
 
-import { Joya } from '../Models/JoyaViewModel';
+import { Joya,Fill } from '../Models/JoyaViewModel';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs';
 
@@ -32,5 +32,16 @@ export class ServiceService {
         return response;
       }),
     );
+  }
+
+  
+  getFill(codigo: string): Observable<Fill> {
+    return this.http.get<Fill>(`${BASE_URL + 'API/Joyas/Fill/' + codigo}`);
+  }
+  EliminarJoyas(ID): Observable<any>{
+    return this.http.delete<any>(`${BASE_URL + 'API/Joyas/Delete/' + ID}`)
+  }
+  ActualizarJoyas(formData){
+    return this.http.put(BASE_URL + 'API/Joyas/Edit/', formData)
   }
 }

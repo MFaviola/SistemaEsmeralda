@@ -6,5 +6,14 @@ export class Cargo{
 
 export class CargoEnviar {
     Carg_Cargo: string;
-    
+}
+
+
+export class Fill {
+    carg_Id: string;
+    carg_Cargo: string;
+    usuarioCreacion: string;
+    usuarioModificacion: string;
+    fechaCreacion : string;
+    fechaModificacion : string;
 }

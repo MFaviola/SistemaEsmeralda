@@ -9,3 +9,16 @@ export class ProveedorEnviar {
     Prov_Telefono: string;
     Muni_Codigo: string;
 }
+
+
+export class Fill {
+    prov_Id: string;
+    prov_Proveedor: string;
+    depa_Codigo: string;
+    muni_Municipio?:String;
+    departamento: string;
+    usuarioCreacion: string;
+    usuarioModificacion: string;
+    fechaCreacion : string;
+    fechaModificacion : string;
+}
