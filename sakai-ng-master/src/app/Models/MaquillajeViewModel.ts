@@ -18,3 +18,17 @@ export class MaquillajeEnviar {
 
 
 }
+
+export class Fill {
+    maqu_Id: string;
+    maqu_Nombre: string;
+    maqu_PrecioCompra?:String;
+    maqu_PrecioVenta?:String;
+    maqu_PrecioMayor?:String;
+    marc_Id?:String;
+    prov_Id?:String;
+    usuarioCreacion: string;
+    usuarioModificacion: string;
+    fechaCreacion : string;
+    fechaModificacion : string;
+}

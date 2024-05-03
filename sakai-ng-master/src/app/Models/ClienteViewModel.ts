@@ -17,3 +17,20 @@ export class ClienteEnviar {
     Esta_Id: string;
 
 }
+
+
+export class Fill {
+    clie_Id: string;
+    clie_Nombre: string;
+    clie_Apellido?:String;
+    clie_FechaNac?:String;
+    clie_Sexo?:String;
+    muni_Codigo?:String;
+    esta_Id?:String;
+    depa_Codigo?:String;
+    depa_Departamento?:String;
+    usuarioCreacion: string;
+    usuarioModificacion: string;
+    fechaCreacion : string;
+    fechaModificacion : string;
+}

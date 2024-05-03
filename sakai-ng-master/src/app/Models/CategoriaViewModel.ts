@@ -6,3 +6,12 @@ export class CategoriaEnviar {
     Cate_Categoria: string;
     
 }
+
+export class Fill {
+    cate_Id: string;
+    cate_Categoria: string;
+    usuarioCreacion: string;
+    usuarioModificacion: string;
+    fechaCreacion : string;
+    fechaModificacion : string;
+}

@@ -6,3 +6,11 @@ export class MetodoPagoEnviar {
     Mepa_Metodo: string;
 }
 
+export class Fill {
+    mepa_Id: string;
+    mepa_Metodo: string;
+    usuarioCreacion: string;
+    usuarioModificacion: string;
+    fechaCreacion : string;
+    fechaModificacion : string;
+}

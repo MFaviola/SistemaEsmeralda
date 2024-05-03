@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Departamento} from '../Models/DepartamentoViewModel';
+import {Departamento,Fill} from '../Models/DepartamentoViewModel';
 import {dropDepartamento} from '../Models/DepartamentoViewModel';
 import { HttpClient } from '@angular/common/http';
 import { BASE_URL } from './ulrsettings';
@@ -33,5 +33,17 @@ export class ServiceService {
       }),
     );
   }
+
+  
+  getFill(codigo: string): Observable<Fill> {
+    return this.http.get<Fill>(`${BASE_URL + 'API/Departamento/Fill/' + codigo}`);
+  }
+  EliminarDepartamento(ID): Observable<any>{
+    return this.http.delete<any>(`${BASE_URL + 'API/Departamento/Delete/' + ID}`)
+  }
+  ActualizarDepartamento(formData){
+    return this.http.put(BASE_URL + 'API/Departamento/Edit/', formData)
+  }
+  
 }
 

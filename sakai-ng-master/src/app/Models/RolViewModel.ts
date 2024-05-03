@@ -8,3 +8,12 @@ export class RolEnviar {
    
 }
 
+
+export class Fill {
+    role_Id: string;
+    role_Rol: string;
+    usuarioCreacion: string;
+    usuarioModificacion: string;
+    fechaCreacion : string;
+    fechaModificacion : string;
+}

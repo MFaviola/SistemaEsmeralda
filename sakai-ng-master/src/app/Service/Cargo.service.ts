@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BASE_URL } from './ulrsettings';
-import { Cargo } from '../Models/CargoViewModel';
+import { Cargo, Fill } from '../Models/CargoViewModel';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs';
 
@@ -31,4 +31,15 @@ export class ServiceService {
       }),
     );
   }
+
+  getFill(codigo: string): Observable<Fill> {
+    return this.http.get<Fill>(`${BASE_URL + 'API/Cargo/Fill/' + codigo}`);
+  }
+  EliminarCargo(ID): Observable<any>{
+    return this.http.delete<any>(`${BASE_URL + 'API/Cargo/Delete/' + ID}`)
+  }
+  ActualizarCargo(formData){
+    return this.http.put(BASE_URL + 'API/Cargo/Edit/', formData)
+  }
+
 }

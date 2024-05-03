@@ -21,3 +21,18 @@ export class JoyaEnviar {
 
 }
 
+export class Fill {
+    joya_Id: string;
+    joya_Nombre: string;
+    joya_PrecioCompra?:String;
+    joya_PrecioVenta?:String;
+    joya_PrecioMayor?:String;
+    mate_Id?:String;
+    prov_Id?:String;
+    cate_Id?:String;
+    usuarioCreacion: string;
+    usuarioModificacion: string;
+    fechaCreacion : string;
+    fechaModificacion : string;
+}
+

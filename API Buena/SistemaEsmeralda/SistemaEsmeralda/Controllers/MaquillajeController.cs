@@ -90,10 +90,10 @@ namespace SistemaEsmeralda.API.Controllers
             return Ok(list.Data);
         }
 
-        [HttpDelete("Delete")]
-        public IActionResult Delete(string Maqu_Id)
+        [HttpDelete("Delete/{id}")]
+        public IActionResult Delete(string id)
         {
-            var list = _ventasServices.EliminarMaquillaje(Maqu_Id);
+            var list = _ventasServices.EliminarMaquillaje(id);
             return Ok(list.Data);
         }
     }

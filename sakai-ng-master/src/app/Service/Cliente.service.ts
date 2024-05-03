@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
 import { BASE_URL } from './ulrsettings';
-import { Cliente } from '../Models/ClienteViewModel';
+import { Cliente,Fill } from '../Models/ClienteViewModel';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs';
 
@@ -28,6 +28,16 @@ export class ServiceService {
         return response;
       }),
     );
+  }
+
+  getFill(codigo: string): Observable<Fill> {
+    return this.http.get<Fill>(`${BASE_URL + 'API/Cliente/Fill/' + codigo}`);
+  }
+  EliminarCargo(ID): Observable<any>{
+    return this.http.delete<any>(`${BASE_URL + 'API/Cliente/Delete/' + ID}`)
+  }
+  ActualizarCargo(formData){
+    return this.http.put(BASE_URL + 'API/Cliente/Edit/', formData)
   }
 
 }

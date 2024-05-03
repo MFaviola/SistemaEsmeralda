@@ -94,10 +94,10 @@ namespace SistemaEsmeralda.API.Controllers
             return Ok(list.Data);
         }
 
-        [HttpDelete("Delete")]
-        public IActionResult Delete(string Empl_Id)
+        [HttpDelete("Delete/{id}")]
+        public IActionResult Delete(string id)
         {
-            var list = _generalServices.EliminarEmpleado(Empl_Id);
+            var list = _generalServices.EliminarEmpleado(id);
             return Ok(list.Data);
         }
 

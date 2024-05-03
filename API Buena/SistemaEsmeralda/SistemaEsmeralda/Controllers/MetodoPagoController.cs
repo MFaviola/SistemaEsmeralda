@@ -78,10 +78,10 @@ namespace SistemaEsmeralda.API.Controllers
             return Ok(list.Data);
         }
 
-        [HttpDelete("Delete")]
-        public IActionResult Delete(string Mepa_Id)
+        [HttpDelete("Delete/{id}")]
+        public IActionResult Delete(string id)
         {
-            var list = _generalServices.EliminarMetodoPago(Mepa_Id);
+            var list = _generalServices.EliminarMetodoPago(id);
             return Ok(list.Data);
         }
 

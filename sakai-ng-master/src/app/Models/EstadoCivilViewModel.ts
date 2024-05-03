@@ -8,3 +8,11 @@ export class EstadoCivilEnviar {
 
 }
 
+export class Fill {
+    esta_Id: string;
+    esta_EstadoCivil: string;
+    usuarioCreacion: string;
+    usuarioModificacion: string;
+    fechaCreacion : string;
+    fechaModificacion : string;
+}

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Categoria} from '../Models/CategoriaViewModel';
+import {Categoria,Fill} from '../Models/CategoriaViewModel';
 import { HttpClient } from '@angular/common/http';
 import { BASE_URL } from './ulrsettings';
 import { Observable } from 'rxjs/internal/Observable';
@@ -31,5 +31,21 @@ export class ServiceService {
       }),
     );
   }
+
+
+ 
+
+  getFill(codigo: string): Observable<Fill> {
+    return this.http.get<Fill>(`${BASE_URL + 'API/Categoria/Fill/' + codigo}`);
+  }
+  EliminarCategoria(ID): Observable<any>{
+    return this.http.delete<any>(`${BASE_URL + 'API/Categoria/Delete/' + ID}`)
+  }
+  ActualizarCategoria(formData){
+    return this.http.put(BASE_URL + 'API/Categoria/Edit/', formData)
+  }
+
+
+
 }
 

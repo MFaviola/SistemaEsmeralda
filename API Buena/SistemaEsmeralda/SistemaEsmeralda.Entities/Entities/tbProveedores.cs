@@ -14,7 +14,10 @@ namespace SistemaEsmeralda.Entities.Entities
             tbJoyas = new HashSet<tbJoyas>();
             tbMaquillajes = new HashSet<tbMaquillajes>();
         }
-
+        [NotMapped]
+        public string Depa_Codigo { get; set; }
+        [NotMapped]
+        public string Depa_Departamento { get; set; }
         [NotMapped]
         public string Muni_Municipio { get; set; }
         public int Prov_Id { get; set; }

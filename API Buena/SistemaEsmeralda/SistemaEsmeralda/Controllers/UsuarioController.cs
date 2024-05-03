@@ -153,10 +153,10 @@ namespace SistemaEsmeralda.API.Controllers
             return Ok(list.Data);
         }
 
-        [HttpDelete("Delete")]
-        public IActionResult Delete(string Usua_Id)
+        [HttpDelete("Delete/{id}")]
+        public IActionResult Delete(string id)
         {
-            var list = _accesoServices.EliminarUsuario(Usua_Id);
+            var list = _accesoServices.EliminarUsuario(id);
             return Ok(list.Data);
         }
 

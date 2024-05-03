@@ -75,10 +75,10 @@ namespace SistemaEsmeralda.API.Controllers
             return Ok(list.Data);
         }
 
-        [HttpDelete("Delete")]
-        public IActionResult Delete(string Cate_Id)
+        [HttpDelete("Delete/{ID}")]
+        public IActionResult Delete(string ID)
         {
-            var list = _generalServices.EliminarCategorias(Cate_Id);
+            var list = _generalServices.EliminarCategorias(ID);
             return Ok(list.Data);
         }
 
