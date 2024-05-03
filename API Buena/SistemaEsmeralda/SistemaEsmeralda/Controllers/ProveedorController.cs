@@ -85,7 +85,7 @@ namespace SistemaEsmeralda.API.Controllers
         [HttpDelete("Delete/{id}")]
         public IActionResult Delete(string id)
         {
-            var list = _generalServices.EliminarProveedor(Prov_Id);
+            var list = _generalServices.EliminarProveedor(id);
             return Ok(new { success = true, message = list.Message });
         }
 

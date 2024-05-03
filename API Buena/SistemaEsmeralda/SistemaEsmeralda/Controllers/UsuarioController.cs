@@ -156,7 +156,7 @@ namespace SistemaEsmeralda.API.Controllers
         [HttpDelete("Delete/{id}")]
         public IActionResult Delete(string id)
         {
-            var list = _accesoServices.EliminarUsuario(Usua_Id);
+            var list = _accesoServices.EliminarUsuario(id);
             return Ok(new { success = true, message = list.Message });
         }
 

@@ -79,7 +79,7 @@ namespace SistemaEsmeralda.API.Controllers
 
         public IActionResult Delete(string id)
         {
-            var list = _generalServices.EliminarMarcas(Marc_Id);
+            var list = _generalServices.EliminarMarcas(id);
             return Ok(new { success = true, message = list.Message });
         }
 

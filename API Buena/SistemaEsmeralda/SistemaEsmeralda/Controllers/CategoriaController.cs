@@ -78,7 +78,7 @@ namespace SistemaEsmeralda.API.Controllers
         [HttpDelete("Delete/{ID}")]
         public IActionResult Delete(string ID)
         {
-            var list = _generalServices.EliminarCategorias(Cate_Id);
+            var list = _generalServices.EliminarCategorias(ID);
             return Ok(new { success = true, message = list.Message });
         }
 

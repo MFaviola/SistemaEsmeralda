@@ -93,7 +93,7 @@ namespace SistemaEsmeralda.API.Controllers
         [HttpDelete("Delete/{id}")]
         public IActionResult Delete(string id)
         {
-            var list = _ventasServices.EliminarMaquillaje(Maqu_Id);
+            var list = _ventasServices.EliminarMaquillaje(id);
             return Ok(new { success = true, message = list.Message });
         }
     }

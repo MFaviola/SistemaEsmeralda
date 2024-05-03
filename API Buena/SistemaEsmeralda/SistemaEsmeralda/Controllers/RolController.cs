@@ -82,7 +82,7 @@ namespace SistemaEsmeralda.API.Controllers
         [HttpDelete("Delete/{id}")]
         public IActionResult Delete(string id)
         {
-            var list = _accesoServices.EliminarRol(Role_Id);
+            var list = _accesoServices.EliminarRol(id);
             return Ok(new { success = true, message = list.Message });
         }
 
