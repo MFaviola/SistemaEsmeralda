@@ -29,7 +29,11 @@ namespace SistemaEsmeralda.Entities.Entities
         public int? Clie_UsuarioModificacion { get; set; }
         public DateTime? Clie_FechaModificacion { get; set; }
         public bool? Clie_Estado { get; set; }
+        [NotMapped]
+        public string FechaModificacion { get; set; }
 
+        [NotMapped]
+        public string FechaCreacion { get; set; }
         public virtual tbUsuarios Clie_UsuarioCreacionNavigation { get; set; }
         public virtual tbUsuarios Clie_UsuarioModificacionNavigation { get; set; }
         public virtual tbEstadosCiviles Esta { get; set; }

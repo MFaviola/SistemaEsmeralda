@@ -55,7 +55,7 @@ namespace SistemaEsmeralda.API.Controllers
 
             };
             var list = _generalServices.InsertarEmpleado(modelo);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
 
@@ -91,14 +91,14 @@ namespace SistemaEsmeralda.API.Controllers
                 Empl_FechaCreacion = DateTime.Now
             };
             var list = _generalServices.EditarEmpleado(modelo);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
         [HttpDelete("Delete")]
         public IActionResult Delete(string Empl_Id)
         {
             var list = _generalServices.EliminarEmpleado(Empl_Id);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
 

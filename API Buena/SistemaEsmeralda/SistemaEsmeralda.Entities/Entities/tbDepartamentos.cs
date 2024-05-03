@@ -30,5 +30,10 @@ namespace SistemaEsmeralda.Entities.Entities
 
         [NotMapped]
         public string UsuarioModificacion { get; set; }
+        [NotMapped]
+        public string FechaModificacion { get; set; }
+
+        [NotMapped]
+        public string FechaCreacion { get; set; }
     }
 }

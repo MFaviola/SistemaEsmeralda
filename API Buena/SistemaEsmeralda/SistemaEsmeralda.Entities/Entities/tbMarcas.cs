@@ -21,7 +21,11 @@ namespace SistemaEsmeralda.Entities.Entities
         public int? Marc_UsuarioModificacion { get; set; }
         public DateTime? Marc_FechaModificacion { get; set; }
         public bool? Marc_Estado { get; set; }
+        [NotMapped]
+        public string FechaModificacion { get; set; }
 
+        [NotMapped]
+        public string FechaCreacion { get; set; }
         public virtual tbUsuarios Marc_UsuarioCreacionNavigation { get; set; }
         public virtual tbUsuarios Marc_UsuarioModificacionNavigation { get; set; }
         public virtual ICollection<tbMaquillajes> tbMaquillajes { get; set; }

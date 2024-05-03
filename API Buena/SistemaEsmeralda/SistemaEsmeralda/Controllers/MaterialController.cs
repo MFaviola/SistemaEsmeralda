@@ -47,7 +47,7 @@ namespace SistemaEsmeralda.API.Controllers
                 Mate_FechaCreacion = item.Mate_FechaCreacion,
             };
             var list = _generalServices.InsertarMateriales(modelo);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
 
@@ -75,14 +75,14 @@ namespace SistemaEsmeralda.API.Controllers
                 Mate_FechaModificacion = DateTime.Now
             };
             var list = _generalServices.EditarMaterial(modelo);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
         [HttpDelete("Delete")]
         public IActionResult Delete(string Mate_Id)
         {
             var list = _generalServices.EliminarMateriales(Mate_Id);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
 

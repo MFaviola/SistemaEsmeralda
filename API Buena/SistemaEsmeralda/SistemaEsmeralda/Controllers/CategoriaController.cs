@@ -72,14 +72,14 @@ namespace SistemaEsmeralda.API.Controllers
                 Cate_FechaModificacion = DateTime.Now
             };
             var list = _generalServices.EditarCategoria(modelo);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
         [HttpDelete("Delete")]
         public IActionResult Delete(string Cate_Id)
         {
             var list = _generalServices.EliminarCategorias(Cate_Id);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
 

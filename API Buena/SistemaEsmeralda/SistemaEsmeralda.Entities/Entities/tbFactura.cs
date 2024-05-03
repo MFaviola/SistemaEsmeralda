@@ -31,7 +31,11 @@ namespace SistemaEsmeralda.Entities.Entities
         public int? Fact_UsuarioModificacion { get; set; }
         public DateTime? Fact_FechaModificacion { get; set; }
         public bool? Fact_Estado { get; set; }
+        [NotMapped]
+        public string FechaModificacion { get; set; }
 
+        [NotMapped]
+        public string FechaCreacion { get; set; }
         public virtual tbClientes Clie { get; set; }
         public virtual tbEmpleados Empl { get; set; }
         public virtual tbUsuarios Fact_UsuarioCreacionNavigation { get; set; }

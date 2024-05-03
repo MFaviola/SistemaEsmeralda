@@ -45,7 +45,7 @@ namespace SistemaEsmeralda.API.Controllers
                 Marc_FechaCreacion = item.Marc_FechaCreacion,
             };
             var list = _generalServices.InsertarMarcas(modelo);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
 
@@ -73,14 +73,14 @@ namespace SistemaEsmeralda.API.Controllers
                 Marc_FechaModificacion = DateTime.Now
             };
             var list = _generalServices.EditarMarca(modelo);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
         [HttpDelete("Delete")]
         public IActionResult Delete(string Marc_Id)
         {
             var list = _generalServices.EliminarMarcas(Marc_Id);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
     }

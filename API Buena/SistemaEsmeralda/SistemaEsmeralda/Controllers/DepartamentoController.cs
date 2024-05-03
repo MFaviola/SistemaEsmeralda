@@ -90,14 +90,14 @@ namespace SistemaEsmeralda.API.Controllers
                 Depa_FechaModificacion = DateTime.Now
             };
             var list = _generalServices.EditarDepto(modelo);
-            return Ok(list);
+            return Ok(new { success = true, message = list.Message });
         }
 
         [HttpDelete("Delete")]
         public IActionResult Delete(string Depa_Codigo)
         {
             var list = _generalServices.EliminarDepto(Depa_Codigo);
-            return Ok(list);
+            return Ok(new { success = true, message = list.Message });
         }
 
 

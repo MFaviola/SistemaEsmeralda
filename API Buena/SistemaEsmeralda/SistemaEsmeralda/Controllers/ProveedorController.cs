@@ -49,7 +49,7 @@ namespace SistemaEsmeralda.API.Controllers
 
             };
             var list = _generalServices.InsertarProveedor(modelo);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
 
@@ -79,14 +79,14 @@ namespace SistemaEsmeralda.API.Controllers
                 Prov_FechaModificacion = DateTime.Now
             };
             var list = _generalServices.EditarProveedor(modelo);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
         [HttpDelete("Delete")]
         public IActionResult Delete(string Prov_Id)
         {
             var list = _generalServices.EliminarProveedor(Prov_Id);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
     }

@@ -31,7 +31,6 @@ namespace SistemaEsmeralda.Entities.Entities
         [NotMapped]
         public string Departamento { get; set; }
 
-
         public virtual tbDepartamentos Depa_CodigoNavigation { get; set; }
         public virtual tbUsuarios Muni_UsuarioCreacionNavigation { get; set; }
         public virtual tbUsuarios Muni_UsuarioModificacionNavigation { get; set; }

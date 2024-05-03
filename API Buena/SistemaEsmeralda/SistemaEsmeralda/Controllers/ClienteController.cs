@@ -52,7 +52,7 @@ namespace SistemaEsmeralda.API.Controllers
 
             };
             var list = _generalServices.InsertarCliente(modelo);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
 
@@ -85,14 +85,14 @@ namespace SistemaEsmeralda.API.Controllers
                 Clie_FechaCreacion = DateTime.Now
             };
             var list = _generalServices.EditarCliente(modelo);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
         [HttpDelete("Delete")]
         public IActionResult Delete(string Clie_Id)
         {
             var list = _generalServices.EliminarClientes(Clie_Id);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
 

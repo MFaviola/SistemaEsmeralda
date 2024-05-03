@@ -21,7 +21,11 @@ namespace SistemaEsmeralda.Entities.Entities
         public int? Role_UsuarioModificacion { get; set; }
         public DateTime? Role_FechaModificacion { get; set; }
         public bool? Role_Estado { get; set; }
+        [NotMapped]
+        public string FechaModificacion { get; set; }
 
+        [NotMapped]
+        public string FechaCreacion { get; set; }
         public virtual tbUsuarios Role_UsuarioCreacionNavigation { get; set; }
         public virtual tbUsuarios Role_UsuarioModificacionNavigation { get; set; }
         public virtual ICollection<tbPantallasXRoles> tbPantallasXRoles { get; set; }

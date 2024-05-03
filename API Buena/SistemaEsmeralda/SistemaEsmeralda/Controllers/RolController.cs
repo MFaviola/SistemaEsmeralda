@@ -48,7 +48,7 @@ namespace SistemaEsmeralda.API.Controllers
                 Role_FechaCreacion = item.Role_FechaCreacion,
             };
             var list = _accesoServices.InsertarRol(modelo);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
 
@@ -76,14 +76,14 @@ namespace SistemaEsmeralda.API.Controllers
                 Role_FechaModificacion = DateTime.Now
             };
             var list = _accesoServices.EditarRol(modelo);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
         [HttpDelete("Delete")]
         public IActionResult Delete(string Role_Id)
         {
             var list = _accesoServices.EliminarRol(Role_Id);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
 

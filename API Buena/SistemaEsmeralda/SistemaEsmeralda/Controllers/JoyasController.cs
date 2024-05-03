@@ -54,7 +54,7 @@ namespace SistemaEsmeralda.API.Controllers
 
             };
             var list = _ventasServices.InsertarJoya(modelo);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
 
@@ -89,14 +89,14 @@ namespace SistemaEsmeralda.API.Controllers
                 Joya_FechaModificacion = DateTime.Now
             };
             var list = _ventasServices.EditarJoyas(modelo);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
         [HttpDelete("Delete")]
         public IActionResult Delete(string Joya_Id)
         {
             var list = _ventasServices.EliminarJoya(Joya_Id);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
     }

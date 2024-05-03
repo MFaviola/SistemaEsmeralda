@@ -76,14 +76,14 @@ namespace SistemaEsmeralda.API.Controllers
                 Esta_FechaModificacion = DateTime.Now
             };
             var list = _generalServices.EditarEstadosCiviles(modelo);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
         [HttpDelete("Delete")]
         public IActionResult Delete(string Esta_Id)
         {
             var list = _generalServices.EliminarEstadosCiviles(Esta_Id);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
 

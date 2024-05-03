@@ -75,14 +75,14 @@ namespace SistemaEsmeralda.API.Controllers
                 Impu_FechaModificacion = DateTime.Now
             };
             var list = _generalServices.EditarImpuestos(modelo);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
         [HttpDelete("Delete")]
         public IActionResult Delete(string Impu_Id)
         {
             var list = _generalServices.EliminarImpuestos(Impu_Id);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
 

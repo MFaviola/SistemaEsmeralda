@@ -47,7 +47,7 @@ namespace SistemaEsmeralda.API.Controllers
                 Mepa_FechaCreacion = item.Mepa_FechaCreacion,
             };
             var list = _generalServices.InsertarMetodoPago(modelo);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
 
@@ -75,14 +75,14 @@ namespace SistemaEsmeralda.API.Controllers
                 Mepa_FechaModificacion = DateTime.Now
             };
             var list = _generalServices.EditarMetodoPago(modelo);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
         [HttpDelete("Delete")]
         public IActionResult Delete(string Mepa_Id)
         {
             var list = _generalServices.EliminarMetodoPago(Mepa_Id);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
 

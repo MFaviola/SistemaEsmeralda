@@ -85,7 +85,7 @@ namespace SistemaEsmeralda.API.Controllers
                 Usua_FechaCreacion = item.Usua_FechaCreacion
             };
             var list = _accesoServices.InsertarUsuario(modelo);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
 
@@ -150,14 +150,14 @@ namespace SistemaEsmeralda.API.Controllers
                 Usua_FechaCreacion = DateTime.Now
             };
             var list = _accesoServices.EditarUsuario(modelo);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
         [HttpDelete("Delete")]
         public IActionResult Delete(string Usua_Id)
         {
             var list = _accesoServices.EliminarUsuario(Usua_Id);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
 

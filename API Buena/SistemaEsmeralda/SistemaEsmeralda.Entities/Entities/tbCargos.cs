@@ -27,6 +27,11 @@ namespace SistemaEsmeralda.Entities.Entities
         [NotMapped]
         public string UsuarioModificacion { get; set; }
 
+        [NotMapped]
+        public string FechaModificacion { get; set; }
+
+        [NotMapped]
+        public string FechaCreacion { get; set; }
         public virtual tbUsuarios Carg_UsuarioCreacionNavigation { get; set; }
         public virtual tbUsuarios Carg_UsuarioModificacionNavigation { get; set; }
         public virtual ICollection<tbEmpleados> tbEmpleados { get; set; }

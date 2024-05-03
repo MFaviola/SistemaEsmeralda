@@ -43,7 +43,11 @@ namespace SistemaEsmeralda.Entities.Entities
         public virtual tbMunicipios Muni_CodigoNavigation { get; set; }
         public virtual tbSucursales Sucu { get; set; }
         public virtual ICollection<tbFactura> tbFactura { get; set; }
+        [NotMapped]
+        public string FechaModificacion { get; set; }
 
+        [NotMapped]
+        public string FechaCreacion { get; set; }
 
         [NotMapped]
         public string UsuarioCreacion { get; set; }

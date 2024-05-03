@@ -53,7 +53,7 @@ namespace SistemaEsmeralda.API.Controllers
 
             };
             var list = _ventasServices.InsertarMaquillaje(modelo);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
 
@@ -87,14 +87,14 @@ namespace SistemaEsmeralda.API.Controllers
                 Maqu_FechaModificacion = DateTime.Now
             };
             var list = _ventasServices.EditarMaquillaje(modelo);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
         [HttpDelete("Delete")]
         public IActionResult Delete(string Maqu_Id)
         {
             var list = _ventasServices.EliminarMaquillaje(Maqu_Id);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
     }
 }

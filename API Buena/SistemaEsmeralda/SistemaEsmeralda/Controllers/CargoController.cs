@@ -47,7 +47,7 @@ namespace SistemaEsmeralda.API.Controllers
                 Carg_FechaCreacion = item.Carg_FechaCreacion,
             };
             var list = _generalServices.InsertarCargos(modelo);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
 
@@ -75,14 +75,14 @@ namespace SistemaEsmeralda.API.Controllers
                 Carg_FechaModificacion = DateTime.Now
             };
             var list = _generalServices.EditarCargo(modelo);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
         [HttpDelete("Delete")]
         public IActionResult Delete(string Carg_Id)
         {
             var list = _generalServices.EliminarCargo(Carg_Id);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
 

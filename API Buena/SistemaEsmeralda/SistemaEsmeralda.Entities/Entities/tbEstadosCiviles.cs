@@ -22,7 +22,11 @@ namespace SistemaEsmeralda.Entities.Entities
         public int? Esta_UsuarioModificacion { get; set; }
         public DateTime? Esta_FechaModificacion { get; set; }
         public bool? Esta_Estado { get; set; }
+        [NotMapped]
+        public string FechaModificacion { get; set; }
 
+        [NotMapped]
+        public string FechaCreacion { get; set; }
         public virtual tbUsuarios Esta_UsuarioCreacionNavigation { get; set; }
         public virtual tbUsuarios Esta_UsuarioModificacionNavigation { get; set; }
         public virtual ICollection<tbClientes> tbClientes { get; set; }

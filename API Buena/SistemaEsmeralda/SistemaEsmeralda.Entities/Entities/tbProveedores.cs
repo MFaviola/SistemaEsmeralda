@@ -26,7 +26,11 @@ namespace SistemaEsmeralda.Entities.Entities
         public int? Prov_UsuarioModificacion { get; set; }
         public DateTime? Prov_FechaModificacion { get; set; }
         public bool? Prov_Estado { get; set; }
+        [NotMapped]
+        public string FechaModificacion { get; set; }
 
+        [NotMapped]
+        public string FechaCreacion { get; set; }
         public virtual tbMunicipios Muni_CodigoNavigation { get; set; }
         public virtual tbUsuarios Prov_UsuarioCreacionNavigation { get; set; }
         public virtual tbUsuarios Prov_UsuarioModificacionNavigation { get; set; }

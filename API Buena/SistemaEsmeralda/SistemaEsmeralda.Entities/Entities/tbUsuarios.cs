@@ -67,7 +67,11 @@ namespace SistemaEsmeralda.Entities.Entities
         public int? Usua_UsuarioModificacion { get; set; }
         public DateTime? Usua_FechaModificacion { get; set; }
 
- 
+        [NotMapped]
+        public string FechaModificacion { get; set; }
+
+        [NotMapped]
+        public string FechaCreacion { get; set; }
 
 
         [NotMapped]

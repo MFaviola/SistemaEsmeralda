@@ -21,7 +21,11 @@ namespace SistemaEsmeralda.Entities.Entities
         public int? Mepa_UsuarioModificacion { get; set; }
         public DateTime? Mepa_FechaModificacion { get; set; }
         public bool? Mepa_Estado { get; set; }
+        [NotMapped]
+        public string FechaModificacion { get; set; }
 
+        [NotMapped]
+        public string FechaCreacion { get; set; }
         public virtual tbUsuarios Mepa_UsuarioCreacionNavigation { get; set; }
         public virtual tbUsuarios Mepa_UsuarioModificacionNavigation { get; set; }
         public virtual ICollection<tbFactura> tbFactura { get; set; }
