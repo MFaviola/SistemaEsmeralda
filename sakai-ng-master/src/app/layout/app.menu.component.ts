@@ -30,11 +30,6 @@ export class AppMenuComponent implements OnInit {
                                 icon: 'pi pi-fw pi-times-circle',
                                 routerLink: ['/acceso/rol']
                             },
-                            {
-                                label: 'Login',
-                                icon: 'pi pi-fw pi-times-circle',
-                                routerLink: ['/acceso/login']
-                            },
                         ]
                     },
                     

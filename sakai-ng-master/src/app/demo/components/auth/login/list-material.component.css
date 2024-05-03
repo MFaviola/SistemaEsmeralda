@@ -1,0 +1,12 @@
+/*# sourceMappingURL=list-material.component.css.map */
+.surface-ground{
+    background-image: url(../../../../../../src/assets/layout/images/Fondo.png) !important;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.imagen{
+    background-image: url(../../../../../../src/assets/layout/images/Esmeraldas.png) !important;
+    background-size: contain;
+    background-repeat: no-repeat;
+}

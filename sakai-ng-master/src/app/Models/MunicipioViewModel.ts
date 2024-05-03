@@ -10,3 +10,9 @@ export class MunicipioEnviar {
     Muni_Municipio: string;
     Depa_Codigo: string;
 }
+
+export class Fill {
+    muni_Codigo: string;
+    muni_Municipio: string;
+    depa_Codigo: string;
+}

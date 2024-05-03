@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Municipio } from '../Models/MunicipioViewModel';
+import { Municipio,Fill } from '../Models/MunicipioViewModel';
 import { dropDepartamento } from '../Models/DepartamentoViewModel';
 import { HttpClient } from '@angular/common/http';
 import { BASE_URL } from './ulrsettings';
@@ -27,6 +27,9 @@ export class ServiceService {
     return this.http.get<Municipio[]>(this.url)
   }
 
+  getFill(codigo: string): Observable<Fill> {
+    return this.http.get<Fill>(`${BASE_URL + 'API/Municipio/Fill/' + codigo}`);
+  }
   EnviarMunicipios(formData){
     return this.http.post(BASE_URL + 'API/Municipio/Create/', formData)
   }
