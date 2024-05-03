@@ -16,6 +16,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from "primeng/dropdown";
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 
 
@@ -29,7 +30,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 		TooltipModule,
 		InputTextModule,
 		ReactiveFormsModule,
-
+		MatExpansionModule,
 		DropdownModule,
 		ButtonModule,
 		OverlayPanelModule,

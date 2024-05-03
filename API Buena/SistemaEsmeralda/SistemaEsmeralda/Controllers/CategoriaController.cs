@@ -44,7 +44,7 @@ namespace SistemaEsmeralda.API.Controllers
                 Cate_FechaCreacion = item.Cate_FechaCreacion,
             };
             var list = _generalServices.InsertarCategorias(modelo);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
 
