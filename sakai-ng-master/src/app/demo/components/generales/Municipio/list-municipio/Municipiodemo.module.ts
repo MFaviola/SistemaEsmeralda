@@ -16,6 +16,7 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { TooltipModule } from 'primeng/tooltip';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from "primeng/dropdown";
+import { MatExpansionModule } from '@angular/material/expansion';
 @NgModule({
 	imports: [
 		CommonModule,
@@ -33,7 +34,8 @@ import { DropdownModule } from "primeng/dropdown";
 		ConfirmDialogModule,
 		SidebarModule,
 		RippleModule,
-		ConfirmPopupModule
+		ConfirmPopupModule,
+		MatExpansionModule
 	],
 	declarations: [MunicipioDemoComponent]
 })

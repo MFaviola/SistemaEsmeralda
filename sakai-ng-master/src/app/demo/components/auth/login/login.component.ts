@@ -8,6 +8,7 @@ import { Login } from '../../../../Models/ValidarViewModel';
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
+    styleUrl: './list-material.component.css',
     styles: [`
         :host ::ng-deep .pi-eye,
         :host ::ng-deep .pi-eye-slash {
