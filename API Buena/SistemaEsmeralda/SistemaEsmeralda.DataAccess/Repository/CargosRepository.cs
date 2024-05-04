@@ -83,7 +83,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
 
 
 
-        public RequestStatus Delete(string Carg_Id)
+        public RequestStatus Delete(int? Carg_Id)
         {
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
             {
@@ -101,11 +101,6 @@ namespace SistemaEsmeralda.DataAccess.Repository
 
 
 
-
-        public RequestStatus Delete(int? id)
-        {
-            throw new NotImplementedException();
-        }
 
         public tbCargos Details(int? id)
         {

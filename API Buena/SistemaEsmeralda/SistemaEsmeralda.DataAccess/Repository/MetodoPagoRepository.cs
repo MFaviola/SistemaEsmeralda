@@ -55,7 +55,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
             {
                 var parameter = new DynamicParameters();
-                parameter.Add("Carg_Id", id);
+                parameter.Add("Mepa_Id", id);
                 result = db.QueryFirst<tbMetodosPago>(ScriptsBaseDeDatos.MMetodosPagollenar, parameter, commandType: CommandType.StoredProcedure);
                 return result;
             }

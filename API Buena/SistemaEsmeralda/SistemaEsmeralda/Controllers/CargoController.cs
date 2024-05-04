@@ -43,8 +43,8 @@ namespace SistemaEsmeralda.API.Controllers
             {
                 Carg_Cargo = item.Carg_Cargo 
 ,
-                Carg_UsuarioCreacion = item.Carg_UsuarioCreacion,
-                Carg_FechaCreacion = item.Carg_FechaCreacion,
+                Carg_UsuarioCreacion = 1,
+                Carg_FechaCreacion = DateTime.Now,
             };
             var list = _generalServices.InsertarCargos(modelo);
             return Ok(new { success = true, message = list.Message });
@@ -79,7 +79,7 @@ namespace SistemaEsmeralda.API.Controllers
         }
 
         [HttpDelete("Delete/{id}")]
-        public IActionResult Delete(string id)
+        public IActionResult Delete(int id)
         {
             var list = _generalServices.EliminarCargo(id);
             return Ok(new { success = true, message = list.Message });

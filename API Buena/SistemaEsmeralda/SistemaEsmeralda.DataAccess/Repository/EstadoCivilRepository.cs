@@ -70,6 +70,8 @@ namespace SistemaEsmeralda.DataAccess.Repository
             {
                 var parameter = new DynamicParameters();
                 parameter.Add("@Esta_Id", item.Esta_Id);
+                parameter.Add("@Esta_EstadoCivil", item.Esta_EstadoCivil);
+
                 parameter.Add("@Esta_UsuarioModificacion", item.Esta_UsuarioModificacion);
                 parameter.Add("@Esta_FechaModificacion", item.Esta_FechaModificacion);
 

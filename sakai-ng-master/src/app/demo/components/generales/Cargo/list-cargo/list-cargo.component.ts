@@ -38,7 +38,7 @@ export class ListCargoComponent implements OnInit{
   deleteProductDialog: boolean = false;
   //Detalle
   Carg: String = "";
-  
+  id: string="";
   UsuarioCreacion: String = "";
   UsuarioModificacion: String = "";
   FechaCreacion: String = "";
@@ -64,7 +64,7 @@ export class ListCargoComponent implements OnInit{
   ngOnInit(): void {
       //Inicializamos form,drops,lista
       this.cargoForm = new FormGroup({
-          Carg_Cargo: new FormControl("", Validators.required),
+        Carg_Cargo: new FormControl("", Validators.required),
         });
     
 
@@ -73,6 +73,7 @@ export class ListCargoComponent implements OnInit{
           this.Cargo = data;
       });
   }
+
   //Abrir collapse
   collapse(){
       this.Collapse= true;
@@ -81,12 +82,12 @@ export class ListCargoComponent implements OnInit{
       this.Agregar= false;
       this.Detalles = false;
   }
-  detalles(codigo){
+  detalles(id){
       this.Collapse= false;
       this.DataTable = false;
       this.Agregar= false;
       this.Detalles = true;
-      this.service.getFill(codigo).subscribe({
+      this.service.getFill(id).subscribe({
           next: (data: Fill) => {
              this.Carg = data.carg_Cargo,
              this.UsuarioCreacion = data.usuarioCreacion,
@@ -132,6 +133,7 @@ export class ListCargoComponent implements OnInit{
            this.service.getCargo().subscribe((data: Cargo[]) => {
                this.Cargo = data;
            });
+           
            this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Insertado con Exito', life: 3000 });
            this.Collapse= false;
            this.DataTable = true;
@@ -147,6 +149,7 @@ export class ListCargoComponent implements OnInit{
           
        })
      } else {
+        this.viewModel.Carg_Id = this.id ;
           this.service.ActualizarCargo(this.viewModel).subscribe((data: MensajeViewModel[]) => {
           if(data["message"] == "Operación completada exitosamente."){
            this.service.getCargo().subscribe((data: Cargo[]) => {
@@ -176,10 +179,10 @@ export class ListCargoComponent implements OnInit{
   }
 
 
-  deleteSelectedProducts(codigo) {
+  deleteSelectedProducts(id) {
       this.deleteProductDialog = true;
-      this.ID = codigo;
-      console.log("El codigo es" + codigo);
+      this.ID = id;
+      console.log("El codigo es" + id);
   }
   confirmDelete() {
       this.service.EliminarCargo(this.ID).subscribe({
@@ -205,12 +208,14 @@ export class ListCargoComponent implements OnInit{
       });
   
   }
-  Fill(codigo) {
-      this.service.getFill(codigo).subscribe({
+  Fill(id) {
+      this.service.getFill(id).subscribe({
           next: (data: Fill) => {
               this.cargoForm = new FormGroup({
+                
                   Carg_Cargo: new FormControl(data.carg_Cargo, Validators.required),
               });
+              this.id = data.carg_Id;
               this.Collapse= true;
               this.DataTable = false;
               this.Agregar = false;

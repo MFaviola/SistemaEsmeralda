@@ -76,7 +76,7 @@ namespace SistemaEsmeralda.BusinessLogic.Services
                 var list = _departamentosRepository.Update(item);
                 if (list.CodeStatus > 0)
                 {
-                    return result.Ok("okis", list);
+                    return result.Ok( list);
                 }
                 else
                 {
@@ -96,11 +96,11 @@ namespace SistemaEsmeralda.BusinessLogic.Services
                 var list = _departamentosRepository.Delete(Depa_Codigo);
                 if (list.CodeStatus > 0)
                 {
-                    return result.Ok($"Exitos chiquit@", list);
+                    return result.Ok($"La accion ha sido existosa", list);
                 }
                 else
                 {
-                    return result.Error("Hijole ahi si te quedo mal tito");
+                    return result.Error("No se pudo realizar la accion");
                 }
             }
             catch (Exception ex)
@@ -306,7 +306,7 @@ namespace SistemaEsmeralda.BusinessLogic.Services
                 var list = _cargosRepository.Update(item);
                 if (list.CodeStatus > 0)
                 {
-                    return result.Ok("okis", list);
+                    return result.Ok( list);
                 }
                 else
                 {
@@ -318,7 +318,7 @@ namespace SistemaEsmeralda.BusinessLogic.Services
                 return result.Error(ex);
             }
         }
-        public ServiceResult EliminarCargo(string Carg_Id)
+        public ServiceResult EliminarCargo(int Carg_Id)
         {
             var result = new ServiceResult();
             try
@@ -542,7 +542,7 @@ namespace SistemaEsmeralda.BusinessLogic.Services
                 var list = _estadoCivilRepository.Update(item);
                 if (list.CodeStatus > 0)
                 {
-                    return result.Ok("okis", list);
+                    return result.Ok(list);
                 }
                 else
                 {
@@ -660,7 +660,7 @@ namespace SistemaEsmeralda.BusinessLogic.Services
                 var list = _impuestoRepository.Update(item);
                 if (list.CodeStatus > 0)
                 {
-                    return result.Ok("okis", list);
+                    return result.Ok(list);
                 }
                 else
                 {
@@ -776,7 +776,7 @@ namespace SistemaEsmeralda.BusinessLogic.Services
                 var list = _marcaRepository.Update(item);
                 if (list.CodeStatus > 0)
                 {
-                    return result.Ok("okis", list);
+                    return result.Ok( list);
                 }
                 else
                 {
@@ -893,7 +893,7 @@ namespace SistemaEsmeralda.BusinessLogic.Services
                 var list = _materiaRepositorycs.Update(item);
                 if (list.CodeStatus > 0)
                 {
-                    return result.Ok("okis", list);
+                    return result.Ok(list);
                 }
                 else
                 {
@@ -1009,7 +1009,7 @@ namespace SistemaEsmeralda.BusinessLogic.Services
                 var list = _metodoPagoRepository.Update(item);
                 if (list.CodeStatus > 0)
                 {
-                    return result.Ok("okis", list);
+                    return result.Ok( list);
                 }
                 else
                 {

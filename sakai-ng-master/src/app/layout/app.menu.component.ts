@@ -82,6 +82,12 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['/generales/cargo']
 
                             },
+                            {
+                                label: 'Marca',
+                                icon: 'pi pi-fw pi-truck',
+                                routerLink: ['/generales/marca']
+
+                            },
 
                             {
                                 label: 'Material',

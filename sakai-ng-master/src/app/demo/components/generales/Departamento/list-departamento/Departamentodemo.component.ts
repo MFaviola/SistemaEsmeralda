@@ -3,9 +3,10 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { Product } from 'src/app/demo/api/product';
 import {Router} from '@angular/router';
 import { Table } from 'primeng/table';
-import { Departamento, DepartamentoEnviar } from 'src/app/Models/DepartamentoViewModel';
 import { ServiceService } from 'src/app/Service/Departamento.service';
 import { FormGroup, FormControl,  Validators  } from '@angular/forms';
+import { MensajeViewModel } from 'src/app/Models/MensajeViewModel';
+import { Fill,Departamento, DepartamentoEnviar } from 'src/app/Models/DepartamentoViewModel';
 
 
 @Component({
@@ -16,42 +17,44 @@ import { FormGroup, FormControl,  Validators  } from '@angular/forms';
 export class DepartamentoDemoComponent implements OnInit {
     departamento!:Departamento[];
    
+    MensajeViewModel!: MensajeViewModel[];
+    submitted: boolean = false;
+    loading: boolean = false;
+    departamentos: any[] = [];
+    fill: any[] = [];
+    viewModel: DepartamentoEnviar = new DepartamentoEnviar();
+    departamentoForm: FormGroup;
+    @ViewChild('filter') filter!: ElementRef;
     Collapse: boolean = false;
     DataTable: boolean = true;
+    Detalles: boolean = false;
     Agregar: boolean = true;
     MunCodigo: boolean = true;
     Valor: string = "";
+    staticData = [{}];
 
-    statuses: any[] = [];
-    selectedProducts: Product[] = [];
-    products: Product[] = [];
-    productDialog: boolean = false;
-    rowGroupMetadata: any;
-    submitted: boolean = false;
-    display: boolean = false;
-    isExpanded: boolean = false;
-
-    idFrozen: boolean = false;
-
-    loading: boolean = false;
-
-    @ViewChild('filter') filter!: ElementRef;
-
-
-    viewModel: DepartamentoEnviar = new DepartamentoEnviar();
-    departamentoForm: FormGroup;
-
-    constructor(  private service: ServiceService, 
+    deleteProductDialog: boolean = false;
+    //Detalle
+    Codigo: String = "";
+    Depa: String = "";
+    UsuarioCreacion: String = "";
+    UsuarioModificacion: String = "";
+    FechaCreacion: String = "";
+    FechaModificacion: String = "";
+    ID: String = "";
+    constructor(
+        private service: ServiceService, 
         private router: Router,
         private confirmationService: ConfirmationService, 
         private messageService: MessageService
+    ) { 
+       
     
-    ) { }
-  
+    }
+
+
 
     ngOnInit(): void {
-
-
 
         this.departamentoForm = new FormGroup({
             Depa_Codigo: new FormControl("",Validators.required),
@@ -65,55 +68,169 @@ export class DepartamentoDemoComponent implements OnInit {
         },error=>{
           console.log(error);
         });
+        
+     }
+
+
+
+ //Abrir collapse
+ collapse(){
+  this.Collapse= true;
+  this.DataTable = false;
+  this.Valor = "Agregar";
+  this.Agregar= false;
+  this.Detalles = false;
+}
+detalles(codigo){
+  this.Collapse= false;
+  this.DataTable = false;
+  this.Agregar= false;
+  this.Detalles = true;
+  this.service.getFill(codigo).subscribe({
+      next: (data: Fill) => {
+         this.Codigo = data.depa_Codigo,
+         this.Depa = data.depa_Departamento,
+         this.UsuarioCreacion = data.usuarioCreacion,
+         this.UsuarioModificacion = data.usuarioModificacion
+         this.FechaCreacion = data.fechaCreacion,
+         this.FechaModificacion = data.fechaModificacion
+      }
+    });
+}
+//Cerrar Collapse y reiniciar el form
+cancelar(){
+  this.Collapse= false;
+  this.DataTable = true;
+  this.Detalles = false;
+  this.departamentoForm = new FormGroup({
+      Depa_Codigo: new FormControl("",Validators.required),
+      Depa_Departamento: new FormControl("", Validators.required),
+  });
+  this.submitted = false;
+  this.Agregar= true;
+  this.MunCodigo=true;
+  this.Valor = "";
+}
+//Funcionan como regex
+ValidarNumeros(event: KeyboardEvent) {
+  if (!/[0-9]/.test(event.key) && event.key !== 'Backspace' && event.key !== 'Tab') {
+      event.preventDefault();
+  }
+}
+validarTexto(event: KeyboardEvent) {
+
+  if (!/^[a-zA-Z\s]+$/.test(event.key) && event.key !== 'Backspace' && event.key !== 'Tab' && event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {
+      event.preventDefault();
+  }
+}
+
+    
+     onSubmit() {
+      if (this.departamentoForm.valid ) {
+        this.viewModel = this.departamentoForm.value;
+        if (this.Valor == "Agregar") {
+         this.service.DepartamentoEnviar(this.viewModel).subscribe((data: MensajeViewModel[]) => {
+             if(data["message"] == "Operación completada exitosamente."){
+              this.service.getDepartamentos().subscribe((data: Departamento[]) => {
+                  this.departamento = data;
+              });
+              this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Insertado con Exito', life: 3000 });
+              this.Collapse= false;
+              this.DataTable = true;
+              this.submitted = false;
+              this.Detalles = false;
+              this.departamentoForm = new FormGroup({
+                Depa_Codigo: new FormControl("",Validators.required),
+                  Depa_Departamento: new FormControl("", Validators.required),
+              });
+      
+             }else{
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro insertar', life: 3000 });
+             }
+             
+          })
+        } else {
+             this.service.ActualizarDepartamento(this.viewModel).subscribe((data: MensajeViewModel[]) => {
+             if(data["message"] == "Operación completada exitosamente."){
+              this.service.getDepartamentos().subscribe((data: Departamento[]) => {
+                  this.departamento = data;
+              });
+              this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Actualizado con Exito', life: 3000 });
+              this.Collapse= false;
+              this.DataTable = true;
+              this.Detalles = false;
+              this.submitted = false;
+              this.departamentoForm = new FormGroup({
+              Depa_Codigo: new FormControl("",Validators.required),
+              Depa_Departamento: new FormControl("", Validators.required),
+              });
+      
+             }else{
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro actualizar', life: 3000 });
+             }
+             
+          })
+        }  
+        
+     }   
+         else 
+         {
+             this.submitted = true;
+         }
      }
     
-
-
-
-     onSubmit() {
-        
-        if (this.departamentoForm.valid && this.departamentoForm.get('Depa_Codigo').value !== '0') {
-            this.viewModel = this.departamentoForm.value;
-            this.service.DepartamentoEnviar(this.viewModel).subscribe({
-                next: (response) => {
-                    console.log('Respuesta del servidor:', response);
-                  if (response.success) {
-                    console.log('Respuesta del servidor:', response.success);
-                    this.messageService.add({ key: 'tst', severity: 'success', summary: 'Insertado con Exito', detail: 'Exito' });
-                    window.location.reload();
-                } else {
-    
-                    this.messageService.add({ key: 'tst', severity: 'error', summary: 'No se inserto', detail: 'Error' });
-                  }
-                },
-                error: (error) => {
-                }
-              });
-            
-    
-        } else {
-            this.submitted = true;
-        }
-          }
-    
-          collapse(){
-            this.Collapse= true;
-            this.DataTable = false;
-            this.Valor = "Agregar";
-        }
-        //Cerrar Collapse y reiniciar el form
-        cancelar(){
-            this.Collapse= false;
-            this.DataTable = true;
+    deleteSelectedProducts(codigo) {
+      this.deleteProductDialog = true;
+      this.ID = codigo;
+      console.log("El codigo es" + codigo);
+  }
+  confirmDelete() {
+      this.service.EliminarDepartamento(this.ID).subscribe({
+          next: (response) => {
+              if(response.message == "La accion ha sido existosa"){
+                  this.service.getDepartamentos().subscribe((data: Departamento[]) => {
+                      this.departamento = data;
+                  });
+                  this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Eliminado con Exito', life: 3000 });
+                  this.Collapse= false;
+                  this.DataTable = true;
+                  this.Detalles = false;
+                  this.submitted = false;
+                  this.departamentoForm = new FormGroup({
+                      Depa_Codigo: new FormControl("",Validators.required),
+                      Depa_Departamento: new FormControl("", Validators.required),
+                  });
+                  this.deleteProductDialog = false;
+                 }else{
+                  this.deleteProductDialog = false;
+                  this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro eliminar', life: 3000 });
+                 }
+          },
+      });
+  
+  }
+  Fill(codigo) {
+      this.service.getFill(codigo).subscribe({
+         
+        next: (data: Fill) => {
+          console.log(data);
             this.departamentoForm = new FormGroup({
-                Deoa_Codigo: new FormControl("",Validators.required),
-                Depa_Departamento: new FormControl("", Validators.required),
+              Depa_Codigo: new FormControl(data.depa_Codigo,Validators.required),
+              Depa_Departamento: new FormControl(data.depa_Departamento, Validators.required),
             });
-            this.submitted = false;
-            this.Agregar= true;
-            this.MunCodigo=true;
-            this.Valor = "";
-        }
+              this.Collapse= true;
+              this.DataTable = false;
+              this.Agregar = false;
+              this.MunCodigo = false;
+              this.Detalles = false;
+              this.Valor = "Editar";
+          }
+        });
+
+  }
+
+
+
 }
 
 

@@ -74,7 +74,7 @@ namespace SistemaEsmeralda.API.Controllers
         {
 
             var list = _generalServices.obterDepto(id);
-            return Json(list);
+            return Json(list.Data);
         }
 
 

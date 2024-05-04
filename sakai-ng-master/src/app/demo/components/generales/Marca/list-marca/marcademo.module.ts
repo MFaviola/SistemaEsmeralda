@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ListMetodoComponent } from './list-metodopago.component';
-import { ListMetodoRoutingModule } from './Metododemo-routing.module';
+import { ListMarcaComponent } from './list-marca.component';
+import { ListMarcaRoutingModule } from './marcademo-routing.module';
 import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
@@ -20,7 +20,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
 	imports: [
 		CommonModule,
-		ListMetodoRoutingModule,
+		ListMarcaRoutingModule,
 		ToastModule,
 		DialogModule,
 		FormsModule,
@@ -36,6 +36,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 		RippleModule,
 		ConfirmPopupModule
 	],
-	declarations: [ListMetodoComponent]
+	declarations: [ListMarcaComponent]
 })
-export class MetododemoDemoModule { }
+export class MarcaDemoModule { }

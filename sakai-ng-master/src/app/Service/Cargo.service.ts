@@ -32,8 +32,8 @@ export class ServiceService {
     );
   }
 
-  getFill(codigo: string): Observable<Fill> {
-    return this.http.get<Fill>(`${BASE_URL + 'API/Cargo/Fill/' + codigo}`);
+  getFill(id: string): Observable<Fill> {
+    return this.http.get<Fill>(`${BASE_URL + 'API/Cargo/Fill/' + id}`);
   }
   EliminarCargo(ID): Observable<any>{
     return this.http.delete<any>(`${BASE_URL + 'API/Cargo/Delete/' + ID}`)

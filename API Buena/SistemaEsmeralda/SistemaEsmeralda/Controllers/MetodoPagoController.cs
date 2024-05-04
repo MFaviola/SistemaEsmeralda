@@ -43,8 +43,8 @@ namespace SistemaEsmeralda.API.Controllers
             {
                 Mepa_Metodo = item.Mepa_Metodo
 ,
-                Mepa_UsuarioCreacion = item.Mepa_UsuarioCreacion,
-                Mepa_FechaCreacion = item.Mepa_FechaCreacion,
+                Mepa_UsuarioCreacion = 1,
+                Mepa_FechaCreacion = DateTime.Now,
             };
             var list = _generalServices.InsertarMetodoPago(modelo);
             return Ok(new { success = true, message = list.Message });

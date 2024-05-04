@@ -40,8 +40,8 @@ namespace SistemaEsmeralda.API.Controllers
             {
                 Cate_Categoria = item.Cate_Categoria
 ,
-                Cate_UsuarioCreacion = item.Cate_UsuarioCreacion,
-                Cate_FechaCreacion = item.Cate_FechaCreacion,
+                Cate_UsuarioCreacion = 1,
+                Cate_FechaCreacion = DateTime.Now,
             };
             var list = _generalServices.InsertarCategorias(modelo);
             return Ok(new { success = true, message = list.Message });

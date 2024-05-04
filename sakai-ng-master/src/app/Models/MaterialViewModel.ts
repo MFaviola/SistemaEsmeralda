@@ -3,6 +3,7 @@ export class Material{
     mate_Material?:String;
 }
 export class MaterialEnviar {
+    Mate_Id :string;
     Mate_Material: string;
 }
 

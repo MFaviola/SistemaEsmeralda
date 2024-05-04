@@ -3,6 +3,7 @@ export class Categoria{
     cate_Categoria?:String;
 }
 export class CategoriaEnviar {
+    Cate_Id: string;
     Cate_Categoria: string;
     
 }

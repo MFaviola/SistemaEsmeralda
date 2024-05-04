@@ -3,6 +3,7 @@ export class Impuesto{
     impu_Impuesto?:String;
 }
 export class ImpuestoEnviar {
+    Impu_Id :string;
     Impu_Impuesto: string;
 
 }
