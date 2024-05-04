@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using SistemaEsmeralda.BusinessLogic.Services;
 using SistemaEsmeralda.Common.Models;
 using SistemaEsmeralda.Entities.Entities;
@@ -31,6 +32,22 @@ namespace SistemaEsmeralda.API.Controllers
             return Ok(list.Data);
         }
 
+
+        [HttpGet("Lista/{id}")]
+        public IActionResult IndexPorMunicipio(string id)
+        {
+            var list = _generalServices.ListadoMunicipioDepartamento(id);
+            var drop = list.Data as List<tbMunicipios>;
+            var rol = drop.Select(x => new SelectListItem
+            {
+                Text = x.Muni_Municipio,
+                Value = x.Muni_Codigo
+            }).ToList();
+
+
+            rol.Insert(0, new SelectListItem { Text = "-- SELECCIONE --", Value = "0" });
+            return Ok(rol.ToList());
+        }
 
 
 

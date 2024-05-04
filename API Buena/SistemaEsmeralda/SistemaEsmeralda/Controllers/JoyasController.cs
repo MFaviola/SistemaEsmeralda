@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using SistemaEsmeralda.BusinessLogic.Services;
 using SistemaEsmeralda.Common.Models;
 using SistemaEsmeralda.Entities.Entities;
@@ -30,7 +32,21 @@ namespace SistemaEsmeralda.API.Controllers
             return Ok(list.Data);
         }
 
+        [HttpGet("DropDown")]
+        public IActionResult List()
+        {
+            var list = _ventasServices.ListadoJoyas();
+            var drop = list.Data as List<tbJoyas>;
+            var rol = drop.Select(x => new SelectListItem
+            {
+                Text = x.Joya_Nombre,
+                Value = x.Joya_Id.ToString()
+            }).ToList();
 
+
+            rol.Insert(0, new SelectListItem { Text = "-- SELECCIONE --", Value = "0" });
+            return Ok(rol.ToList());
+        }
 
 
 
@@ -57,7 +73,21 @@ namespace SistemaEsmeralda.API.Controllers
             return Ok(new { success = true, message = list.Message });
         }
 
+        [HttpPost("Subir")]
+        public async Task<IActionResult> UploadImage(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return BadRequest("No file uploaded.");
+            }
 
+
+         
+
+            // Optionally, upload the file from 'path' to your bucket here
+
+            return Ok(new { message = "File successfully uploaded" });
+        }
 
 
         [HttpGet("Fill/{id}")]

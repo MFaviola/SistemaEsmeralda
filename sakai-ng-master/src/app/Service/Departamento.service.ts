@@ -10,6 +10,7 @@ import { map } from 'rxjs';
 
 
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -24,6 +25,7 @@ export class ServiceService {
     return this.http.get<Departamento[]>(this.url)
   }
 
+ 
 
 
   DepartamentoEnviar(formData: any): Observable<any> {

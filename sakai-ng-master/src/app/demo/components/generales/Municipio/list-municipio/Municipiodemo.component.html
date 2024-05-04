@@ -1,4 +1,4 @@
-<p-toast style="background-color: red !important;"></p-toast>
+<p-toast ></p-toast>
 <div class="main-card mb-3 card"> 
     <div class="card-header">
         <h3 class="card-title">Municipios</h3>
@@ -11,7 +11,6 @@
 
             <form [formGroup]="municipioForm" (ngSubmit)="onSubmit()">
                 <div class="p-fluid p-formgrid grid">
-
                     <div class="field col-12 md:col-6" [class.hidden]="!MunCodigo">
                         <label for="Codigo">Codigo</label>
                         <input pInputText id="Codigo" formControlName="Muni_Codigo" type="text" required autofocus 
@@ -19,14 +18,12 @@
                                (keydown)="ValidarNumeros($event)" maxlength="4" />
                         <small class="ng-dirty ng-invalid" *ngIf="submitted && municipioForm.controls['Muni_Codigo'].invalid" style="color: red !important;">Codigo Requerido</small>
                     </div>
-
                   <div class="field col-12 md:col-6">
                     <label for="municipio">Municipio</label>
                     <input pInputText id="municipio" formControlName="Muni_Municipio" type="text" required autofocus  [ngClass]="{'ng-invalid ng-dirty': submitted && municipioForm.get('Muni_Municipio').value === ''}"
                     (keydown)="validarTexto($event)" />
                     <small class="ng-dirty ng-invalid" *ngIf="submitted && municipioForm.controls['Muni_Municipio'].invalid" style="color: red !important;">Municipio Requerido</small>
                   </div>
-
                   <div class="field col-12 md:col-6">
                     <label for="state">Departamento</label>
                     <select formControlName="Depa_Codigo" pInputText id="municipio" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && municipioForm.get('Depa_Codigo').value === '0'}" >

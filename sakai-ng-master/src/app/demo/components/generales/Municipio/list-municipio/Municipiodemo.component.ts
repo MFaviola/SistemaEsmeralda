@@ -29,7 +29,6 @@ export class MunicipioDemoComponent implements OnInit {
     Valor: string = "";
     staticData = [{}];
 
-
     deleteProductDialog: boolean = false;
     //Detalle
     Muni: String = "";

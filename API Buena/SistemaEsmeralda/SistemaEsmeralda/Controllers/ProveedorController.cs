@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using SistemaEsmeralda.BusinessLogic.Services;
 using SistemaEsmeralda.Common.Models;
 using SistemaEsmeralda.Entities.Entities;
@@ -29,11 +30,19 @@ namespace SistemaEsmeralda.API.Controllers
             var list = _generalServices.ListadoProveedor();
             return Ok(list.Data);
         }
-
-
-
-
-
+        [HttpGet("DropDown")]
+        public IActionResult List()
+        {
+            var list = _generalServices.ListadoProveedor();
+            var drop = list.Data as List<tbProveedores>;
+            var rol = drop.Select(x => new SelectListItem
+            {
+                Text = x.Prov_Proveedor,
+                Value = x.Prov_Id.ToString()
+            }).ToList();
+            rol.Insert(0, new SelectListItem { Text = "-- SELECCIONE --", Value = "0" });
+            return Ok(rol.ToList());
+        }
 
         [HttpPost("Create")]
         public IActionResult Insert(ProveedorViewModel item)
@@ -83,7 +92,7 @@ namespace SistemaEsmeralda.API.Controllers
         }
 
         [HttpDelete("Delete/{id}")]
-        public IActionResult Delete(string id)
+        public IActionResult Delete(int id)
         {
             var list = _generalServices.EliminarProveedor(id);
             return Ok(new { success = true, message = list.Message });

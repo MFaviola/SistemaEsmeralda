@@ -80,7 +80,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 parameter.Add("@Prov_Telefono", item.Prov_Telefono);
                 parameter.Add("@Muni_Codigo", item.Muni_Codigo);
                 parameter.Add("@Prov_UsuarioModificacion", item.Prov_UsuarioModificacion);
-                parameter.Add("@Prov_FechaCreacion", item.Prov_FechaCreacion);
+                parameter.Add("@Prov_FechaModificacion", item.Prov_FechaModificacion);
                 var result = db.Execute(sql, parameter, commandType: CommandType.StoredProcedure);
                 string mensaje = (result == 1) ? "exito" : "error";
                 return new RequestStatus { CodeStatus = result, MessageStatus = mensaje };
@@ -90,7 +90,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
 
 
 
-        public RequestStatus Delete(string Prov_Id)
+        public RequestStatus Delete(int? Prov_Id)
         {
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
             {
@@ -109,10 +109,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
 
 
 
-        public RequestStatus Delete(int? id)
-        {
-            throw new NotImplementedException();
-        }
+   
 
         public tbProveedores Details(int? id)
         {
@@ -123,6 +120,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
         {
             throw new NotImplementedException();
         }
+
 
     }
 }

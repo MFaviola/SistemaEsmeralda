@@ -27,9 +27,9 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 parametro.Add("@Usua_Contra ", item.Usua_Contraseña);
                 parametro.Add("@Usua_Admin", item.Usua_Administrador);
                 parametro.Add("@Empl_Id", item.Empl_Id);
-                parametro.Add("@Role_Id", item.Role_Id);
-                parametro.Add("@Usua_UsuarioCreacion", 1);
-                parametro.Add("@Usua_FechaCreacion", item.Usua_FechaCreacion);
+                parametro.Add("@Rol_Id", item.Role_Id);
+                parametro.Add("@Usua_Usua_Creacion", 1);
+                parametro.Add("@Usua_Fecha_Creacion", item.Usua_FechaCreacion);
 
 
 
@@ -76,12 +76,11 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 var parameter = new DynamicParameters();
                 parameter.Add("@Usua_Id", item.Usua_Id);
                 parameter.Add("@Usua_Usuario", item.Usua_Usuario);
-                parameter.Add("@Usua_Contra", item.Usua_Contraseña);
                 parameter.Add("@Usua_Admin", item.Usua_Administrador);
                 parameter.Add("@Empl_Id", item.Empl_Id);
-                parameter.Add("@Role_Id", item.Role_Id);
-                parameter.Add("@Usua_UsuarioModificacion", item.Usua_UsuarioModificacion);
-                parameter.Add("@Usua_FechaCreacion", item.Usua_FechaCreacion);
+                parameter.Add("@Rol_Id", item.Role_Id);
+                parameter.Add("@UsuarioModificacion", item.Usua_UsuarioModificacion);
+                parameter.Add("@FechaModificacion", item.Usua_FechaModificacion);
                 var result = db.Execute(sql, parameter, commandType: CommandType.StoredProcedure);
                 string mensaje = (result == 1) ? "exito" : "error";
                 return new RequestStatus { CodeStatus = result, MessageStatus = mensaje };
@@ -91,7 +90,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
 
 
 
-        public RequestStatus Delete(string Usua_Id)
+        public RequestStatus Delete(int Usua_Id)
         {
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
             {
@@ -143,7 +142,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
 
 
 
-        public RequestStatus Delete(int? id)
+        public RequestStatus Delete(string id)
         {
             throw new NotImplementedException();
         }
@@ -158,5 +157,9 @@ namespace SistemaEsmeralda.DataAccess.Repository
             throw new NotImplementedException();
         }
 
+        public RequestStatus Delete(int? id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

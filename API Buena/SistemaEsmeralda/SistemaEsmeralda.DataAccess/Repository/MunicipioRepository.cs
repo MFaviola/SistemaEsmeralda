@@ -51,6 +51,23 @@ namespace SistemaEsmeralda.DataAccess.Repository
             }
         }
 
+        public IEnumerable<tbMunicipios> Lista(string id)
+        {
+            const string sql = "[Gral].[sp_Municipios_MostrarPorDepartamento]";
+
+            List<tbMunicipios> result = new List<tbMunicipios>();
+
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+                var parameter = new DynamicParameters();
+                parameter.Add("Depa_Codigo", id);
+                result = db.Query<tbMunicipios>(sql,parameter, commandType: CommandType.StoredProcedure).ToList();
+
+                return result;
+            }
+        }
+
+
         public tbMunicipios Fill(string id)
         {
 

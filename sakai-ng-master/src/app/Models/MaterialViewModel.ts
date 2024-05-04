@@ -6,6 +6,13 @@ export class MaterialEnviar {
     Mate_Material: string;
 }
 
+
+export class dropMaterial{
+    value?:String;
+    text?:String;
+}
+
+
 export class Fill {
     mate_Id: string;
     mate_Material: string;
