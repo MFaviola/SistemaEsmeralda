@@ -7,7 +7,10 @@ export class RolEnviar {
     Role_Rol: string;
    
 }
-
+export class dropRol{
+    value?:String;
+    text?:String;
+}
 
 export class Fill {
     role_Id: string;

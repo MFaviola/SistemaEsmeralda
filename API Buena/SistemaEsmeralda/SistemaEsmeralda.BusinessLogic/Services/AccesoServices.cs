@@ -210,7 +210,7 @@ namespace SistemaEsmeralda.BusinessLogic.Services
                 var list = _usuarioRepository.Update(item);
                 if (list.CodeStatus > 0)
                 {
-                    return result.Ok("okis", list);
+                    return result.Ok( list);
                 }
                 else
                 {
@@ -222,7 +222,7 @@ namespace SistemaEsmeralda.BusinessLogic.Services
                 return result.Error(ex);
             }
         }
-        public ServiceResult EliminarUsuario(string Usua_Id)
+        public ServiceResult EliminarUsuario(int Usua_Id)
         {
             var result = new ServiceResult();
             try

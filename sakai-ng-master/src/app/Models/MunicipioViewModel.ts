@@ -21,3 +21,8 @@ export class Fill {
     fechaCreacion : string;
     fechaModificacion : string;
 }
+
+export class dropMunicipio{
+    value?:String;
+    text?:String;
+}

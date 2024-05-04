@@ -82,7 +82,7 @@ namespace SistemaEsmeralda.API.Controllers
                 Empl_Id = item.Empl_Id,
                 Role_Id = item.Role_Id,
                 Usua_UsuarioCreacion = 1,
-                Usua_FechaCreacion = item.Usua_FechaCreacion
+                Usua_FechaCreacion =DateTime.Now
             };
             var list = _accesoServices.InsertarUsuario(modelo);
             return Ok(new { success = true, message = list.Message });
@@ -96,7 +96,7 @@ namespace SistemaEsmeralda.API.Controllers
         public IActionResult Llenar(int id)
         {
 
-            var list = _accesoServices.obterRol(id);
+            var list = _accesoServices.obterUsuario(id);
             return Json(list.Data);
         }
 
@@ -143,18 +143,17 @@ namespace SistemaEsmeralda.API.Controllers
                 Usua_Usuario = item.Usua_Usuario,
                 Usua_Contraseña = item.Usua_Contraseña,
                 Usua_Administrador = item.Usua_Administrador,
-
                 Empl_Id = item.Empl_Id,
                 Role_Id = item.Role_Id,
                 Usua_UsuarioModificacion = 1,
-                Usua_FechaCreacion = DateTime.Now
+                Usua_FechaModificacion = DateTime.Now
             };
             var list = _accesoServices.EditarUsuario(modelo);
             return Ok(new { success = true, message = list.Message });
         }
 
         [HttpDelete("Delete/{id}")]
-        public IActionResult Delete(string id)
+        public IActionResult Delete(int id)
         {
             var list = _accesoServices.EliminarUsuario(id);
             return Ok(new { success = true, message = list.Message });

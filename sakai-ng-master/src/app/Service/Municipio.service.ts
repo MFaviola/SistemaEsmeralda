@@ -27,7 +27,6 @@ export class ServiceService {
   getMunicipios(){
     return this.http.get<Municipio[]>(this.url)
   }
-
   getFill(codigo: string): Observable<Fill> {
     return this.http.get<Fill>(`${BASE_URL + 'API/Municipio/Fill/' + codigo}`);
   }
@@ -43,4 +42,6 @@ export class ServiceService {
   ActualizarMunicipios(formData){
     return this.http.put(BASE_URL + 'API/Municipio/Edit/', formData)
   }
+
+  
 }

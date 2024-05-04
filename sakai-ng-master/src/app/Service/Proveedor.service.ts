@@ -6,6 +6,8 @@ import { BASE_URL } from './ulrsettings';
 import { Proveedor,Fill } from '../Models/ProveedorViewModel';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs';
+import { dropDepartamento } from '../Models/DepartamentoViewModel';
+import { dropMunicipio } from '../Models/MunicipioViewModel';
 
 
 
@@ -17,6 +19,15 @@ export class ServiceService {
 
   constructor(private http:HttpClient) { }
 
+  urlDrop = BASE_URL + 'API/Departamento/DropDown'
+
+  getDropDownsDepartamentos(){
+    return this.http.get<dropDepartamento[]>(this.urlDrop)
+  }
+
+  getMunicipios(codigo){
+    return this.http.get<dropMunicipio[]>(BASE_URL + 'API/Municipio/Lista/' + codigo )
+  }
 
   url = BASE_URL + 'API/Proveedor/List'
 

@@ -5,7 +5,11 @@ export class Categoria{
 export class CategoriaEnviar {
     Cate_Id: string;
     Cate_Categoria: string;
-    
+}
+
+export class dropCategoria{
+    value?:String;
+    text?:String;
 }
 
 export class Fill {

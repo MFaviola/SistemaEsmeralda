@@ -3,29 +3,69 @@
         <h3 class="card-title">Joya</h3>
     </div>
     <div class="card-body">
-        <p-dialog header="Dialog" [(visible)]="display" [modal]="true" showEffect="fade" [style]="{width: '30vw'}" [breakpoints]="{'960px': '75vw'}">
-            <div class="p-fluid p-formgrid grid">
-				<div class="field col-12 md:col-6">
-					<label htmlFor="firstname2">Codigo</label>
-					<input pInputText id="firstname2" type="text" />
-				</div>
-				<div class="field col-12 md:col-6">
-					<label htmlFor="lastname2">Municipio</label>
-					<input pInputText id="lastname2" type="text" />
-				</div>
+        <button (click)="collapse()" pButton icon="pi pi-plus" style="margin-bottom: 10px ;" [class.hidden]="!Agregar">Agregar</button>
+          
+        <div [class.hidden]="!Collapse" style="margin-top: 20px;">
+
+          <form [formGroup]="JoyaForm" (ngSubmit)="onSubmit()">
+              <div class="p-fluid p-formgrid grid">
+                  <div class="field col-12 md:col-6">
+                      <label for="Joya">Joya</label>
+                      <input pInputText id="Joya" formControlName="Joya_Nombre" type="text" required autofocus 
+                             [ngClass]="{'ng-invalid ng-dirty': submitted && JoyaForm.controls['Joya_Nombre'].invalid}"
+                             (keydown)="validarTexto($event)" />
+                      <small class="ng-dirty ng-invalid" *ngIf="submitted && JoyaForm.controls['Joya_Nombre'].invalid" style="color: red !important;">Joya Requerido</small>
+                  </div>
+                  <div class="field col-12 md:col-6">
+                    <label for="Compra">Precio Compra</label>
+                    <p-inputNumber id="Compra" formControlName="Joya_PrecioCompra" mode="currency" currency="USD" locale="en-US" [ngClass]="{'ng-invalid ng-dirty': submitted && JoyaForm.controls['Joya_PrecioCompra'].invalid}"></p-inputNumber>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && JoyaForm.controls['Joya_PrecioCompra'].invalid" style="color: red !important;">Precio Requerido</small>
+                </div>
                 <div class="field col-12 md:col-6">
-					<label htmlFor="state">State</label>
-					<p-dropdown [options]="dropdownItems" optionLabel="name" [(ngModel)]="selectedState"></p-dropdown>
-				</div>
-			</div>
-            <ng-template pTemplate="footer">
-                    <button pButton icon="pi pi-check" (click)="display=false" label="Ok" class="p-button-outlined"></button>
-            </ng-template>
-        </p-dialog>
-        <div class="grid">
-            <div class="col-12">
-                <button (click)="display=true" pButton icon="pi pi-external-link" label="Agregar"></button>
-            </div>
+                    <label for="Venta">Precio Venta</label>
+                    <p-inputNumber id="Venta" formControlName="Joya_PrecioVenta" mode="currency" currency="USD" locale="en-US" [ngClass]="{'ng-invalid ng-dirty': submitted && JoyaForm.controls['Joya_PrecioVenta'].invalid}"></p-inputNumber>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && JoyaForm.controls['Joya_PrecioVenta'].invalid" style="color: red !important;">Precio Requerido</small>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label for="Mayor">Precio Mayor</label>
+                    <p-inputNumber id="Mayor" formControlName="Joya_PrecioMayor" mode="currency" currency="USD" locale="en-US" [ngClass]="{'ng-invalid ng-dirty': submitted && JoyaForm.controls['Joya_PrecioMayor'].invalid}"></p-inputNumber>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && JoyaForm.controls['Joya_PrecioMayor'].invalid" style="color: red !important;">Precio Requerido</small>
+                </div>
+                <div class="field col-12 md:col-6">
+                  <label for="Proveedor">Proveedor</label>
+                  <select formControlName="Prov_Id" pInputText id="Proveedor" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && JoyaForm.get('Prov_Id').value === '0'}" >
+                  <option *ngFor="let prov of proveedor" [value]="prov.value">{{ prov.text }}</option>
+                  </select>
+                  <small *ngIf="submitted && JoyaForm.get('Prov_Id').value === '0'" style="color: red;">Proveedor Requerido</small>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label for="Material">Material</label>
+                    <select formControlName="Mate_Id" pInputText id="Material" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && JoyaForm.get('Mate_Id').value === '0'}" >
+                    <option *ngFor="let mate of material" [value]="mate.value">{{ mate.text }}</option>
+                    </select>
+                    <small *ngIf="submitted && JoyaForm.get('Mate_Id').value === '0'" style="color: red;">Material Requerido</small>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label for="Categoria">Categoria</label>
+                    <select formControlName="Cate_Id" pInputText id="Categoria" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && JoyaForm.get('Cate_Id').value === '0'}" >
+                    <option *ngFor="let cate of categoria" [value]="cate.value">{{ cate.text }}</option>
+                    </select>
+                    <small *ngIf="submitted && JoyaForm.get('Cate_Id').value === '0'" style="color: red;">Categoria Requerido</small>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" customUpload="true" (onSelect)="onUpload($event)" label="Subir Imagen" chooseLabel="Subir" class="mr-2 inline-block"></p-fileUpload>
+                    <small *ngIf="submitted && JoyaForm.get('Joya_Imagen').value === '0'" style="color: red;">Imagen Requerido</small>
+                </div>
+              </div>
+
+              <div style="display: flex; justify-content: flex-end; margin-top: 1rem; grid-gap: 5px;">
+                <button pButton icon="pi pi-check" type="submit" label="Agregar" class="p-button-outlined"></button>
+                <button pButton icon="pi pi-stop" type="button" (click)="cancelar()" label="Cancelar" class="p-button-outlined"></button>
+              </div>
+
+          </form>
+
+
         </div>
         <p-table #dt1 [value]="Joya" dataKey="joya_Id" [rows]="10" [loading]="loading" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" [globalFilterFields]="['joya_Id,joya_Nombre,joya_PrecioCompra,joya_PrecioVenta,joya_PrecioMayor,mate_Material,prov_Proveedor,cate_Categoria']" responsiveLayout="scroll">
             <ng-template pTemplate="caption">

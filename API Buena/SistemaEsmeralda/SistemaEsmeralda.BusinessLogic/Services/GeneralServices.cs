@@ -178,6 +178,22 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             }
         }
 
+        public ServiceResult ListadoMunicipioDepartamento(string id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _municipioRepository.Lista(id);
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
 
 
 
@@ -1357,7 +1373,7 @@ namespace SistemaEsmeralda.BusinessLogic.Services
                 var list = _proveedorRepository.Update(item);
                 if (list.CodeStatus > 0)
                 {
-                    return result.Ok("okis", list);
+                    return result.Ok( list);
                 }
                 else
                 {
@@ -1370,7 +1386,7 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             }
         }
 
-        public ServiceResult EliminarProveedor(string Prov_Id)
+        public ServiceResult EliminarProveedor(int Prov_Id)
         {
             var result = new ServiceResult();
             try
@@ -1378,7 +1394,7 @@ namespace SistemaEsmeralda.BusinessLogic.Services
                 var list = _proveedorRepository.Delete(Prov_Id);
                 if (list.CodeStatus > 0)
                 {
-                    return result.Ok($"Exelente chiquit@", list);
+                    return result.Ok($"La accion ha sido existosa", list);
                 }
                 else
                 {

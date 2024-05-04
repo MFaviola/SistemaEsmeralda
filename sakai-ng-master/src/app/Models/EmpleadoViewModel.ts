@@ -9,6 +9,10 @@ export class Empleado{
     empl_FechaNac?:String;
 }
 
+export class dropEmpleado{
+    value?:String;
+    text?:String;
+}
 
 export class EmpleadoEnviar {
     Empl_Nombre: string;

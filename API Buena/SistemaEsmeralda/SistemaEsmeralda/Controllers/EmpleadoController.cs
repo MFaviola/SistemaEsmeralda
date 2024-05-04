@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using SistemaEsmeralda.BusinessLogic.Services;
 using SistemaEsmeralda.Common.Models;
 using SistemaEsmeralda.Entities.Entities;
@@ -31,6 +32,21 @@ namespace SistemaEsmeralda.API.Controllers
         }
 
 
+        [HttpGet("DropDown")]
+        public IActionResult List()
+        {
+            var list = _generalServices.ListadoEmpleado();
+            var drop = list.Data as List<tbEmpleados>;
+            var rol = drop.Select(x => new SelectListItem
+            {
+                Text = x.Empl_Nombre + " " + x.Empl_Apellido,
+                Value = x.Empl_Id.ToString()
+            }).ToList();
+
+
+            rol.Insert(0, new SelectListItem { Text = "-- SELECCIONE --", Value = "0" });
+            return Ok(rol.ToList());
+        }
 
 
 
