@@ -27,6 +27,27 @@
           "lib/netstandard2.1/AutoMapper.Extensions.Microsoft.DependencyInjection.dll": {}
         }
       },
+      "AWSSDK.Core/3.7.303.26": {
+        "type": "package",
+        "compile": {
+          "lib/netcoreapp3.1/AWSSDK.Core.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/AWSSDK.Core.dll": {}
+        }
+      },
+      "AWSSDK.S3/3.7.307.28": {
+        "type": "package",
+        "dependencies": {
+          "AWSSDK.Core": "[3.7.303.26, 4.0.0)"
+        },
+        "compile": {
+          "lib/netcoreapp3.1/AWSSDK.S3.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/AWSSDK.S3.dll": {}
+        }
+      },
       "Dapper/2.1.35": {
         "type": "package",
         "compile": {
@@ -1828,6 +1849,67 @@
         "automapper.extensions.microsoft.dependencyinjection.nuspec",
         "icon.png",
         "lib/netstandard2.1/AutoMapper.Extensions.Microsoft.DependencyInjection.dll"
+      ]
+    },
+    "AWSSDK.Core/3.7.303.26": {
+      "sha512": "4QGTkTVTpVyUpnVWaB2W1ggWlnj4WvlsauXG0m6H0cg91nvw+K6l2N5V6dBxP5wxZReASksj8NDrBpJtCE7VQQ==",
+      "type": "package",
+      "path": "awssdk.core/3.7.303.26",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "awssdk.core.3.7.303.26.nupkg.sha512",
+        "awssdk.core.nuspec",
+        "images/AWSLogo.png",
+        "lib/net35/AWSSDK.Core.dll",
+        "lib/net35/AWSSDK.Core.pdb",
+        "lib/net35/AWSSDK.Core.xml",
+        "lib/net45/AWSSDK.Core.dll",
+        "lib/net45/AWSSDK.Core.pdb",
+        "lib/net45/AWSSDK.Core.xml",
+        "lib/net8.0/AWSSDK.Core.dll",
+        "lib/net8.0/AWSSDK.Core.pdb",
+        "lib/net8.0/AWSSDK.Core.xml",
+        "lib/netcoreapp3.1/AWSSDK.Core.dll",
+        "lib/netcoreapp3.1/AWSSDK.Core.pdb",
+        "lib/netcoreapp3.1/AWSSDK.Core.xml",
+        "lib/netstandard2.0/AWSSDK.Core.dll",
+        "lib/netstandard2.0/AWSSDK.Core.pdb",
+        "lib/netstandard2.0/AWSSDK.Core.xml",
+        "tools/account-management.ps1"
+      ]
+    },
+    "AWSSDK.S3/3.7.307.28": {
+      "sha512": "TROsvv83ZlVUOixPLtVsbRPGowsKaFqlOqRkRaVjqg3+m/URUF4UyqMSn4r+JMkKzIItwey1QOQO57fL+ABtTw==",
+      "type": "package",
+      "path": "awssdk.s3/3.7.307.28",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "analyzers/dotnet/cs/AWSSDK.S3.CodeAnalysis.dll",
+        "analyzers/dotnet/cs/SharedAnalysisCode.dll",
+        "awssdk.s3.3.7.307.28.nupkg.sha512",
+        "awssdk.s3.nuspec",
+        "images/AWSLogo.png",
+        "lib/net35/AWSSDK.S3.dll",
+        "lib/net35/AWSSDK.S3.pdb",
+        "lib/net35/AWSSDK.S3.xml",
+        "lib/net45/AWSSDK.S3.dll",
+        "lib/net45/AWSSDK.S3.pdb",
+        "lib/net45/AWSSDK.S3.xml",
+        "lib/net8.0/AWSSDK.S3.dll",
+        "lib/net8.0/AWSSDK.S3.pdb",
+        "lib/net8.0/AWSSDK.S3.xml",
+        "lib/netcoreapp3.1/AWSSDK.S3.dll",
+        "lib/netcoreapp3.1/AWSSDK.S3.pdb",
+        "lib/netcoreapp3.1/AWSSDK.S3.xml",
+        "lib/netstandard2.0/AWSSDK.S3.dll",
+        "lib/netstandard2.0/AWSSDK.S3.pdb",
+        "lib/netstandard2.0/AWSSDK.S3.xml",
+        "tools/install.ps1",
+        "tools/uninstall.ps1"
       ]
     },
     "Dapper/2.1.35": {
@@ -6484,6 +6566,7 @@
   },
   "projectFileDependencyGroups": {
     "net5.0": [
+      "AWSSDK.S3 >= 3.7.307.28",
       "AutoMapper >= 11.0.0",
       "AutoMapper.Extensions.Microsoft.DependencyInjection >= 11.0.0",
       "MailKit >= 3.5.0",
@@ -6497,24 +6580,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\TOSHIBA\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\Mine\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\TOSHIBA\\Desktop\\SistemaEsmeraldaRepo\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda\\SistemaEsmeralda.API.csproj",
+      "projectUniqueName": "C:\\Users\\Mine\\Documents\\GitHub\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda\\SistemaEsmeralda.API.csproj",
       "projectName": "SistemaEsmeralda.API",
-      "projectPath": "C:\\Users\\TOSHIBA\\Desktop\\SistemaEsmeraldaRepo\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda\\SistemaEsmeralda.API.csproj",
-      "packagesPath": "C:\\Users\\TOSHIBA\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\TOSHIBA\\Desktop\\SistemaEsmeraldaRepo\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda\\obj\\",
+      "projectPath": "C:\\Users\\Mine\\Documents\\GitHub\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda\\SistemaEsmeralda.API.csproj",
+      "packagesPath": "C:\\Users\\Mine\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Mine\\Documents\\GitHub\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\TOSHIBA\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\Mine\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -6528,14 +6606,14 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\Users\\TOSHIBA\\Desktop\\SistemaEsmeraldaRepo\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.BusinessLogic\\SistemaEsmeralda.BusinessLogic.csproj": {
-              "projectPath": "C:\\Users\\TOSHIBA\\Desktop\\SistemaEsmeraldaRepo\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.BusinessLogic\\SistemaEsmeralda.BusinessLogic.csproj"
+            "C:\\Users\\Mine\\Documents\\GitHub\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.BusinessLogic\\SistemaEsmeralda.BusinessLogic.csproj": {
+              "projectPath": "C:\\Users\\Mine\\Documents\\GitHub\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.BusinessLogic\\SistemaEsmeralda.BusinessLogic.csproj"
             },
-            "C:\\Users\\TOSHIBA\\Desktop\\SistemaEsmeraldaRepo\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.Common\\SistemaEsmeralda.Common.csproj": {
-              "projectPath": "C:\\Users\\TOSHIBA\\Desktop\\SistemaEsmeraldaRepo\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.Common\\SistemaEsmeralda.Common.csproj"
+            "C:\\Users\\Mine\\Documents\\GitHub\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.Common\\SistemaEsmeralda.Common.csproj": {
+              "projectPath": "C:\\Users\\Mine\\Documents\\GitHub\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.Common\\SistemaEsmeralda.Common.csproj"
             },
-            "C:\\Users\\TOSHIBA\\Desktop\\SistemaEsmeraldaRepo\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.Entities\\SistemaEsmeralda.Entities.csproj": {
-              "projectPath": "C:\\Users\\TOSHIBA\\Desktop\\SistemaEsmeraldaRepo\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.Entities\\SistemaEsmeralda.Entities.csproj"
+            "C:\\Users\\Mine\\Documents\\GitHub\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.Entities\\SistemaEsmeralda.Entities.csproj": {
+              "projectPath": "C:\\Users\\Mine\\Documents\\GitHub\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.Entities\\SistemaEsmeralda.Entities.csproj"
             }
           }
         }
@@ -6550,6 +6628,10 @@
       "net5.0": {
         "targetAlias": "net5.0",
         "dependencies": {
+          "AWSSDK.S3": {
+            "target": "Package",
+            "version": "[3.7.307.28, )"
+          },
           "AutoMapper": {
             "target": "Package",
             "version": "[11.0.0, )"

@@ -15,6 +15,9 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { TooltipModule } from 'primeng/tooltip';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from "primeng/dropdown";
+import { FileUploadModule } from 'primeng/fileupload';
+import { ReactiveFormsModule } from '@angular/forms';
+import { InputNumberModule } from 'primeng/inputnumber';
 @NgModule({
 	imports: [
 		CommonModule,
@@ -31,7 +34,10 @@ import { DropdownModule } from "primeng/dropdown";
 		ConfirmDialogModule,
 		SidebarModule,
 		RippleModule,
-		ConfirmPopupModule
+		ConfirmPopupModule,
+		FileUploadModule,
+		ReactiveFormsModule,
+		InputNumberModule
 	],
 	declarations: [ListMaquillajeComponent]
 })

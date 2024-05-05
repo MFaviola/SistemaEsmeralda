@@ -7,7 +7,10 @@ export class MarcaEnviar {
     Marc_Id: string;
     Marc_Marca: string;
 }
-
+export class dropMarca{
+    value?:String;
+    text?:String;
+}
 export class Fill {
     marc_Id: string;
     marc_Marca: string;

@@ -10,6 +10,7 @@ export class Joya{
 }
 
 export class JoyaEnviar {
+    Joya_Id?:String;
     Joya_Nombre: string;
     Joya_PrecioCompra: string;
     Joya_PrecioVenta: string;
@@ -27,6 +28,10 @@ export class Fill {
     joya_PrecioCompra?:String;
     joya_PrecioVenta?:String;
     joya_PrecioMayor?:String;
+    joya_Imagen: string;
+    mate_Material?:String;
+    prov_Proveedor?:String;
+    cate_Categoria?:String;
     mate_Id?:String;
     prov_Id?:String;
     cate_Id?:String;
