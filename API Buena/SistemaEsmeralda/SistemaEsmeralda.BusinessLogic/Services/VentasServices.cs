@@ -49,7 +49,7 @@ namespace SistemaEsmeralda.BusinessLogic.Services
                 var list = _joyaRepository.Update(item);
                 if (list.CodeStatus > 0)
                 {
-                    return result.Ok("okis", list);
+                    return result.Ok(list);
                 }
                 else
                 {
@@ -163,7 +163,7 @@ namespace SistemaEsmeralda.BusinessLogic.Services
                 var list = _maquillajeRepository.Update(item);
                 if (list.CodeStatus > 0)
                 {
-                    return result.Ok("okis", list);
+                    return result.Ok( list);
                 }
                 else
                 {

@@ -5,9 +5,11 @@ export class Maquillaje{
     maqu_PrecioVenta?:String;
     maqu_PrecioMayor?:String;
     prov_Proveedor?:String;
+    maqu_Imagen?:string;
     marc_Marca?:String;
 }
 export class MaquillajeEnviar {
+    Maqu_Id?:String;
     Maqu_Nombre: string;
     Maqu_PrecioCompra: string;
     Maqu_PrecioVenta: string;
@@ -25,8 +27,11 @@ export class Fill {
     maqu_PrecioCompra?:String;
     maqu_PrecioVenta?:String;
     maqu_PrecioMayor?:String;
+    maqu_Imagen: string;
     marc_Id?:String;
+    marc_Marca?:String;
     prov_Id?:String;
+    prov_Proveedor?:String;
     usuarioCreacion: string;
     usuarioModificacion: string;
     fechaCreacion : string;

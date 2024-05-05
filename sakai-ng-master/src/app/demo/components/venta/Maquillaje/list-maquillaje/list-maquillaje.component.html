@@ -1,47 +1,67 @@
-
+<p-toast ></p-toast>
 <div class="main-card mb-3 card"> 
     <div class="card-header">
         <h3 class="card-title">Municipios</h3>
     </div>
     <div class="card-body">
-        <p-dialog header="Dialog" [(visible)]="display" [modal]="true" showEffect="fade" [style]="{width: '30vw'}" [breakpoints]="{'960px': '75vw'}">
-            <div class="p-fluid p-formgrid grid">
-				<div class="field col-12 md:col-6">
-					<label htmlFor="firstname2">Codigo</label>
-					<input pInputText id="firstname2" type="text" />
-				</div>
-				<div class="field col-12 md:col-6">
-					<label htmlFor="lastname2">Municipio</label>
-					<input pInputText id="lastname2" type="text" />
-				</div>
-                <div class="field col-12 md:col-6">
-					<label htmlFor="state">State</label>
-					<p-dropdown [options]="dropdownItems" optionLabel="name" [(ngModel)]="selectedState"></p-dropdown>
-				</div>
-			</div>
-       
-            
-             
-                 
-                       
-            
-              
-            
-                   
+        <button (click)="collapse()" pButton icon="pi pi-plus" style="margin-bottom: 10px ;" [class.hidden]="!Agregar">Agregar</button>
           
-         
-     
-                  
-            <ng-template pTemplate="footer">
-                    <button pButton icon="pi pi-check" (click)="display=false" label="Ok" class="p-button-outlined"></button>
-            </ng-template>
-        </p-dialog>
-        <div class="grid">
-            <div class="col-12">
-                <button (click)="display=true" pButton icon="pi pi-external-link" label="Agregar"></button>
-            </div>
+        <div [class.hidden]="!Collapse" style="margin-top: 20px;">
+
+          <form [formGroup]="MaquillajeForm" (ngSubmit)="onSubmit()">
+              <div class="p-fluid p-formgrid grid">
+                  <div class="field col-12 md:col-6">
+                      <label for="Maquillaje">Maquillaje</label>
+                      <input pInputText id="Maquillaje" formControlName="Maqu_Nombre" type="text" required autofocus 
+                             [ngClass]="{'ng-invalid ng-dirty': submitted && MaquillajeForm.controls['Maqu_Nombre'].invalid}"
+                             (keydown)="validarTexto($event)" />
+                      <small class="ng-dirty ng-invalid" *ngIf="submitted && MaquillajeForm.controls['Maqu_Nombre'].invalid" style="color: red !important;">Joya Requerido</small>
+                  </div>
+                  <div class="field col-12 md:col-6">
+                    <label for="Compra">Precio Compra</label>
+                    <p-inputNumber id="Compra" formControlName="Maqu_PrecioCompra" mode="currency" currency="USD" locale="en-US" [ngClass]="{'ng-invalid ng-dirty': submitted && MaquillajeForm.controls['Maqu_PrecioCompra'].invalid}"></p-inputNumber>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && MaquillajeForm.controls['Maqu_PrecioCompra'].invalid" style="color: red !important;">Precio Requerido</small>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label for="Venta">Precio Venta</label>
+                    <p-inputNumber id="Venta" formControlName="Maqu_PrecioVenta" mode="currency" currency="USD" locale="en-US" [ngClass]="{'ng-invalid ng-dirty': submitted && MaquillajeForm.controls['Maqu_PrecioVenta'].invalid}"></p-inputNumber>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && MaquillajeForm.controls['Maqu_PrecioVenta'].invalid" style="color: red !important;">Precio Requerido</small>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label for="Mayor">Precio Mayor</label>
+                    <p-inputNumber id="Mayor" formControlName="Maqu_PrecioMayor" mode="currency" currency="USD" locale="en-US" [ngClass]="{'ng-invalid ng-dirty': submitted && MaquillajeForm.controls['Maqu_PrecioMayor'].invalid}"></p-inputNumber>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && MaquillajeForm.controls['Maqu_PrecioMayor'].invalid" style="color: red !important;">Precio Requerido</small>
+                </div>
+                <div class="field col-12 md:col-6">
+                  <label for="Proveedor">Proveedor</label>
+                  <select formControlName="Prov_Id" pInputText id="Proveedor" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && MaquillajeForm.get('Prov_Id').value === '0'}" >
+                  <option *ngFor="let prov of proveedor" [value]="prov.value">{{ prov.text }}</option>
+                  </select>
+                  <small *ngIf="submitted && MaquillajeForm.get('Prov_Id').value === '0'" style="color: red;">Proveedor Requerido</small>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label for="Marca">Marca</label>
+                    <select formControlName="Marc_Id" pInputText id="Marca" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && MaquillajeForm.get('Marc_Id').value === '0'}" >
+                    <option *ngFor="let marc of marca" [value]="marc.value">{{ marc.text }}</option>
+                    </select>
+                    <small *ngIf="submitted && MaquillajeForm.get('Marc_Id').value === '0'" style="color: red;">Material Requerido</small>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <p-fileUpload #fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" customUpload="true" (onSelect)="onUpload($event)" label="Subir Imagen" chooseLabel="Subir" class="mr-2"></p-fileUpload>
+                    <small *ngIf="submitted && MaquillajeForm.get('Maqu_Imagen').value === ''" style="color: red;">Imagen Requerido</small>
+                </div>
+              </div>
+
+              <div style="display: flex; justify-content: flex-end; margin-top: 1rem; grid-gap: 5px;">
+                <button pButton icon="pi pi-check" type="submit" label="Agregar" class="p-button-outlined"></button>
+                <button pButton icon="pi pi-stop" type="button" (click)="cancelar()" label="Cancelar" class="p-button-outlined"></button>
+              </div>
+       
+          </form>
+
+
         </div>
-        <p-table #dt1 [value]="Maquillaje" dataKey="maqu_Id" [rows]="10" [loading]="loading" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" [globalFilterFields]="['maqu_Id,maqu_Nombre,maqu_PrecioCompra,maqu_PrecioVenta,maqu_PrecioMayor,prov_Proveedor,marc_Marca']" responsiveLayout="scroll">
+        <p-table #dt1 [value]="Maquillaje" dataKey="maqu_Id" [rows]="10" [loading]="loading" [rowHover]="true" styleClass="p-datatable-gridlines"  [class.hidden]="!DataTable" [paginator]="true" [globalFilterFields]="['maqu_Id,maqu_Nombre,maqu_PrecioCompra,maqu_PrecioVenta,maqu_PrecioMayor,prov_Proveedor,marc_Marca']" responsiveLayout="scroll">
             <ng-template pTemplate="caption">
                 <div class="flex justify-content-between flex-column sm:flex-row">
                     <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clear(dt1)"></button>
@@ -56,6 +76,12 @@
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
                             ID
+                            <p-columnFilter type="text" field="maqu_Id" display="menu" placeholder="Search by name"></p-columnFilter>
+                        </div>
+                    </th>
+                    <th style="min-width: 12rem">
+                        <div class="flex justify-content-between align-items-center">
+                            Imagen
                             <p-columnFilter type="text" field="maqu_Id" display="menu" placeholder="Search by name"></p-columnFilter>
                         </div>
                     </th>
@@ -109,6 +135,9 @@
                         {{maqu.maqu_Id}}
                     </td>
                     <td>
+                        <img src="https://esmeralda.s3.us-east-2.amazonaws.com/{{maqu.maqu_Imagen}}" width="100" alt="">
+                    </td>
+                    <td>
                         {{maqu.maqu_Nombre}}
                     </td>
                     <td>
@@ -127,9 +156,9 @@
                         {{maqu.marc_Marca}}
                     </td>
                     <td style="display: flex; justify-content: space-around;">
-                        <button pButton pRipple type="button" label="Editar" class="p-button-raised p-button-success"></button>
-                        <button pButton pRipple type="button" label="Detalles" class="p-button-raised p-button-secondary"></button>
-                        <button pButton pRipple type="button" label="Eliminar" class="p-button-raised p-button-danger"></button>
+                        <button pButton pRipple type="button" label="Editar" class="p-button-raised p-button-success"  (click)="Fill(maqu.maqu_Id)"></button>
+                        <button pButton pRipple type="button" label="Detalles" class="p-button-raised p-button-secondary" (click)="detalles(maqu.maqu_Id)"></button>
+                        <button pButton pRipple type="button" label="Eliminar" class="p-button-raised p-button-danger"  (click)="deleteSelectedProducts(maqu.maqu_Id)"></button>
                     </td>
                 </tr>
             </ng-template>
@@ -144,6 +173,121 @@
                 </tr>
             </ng-template>
         </p-table>
+        <div class="card-body" [class.hidden]="!Detalles">
+            <div class="p-fluid p-formgrid grid">
+
+                <div class="field col-12 md:col-4">
+                    <div class="field rows">
+                        <label for="Codigo" style="font-weight: 800;">Codigo:</label>
+                    </div>
+                    <div class="field rows">
+                        <label for="Codigo">{{ ID }}</label>
+                    </div>
+                </div>
+                
+                <div class="field col-12 md:col-4">
+                    <div class="field rows">
+                        <label for="Municipio" style="font-weight: 800;">Maquillaje:</label>
+                    </div>
+                    <div class="field rows">
+                        <label for="Municipio">{{ Detalle_Maquillaje }}</label>
+                    </div>
+                </div>
+                
+                <div class="field col-12 md:col-4">
+                    <div class="field rows" style="font-weight: 800;">
+                        <label for="Compra">Precio Compra:</label>
+                    </div>
+                    <div class="field rows">
+                        <label for="Compra">{{ Detalle_Compra }}</label>
+                    </div>
+                </div>
+    
+        <div class="field col-12 md:col-4">
+            <div class="field rows" style="font-weight: 800;">
+                <label for="Mayor">Precio Mayor:</label>
+            </div>
+            <div class="field rows">
+                <label for="Mayor">{{ Detalle_Mayor }}</label>
+            </div>
+        </div>
+        <div class="field col-12 md:col-4">
+            <div class="field rows" style="font-weight: 800;">
+                <label for="Precio">Precio Venta:</label>
+            </div>
+            <div class="field rows">
+                <label for="Precio">{{ Detalle_Venta }}</label>
+            </div>
+        </div>
+        <div class="field col-12 md:col-4">
+            <div class="field rows" style="font-weight: 800;">
+                <label for="Provedor">Provedor:</label>
+            </div>
+            <div class="field rows">
+                <label for="Provedor">{{ Detalle_Proveedor }}</label>
+            </div>
+        </div>
+        <div class="field col-12 md:col-4">
+            <div class="field rows" style="font-weight: 800;">
+                <label for="Categoria">Marca:</label>
+            </div>
+            <div class="field rows">
+                <label for="Categoria">{{ Detalle_Marca }}</label>
+            </div>
+        </div>
+        <div class="field col-12 md:col-4">
+            <div class="field rows" style="font-weight: 800;">
+                <label for="Categoria">Imagen:</label>
+            </div>
+            <div class="field rows">
+                <img src="https://esmeralda.s3.us-east-2.amazonaws.com/{{Detalle_Imagen}}" width="100" alt="">
+            </div>
+        </div>
+    </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                       <h1>Auditoria</h1>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p-table [value]="staticData">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="width:200px">Accion</th>
+                                <th style="width:200px">Usuario</th>
+                                <th style="width:200px">Fecha</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-transaction>
+                            <tr>
+                                <td style="width:200px;">Creado</td>
+                                <td style="width:200px">{{ UsuarioCreacion }}</td>
+                                <td style="width:200px">{{ FechaCreacion }}</td>
+                            </tr>
+                            <tr>
+                                <td style="width:200px;">Modificado</td>
+                                <td style="width:200px">{{ UsuarioModificacion }}</td>
+                                <td style="width:200px">{{ FechaModificacion }}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+            <div style="display: flex; justify-content: flex-end; margin-top: 1rem; grid-gap: 5px;">
+              <button pButton icon="pi pi-stop" type="button" (click)="cancelar()" label="Volver" class="p-button-outlined"></button>
+            </div>
+        </div>
+        <p-dialog [(visible)]="deleteProductDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span>Esta seguro de eliminarlo?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteProductDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDelete()"></button>
+            </ng-template>
+        </p-dialog>
     </div>
 </div>
 

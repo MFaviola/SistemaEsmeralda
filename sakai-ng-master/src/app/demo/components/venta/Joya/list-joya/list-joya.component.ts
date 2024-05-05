@@ -3,19 +3,21 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { Product } from 'src/app/demo/api/product';
 import {Router} from '@angular/router';
 import { Table } from 'primeng/table';
-import { Joya, JoyaEnviar } from 'src/app/Models/JoyaViewModel';
+import { Fill, Joya, JoyaEnviar } from 'src/app/Models/JoyaViewModel';
 import { ServiceService } from 'src/app/Service/Joya.service';
 import { MensajeViewModel } from 'src/app/Models/MensajeViewModel';
 import { FormGroup, FormControl,  Validators  } from '@angular/forms';
 import { dropProveedor } from 'src/app/Models/ProveedorViewModel';
 import { dropMaterial } from 'src/app/Models/MaterialViewModel';
 import { dropCategoria } from 'src/app/Models/CategoriaViewModel';
+import { FileUpload } from 'primeng/fileupload';
 
 @Component({
   templateUrl: './list-joya.component.html',
   providers: [ConfirmationService, MessageService]
 })
 export class ListJoyaComponent {
+  @ViewChild('fileUpload') fileUpload: FileUpload;
   Joya!:Joya[];
   MensajeViewModel!: MensajeViewModel[];
   submitted: boolean = false;
@@ -26,7 +28,7 @@ export class ListJoyaComponent {
   fill: any[] = [];
   viewModel: JoyaEnviar = new JoyaEnviar();
   JoyaForm: FormGroup;
- 
+
   @ViewChild('filter') filter!: ElementRef;
   selectedState: any = null;
   Collapse: boolean = false;
@@ -37,10 +39,14 @@ export class ListJoyaComponent {
   staticData = [{}];
   deleteProductDialog: boolean = false;
   //Detalle
-  Detalle_Usuario: String = "";
-  Detalle_Administrador: String = "";
-  Detalle_Empleado: String = "";
-  Detalle_Rol: String = "";
+  Detalle_Joya: String = "";
+  Detalle_Imagen: String = "";
+  Detalle_Compra: String = "";
+  Detalle_Mayor: String = "";
+  Detalle_Venta: String = "";
+  Detalle_Material: String = "";
+  Detalle_Proveedor: String = "";
+  Detalle_Categoria: String = "";
   UsuarioCreacion: String = "";
   UsuarioModificacion: String = "";
   FechaCreacion: String = "";
@@ -57,7 +63,7 @@ export class ListJoyaComponent {
       Joya_PrecioCompra: new FormControl(null, Validators.required),
       Joya_PrecioVenta: new FormControl(null, [Validators.required]),
       Joya_PrecioMayor: new FormControl(null, [Validators.required]),
-      Joya_Imagen: new FormControl(null, [Validators.required]),
+      Joya_Imagen: new FormControl("", [Validators.required]),
       Prov_Id: new FormControl('0', [Validators.required]),
       Mate_Id: new FormControl('0', [Validators.required]),
       Cate_Id: new FormControl('0', [Validators.required]),
@@ -87,13 +93,23 @@ export class ListJoyaComponent {
     if (file) {
       const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
       const uniqueFileName = uniqueSuffix + '-' + file.name;
-  
+
+      this.JoyaForm.get('Joya_Imagen').setValue(uniqueFileName); 
       const formData: FormData = new FormData();
+
       formData.append('file', file, uniqueFileName);
-  
       this.service.EnviarImagen(formData).subscribe(
-        response => console.log('Upload successful', response),
-        error => console.error('Error uploading image', error)
+        response => {
+          console.log('Upload successful', response);
+          if (response.message === "Exito") {
+            this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Imagen Subida', life: 3000 });
+          } else {
+            this.messageService.add({ severity: 'success', summary: 'Error', detail: 'Suba una imagen', life: 3000 });
+          }
+        },
+        error => {
+          console.error('Error uploading image', error);
+        }
       );
     }
   }
@@ -103,12 +119,30 @@ export class ListJoyaComponent {
     this.Valor = "Agregar";
     this.Agregar= false;
     this.Detalles = false;
+ 
 }
 detalles(codigo){
   this.Collapse= false;
   this.DataTable = false;
   this.Agregar= false;
   this.Detalles = true;
+  this.service.getFill(codigo).subscribe({
+    next: (data: Fill) => {
+      this.Detalle_Joya= data.joya_Nombre;
+      this.Detalle_Imagen = data.joya_Imagen;
+      this.Detalle_Compra= data.joya_PrecioCompra;
+      this.Detalle_Mayor = data.joya_PrecioMayor;
+      this.Detalle_Venta = data.joya_PrecioVenta;
+      this.Detalle_Material =data.mate_Material;
+      this.Detalle_Proveedor = data.prov_Proveedor;
+      this.Detalle_Categoria = data.cate_Categoria;
+      this.UsuarioCreacion = data.usuarioCreacion;
+      this.UsuarioModificacion = data.usuarioModificacion;
+      this.FechaCreacion = data.fechaCreacion;
+      this.FechaModificacion = data.fechaModificacion;
+      this.ID = data.joya_Id;
+    }
+  });
 
 }
 cancelar(){
@@ -118,7 +152,7 @@ cancelar(){
   this.ngOnInit();
   this.submitted = false;
   this.Agregar= true;
-
+  this.fileUpload.clear();
   this.Valor = "";
 }
 validarTexto(event: KeyboardEvent) {
@@ -141,12 +175,14 @@ onSubmit() {
            this.submitted = false;
            this.Detalles = false;
            this.Agregar= true;
+           this.fileUpload.clear();
           }else{
            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro insertar', life: 3000 });
           }
           
        })
      } else {
+          this.viewModel.Joya_Id = this.ID
           this.service.ActualizarJoyas(this.viewModel).subscribe((data: MensajeViewModel[]) => {
           if(data["message"] == "Operación completada exitosamente."){
             this.ngOnInit();
@@ -169,4 +205,54 @@ onSubmit() {
           this.submitted = true;
       }
   }
+
+
+  deleteSelectedProducts(codigo) {
+    this.deleteProductDialog = true;
+    this.ID = codigo;
+    console.log("El codigo es" + codigo);
+  }
+confirmDelete() {
+    this.service.EliminarJoyas(this.ID).subscribe({
+        next: (response) => {
+            if(response.message == "La accion ha sido existosa"){
+               
+                this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Eliminado con Exito', life: 3000 });
+                this.Collapse= false;
+                this.DataTable = true;
+                this.Detalles = false;
+                this.submitted = false;
+                this.deleteProductDialog = false;
+                this.ngOnInit();
+               }else{
+                this.deleteProductDialog = false;
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro eliminar', life: 3000 });
+               }
+        },
+    });
+
+}
+Fill(codigo) {
+    this.service.getFill(codigo).subscribe({
+        next: (data: Fill) => {
+          this.JoyaForm = new FormGroup({
+            Joya_Nombre: new FormControl(data.joya_Nombre,Validators.required),
+            Joya_PrecioCompra: new FormControl(data.joya_PrecioCompra, Validators.required),
+            Joya_PrecioVenta: new FormControl(data.joya_PrecioVenta, [Validators.required]),
+            Joya_PrecioMayor: new FormControl(data.joya_PrecioMayor, [Validators.required]),
+            Joya_Imagen: new FormControl(data.joya_Imagen, [Validators.required]),
+            Prov_Id: new FormControl(data.prov_Id, [Validators.required]),
+            Mate_Id: new FormControl(data.mate_Id, [Validators.required]),
+            Cate_Id: new FormControl(data.cate_Id, [Validators.required]),
+          });
+            this.ID = data.joya_Id;
+            this.Collapse= true;
+            this.DataTable = false;
+            this.Agregar = false;
+            this.Detalles = false;
+            this.Valor = "Editar";
+        }
+      });
+
+}
 }
