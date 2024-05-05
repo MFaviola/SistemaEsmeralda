@@ -64,7 +64,7 @@ namespace SistemaEsmeralda.API.Controllers
                 Muni_Codigo = item.Muni_Codigo,
                 Esta_Id = item.Esta_Id,
                 Carg_Id = item.Carg_Id,
-    
+                Empl_Correo= item.Empl_Correo,
                 Empl_UsuarioCreacion = 1,
                 Empl_FechaCreacion = DateTime.Now
 
@@ -100,8 +100,8 @@ namespace SistemaEsmeralda.API.Controllers
                 Muni_Codigo = item.Muni_Codigo,
                 Esta_Id = item.Esta_Id,
                 Carg_Id = item.Carg_Id,
-                Sucu_Id = item.Sucu_Id,
-                
+
+                Empl_Correo= item.Empl_Correo,
                 Empl_UsuarioCreacion = 1,
                 Empl_FechaCreacion = DateTime.Now
             };

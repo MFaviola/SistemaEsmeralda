@@ -24,7 +24,8 @@ namespace SistemaEsmeralda.Entities.Entities
         [NotMapped]
         public string Carg_Cargo { get; set; }
         [NotMapped]
-        public string Sucu_Nombre { get; set; }
+        public string Empl_Correo { get; set; }
+
         public int Empl_Id { get; set; }
         public string Empl_Nombre { get; set; }
         public string Empl_Apellido { get; set; }

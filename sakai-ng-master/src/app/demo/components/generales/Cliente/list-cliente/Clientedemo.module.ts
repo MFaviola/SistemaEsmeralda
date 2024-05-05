@@ -15,6 +15,11 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { TooltipModule } from 'primeng/tooltip';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from "primeng/dropdown";
+import { RatingModule } from 'primeng/rating';
+
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatExpansionModule } from '@angular/material/expansion';
+
 @NgModule({
 	imports: [
 		CommonModule,
@@ -22,6 +27,9 @@ import { DropdownModule } from "primeng/dropdown";
 		ToastModule,
 		DialogModule,
 		FormsModule,
+		RatingModule,
+		ReactiveFormsModule,
+		MatExpansionModule,
 		TooltipModule,
 		InputTextModule,
 		DropdownModule,

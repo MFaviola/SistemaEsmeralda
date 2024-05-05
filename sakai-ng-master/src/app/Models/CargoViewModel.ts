@@ -11,6 +11,12 @@ export class CargoEnviar {
 }
 
 
+export class dropCargo{
+    value?:String;
+    text?:String;
+}
+
+
 export class Fill {
     carg_Id: string;
     carg_Cargo: string;

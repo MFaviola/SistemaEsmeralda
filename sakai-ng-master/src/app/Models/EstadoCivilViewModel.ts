@@ -8,6 +8,10 @@ export class EstadoCivilEnviar {
     Esta_EstadoCivil: string;
 
 }
+export class dropEstadoCivil{
+    value?:String;
+    text?:String;
+}
 
 export class Fill {
     esta_Id: string;

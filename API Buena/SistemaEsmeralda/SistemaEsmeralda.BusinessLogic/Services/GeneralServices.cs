@@ -1140,7 +1140,7 @@ namespace SistemaEsmeralda.BusinessLogic.Services
                 var list = _clienteRepository.Update(item);
                 if (list.CodeStatus > 0)
                 {
-                    return result.Ok("okis", list);
+                    return result.Ok(list);
                 }
                 else
                 {
@@ -1153,7 +1153,7 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             }
         }
 
-        public ServiceResult EliminarClientes(string Clie_Id)
+        public ServiceResult EliminarClientes(int Clie_Id)
         {
             var result = new ServiceResult();
             try
@@ -1256,7 +1256,7 @@ namespace SistemaEsmeralda.BusinessLogic.Services
                 var list = _empleadoRepository.Update(item);
                 if (list.CodeStatus > 0)
                 {
-                    return result.Ok("okis", list);
+                    return result.Ok( list);
                 }
                 else
                 {

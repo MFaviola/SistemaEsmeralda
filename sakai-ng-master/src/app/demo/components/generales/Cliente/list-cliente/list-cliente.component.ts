@@ -3,8 +3,14 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { Product } from 'src/app/demo/api/product';
 import {Router} from '@angular/router';
 import { Table } from 'primeng/table';
-import { Cliente } from 'src/app/Models/ClienteViewModel';
+import { Cliente,ClienteEnviar,Fill } from 'src/app/Models/ClienteViewModel';
 import { ServiceService } from 'src/app/Service/Cliente.service';
+import { MensajeViewModel } from 'src/app/Models/MensajeViewModel';
+import { FormGroup, FormControl,  Validators  } from '@angular/forms';
+import { dropDepartamento } from 'src/app/Models/DepartamentoViewModel';
+import { dropMunicipio } from 'src/app/Models/MunicipioViewModel';
+import { dropCargo } from 'src/app/Models/CargoViewModel';
+import { dropEstadoCivil } from 'src/app/Models/EstadoCivilViewModel';
 
 @Component({
   templateUrl: './list-cliente.component.html',
@@ -13,85 +19,254 @@ import { ServiceService } from 'src/app/Service/Cliente.service';
 })
 export class ListClienteComponent implements OnInit{
   Cliente!:Cliente[];
-   
-
-  statuses: any[] = [];
-
-  products: Product[] = [];
-  productDialog: boolean = false;
-  rowGroupMetadata: any;
+    
+  MensajeViewModel!: MensajeViewModel[];
   submitted: boolean = false;
-
-  display: boolean = false;
-  activityValues: number[] = [0, 100];
-
-  isExpanded: boolean = false;
-
-  idFrozen: boolean = false;
-  originalClienteData: any[];
   loading: boolean = false;
-  fields: string[] = ['clie_Id', 'clie_Nombre', 'clie_Apellido', 'clie_FechaNac', 'clie_Sexo', 'estado_Civil', 'municipio'];
+  departamentos: any[] = [];
+  municipios: any[] = [];
+  estadocivil: any[] = [];
+  cargo: any[] = [];
 
-onGlobalFilter(filterValue: string) {
-    console.log("Filtering for:", filterValue);
-    console.log("Original data:", this.originalClienteData);
-    this.Cliente = this.originalClienteData.filter(clie =>
-        this.fields.some(field =>
-            clie[field].toString().toLowerCase().includes(filterValue.toLowerCase())
-        )
-    );
-    console.log("Filtered data:", this.Cliente);
-}
+  rol: any[] = [];
+  fill: any[] = [];
+  viewModel: ClienteEnviar = new ClienteEnviar();
+  clienteForm: FormGroup;
+ 
   @ViewChild('filter') filter!: ElementRef;
 
   selectedState: any = null;
+  Collapse: boolean = false;
+  DataTable: boolean = true;
+  Detalles: boolean = false;
+  Agregar: boolean = true;
+  Contrasenas: boolean = true;
+  Valor: string = "";
+  staticData = [{}];
+  Id_Municipio: string = "";
+  deleteProductDialog: boolean = false;
+  //Detalle
+  Detalle_Codigo: String = "";
+  Detalle_Nombre: String = "";
+  Detalle_Apellido: String = "";
+  Detalle_Sexo: String = "";
+  Detalle_Estado: String = "";
+  // Detalle_Cargo: String = "";
+  Detalle_FechaNac: String = "";
+  Detalle_Departamento: String = "";
+  Detalle_Municipio: String = "";
+  UsuarioCreacion: String = "";
+  UsuarioModificacion: String = "";
+  FechaCreacion: String = "";
+  FechaModificacion: String = "";
+  ID: string = "";
+  MunicipioCodigo: String = "";
 
-  states: any[] = [
-      {name: 'Arizona', code: 'Arizona'},
-      {name: 'California', value: 'California'},
-      {name: 'Florida', code: 'Florida'},
-      {name: 'Ohio', code: 'Ohio'},
-      {name: 'Washington', code: 'Washington'}
-  ];
-
-  dropdownItems = [
-      { name: 'Option 1', code: 'Option 1' },
-      { name: 'Option 2', code: 'Option 2' },
-      { name: 'Option 3', code: 'Option 3' },
-      { name: 'Option 3', code: 'Option 3' },
-      { name: 'Option 3', code: 'Option 3' },
-      
-  ];
-  @ViewChild('dt1') dt1!: Table;
-  clear() {
-
-    this.Cliente = [...this.originalClienteData];
-
-
-    this.dt1.filters = {}; 
-    this.dt1.reset();       
-}
-  cities1: any[] = [];
-
-  cities2: any[] = [];
-
-  city1: any = null;
-
-  city2: any = null;
-
-  constructor(private service: ServiceService, private router: Router
+  constructor(private service: ServiceService, private router: Router,   private messageService: MessageService
   
   ) { }
 
 
   ngOnInit(): void {
+    this.clienteForm = new FormGroup({
+      Clie_Nombre: new FormControl("",Validators.required),
+      Clie_Apellido: new FormControl("", Validators.required),
+      Clie_Sexo: new FormControl("", Validators.required),
+      Clie_FechaNac: new FormControl("", Validators.required),
+      Esta_Id: new FormControl("", Validators.required),
+      Depa_Codigo: new FormControl("0", [Validators.required]),
+      Muni_Codigo: new FormControl("0", [Validators.required]),
+    });
+    this.service.getDropDownsDepartamentos().subscribe((data: dropDepartamento[]) => {
+    console.log(data);
+    this.departamentos = data;
+    });
+
+    this.service.getDropDownsEstado().subscribe((data: dropEstadoCivil[]) => {
+      console.log(data);
+      this.estadocivil = data;
+      });
+
+
+      this.service.getDropDownCargo().subscribe((data: dropCargo[]) => {
+        console.log(data);
+        this.cargo = data;
+        });
+
+
     this.service.getClientes().subscribe((data: any)=>{
         console.log(data);
         this.Cliente = data;
-        this.originalClienteData = [...data];  // Clonamos los datos en originalClienteData
-    }, error => {
+      },error=>{
         console.log(error);
-    });
+      });
+   }
+   onDepartmentChange(departmentId) {
+    if (departmentId !== '0') {
+      this.service.getMunicipios(departmentId).subscribe(
+        (data: any) => {
+          this.municipios = data; 
+          this.clienteForm.get('Muni_Codigo').setValue('0'); 
+        },
+        error => {
+          console.error('Error fetching municipios:', error);
+        }
+      );
+    } else {
+      this.municipios = []; // Clear municipios if the department is invalid or reset
+    }
+  }
+   collapse(){
+    this.Collapse= true;
+    this.DataTable = false;
+    this.Valor = "Agregar";
+    this.Agregar= false;
+    this.Detalles = false;
 }
-  
+detalles(codigo){
+    this.Collapse= false;
+    this.DataTable = false;
+    this.Agregar= false;
+    this.Detalles = true;
+    this.service.getFill(codigo).subscribe({
+      next: (data: Fill) => {
+         this.Detalle_Codigo = data.clie_Id,
+         this.Detalle_Nombre = data.clie_Nombre,
+         this.Detalle_Apellido = data.clie_Apellido,
+         this.Detalle_Sexo = data.clie_Sexo,
+         this.Detalle_Estado = data.esta_EstadoCivil,
+        //  this.Detalle_Cargo = data.carg_Cargo,
+         this.Detalle_FechaNac = data.clie_FechaNac,
+         this.Detalle_Departamento = data.depa_Departamento,
+         this.Detalle_Municipio = data.muni_Municipio,
+         this.UsuarioCreacion = data.usuarioCreacion,
+         this.UsuarioModificacion = data.usuarioModificacion
+         this.FechaCreacion = data.fechaCreacion,
+         this.FechaModificacion = data.fechaModificacion
+      }
+    });
+    this.ngOnInit();
+}
+//Cerrar Collapse y reiniciar el form
+cancelar(){
+    this.Collapse= false;
+    this.DataTable = true;
+    this.Detalles = false;
+    this.ngOnInit();
+    this.submitted = false;
+    this.Agregar= true;
+    this.Valor = "";
+}
+
+validarTexto(event: KeyboardEvent) {
+  if (!/^[-a-zA-Z\s-]+$/.test(event.key) && event.key !== 'Backspace' && event.key !== 'Tab' && event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {
+      event.preventDefault();
+  }
+}
+ValidarNumero(event: KeyboardEvent) {
+  if (!/^[0-9\s-]+$/.test(event.key) && event.key !== 'Backspace' && event.key !== 'Tab' && event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {
+      event.preventDefault();
+  }
+}
+onSubmit() {
+  if (this.clienteForm.valid && this.clienteForm.get('Depa_Codigo').value !== '0' && this.clienteForm.get('Muni_Codigo').value !== '0'&& this.clienteForm.get('Esta_Id').value !== '0' ) {
+     this.viewModel = this.clienteForm.value;
+     if (this.Valor == "Agregar") {
+      this.service.EnviarCliente(this.viewModel).subscribe((data: MensajeViewModel[]) => {
+          if(data["message"] == "Operación completada exitosamente."){
+          this.ngOnInit();
+           this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Insertado con Exito', life: 3000 });
+           this.Collapse= false;
+           this.DataTable = true;
+           this.submitted = false;
+           this.Detalles = false;
+           this.Agregar= true;
+          }else{
+           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro insertar', life: 3000 });
+          }
+       })
+     } else {
+      this.viewModel.Clie_Id = this.ID
+          this.service.ActualizarCliente(this.viewModel).subscribe((data: MensajeViewModel[]) => {
+          if(data["message"] == "Operación completada exitosamente."){
+            this.ngOnInit();
+           this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Actualizado con Exito', life: 3000 });
+           this.Collapse= false;
+           this.DataTable = true;
+           this.Detalles = false;
+           this.submitted = false;
+           this.Agregar= true;
+          }else{
+           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro actualizar', life: 3000 });
+          }
+          
+       })
+     }  
+     
+  }   
+      else 
+      {
+          this.submitted = true;
+      }
+  } 
+
+
+  deleteSelectedProducts(codigo) {
+    this.deleteProductDialog = true;
+    this.ID = codigo;
+    console.log("El codigo es" + codigo);
+  }
+confirmDelete() {
+    this.service.EliminarCliente(this.ID).subscribe({
+        next: (response) => {
+            if(response.message == "La accion ha sido existosa"){
+               
+                this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Eliminado con Exito', life: 3000 });
+                this.Collapse= false;
+                this.DataTable = true;
+                this.Detalles = false;
+                this.submitted = false;
+                this.deleteProductDialog = false;
+                this.ngOnInit();
+               }else{
+                this.deleteProductDialog = false;
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro eliminar', life: 3000 });
+               }
+        },
+    });
+
+}
+Fill(codigo) {
+    this.service.getFill(codigo).subscribe({
+        next: (data: Fill) => {
+
+          this.clienteForm = new FormGroup({
+            Clie_Nombre: new FormControl(data.clie_Nombre,Validators.required),
+            Clie_Apellido: new FormControl(data.clie_Apellido, Validators.required),
+            Clie_Sexo: new FormControl(data.clie_Sexo, Validators.required),
+            Clie_FechaNac: new FormControl(data.clie_FechaNac, Validators.required),
+            Esta_Id: new FormControl(data.esta_Id, Validators.required),
+            Depa_Codigo: new FormControl(data.depa_Codigo, [Validators.required]),
+            Muni_Codigo: new FormControl(data.muni_Codigo, [Validators.required]),
+          });
+
+          this.MunicipioCodigo = data.muni_Codigo;
+          console.log(this.MunicipioCodigo);
+          this.service.getMunicipios(data.depa_Codigo).subscribe(
+            (data: any) => {
+              this.municipios = data; 
+              this.clienteForm.get('Muni_Codigo').setValue(this.MunicipioCodigo); 
+            }
+          );
+            this.ID = data.clie_Id;
+            this.Collapse= true;
+            this.DataTable = false;
+            this.Agregar = false;
+            this.Detalles = false;
+            this.Contrasenas = false;
+            this.Valor = "Editar";
+        }
+      });
+
+}
 }

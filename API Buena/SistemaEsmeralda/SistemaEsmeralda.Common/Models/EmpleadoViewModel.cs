@@ -29,5 +29,16 @@ namespace SistemaEsmeralda.Common.Models
 
         [NotMapped]
         public string UsuarioModificacion { get; set; }
+
+        [NotMapped]
+        public string Muni_Municipio { get; set; }
+        [NotMapped]
+        public string Esta_EstadoCivil { get; set; }
+
+        [NotMapped]
+        public string Empl_Correo { get; set; }
+
+
+        
     }
 }

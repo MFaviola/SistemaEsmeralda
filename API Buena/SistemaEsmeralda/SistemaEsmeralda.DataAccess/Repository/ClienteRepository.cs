@@ -71,7 +71,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
 
         public RequestStatus Update(tbClientes item)
         {
-            string sql = ScriptsBaseDeDatos.CargosActualizar;
+            string sql = ScriptsBaseDeDatos.ClientesActualizar;
 
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
             {
@@ -83,8 +83,8 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 parameter.Add("@Clie_Sexo", item.Clie_Sexo);
                 parameter.Add("@Muni_Codigo", item.Muni_Codigo);
                 parameter.Add("@Esta_Id", item.Esta_Id);
-                parameter.Add("@Clie_UsuarioCreacion", item.Clie_UsuarioCreacion);
-                parameter.Add("@Clie_FechaCreacion", item.Clie_FechaCreacion);
+                parameter.Add("@Clie_UsuarioModificacion", 1);
+                parameter.Add("@Clie_FechaModificacion", item.Clie_FechaModificacion);
                 var result = db.Execute(sql, parameter, commandType: CommandType.StoredProcedure);
                 string mensaje = (result == 1) ? "exito" : "error";
                 return new RequestStatus { CodeStatus = result, MessageStatus = mensaje };
@@ -94,14 +94,14 @@ namespace SistemaEsmeralda.DataAccess.Repository
 
 
 
-        public RequestStatus Delete(string Clie_Id)
+        public RequestStatus Delete(int Clie_Id)
         {
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
             {
                 var parameter = new DynamicParameters();
                 parameter.Add("Clie_Id", Clie_Id);
 
-                var result = db.QueryFirst(ScriptsBaseDeDatos.CargosEliminar, parameter, commandType: CommandType.StoredProcedure);
+                var result = db.QueryFirst(ScriptsBaseDeDatos.ClientesEliminar, parameter, commandType: CommandType.StoredProcedure);
                 return new RequestStatus { CodeStatus = result.Resultado, MessageStatus = (result.Resultado == 1) ? "Exito" : "Error" };
             }
         }

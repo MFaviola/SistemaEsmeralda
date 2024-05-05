@@ -31,6 +31,8 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 parametro.Add("@Muni_Codigo", item.Muni_Codigo);
                 parametro.Add("@Esta_Id", item.Esta_Id);
                 parametro.Add("@Carg_Id", item.Carg_Id);
+                parametro.Add("@Empl_Correo", item.Empl_Correo);
+
                 parametro.Add("@Empl_UsuarioCreacion", 1);
                 parametro.Add("@Empl_FechaCreacion", item.Empl_FechaCreacion);
 
@@ -76,15 +78,20 @@ namespace SistemaEsmeralda.DataAccess.Repository
             {
                 var parameter = new DynamicParameters();
                 parameter.Add("@Empl_Id", item.Empl_Id);
-                parameter.Add("@Empl_Id_Nombre", item.Empl_Nombre);
+                parameter.Add("@Empl_Nombre", item.Empl_Nombre);
                 parameter.Add("@Empl_Apellido", item.Empl_Apellido);
-                parameter.Add("@Empl_FechaNac", item.Empl_FechaNac);
                 parameter.Add("@Empl_Sexo", item.Empl_Sexo);
+                parameter.Add("@Empl_FechaNac", item.Empl_FechaNac);
+          
                 parameter.Add("@Muni_Codigo", item.Muni_Codigo);
                 parameter.Add("@Esta_Id", item.Esta_Id);
                 parameter.Add("@Carg_Id", item.Carg_Id);
-                parameter.Add("@Empl_UsuarioCreacion", item.Empl_UsuarioCreacion);
-                parameter.Add("@Empl_FechaCreacion", item.Empl_FechaCreacion);
+
+                parameter.Add("@Empl_Correo", item.Empl_Correo);
+
+                
+                parameter.Add("@Empl_UsuarioModificacion", 1);
+                parameter.Add("@Empl_FechaModificacion", DateTime.Now);
                 var result = db.Execute(sql, parameter, commandType: CommandType.StoredProcedure);
                 string mensaje = (result == 1) ? "exito" : "error";
                 return new RequestStatus { CodeStatus = result, MessageStatus = mensaje };

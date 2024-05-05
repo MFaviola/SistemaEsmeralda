@@ -21,6 +21,14 @@ namespace SistemaEsmeralda.Entities.Entities
         public string Municipio { get; set; }
         [NotMapped]
         public string Estado_Civil { get; set; }
+
+
+
+
+        [NotMapped]
+        public string Muni_Municipio { get; set; }
+        [NotMapped]
+        public string Esta_EstadoCivil { get; set; }
         public int Clie_Id { get; set; }
         public string Clie_Nombre { get; set; }
         public string Clie_Apellido { get; set; }
