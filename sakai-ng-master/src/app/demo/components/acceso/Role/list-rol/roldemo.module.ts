@@ -15,6 +15,8 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { TooltipModule } from 'primeng/tooltip';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from "primeng/dropdown";
+import { TreeModule } from 'primeng/tree';
+import { TreeTableModule } from 'primeng/treetable';
 @NgModule({
 	imports: [
 		CommonModule,
@@ -31,7 +33,9 @@ import { DropdownModule } from "primeng/dropdown";
 		ConfirmDialogModule,
 		SidebarModule,
 		RippleModule,
-		ConfirmPopupModule
+		ConfirmPopupModule,
+		TreeModule,
+		TreeTableModule
 	],
 	declarations: [ListRolComponent]
 })

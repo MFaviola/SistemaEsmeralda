@@ -1,10 +1,15 @@
-﻿using AutoMapper;
+﻿using Amazon.S3;
+using Amazon.S3.Transfer;
+using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using SistemaEsmeralda.BusinessLogic.Services;
 using SistemaEsmeralda.Common.Models;
 using SistemaEsmeralda.Entities.Entities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,12 +20,54 @@ namespace SistemaEsmeralda.API.Controllers
     public class MaquillajeController : Controller
     {
         private readonly VentasServices _ventasServices;
-
+        private readonly IConfiguration _configuration;
+        private readonly IAmazonS3 _s3Client;
         private readonly IMapper _mapper;
-        public MaquillajeController(VentasServices ventasServices, IMapper mapper)
+        public MaquillajeController(VentasServices ventasServices, IMapper mapper, IConfiguration configuration)
         {
             _ventasServices = ventasServices;
             _mapper = mapper;
+            _configuration = configuration;
+            var awsOptions = _configuration.GetSection("AWS");
+            _s3Client = new AmazonS3Client(
+                awsOptions["AccessKey"],
+                awsOptions["SecretKey"],
+               Amazon.RegionEndpoint.USEast2
+            );
+        }
+
+        [HttpPost("Subir")]
+        public async Task<IActionResult> UploadImage(IFormFile file)
+        {
+            // Verificación de la extensión del archivo
+            var allowedExtensions = new HashSet<string> { ".png", ".jpeg", ".svg", ".jpg", ".gif" };
+            var fileExtension = Path.GetExtension(file.FileName).ToLower();
+            if (!allowedExtensions.Contains(fileExtension))
+            {
+                return Ok(new { message = "Error" });
+            }
+            var bucketName = _configuration["AWS:BucketName"];
+
+
+            try
+            {
+                using (var stream = file.OpenReadStream())
+                {
+                    var fileTransferUtility = new TransferUtility(_s3Client);
+                    await fileTransferUtility.UploadAsync(stream, bucketName, file.FileName);
+                    return Ok(new { message = "Éxito" });
+                }
+            }
+            catch (AmazonS3Exception e)
+            {
+                // Log e.ToString() or send it back as a response
+                return StatusCode(500, $"AWS error: {e.ToString()}");
+            }
+            catch (Exception e)
+            {
+                // General exception catch, if something else went wrong
+                return StatusCode(500, $"General error: {e.ToString()}");
+            }
         }
 
         [HttpGet("List")]

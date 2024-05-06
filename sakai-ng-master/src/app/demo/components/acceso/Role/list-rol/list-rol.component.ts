@@ -4,8 +4,9 @@ import { Product } from 'src/app/demo/api/product';
 import {Router} from '@angular/router';
 import { Table } from 'primeng/table';
 import { Rol } from 'src/app/Models/RolViewModel';
+import { NodeService } from 'src/app/demo/service/node.service';
 import { ServiceService } from 'src/app/Service/Roles.service';
-
+import { TreeNode} from 'primeng/api';
 @Component({
   templateUrl: './list-rol.component.html',
   styleUrl: './list-rol.component.scss',
@@ -13,8 +14,8 @@ import { ServiceService } from 'src/app/Service/Roles.service';
 })
 export class ListRolComponent implements OnInit{
   Rol!:Rol[];
-   
-
+  files1: TreeNode[] = [];
+  selectedFiles1: TreeNode[] = [];
   statuses: any[] = [];
 
   products: Product[] = [];
@@ -34,38 +35,26 @@ export class ListRolComponent implements OnInit{
   @ViewChild('filter') filter!: ElementRef;
 
   selectedState: any = null;
-
-  states: any[] = [
-      {name: 'Arizona', code: 'Arizona'},
-      {name: 'California', value: 'California'},
-      {name: 'Florida', code: 'Florida'},
-      {name: 'Ohio', code: 'Ohio'},
-      {name: 'Washington', code: 'Washington'}
-  ];
-
-  dropdownItems = [
-      { name: 'Option 1', code: 'Option 1' },
-      { name: 'Option 2', code: 'Option 2' },
-      { name: 'Option 3', code: 'Option 3' },
-      { name: 'Option 3', code: 'Option 3' },
-      { name: 'Option 3', code: 'Option 3' },
-      
-  ];
-
-  cities1: any[] = [];
-
-  cities2: any[] = [];
-
-  city1: any = null;
-
-  city2: any = null;
-
-  constructor(private service: ServiceService, private router: Router
+  Collapse: boolean = false;
+  DataTable: boolean = true;
+  Detalles: boolean = false;
+  Agregar: boolean = true;
+  Contrasenas: boolean = true;
+  Valor: string = "";
+  staticData = [{}];
+  selectedKeys: string[] = []; 
+  constructor(private service: ServiceService, private router: Router,private nodeService: NodeService
   
   ) { }
 
 
   ngOnInit(): void {
+    this.nodeService.getFiles().then(files => this.files1 = files);
+
+
+
+
+
       this.service.getRol().subscribe((data: any)=>{
           console.log(data);
           this.Rol = data;
@@ -73,5 +62,98 @@ export class ListRolComponent implements OnInit{
         console.log(error);
       });
    }
+
+  onNodeSelect(event: any) {
+    this.updateSelectedKeys();
+  }
+
+  onNodeUnselect(event: any) {
+    this.updateSelectedKeys();
+  }
+
+  updateSelectedKeys() {
+    const excludedKeys = ['0', '100', '101', '102']; 
+    this.selectedKeys = this.selectedFiles1
+      .map(node => node.key) 
+      .filter(key => !excludedKeys.includes(key)); 
   
+    console.log('Selected keys:', this.selectedKeys);
+  }
+   collapse(){
+    this.Collapse= true;
+    this.DataTable = false;
+    this.Valor = "Agregar";
+    this.Agregar= false;
+    this.Detalles = false;
+}
+cancelar(){
+  this.Collapse= false;
+  this.DataTable = true;
+  this.Detalles = false;
+  this.ngOnInit();
+  this.submitted = false;
+  this.Agregar= true;
+  this.Valor = "";
+}
+
+llenar(){
+  this.nodeService.getFiles().then(treeFiles => {
+    this.files1 = treeFiles;
+    this.nodeService.datos().subscribe(
+      addedScreens => {
+        this.markAddedScreens(treeFiles, addedScreens);
+      },
+    );
+  },
+  
+);
+
+  this.Collapse= true;
+  this.DataTable = false;
+  this.Agregar= false;
+  this.Detalles = false;
+
+}
+markAddedScreens(treeNodes: TreeNode[], addedScreens: any[]) {
+  const addedKeys = addedScreens.map(screen => screen.pant_Id);
+  this.selectedFiles1 = this.findNodesByKey(treeNodes, addedKeys);
+  this.updateSelectedKeys();
+}
+
+findNodesByKey(nodes: TreeNode[], keys: string[], parent: TreeNode | null = null): TreeNode[] {
+  let selected: TreeNode[] = [];
+  nodes.forEach(node => {
+    const isSelected = keys.includes(node.key);
+    if (isSelected) {
+      selected.push(node);
+      node.expanded = true;  
+
+
+      if (parent) {
+        parent.partialSelected = true;
+        parent.expanded = true;
+      }
+    }
+
+    if (node.children && node.children.length > 0) {
+      const childrenSelected = this.findNodesByKey(node.children, keys, node);
+      selected = selected.concat(childrenSelected);
+
+
+      if (childrenSelected.length > 0) {
+        node.partialSelected = childrenSelected.some(child => child.expanded);
+        node.expanded = true;
+      } else {
+        node.partialSelected = false;  
+      }
+    }
+  });
+
+
+  if (parent && selected.length > 0 && !parent.children.every(child => child.expanded)) {
+    parent.partialSelected = true;
+  }
+  return selected;
+}
+
 }

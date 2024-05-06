@@ -13,6 +13,11 @@ export class NodeService {
             .then(res => res.data as TreeNode[]);
     }
 
+    
+
+    datos() {
+        return this.http.get<any>('assets/demo/data/prueba.json')
+    }
     getLazyFiles() {
         return this.http.get<any>('assets/demo/data/files-lazy.json')
             .toPromise()

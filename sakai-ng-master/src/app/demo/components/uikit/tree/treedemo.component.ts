@@ -25,6 +25,7 @@ export class TreeDemoComponent implements OnInit {
 
     ngOnInit() {
         this.nodeService.getFiles().then(files => this.files1 = files);
+        
         this.nodeService.getFilesystem().then(files => this.files2 = files);
         this.nodeService.getFiles().then(files => {
             this.files3 = [{
