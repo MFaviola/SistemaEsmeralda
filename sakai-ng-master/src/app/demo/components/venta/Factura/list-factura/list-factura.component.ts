@@ -5,6 +5,8 @@ import {Router} from '@angular/router';
 import { Table } from 'primeng/table';
 import { Factura } from 'src/app/Models/FacturaViewModel';
 import { ServiceService } from 'src/app/Service/Factura.service';
+import { YService } from '../../Impresion/impresion.service';
+import { Cliente } from 'src/app/Models/ClienteViewModel';
 
 @Component({
   templateUrl: './list-factura.component.html',
@@ -58,7 +60,7 @@ export class ListFacturaComponent {
 
   city2: any = null;
 
-  constructor(private service: ServiceService, private router: Router
+  constructor(private service: ServiceService, private router: Router, private srvImprecion : YService
   
   ) { }
 
@@ -71,4 +73,23 @@ export class ListFacturaComponent {
         console.log(error);
       });
    } 
+
+   Imprimir(){
+    const cliente = "Eduardo Varela"
+    const DNI = "0511200500732"
+    const Municipi = "Villanueva"
+    const Depa = "Cortes"
+    const Numero = "99482910"
+    const Fecha = "2024-12-12"
+    const Factura = "1"
+    const Metodo = "Tarjeta Credito"
+    const Impuesto = "15%"
+    const Subtotal = "900"
+    const Total = "1200"
+    const encabezado =["Id", "Cliente", "Empleado"]
+    const cuerpo=["1", "Eduardo", "Jezer"]
+    const titulo= "fdsfdsfdsfdsfdsfds";
+    const img = "assets/demo/images/galleria/Esmeraldas.png"
+    this.srvImprecion.imprimirFactura(cuerpo,img,cliente,DNI,Municipi,Depa,Numero,Fecha,Factura,Impuesto,Metodo,Subtotal,Total)
+ } 
 }

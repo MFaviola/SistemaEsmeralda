@@ -19,6 +19,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     chartOptions: any;
 
     subscription!: Subscription;
+    top1: String = "arreglo[0]";
+    cantidadTop1: Number = 30;
+
 
     constructor(private productService: ProductService, public layoutService: LayoutService) {
         this.subscription = this.layoutService.configUpdate$
