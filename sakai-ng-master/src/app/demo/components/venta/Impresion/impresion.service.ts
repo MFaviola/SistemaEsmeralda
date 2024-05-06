@@ -94,8 +94,11 @@ export class YService {
 
   });
   // Aquí puedes continuar con la sección de detalles del cliente y de la factura
-    const pdfData = doc.output('bloburl');
-    window.open(pdfData, '_blank');
+  doc.html(document.body, {
+    callback: function (doc) {
+      doc.save();
+    } 
+ });
 }
   
    

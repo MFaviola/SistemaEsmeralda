@@ -9,14 +9,16 @@
         
             <form [formGroup]="departamentoForm" (ngSubmit)="onSubmit()">
                 <div class="p-fluid p-formgrid grid">
-                  <div class="field col-12 md:col-6">
+                  <div class="field col-12 md:col-6" [class.hidden]="!Cod_Depa">
                     <label for="Depa_Codigo">Codigo</label>
-                    <input pInputText id="Depa_Codigo" formControlName="Depa_Codigo" type="text" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && departamentoForm.controls['Depa_Codigo'].invalid}" />
+                    <input pInputText id="Depa_Codigo" formControlName="Depa_Codigo" type="text" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && departamentoForm.controls['Depa_Codigo'].invalid}" 
+                    (keydown)="ValidarNumeros($event)" maxlength="2"/>
                     <small class="ng-dirty ng-invalid" *ngIf="submitted && departamentoForm.controls['Depa_Codigo'].invalid" style="color: red !important;">El Codigo  esRequerido</small>
                   </div>
                   <div class="field col-12 md:col-6">
                     <label for="Depa_Departamento">Departamento</label>
-                    <input pInputText id="Depa_Departamento" formControlName="Depa_Departamento" type="text" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && departamentoForm.get('Depa_Departamento').value === ''}" />
+                    <input pInputText id="Depa_Departamento" formControlName="Depa_Departamento" type="text" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && departamentoForm.get('Depa_Departamento').value === ''}"
+                    (keydown)="validarTexto($event)" />
                     <small class="ng-dirty ng-invalid" *ngIf="submitted && departamentoForm.controls['Depa_Departamento'].invalid" style="color: red !important;">El Nombre es Requerido</small>
                   </div>
               
@@ -81,11 +83,10 @@
                 <td>
                     {{depa.depa_Departamento}}
                 </td>
-                <td style="display: flex; justify-content: space-around;">
-                    <button pButton pRipple type="button" label="Editar" class="p-button-raised p-button-success"  (click)="Fill(depa.depa_Codigo)"></button>
-                    <button pButton pRipple type="button" label="Detalles" class="p-button-raised p-button-secondary" (click)="detalles(depa.depa_Codigo)"></button>
-                    <button pButton pRipple type="button" label="Eliminar" class="p-button-raised p-button-danger"  (click)="deleteSelectedProducts(depa.depa_Codigo)"></button>
-                  
+                <td style="display: flex; justify-content: space-around; ;grid-gap: 5px;">
+                    <p-button  label="Editar"   icon="pi pi-user-edit" size="small" (click)="Fill(depa.depa_Codigo)" severity="primary" [raised]="true" [plain]="true"></p-button>
+                    <p-button  label="Detalles"   icon="pi pi-book" size="small" (click)="detalles(depa.depa_Codigo)" severity="secondary" [raised]="true" [plain]="true"></p-button>
+                    <p-button  label="Eliminar" icon="pi pi-trash" size="small" (click)="deleteSelectedProducts(depa.depa_Codigo)" severity="danger" [raised]="true" [plain]="true"></p-button>
                 </td>
             </tr>
         </ng-template>
@@ -108,7 +109,7 @@
     <div class="card-body" [class.hidden]="!Detalles">
         <div class="p-fluid p-formgrid grid">
 
-            <div class="field col-12 md:col-4" [class.hidden]="!MunCodigo">
+            <div class="field col-12 md:col-4">
                 <div class="field rows">
                     <label for="Codigo" style="font-weight: 800;">Codigo:</label>
                 </div>

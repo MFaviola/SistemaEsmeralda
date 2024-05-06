@@ -50,6 +50,7 @@ export class ListMaquillajeComponent implements OnInit{
   Detalle_Marca: String = "";
   UsuarioCreacion: String = "";
   UsuarioModificacion: String = "";
+  Detalle_Stock: String = "";
   FechaCreacion: String = "";
   FechaModificacion: String = "";
   ID: String = "";
@@ -66,6 +67,7 @@ export class ListMaquillajeComponent implements OnInit{
       Maqu_PrecioCompra: new FormControl(null, Validators.required),
       Maqu_PrecioVenta: new FormControl(null, [Validators.required]),
       Maqu_PrecioMayor: new FormControl(null, [Validators.required]),
+      Maqu_Stock: new FormControl("", [Validators.required]),
       Maqu_Imagen: new FormControl("", [Validators.required]),
       Prov_Id: new FormControl('0', [Validators.required]),
       Marc_Id: new FormControl('0', [Validators.required]),
@@ -137,6 +139,7 @@ detalles(codigo){
       this.UsuarioModificacion = data.usuarioModificacion;
       this.FechaCreacion = data.fechaCreacion;
       this.FechaModificacion = data.fechaModificacion;
+      this.Detalle_Stock = data.maqu_Stock;
       this.ID = data.maqu_Id;
     }
   });
@@ -238,9 +241,10 @@ Fill(codigo) {
             Maqu_PrecioVenta: new FormControl(data.maqu_PrecioVenta, [Validators.required]),
             Maqu_PrecioMayor: new FormControl(data.maqu_PrecioMayor, [Validators.required]),
             Maqu_Imagen: new FormControl(data.maqu_Imagen, [Validators.required]),
+            Maqu_Stock: new FormControl(data.maqu_Stock, [Validators.required]),
             Prov_Id: new FormControl(data.prov_Id, [Validators.required]),
             Marc_Id: new FormControl(data.marc_Id, [Validators.required]),
-          
+
           });
             this.ID = data.maqu_Id;
             this.Collapse= true;

@@ -16,6 +16,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from "primeng/dropdown";
 import { TreeModule } from 'primeng/tree';
+import { ReactiveFormsModule } from '@angular/forms';
 import { TreeTableModule } from 'primeng/treetable';
 @NgModule({
 	imports: [
@@ -35,7 +36,9 @@ import { TreeTableModule } from 'primeng/treetable';
 		RippleModule,
 		ConfirmPopupModule,
 		TreeModule,
-		TreeTableModule
+		TreeTableModule,
+		ReactiveFormsModule
+		
 	],
 	declarations: [ListRolComponent]
 })

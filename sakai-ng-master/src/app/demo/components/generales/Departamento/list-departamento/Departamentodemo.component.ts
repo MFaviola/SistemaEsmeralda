@@ -29,7 +29,7 @@ export class DepartamentoDemoComponent implements OnInit {
     DataTable: boolean = true;
     Detalles: boolean = false;
     Agregar: boolean = true;
-    MunCodigo: boolean = true;
+    Cod_Depa: boolean = true;  
     Valor: string = "";
     staticData = [{}];
 
@@ -108,7 +108,7 @@ cancelar(){
   });
   this.submitted = false;
   this.Agregar= true;
-  this.MunCodigo=true;
+  this.Cod_Depa=true;
   this.Valor = "";
 }
 //Funcionan como regex
@@ -119,7 +119,7 @@ ValidarNumeros(event: KeyboardEvent) {
 }
 validarTexto(event: KeyboardEvent) {
 
-  if (!/^[a-zA-Z\s]+$/.test(event.key) && event.key !== 'Backspace' && event.key !== 'Tab' && event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {
+  if (!/^[a-zA-Z \s]+$/.test(event.key) && event.key !== 'Backspace' && event.key !== 'Tab' && event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {
       event.preventDefault();
   }
 }
@@ -160,6 +160,8 @@ validarTexto(event: KeyboardEvent) {
               this.DataTable = true;
               this.Detalles = false;
               this.submitted = false;
+              this.Agregar = true;
+              this.Cod_Depa = true;
               this.departamentoForm = new FormGroup({
               Depa_Codigo: new FormControl("",Validators.required),
               Depa_Departamento: new FormControl("", Validators.required),
@@ -203,7 +205,7 @@ validarTexto(event: KeyboardEvent) {
                   this.deleteProductDialog = false;
                  }else{
                   this.deleteProductDialog = false;
-                  this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro eliminar', life: 3000 });
+                  this.messageService.add({ severity: 'error', summary: 'Error', detail: 'El departamento esta vinculado', life: 3000 });
                  }
           },
       });
@@ -221,7 +223,7 @@ validarTexto(event: KeyboardEvent) {
               this.Collapse= true;
               this.DataTable = false;
               this.Agregar = false;
-              this.MunCodigo = false;
+              this.Cod_Depa = false;
               this.Detalles = false;
               this.Valor = "Editar";
           }
