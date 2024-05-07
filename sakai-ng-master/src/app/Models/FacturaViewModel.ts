@@ -7,8 +7,11 @@ export class Factura{
 }
 
 export class FacturaEnviar {
-    Esta_EstadoCivil: string;
-
+    Impu_Id?:String;
+    Mepa_Id?:String;
+    Empl_Id?:String;
+    Clie_Id?:String;
+    Fact_Id?:String;
 }
 
 

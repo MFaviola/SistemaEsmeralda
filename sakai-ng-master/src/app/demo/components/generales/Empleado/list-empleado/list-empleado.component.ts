@@ -47,6 +47,7 @@ export class ListEmpleadoComponent {
   deleteProductDialog: boolean = false;
   //Detalle
   Detalle_Codigo: String = "";
+  Detalle_DNI: String = "";
   Detalle_Nombre: String = "";
   Detalle_Apellido: String = "";
   Detalle_Sexo: String = "";
@@ -71,6 +72,7 @@ export class ListEmpleadoComponent {
 
   ngOnInit(): void {
     this.clienteForm = new FormGroup({
+        Empl_DNI: new FormControl("",Validators.required),
         Empl_Nombre: new FormControl("",Validators.required),
         Empl_Apellido: new FormControl("", Validators.required),
         Empl_Sexo: new FormControl("", Validators.required),
@@ -105,6 +107,11 @@ export class ListEmpleadoComponent {
         console.log(error);
       });
    }
+   ValidarNumeros(event: KeyboardEvent) {
+    if (!/[0-9]/.test(event.key) && event.key !== 'Backspace' && event.key !== 'Tab') {
+        event.preventDefault();
+    }
+  }
    onDepartmentChange(departmentId) {
     if (departmentId !== '0') {
       this.service.getMunicipios(departmentId).subscribe(
@@ -134,7 +141,7 @@ detalles(codigo){
     this.Detalles = true;
     this.service.getFill(codigo).subscribe({
       next: (data: Fill) => {
-         this.Detalle_Codigo = data.empl_Id,
+         this.Detalle_Codigo = data.empl_DNI,
          this.Detalle_Nombre = data.empl_Nombre,
          this.Detalle_Apellido = data.empl_Apellido,
          this.Detalle_Sexo = data.empl_Sexo,
@@ -256,6 +263,7 @@ Fill(codigo) {
         next: (data: Fill) => {
 
           this.clienteForm = new FormGroup({
+            Empl_DNI: new FormControl(data.empl_DNI,Validators.required),
             Empl_Nombre: new FormControl(data.empl_Nombre,Validators.required),
             Empl_Apellido: new FormControl(data.empl_Apellido, Validators.required),
             Empl_Sexo: new FormControl(data.empl_Sexo, Validators.required),

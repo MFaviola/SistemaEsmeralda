@@ -1,5 +1,6 @@
 export class Cliente{
     clie_Id?:String;
+    clie_DNI?:String;
     clie_Nombre?:String;
     clie_Apellido?:String;
     clie_FechaNac?:String;
@@ -12,6 +13,7 @@ export class Cliente{
 
 export class ClienteEnviar {
     Clie_Id: string;
+    Clie_DNI?:String;
     Clie_Nombre: string;
     Clie_Apellido: string;
     Clie_FechaNac: string;
@@ -33,7 +35,7 @@ export class Fill {
     carg_Cargo: string;
     esta_Id?:String;
     esta_EstadoCivil?:String;
-
+    clie_DNI?:String;
     depa_Codigo?:String;
     depa_Departamento?:String;
     usuarioCreacion: string;

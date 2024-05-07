@@ -9,7 +9,7 @@ export class Empleado{
     empl_FechaNac?:String;
     empl_Correo:string;
 
-
+    empl_DNI?:String;
     Muni_Municipio:string;
 
 }
@@ -20,6 +20,9 @@ export class dropEmpleado{
 }
 
 export class EmpleadoEnviar {
+    
+
+    Empl_DNI?:String;
     Empl_Id:string;
     Empl_Nombre: string;
     Empl_Apellido: string;
@@ -47,7 +50,7 @@ export class Fill {
     esta_EstadoCivil?:String;
     muni_Municipio?:String;
     empl_Correo:string;
-
+    empl_DNI?:String;
     depa_Codigo?:String;
     depa_Departamento?:String;
     usuarioCreacion: string;

@@ -1,33 +1,93 @@
 <div class="main-card mb-3 card"> 
     <div class="card-header">
-        <h3 class="card-title">Joya</h3>
+        <h3 class="card-title">Factura</h3>
     </div>
     <div class="card-body">
-        <p-dialog header="Dialog" [(visible)]="display" [modal]="true" showEffect="fade" [style]="{width: '30vw'}" [breakpoints]="{'960px': '75vw'}">
-            <div class="p-fluid p-formgrid grid">
-				<div class="field col-12 md:col-6">
-					<label htmlFor="firstname2">Codigo</label>
-					<input pInputText id="firstname2" type="text" />
-				</div>
-				<div class="field col-12 md:col-6">
-					<label htmlFor="lastname2">Municipio</label>
-					<input pInputText id="lastname2" type="text" />
-				</div>
+        <button (click)="collapse()" pButton icon="pi pi-plus" style="margin-bottom: 10px ;" [class.hidden]="!Agregar">Agregar</button>
+          
+        <div [class.hidden]="!Collapse" style="margin-top: 20px;">
+
+          <form [formGroup]="FacturaForm" (ngSubmit)="onSubmit()">
+              <div class="p-fluid p-formgrid grid">
+
                 <div class="field col-12 md:col-6">
-					<label htmlFor="state">State</label>
-					<p-dropdown [options]="dropdownItems" optionLabel="name" [(ngModel)]="selectedState"></p-dropdown>
-				</div>
-			</div>
-            <ng-template pTemplate="footer">
-                    <button pButton icon="pi pi-check" (click)="display=false" label="Ok" class="p-button-outlined"></button>
-            </ng-template>
-        </p-dialog>
-        <div class="grid">
-            <div class="col-12">
-                <button (click)="display=true" pButton icon="pi pi-external-link" label="Agregar"></button>
+                  <label for="">Empleado</label>
+                  <input pInputText id="Empl_Nombre" formControlName="Empl_Nombre" type="text" required autofocus  [ngClass]="{'ng-invalid ng-dirty': submitted && FacturaForm.get('Empl_Nombre').value === ''}"
+                  (keydown)="validarTexto($event)" />
+                  <small class="ng-dirty ng-invalid" *ngIf="submitted && FacturaForm.controls['Empl_Nombre'].invalid" style="color: red !important;">Empleado Requerido</small>
+                </div>
+
+                <div class="field col-12 md:col-6">
+                    <label for="">Impuesto</label>
+                    <input pInputText id="Impu_Impuesto" formControlName="Impu_Impuesto" type="text" required autofocus  [ngClass]="{'ng-invalid ng-dirty': submitted && FacturaForm.get('Impu_Impuesto').value === ''}"
+                    (keydown)="validarTexto($event)" />
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && FacturaForm.controls['Impu_Impuesto'].invalid" style="color: red !important;">Impuesto Requerido</small>
+                  </div>
+                  <div class="field col-12 md:col-6">
+                    <label for="">DNI</label>
+                    <input pInputText id="Clie_DNI" formControlName="Clie_DNI" type="text" required autofocus  [ngClass]="{'ng-invalid ng-dirty': submitted && FacturaForm.get('Clie_DNI').value === ''}"
+                    (keydown)="validarTexto($event)" />
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && FacturaForm.controls['Clie_DNI'].invalid" style="color: red !important;">Impuesto Requerido</small>
+                  </div>
+                  <div class="field col-12 md:col-6">
+                    <label for="">Cliente</label>
+                    <input pInputText id="Cliente" formControlName="Clie_Nombre" type="text" required autofocus  [ngClass]="{'ng-invalid ng-dirty': submitted && FacturaForm.get('Clie_Nombre').value === ''}"
+                    (keydown)="validarTexto($event)" />
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && FacturaForm.controls['Clie_Nombre'].invalid" style="color: red !important;">Impuesto Requerido</small>
+                  </div>
+          
+    
+               
+                </div>
+             
+            
+          </form>
+
+          <div class="card-body" [class.hidden]="!Tabla">
+
+            <div class="card">
+                <div class="card-body">
+                    <p-table [value]="staticData">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="width:200px">Codigo</th>
+                                <th style="width:200px">Producto</th>
+                                <th style="width:200px">Cantidad</th>
+                                <th style="width:200px">Total</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-transaction>
+                            <tr>
+                                <td style="width:200px;">1</td>
+                                <td style="width:200px">Diamante</td>
+                                <td style="width:200px">3</td>
+                                <td style="width:200px">300</td>
+                            </tr>
+                            <tr>
+                                <td style="width:200px;">2</td>
+                                <td style="width:200px">Oro</td>
+                                <td style="width:200px">1</td>
+                                <td style="width:200px">200</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
             </div>
+  
         </div>
-        <p-table #dt1 [value]="Factura" dataKey="fact_Id" [rows]="10" [loading]="loading" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" [globalFilterFields]="['fact_Id,clie_Nombre,empl_Nombre,mepa_Metodo,impu_Impuesto']" responsiveLayout="scroll">
+        <div style="display: flex; justify-content: flex-end; margin-top: 1rem; grid-gap: 5px;">
+           <h1>SubTotal:500lps</h1>
+        </div>
+        <div style="display: flex; justify-content: flex-end; margin-top: 1rem; grid-gap: 5px;">
+            <h1>Total:575lps</h1>
+         </div>
+        <div style="display: flex; justify-content: flex-end; margin-top: 1rem; grid-gap: 5px;">
+            <button pButton icon="pi pi-check" type="submit" label="Agregar" class="p-button-outlined"></button>
+            <button pButton icon="pi pi-stop" type="button" (click)="cancelar()" label="Cancelar" class="p-button-outlined"></button>
+        </div>
+        </div>
+
+        <p-table #dt1 [value]="Factura" dataKey="fact_Id" [rows]="10" [loading]="loading" [rowHover]="true" styleClass="p-datatable-gridlines" [class.hidden]="!DataTable"[paginator]="true" [globalFilterFields]="['fact_Id,clie_Nombre,empl_Nombre,mepa_Metodo,impu_Impuesto']" responsiveLayout="scroll">
             <ng-template pTemplate="caption">
                 <div class="flex justify-content-between flex-column sm:flex-row">
                     <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clear(dt1)"></button>

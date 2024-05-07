@@ -9,7 +9,7 @@ import { LayoutService } from './service/app.layout.service';
 export class AppMenuComponent implements OnInit {
 
     model: any[] = [];
-
+    prueba: boolean = false;
     constructor(public layoutService: LayoutService) { }
 
     ngOnInit() {
@@ -43,10 +43,13 @@ export class AppMenuComponent implements OnInit {
                         label: 'Generales',
                         icon: 'pi pi-fw pi-folder',
                         items: [
+                            
                             {
+                            
                                 label: 'Departamentos',
                                 icon: 'pi pi-fw pi-building',
-                                routerLink: ['/generales/departamento']
+                                routerLink: ['/generales/departamento'],
+                             
                             },
                             {
                                 label: 'Municipios',
@@ -109,12 +112,6 @@ export class AppMenuComponent implements OnInit {
 
                             },
                             {
-                                label: 'Sucursales',
-                                icon: 'pi pi-fw pi-building',
-                                routerLink: ['/generales/sucursal']
-
-                            },
-                            {
                                 label: 'Empleado',
                                 icon: 'pi pi-fw pi-user',
                                 routerLink: ['/generales/empleado']
@@ -151,7 +148,7 @@ export class AppMenuComponent implements OnInit {
                             },
                             {
                                 label: 'Reportes',
-                                icon: 'pi pi-fw pi-cart-plus',
+                                icon: 'pi pi-fw pi-download',
                                 routerLink: ['/venta/reporte']
                             },
                         ]

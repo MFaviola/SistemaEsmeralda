@@ -43,6 +43,7 @@ namespace SistemaEsmeralda.API.Controllers
             {
                 Clie_Nombre = item.Clie_Nombre,
                 Clie_Apellido = item.Clie_Apellido,
+                Clie_DNI = item.Clie_DNI,
                 Clie_FechaNac = item.Clie_FechaNac,
                 Clie_Sexo = item.Clie_Sexo,
                 Muni_Codigo = item.Muni_Codigo,
@@ -78,6 +79,7 @@ namespace SistemaEsmeralda.API.Controllers
                 Clie_Nombre = item.Clie_Nombre,
                 Clie_Apellido = item.Clie_Apellido,
                 Clie_FechaNac = item.Clie_FechaNac,
+                Clie_DNI = item.Clie_DNI,
                 Clie_Sexo = item.Clie_Sexo,
                 Muni_Codigo = item.Muni_Codigo,
                 Esta_Id = item.Esta_Id,

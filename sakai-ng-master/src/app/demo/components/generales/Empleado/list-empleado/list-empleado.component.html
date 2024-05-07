@@ -12,6 +12,13 @@
 
           <form [formGroup]="clienteForm" (ngSubmit)="onSubmit()">
               <div class="p-fluid p-formgrid grid">
+                <div class="field col-12 md:col-6">
+                    <label for="Empl_DNI">DNI</label>
+                    <input pInputText id="Empl_DNI" formControlName="Empl_DNI" type="text" required autofocus 
+                           [ngClass]="{'ng-invalid ng-dirty': submitted && clienteForm.controls['Empl_DNI'].invalid}"
+                           (keydown)="ValidarNumeros($event)" maxlength="13" />
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && clienteForm.controls['Empl_DNI'].invalid" style="color: red !important;">Nombre Requerido</small>
+                 </div>
                   <div class="field col-12 md:col-6">
                       <label for="Cliente">Nombre</label>
                       <input pInputText id="Empl_Nombre" formControlName="Empl_Nombre" type="text" required autofocus 
@@ -35,7 +42,7 @@
 
                     </div>
 
-                    <div class="row">
+                    <div class="field col-12 md:col-6">
                         <label for="Empl_Sexo" class="form-label">Sexo</label>
                         <div class="col-md-3">
                             <label>
@@ -120,7 +127,7 @@
                 <tr>
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
-                             ID
+                             DNI
                             <p-columnFilter type="text" field="empl_Id" display="menu" placeholder="Search by name"></p-columnFilter>
                         </div>
                     </th>
@@ -175,7 +182,7 @@
             <ng-template pTemplate="body" let-empl>
                 <tr>
                     <td>
-                        {{empl.empl_Id}}
+                        {{empl.empl_DNI}}
                     </td>
                     <td>
                         {{empl.empl_Nombre}}
@@ -228,7 +235,7 @@
     
                     <div class="field col-12 md:col-4">
                         <div class="field rows">
-                            <label for="Codigo" style="font-weight: 800;">Codigo:</label>
+                            <label for="Codigo" style="font-weight: 800;">DNI:</label>
                         </div>
                         <div class="field rows">
                             <label for="Codigo">{{ Detalle_Codigo }}</label>
