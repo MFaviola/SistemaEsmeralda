@@ -69,6 +69,15 @@
                                 <td style="width:200px">1</td>
                                 <td style="width:200px">200</td>
                             </tr>
+                            <tr>
+                                <td style="width:200px;"><input pInputText id="Clie_DNI" formControlName="Clie_DNI" type="text" required autofocus  [ngClass]="{'ng-invalid ng-dirty': submitted && FacturaForm.get('Clie_DNI').value === ''}"
+                                    (keydown)="validarTexto($event)" /></td>
+                                <td style="width:200px">          <input pInputText id="Clie_DNI" formControlName="Clie_DNI" type="text" required autofocus  [ngClass]="{'ng-invalid ng-dirty': submitted && FacturaForm.get('Clie_DNI').value === ''}"
+                                    (keydown)="validarTexto($event)" /></td>
+                                <td style="width:200px">          <input pInputText id="Clie_DNI" formControlName="Clie_DNI" type="text" required autofocus  [ngClass]="{'ng-invalid ng-dirty': submitted && FacturaForm.get('Clie_DNI').value === ''}"
+                                    (keydown)="validarTexto($event)" /></td>
+                                <td style="width:200px">0</td>
+                            </tr>
                         </ng-template>
                     </p-table>
                 </div>
