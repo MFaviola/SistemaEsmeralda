@@ -38,7 +38,8 @@ export class ListRolComponent implements OnInit{
   Contrasenas: boolean = true;
   Valor: string = "";
   staticData = [{}];
-  selectedKeys: string[] = []; 
+  selectedKeys: string[] = []; ç
+  llenado: any = []; 
   deleteProductDialog: boolean = false;
     //Detalle
     Detalle_Rol: String = "";
@@ -47,6 +48,10 @@ export class ListRolComponent implements OnInit{
     FechaCreacion: String = "";
     FechaModificacion: String = "";
     ID: String = "";
+
+
+    Valor1: string = "";
+    Valor2: string = "";
   constructor(private service: ServiceService, private router: Router,private nodeService: NodeService,private messageService: MessageService
   
   ) { }
@@ -97,14 +102,14 @@ detalles(codigo){
   this.DataTable = false;
   this.Agregar= false;
   this.Detalles = true;
-  this.service.getFill(codigo).subscribe({
+  this.service.getDetalles(codigo).subscribe({
       next: (data: Fill) => {
-        this.ID = data.role_Id,
-        this.Detalle_Rol = data.role_Rol,
-         this.UsuarioCreacion = data.usuarioCreacion,
-         this.UsuarioModificacion = data.usuarioModificacion
-         this.FechaCreacion = data.fechaCreacion,
-         this.FechaModificacion = data.fechaModificacion
+        this.ID = data[0].role_Id,
+        this.Detalle_Rol = data[0].role_Rol,
+         this.UsuarioCreacion = data[0].usuarioCreacion,
+         this.UsuarioModificacion = data[0].usuarioModificacion
+         this.FechaCreacion = data[0].fechaCreacion,
+         this.FechaModificacion = data[0].fechaModificacion
       }
     });
 }
@@ -116,16 +121,32 @@ cancelar(){
   this.submitted = false;
   this.Agregar= true;
   this.Valor = "";
+  this.selectedFiles1 = []; 
+  this.selectedKeys = [];
 }
 
-llenar(){
+llenar(id){
   this.nodeService.getFiles().then(treeFiles => {
     this.files1 = treeFiles;
-    this.nodeService.datos().subscribe(
-      addedScreens => {
-        this.markAddedScreens(treeFiles, addedScreens);
-      },
-    );
+    this.service.getDetalles(id).subscribe({
+      next: (data: Fill) => {
+         this.ID = data[0].role_Id
+         console.log(data[0].role_Rol)
+         this.rolForm = new FormGroup({
+          Rol_Rol: new FormControl(data[0].role_Rol,Validators.required),
+        });
+      }
+    });
+    this.service.getFill(id).subscribe((data) => {
+      if (Array.isArray(data)) {
+        const pantIds = data.map((item) => item.pant_Id);
+       // Extrae `pant_Id`
+        this.markAddedScreens(treeFiles, pantIds); // Pasa la lista directamente
+      } else {
+        console.error("El formato de datos devuelto no es un arreglo.");
+      }
+    });
+    
   },
   
 );
@@ -136,47 +157,80 @@ llenar(){
   this.Detalles = false;
 
 }
-markAddedScreens(treeNodes: TreeNode[], addedScreens: any[]) {
-  const addedKeys = addedScreens.map(screen => screen.pant_Id);
+markAddedScreens(treeNodes: TreeNode[], pantIds: number[]) {
+  const addedKeys = pantIds.map((id) => id.toString()); 
+  console.log(addedKeys)// Convierte a string si las keys están en este formato
   this.selectedFiles1 = this.findNodesByKey(treeNodes, addedKeys);
-  this.updateSelectedKeys();
+  this.updateSelectedKeys(); // Si tienes lógica adicional para actualizar claves seleccionadas
 }
 
 findNodesByKey(nodes: TreeNode[], keys: string[], parent: TreeNode | null = null): TreeNode[] {
   let selected: TreeNode[] = [];
-  nodes.forEach(node => {
+
+  nodes.forEach((node) => {
     const isSelected = keys.includes(node.key);
-    if (isSelected) {
-      selected.push(node);
-      node.expanded = true;  
+    let childrenSelected: TreeNode[] = [];
 
-
-      if (parent) {
-        parent.partialSelected = true;
-        parent.expanded = true;
-      }
+    // Recursivamente busca nodos seleccionados en los hijos
+    if (node.children && node.children.length > 0) {
+      childrenSelected = this.findNodesByKey(node.children, keys, node);
+      selected = selected.concat(childrenSelected);
     }
 
-    if (node.children && node.children.length > 0) {
-      const childrenSelected = this.findNodesByKey(node.children, keys, node);
-      selected = selected.concat(childrenSelected);
+    // Verificar si todos los hijos están seleccionados
+    const allChildrenSelected = node.children && node.children.length > 0 && node.children.every((child) => keys.includes(child.key));
+    const hasSelectedChildren = childrenSelected.length > 0;
 
+    // Condición para el nodo actual
+    if (isSelected || allChildrenSelected) {
+      selected.push(node);
+      node.expanded = true;
+      node.partialSelected = false; // Está completamente marcado
+    } else if (hasSelectedChildren) {
+      node.partialSelected = true; // Está parcialmente marcado
+      node.expanded = true;
+    } else {
+      node.partialSelected = false; // Ninguno de sus hijos está seleccionado
+    }
 
-      if (childrenSelected.length > 0) {
-        node.partialSelected = childrenSelected.some(child => child.expanded);
-        node.expanded = true;
-      } else {
-        node.partialSelected = false;  
+    // Actualizar el estado del nodo padre
+    if (parent) {
+      parent.expanded = true;
+
+      // El padre se marca como parcialmente seleccionado si al menos un hijo está parcialmente o totalmente seleccionado
+      parent.partialSelected = parent.partialSelected || hasSelectedChildren;
+
+      // Si todos los hijos están seleccionados, el nodo padre no debe estar parcialmente seleccionado
+      if (allChildrenSelected) {
+        parent.partialSelected = true;
       }
     }
   });
 
+  // Verificación para el nodo raíz
+  if (parent === null) {
+    // Verificar si el número de claves en `keys` coincide con el total esperado
+    const expectedCount = nodes.reduce((count, node) => count + 1 + (node.children ? node.children.length : 0), 0);
 
-  if (parent && selected.length > 0 && !parent.children.every(child => child.expanded)) {
-    parent.partialSelected = true;
+    // Si el conteo de `keys` es igual al total esperado, marcar el nodo raíz
+    if (keys.length === 15) {
+      nodes.forEach((node) => {
+        node.partialSelected = false; // Se asegura de que no tenga un guion
+        if (!selected.includes(node)) {
+          selected.push(node); // Marca el nodo raíz como seleccionado
+        }
+      });
+    }
   }
+
+  // Devuelve los nodos seleccionados
   return selected;
 }
+
+
+
+
+
 validarTexto(event: KeyboardEvent) {
 
   if (!/^[a-zA-Z\s]+$/.test(event.key) && event.key !== 'Backspace' && event.key !== 'Tab' && event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {
@@ -184,7 +238,8 @@ validarTexto(event: KeyboardEvent) {
   }
 }onSubmit() {
   if (this.rolForm.valid) {
-     this.viewModel = this.rolForm.value;
+     this.viewModel.txtRol = this.rolForm.get('Rol_Rol').value;
+     this.viewModel.pantallasSeleccionadas = this.selectedKeys;
      if (this.Valor == "Agregar") {
       this.service.EnviarRol(this.viewModel).subscribe((data: MensajeViewModel[]) => {
           if(data["message"] == "Operación completada exitosamente."){
@@ -195,13 +250,15 @@ validarTexto(event: KeyboardEvent) {
            this.submitted = false;
            this.Detalles = false;
            this.Agregar= true;
+           this.selectedFiles1 = []; 
+           this.selectedKeys = [];
           }else{
            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro insertar', life: 3000 });
           }
           
        })
      } else {
-          this.viewModel.Role_Id = this.ID;
+          this.viewModel.Rol_Id = this.ID;
           this.service.ActualizarRol(this.viewModel).subscribe((data: MensajeViewModel[]) => {
           if(data["message"] == "Operación completada exitosamente."){
             this.ngOnInit();
@@ -211,6 +268,8 @@ validarTexto(event: KeyboardEvent) {
            this.Detalles = false;
            this.submitted = false;
            this.Agregar= true;
+           this.selectedFiles1 = []; 
+           this.selectedKeys = [];
           }else{
            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro actualizar', life: 3000 });
           }

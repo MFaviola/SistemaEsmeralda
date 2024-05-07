@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace SistemaEsmeralda.DataAccess.Repository
 {
-    public class PantallaRolesRepository : IRepository<tbPantallasXRoles>
+    public class PantallaRolesRepository : IRepository<tbPantallasPorRoles>
     {
 
 
-        public RequestStatus Insert(tbPantallasXRoles item)
+        public RequestStatus Insert(tbPantallasPorRoles item)
         {
             const string sql = "[Acce].[sp_PantallasPorRoles_insertar]";
 
@@ -35,31 +35,42 @@ namespace SistemaEsmeralda.DataAccess.Repository
             }
         }
 
-        public IEnumerable<tbPantallasXRoles> List()
+        public IEnumerable<tbPantallasPorRoles> List()
         {
             const string sql = "Acce.sp_PantallasRoles_listar";
 
-            List<tbPantallasXRoles> result = new List<tbPantallasXRoles>();
+            List<tbPantallasPorRoles> result = new List<tbPantallasPorRoles>();
 
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
             {
-                result = db.Query<tbPantallasXRoles>(sql, commandType: CommandType.Text).ToList();
+                result = db.Query<tbPantallasPorRoles>(sql, commandType: CommandType.Text).ToList();
 
                 return result;
             }
         }
 
-        public IEnumerable<tbPantallasXRoles> Fill(int id)
+        public IEnumerable<tbPantallasPorRoles> Fill(int id)
         {
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
             {
                 var parameter = new DynamicParameters();
                 parameter.Add("Role_Id", id);
-                return db.Query<tbPantallasXRoles>(ScriptsBaseDeDatos.PantallasRolesllenar, parameter, commandType: CommandType.StoredProcedure);
+                return db.Query<tbPantallasPorRoles>(ScriptsBaseDeDatos.PantallasRolesllenar, parameter, commandType: CommandType.StoredProcedure);
             }
         }
 
-        public RequestStatus Update(tbPantallasXRoles item)
+        public IEnumerable<tbRoles> Fill2(int id)
+        {
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+                var parameter = new DynamicParameters();
+                parameter.Add("Role_Id", id);
+                return db.Query<tbRoles>(ScriptsBaseDeDatos.PantallasRolesllenar2, parameter, commandType: CommandType.StoredProcedure);
+            }
+        }
+
+
+        public RequestStatus Update(tbPantallasPorRoles item)
         {
             string sql = ScriptsBaseDeDatos.PantallasRolesActualizar;
 
@@ -101,15 +112,15 @@ namespace SistemaEsmeralda.DataAccess.Repository
 
 
 
-        public IEnumerable<tbPantallasXRoles> ValidarReestablecer(string usuario)
+        public IEnumerable<tbPantallasPorRoles> ValidarReestablecer(string usuario)
         {
 
 
-            List<tbPantallasXRoles> result = new List<tbPantallasXRoles>();
+            List<tbPantallasPorRoles> result = new List<tbPantallasPorRoles>();
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
             {
                 var parameters = new { Usua_Usuario = usuario };
-                result = db.Query<tbPantallasXRoles>(ScriptsBaseDeDatos.Usuarios_ValidarReestablecer, parameters, commandType: CommandType.StoredProcedure).ToList();
+                result = db.Query<tbPantallasPorRoles>(ScriptsBaseDeDatos.Usuarios_ValidarReestablecer, parameters, commandType: CommandType.StoredProcedure).ToList();
                 return result;
             }
         }
@@ -121,12 +132,12 @@ namespace SistemaEsmeralda.DataAccess.Repository
             throw new NotImplementedException();
         }
 
-        public tbPantallasXRoles Details(int? id)
+        public tbPantallasPorRoles Details(int? id)
         {
             throw new NotImplementedException();
         }
 
-        public tbPantallasXRoles find(int? id)
+        public tbPantallasPorRoles find(int? id)
         {
             throw new NotImplementedException();
         }

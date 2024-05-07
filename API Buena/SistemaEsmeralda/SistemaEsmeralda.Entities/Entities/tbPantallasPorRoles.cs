@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SistemaEsmeralda.Entities.Entities
 {
-    public partial class tbPantallasXRoles
+    public partial class tbPantallasPorRoles
     {
         public int Paxr_Id { get; set; }
         public int? Role_Id { get; set; }

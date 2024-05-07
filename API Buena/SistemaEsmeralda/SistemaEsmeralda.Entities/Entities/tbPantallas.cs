@@ -10,7 +10,7 @@ namespace SistemaEsmeralda.Entities.Entities
     {
         public tbPantallas()
         {
-            tbPantallasXRoles = new HashSet<tbPantallasXRoles>();
+            tbPantallasXRoles = new HashSet<tbPantallasPorRoles>();
         }
 
         public int Pant_Id { get; set; }
@@ -24,6 +24,6 @@ namespace SistemaEsmeralda.Entities.Entities
 
         public virtual tbUsuarios Pant_UsuarioCreacionNavigation { get; set; }
         public virtual tbUsuarios Pant_UsuarioModificacionNavigation { get; set; }
-        public virtual ICollection<tbPantallasXRoles> tbPantallasXRoles { get; set; }
+        public virtual ICollection<tbPantallasPorRoles> tbPantallasXRoles { get; set; }
     }
 }

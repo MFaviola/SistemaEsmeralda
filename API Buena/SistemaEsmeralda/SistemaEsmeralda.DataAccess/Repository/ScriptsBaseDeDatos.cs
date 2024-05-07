@@ -209,10 +209,11 @@ namespace SistemaEsmeralda.DataAccess.Repository
 
         #region RolesPorPantalla
 
-        public static string PantallasRolesListar = "Acce.sp_PantallasXRoles_listar";
+        public static string PantallasRolesListar = "[Acce].[sp_PantallasRoles_listar]";
+        public static string PantallasRolesllenar2 = "[Acce].[sp_Roles_buscar]";
         public static string PantallasRolesllenar = "[Acce].[sp_PantallasPorRol2_buscar]";
-        public static string PantallasRolesActualizar = "Acce.sp_PantallasXRoles_actualizar";
-        public static string PantallasRolesEliminar = "Acce.sp_PantallasXRoles_eliminar";
+        public static string PantallasRolesActualizar = "[Acce].[sp_PantallasPorRoles_actualizar]";
+        public static string PantallasRolesEliminar = "[Acce].[sp_PantallasPorRoles_eliminar]";
 
         #endregion
 

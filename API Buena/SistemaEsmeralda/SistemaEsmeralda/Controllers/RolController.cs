@@ -55,7 +55,7 @@ namespace SistemaEsmeralda.API.Controllers
 
         [HttpPost("Create")]
         
-            public IActionResult Insert([FromBody] FormData formData)
+            public IActionResult Insert(FormData formData)
             {
 
 
@@ -76,7 +76,7 @@ namespace SistemaEsmeralda.API.Controllers
 
             foreach (var pantalla in pantallasSeleccionadas)
             {
-                var modelo2 = new tbPantallasXRoles()
+                var modelo2 = new tbPantallasPorRoles()
                 {
                     Pant_Id = pantalla,
                     Role_Id = idRol,
@@ -107,11 +107,25 @@ namespace SistemaEsmeralda.API.Controllers
         }
 
 
+        [HttpGet("FillDetalles/{id}")]
+        public IActionResult FillDetalles(int id)
+        {
+            var list = _accesoServices.ObtenerRoles(id);
+            if (list.Success)
+            {
+                return Ok(list.Data);
+            }
+            else
+            {
+                return BadRequest(list.Message);
+            }
+        }
+
 
 
 
         [HttpPut("Edit")]
-        public IActionResult Update([FromBody] FormData formData)
+        public IActionResult Update(FormData formData)
         {
 
             var msj = new ServiceResult();
@@ -122,6 +136,8 @@ namespace SistemaEsmeralda.API.Controllers
             {
                 Role_Id = formData.Rol_Id,
                 Role_Rol = formData.txtRol,
+                Role_UsuarioModificacion = 1,
+                Role_FechaModificacion = DateTime.Now
           
             };
             var list = _accesoServices.EditarRol(modelo);
@@ -132,7 +148,7 @@ namespace SistemaEsmeralda.API.Controllers
 
             foreach (var pantalla in pantallasSeleccionadas)
             {
-                var modelo2 = new tbPantallasXRoles()
+                var modelo2 = new tbPantallasPorRoles()
                 {
                     Pant_Id = pantalla,
                     Role_Id = idRol,

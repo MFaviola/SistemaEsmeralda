@@ -351,7 +351,7 @@ namespace SistemaEsmeralda.BusinessLogic.Services
 
 
 
-        public ServiceResult EditarRolesPantalla(tbPantallasXRoles item)
+        public ServiceResult EditarRolesPantalla(tbPantallasPorRoles item)
         {
             var result = new ServiceResult();
             try
@@ -399,7 +399,7 @@ namespace SistemaEsmeralda.BusinessLogic.Services
 
 
 
-        public ServiceResult InsertarRolesPantalla(tbPantallasXRoles item)
+        public ServiceResult InsertarRolesPantalla(tbPantallasPorRoles item)
         {
             var result = new ServiceResult();
             try
@@ -428,6 +428,22 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             try
             {
                 var list = _pantallaRolesRepository.Fill(id);
+
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
+
+        public ServiceResult ObtenerRoles(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _pantallaRolesRepository.Fill2(id);
 
                 return result.Ok(list);
             }
