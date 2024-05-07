@@ -11,6 +11,7 @@ import { dropProveedor } from 'src/app/Models/ProveedorViewModel';
 import { dropMaterial } from 'src/app/Models/MaterialViewModel';
 import { dropCategoria } from 'src/app/Models/CategoriaViewModel';
 import { FileUpload } from 'primeng/fileupload';
+import { BASE_URL } from 'src/app/Service/ulrsettings';
 
 @Component({
   templateUrl: './list-joya.component.html',
@@ -19,6 +20,7 @@ import { FileUpload } from 'primeng/fileupload';
 export class ListJoyaComponent {
   @ViewChild('fileUpload') fileUpload: FileUpload;
   Joya!:Joya[];
+  URL = BASE_URL;
   MensajeViewModel!: MensajeViewModel[];
   submitted: boolean = false;
   loading: boolean = false;

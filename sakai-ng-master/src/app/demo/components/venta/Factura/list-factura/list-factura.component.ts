@@ -90,6 +90,6 @@ export class ListFacturaComponent {
     const cuerpo=["1", "Eduardo", "Jezer"]
     const titulo= "fdsfdsfdsfdsfdsfds";
     const img = "assets/demo/images/galleria/Esmeraldas.png"
-    this.facura_impresa = this.srvImprecion.imprimirFactura(cuerpo,img,cliente,DNI,Municipi,Depa,Numero,Fecha,Factura,Impuesto,Metodo,Subtotal,Total)
+    this.facura_impresa = this.srvImprecion.Reporte1PDF(cuerpo,img,cliente,DNI,Municipi,Depa,Numero,Fecha,Factura,Impuesto,Metodo,Subtotal,Total)
  } 
 }

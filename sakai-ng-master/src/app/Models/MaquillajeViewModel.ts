@@ -1,12 +1,11 @@
 export class Maquillaje{
     maqu_Id?:String;
     maqu_Nombre?:String;
-   
+    maqu_Stock?:String;
     maqu_PrecioCompra?:String;
     maqu_PrecioVenta?:String;
     maqu_PrecioMayor?:String;
     prov_Proveedor?:String;
-    maqu_Stock?:String;
     maqu_Imagen?:string;
     marc_Marca?:String;
 }

@@ -149,6 +149,11 @@ export class AppMenuComponent implements OnInit {
                                 icon: 'pi pi-fw pi-cart-plus',
                                 routerLink: ['/venta/factura']
                             },
+                            {
+                                label: 'Reportes',
+                                icon: 'pi pi-fw pi-cart-plus',
+                                routerLink: ['/venta/reporte']
+                            },
                         ]
                     },
                     

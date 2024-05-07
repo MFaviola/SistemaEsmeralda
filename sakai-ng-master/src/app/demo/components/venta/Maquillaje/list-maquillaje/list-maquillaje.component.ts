@@ -161,7 +161,11 @@ validarTexto(event: KeyboardEvent) {
       event.preventDefault();
   }
 }
-
+ValidarNumeros(event: KeyboardEvent) {
+  if (!/[0-9]/.test(event.key) && event.key !== 'Backspace' && event.key !== 'Tab') {
+      event.preventDefault();
+  }
+}
 onSubmit() {
   if (this.MaquillajeForm.valid && this.MaquillajeForm.get('Prov_Id').value !== '0' && this.MaquillajeForm.get('Marc_Id').value !== '0') {
      this.viewModel = this.MaquillajeForm.value;

@@ -84,7 +84,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 parameter.Add("@Joya_PrecioVenta", item.Joya_PrecioVenta);
                 parameter.Add("@Joya_PrecioMayor", item.Joya_PrecioMayor);
                 parameter.Add("@Joya_Imagen", item.Joya_Imagen);
-                parametro.Add("@Joya_Stock", item.Joya_Stock);
+                parameter.Add("@Joya_Stock", item.Joya_Stock);
                 parameter.Add("@Prov_Id", item.Prov_Id);
                 parameter.Add("@Mate_Id", item.Mate_Id);
                 parameter.Add("@Joya_PrecioVenta", item.Joya_PrecioVenta);
