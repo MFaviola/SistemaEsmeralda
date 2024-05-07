@@ -68,20 +68,7 @@ namespace SistemaEsmeralda.API.Controllers
 
 
 
-        //public IActionResult TotalJoyaMes()
-        //{
-        //    int ? total = 0;
-        //    var list = _generalServices.totalJoyasMes();
-        //    var lista = list.Data as List<tbFacturaDetalles>;
-        //    foreach (var item in lista)
-        //    {
-        //        total += item.Total;
-        //    }
-
-        //    return Ok(lista.ToList());
-        //}
-
-
+       
         [HttpGet("GeneroMes")]
         public IActionResult TotalGeneroMes()
         {
@@ -114,6 +101,72 @@ namespace SistemaEsmeralda.API.Controllers
             var list = _generalServices.Ventatotalcate();
             return Ok(list.Data);
         }
+
+
+
+
+
+
+
+
+
+
+
+        /// /////////////////////////////////// /////////////////////////////////
+
+
+
+
+
+
+
+        [HttpGet("MaquillajeMesfiltrado/{fecha}")]
+        public IActionResult TotalMaqillajeMesfiltrado(DateTime fecha)
+        {
+            var list = _generalServices.totalMaquillajeMesfiltrado(fecha);
+            return Ok(list.Data);
+        }
+
+
+        [HttpGet("MaquillajetotalMesfiltrado/{fecha}")]
+        public IActionResult TotalinMaqillajeMesfiltrado(DateTime fecha)
+        {
+            var list = _generalServices.totalinMaquillajeMesfiltrado(fecha);
+            return Ok(list.Data);
+        }
+
+
+
+
+        [HttpGet("JoyaMesfiltrado/{fecha}")]
+        public IActionResult TotalJoyaMesfiltrado(DateTime fecha)
+        {
+            var list = _generalServices.totalJoyasMesfiltrado(fecha);
+            return Ok(list.Data);
+        }
+
+
+        [HttpGet("JoyatotalMesfiltrado/{fecha}")]
+        public IActionResult TotalinJoyaMesfiltrado(DateTime fecha)
+        {
+            var list = _generalServices.totalinJoyasMesfiltrado(fecha);
+            return Ok(list.Data);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     }
 }

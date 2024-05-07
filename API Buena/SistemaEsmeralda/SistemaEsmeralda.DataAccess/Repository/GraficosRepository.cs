@@ -59,6 +59,139 @@ namespace SistemaEsmeralda.DataAccess.Repository
 
 
 
+        ////////////////////////////////////
+
+
+        public IEnumerable<tbFacturaDetalles> totalJoyasMesfiltrado(DateTime fecha)
+        {
+            const string sql = "Vent.sp_Dash_JoyasMes";
+
+            List<tbFacturaDetalles> result = new List<tbFacturaDetalles>();
+
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+
+
+                int año = ObtenerAño(fecha);
+                int mesi = Obtenemes(fecha);
+
+                var parameter = new DynamicParameters();
+                parameter.Add("@MesActual", mesi);
+                parameter.Add("@AñoActual", año);
+
+
+                result = db.Query<tbFacturaDetalles>(sql, parameter, commandType: CommandType.StoredProcedure).ToList();
+
+                return result;
+            }
+        }
+
+
+
+
+
+
+
+
+
+        public IEnumerable<tbFacturaDetalles> totalMaquillajeMesfiltrado(DateTime fecha)
+        {
+            const string sql = "Vent.sp_Dash_MaquillajeMes";
+
+            List<tbFacturaDetalles> result = new List<tbFacturaDetalles>();
+
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+
+
+                int año = ObtenerAño(fecha);
+                int mesi = Obtenemes(fecha);
+
+                var parameter = new DynamicParameters();
+                parameter.Add("@MesActual", mesi);
+                parameter.Add("@AñoActual", año);
+
+
+
+                result = db.Query<tbFacturaDetalles>(sql, parameter, commandType: CommandType.StoredProcedure).ToList();
+
+                return result;
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+        public IEnumerable<tbFacturaDetalles> totalinJoyasMesfiltrado(DateTime fecha)
+        {
+            const string sql = "[Vent].[sp_TotalFinal_JoyasMes]";
+
+            List<tbFacturaDetalles> result = new List<tbFacturaDetalles>();
+
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+
+                int año = ObtenerAño(fecha);
+                int mesi = Obtenemes(fecha);
+
+                var parameter = new DynamicParameters();
+                parameter.Add("@MesActual", mesi);
+                parameter.Add("@AñoActual", año);
+
+                result = db.Query<tbFacturaDetalles>(sql, parameter, commandType: CommandType.StoredProcedure).ToList();
+
+                return result;
+            }
+        }
+
+
+
+
+
+
+        public IEnumerable<tbFacturaDetalles> totalinMaquillajeMesfiltrado(DateTime fecha)
+        {
+            const string sql = "[Vent].[sp_TotalFinal_MaquillajeMes]";
+
+            List<tbFacturaDetalles> result = new List<tbFacturaDetalles>();
+
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+
+
+                int año = ObtenerAño(fecha);
+                int mesi = Obtenemes(fecha);
+
+                var parameter = new DynamicParameters();
+                parameter.Add("@MesActual", mesi);
+                parameter.Add("@AñoActual", año);
+
+
+                result = db.Query<tbFacturaDetalles>(sql, parameter, commandType: CommandType.StoredProcedure).ToList();
+
+                return result;
+            }
+        }
+
+
+
+
+
+
+        ////////////////// ///
+
+
+
+
+
+
+
 
 
         public IEnumerable<tbFacturaDetalles> totalJoyasMes()
@@ -216,7 +349,19 @@ namespace SistemaEsmeralda.DataAccess.Repository
             }
         }
 
-        
+
+
+        public int ObtenerAño(DateTime fecha)
+        {
+            return fecha.Year;
+        }
+
+
+
+        public int Obtenemes(DateTime mes)
+        {
+            return mes.Month;
+        }
 
 
 

@@ -5,15 +5,42 @@
             <p-chart type="line" [data]="lineData" [options]="lineOptions"></p-chart>
         </div>
 
-        <div class="card flex flex-column align-items-center">
-            <h5 class="text-left w-full">Total vendido</h5>
-            <p-chart type="pie" [data]="pieData" [options]="pieOptions"></p-chart>
-        </div>
 
-        <div class="card flex flex-column align-items-center">
+
+        <div class="card flex flex-column ">
+            <h5 class="text-left w-full">Total  Vendidos</h5>
+                   
+           <div class="card flex flex-column align-items-center">
+             
+                                     <div class="field col-12 md:col-12">
+                                     
+                                       <div class="field rows">
+                                           <p-calendar [showIcon]="true" inputId="fecha" placeholder="Sleccione la fecha"></p-calendar>  
+                                       </div>
+                                   </div>
+
+
+                                     
+           <p-chart type="doughnut" [data]="pieData" [options]="pieOptions"></p-chart>
+           </div>
+       </div>
+
+        <!-- <div class="card flex flex-column align-items-center">
+
+            <div class="field col-12 md:col-12">
+                                      
+                <div class="field rows">
+                    <p-calendar [showIcon]="true" inputId="icon" placeholder="Sleccione la fecha"></p-calendar>  
+                </div>
+            </div>
+
+            <p-chart type="pie" [data]="pieData" [options]="pieOptions"></p-chart>
+        </div> -->
+
+        <!-- <div class="card flex flex-column align-items-center">
             <h5 class="text-left w-full">Top  5 Joyas</h5>
             <p-chart type="polarArea" [data]="polarData2" [options]="polarOptions"></p-chart>
-        </div>
+        </div> -->
     </div>
     <div class="col-12 lg:col-6">
         <div class="card">
@@ -21,16 +48,29 @@
             <p-chart type="bar" [data]="barData" [options]="barOptions"></p-chart>
         </div>
 
-        <div class="card flex flex-column align-items-center">
-            <h5 class="text-left w-full">Total  Cantidad Vendidas</h5>
+        <div class="card flex flex-column ">
+             <h5 class="text-left w-full">Total  Cantidad Vendidas</h5>
+                    
+            <div class="card flex flex-column align-items-center">
+              
+                                      <div class="field col-12 md:col-12">
+                                      
+                                        <div class="field rows">
+                                            <p-calendar [showIcon]="true" inputId="icon" placeholder="Sleccione la fecha"></p-calendar>  
+                                        </div>
+                                    </div>
+
+
+                                      
             <p-chart type="doughnut" [data]="pieData2" [options]="pieOptions"></p-chart>
+            </div>
         </div>
 
-        <div class="card flex flex-column align-items-center">
+        <!-- <div class="card flex flex-column align-items-center">
             <h5 class="text-left w-full">Top 5 Maquillaje</h5>
             <p-chart type="polarArea" [data]="polarData" [options]="polarOptions"></p-chart>
         </div>
-      
+       -->
 
         <!-- <div class="card flex flex-column align-items-center">
             <h5 class="text-left w-full">Radar Chart</h5>

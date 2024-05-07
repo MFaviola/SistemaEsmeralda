@@ -15,7 +15,7 @@ export class ChartsDemoComponent implements OnInit, OnDestroy {
     lineData: any;
 
     barData: any;
-
+    submitted: boolean = false;
     pieData: any;
     pieData2: any;
     maquillajeMes:MaquillajeMes[];

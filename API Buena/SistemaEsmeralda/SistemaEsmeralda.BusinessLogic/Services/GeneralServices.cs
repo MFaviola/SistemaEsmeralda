@@ -1739,7 +1739,92 @@ namespace SistemaEsmeralda.BusinessLogic.Services
         }
 
 
-        
+
+
+
+
+        #region filtrados
+
+
+
+        public ServiceResult totalMaquillajeMesfiltrado(DateTime fecha)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _graficosRepository.totalMaquillajeMesfiltrado(fecha);
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
+
+
+
+
+        public ServiceResult totalinMaquillajeMesfiltrado( DateTime fecha)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _graficosRepository.totalinMaquillajeMesfiltrado(fecha);
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
+
+
+
+
+        public ServiceResult totalJoyasMesfiltrado(DateTime fecha)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _graficosRepository.totalJoyasMesfiltrado(fecha);
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
+
+        public ServiceResult totalinJoyasMesfiltrado(DateTime fecha)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _graficosRepository.totalinJoyasMesfiltrado(fecha);
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
+
+
+
+        #endregion
+
 
 
 

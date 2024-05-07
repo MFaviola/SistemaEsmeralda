@@ -66,6 +66,10 @@ export class ServiceService {
 
 
 
+
+
+
+
   urltt = BASE_URL + 'API/Graficos/Ventatotales'
 
   getto(){
@@ -79,6 +83,44 @@ export class ServiceService {
   gettc(){
     return this.http.get<totalcate[]>(this.urltc)
   }
+
+////////////////FILTRADOS //////////////////
+
+
+getJoyasf(fecha: string): Observable<JoyaMes> {
+  return this.http.get<JoyaMes>(`${BASE_URL + 'API/Graficos/JoyaMesfiltrado' + fecha}`);
+}
+
+
+
+
+getMaquioJoyaf(fecha: string): Observable<MaqJoyaMes> {
+  return this.http.get<MaqJoyaMes>(`${BASE_URL + 'API/Graficos/ProductoMesfiltrado' + fecha}`);
+}
+
+
+
+
+
+gettjf(fecha: string): Observable<totalJo> {
+  return this.http.get<totalJo>(`${BASE_URL + 'API/Graficos/JoyatotalMesfiltrado' + fecha}`);
+}
+
+
+
+
+
+
+gettmf(fecha: string): Observable<totalMa> {
+  return this.http.get<totalMa>(`${BASE_URL + 'API/Graficos/MaquillajetotalMesfiltrado' + fecha}`);
+}
+
+
+
+
+
+
+
 
 
 }

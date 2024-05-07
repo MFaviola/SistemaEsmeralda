@@ -156,10 +156,60 @@ export class AppMenuComponent implements OnInit {
                             },
                         ]
                     },
-                    
-                 
-
                 ]
+
+
+                
+
+
+
+
+                
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            },
+            {
+                items: [
+                    {
+                        label: 'Graficos',
+                        icon: 'pi pi-fw pi-chart-bar',
+                        routerLink: ['/uikit/charts']
+                    },
+                ]
+
+
+                
+
+
+
+
+                
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             },
         ];
     }
