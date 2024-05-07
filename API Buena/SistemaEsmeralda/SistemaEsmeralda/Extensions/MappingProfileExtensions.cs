@@ -31,6 +31,7 @@ namespace SistemaEsmeralda.API.Extensions
             CreateMap<UsuariosViewModel, tbUsuarios>().ReverseMap();
             CreateMap<PantallaRolViewModel, tbPantallasPorRoles>().ReverseMap();
             CreateMap<FacturaDetalleViewModel, tbFacturaDetalles>().ReverseMap();
+            CreateMap<FacturaViewModel, tbFactura>().ReverseMap();
 
 
 

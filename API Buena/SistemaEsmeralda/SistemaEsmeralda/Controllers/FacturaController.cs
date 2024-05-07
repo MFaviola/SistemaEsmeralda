@@ -26,5 +26,13 @@ namespace SistemaEsmeralda.API.Controllers
             var list = _ventasServices.ListadoFactura();
             return Ok(list.Data);
         }
+
+
+        [HttpPost("Create")]
+        public IActionResult Create()
+        {
+            var list = _ventasServices.ListadoFactura();
+            return Ok(list.Data);
+        }
     }
 }

@@ -88,7 +88,7 @@ export class ListRolComponent implements OnInit{
       .map(node => node.key) 
       .filter(key => !excludedKeys.includes(key)); 
   
-    console.log('Selected keys:', this.selectedKeys);
+   
   }
    collapse(){
     this.Collapse= true;
@@ -171,59 +171,55 @@ findNodesByKey(nodes: TreeNode[], keys: string[], parent: TreeNode | null = null
     const isSelected = keys.includes(node.key);
     let childrenSelected: TreeNode[] = [];
 
-    // Recursivamente busca nodos seleccionados en los hijos
+  
     if (node.children && node.children.length > 0) {
       childrenSelected = this.findNodesByKey(node.children, keys, node);
       selected = selected.concat(childrenSelected);
     }
 
-    // Verificar si todos los hijos están seleccionados
+ 
     const allChildrenSelected = node.children && node.children.length > 0 && node.children.every((child) => keys.includes(child.key));
     const hasSelectedChildren = childrenSelected.length > 0;
 
-    // Condición para el nodo actual
     if (isSelected || allChildrenSelected) {
       selected.push(node);
       node.expanded = true;
-      node.partialSelected = false; // Está completamente marcado
+      node.partialSelected = false; 
     } else if (hasSelectedChildren) {
-      node.partialSelected = true; // Está parcialmente marcado
+      node.partialSelected = true;
       node.expanded = true;
     } else {
-      node.partialSelected = false; // Ninguno de sus hijos está seleccionado
+      node.partialSelected = false; 
     }
 
-    // Actualizar el estado del nodo padre
+  
     if (parent) {
       parent.expanded = true;
 
-      // El padre se marca como parcialmente seleccionado si al menos un hijo está parcialmente o totalmente seleccionado
+     
       parent.partialSelected = parent.partialSelected || hasSelectedChildren;
 
-      // Si todos los hijos están seleccionados, el nodo padre no debe estar parcialmente seleccionado
       if (allChildrenSelected) {
         parent.partialSelected = true;
       }
     }
   });
 
-  // Verificación para el nodo raíz
+
   if (parent === null) {
-    // Verificar si el número de claves en `keys` coincide con el total esperado
+
     const expectedCount = nodes.reduce((count, node) => count + 1 + (node.children ? node.children.length : 0), 0);
 
-    // Si el conteo de `keys` es igual al total esperado, marcar el nodo raíz
     if (keys.length === 15) {
       nodes.forEach((node) => {
-        node.partialSelected = false; // Se asegura de que no tenga un guion
+        node.partialSelected = false;
         if (!selected.includes(node)) {
-          selected.push(node); // Marca el nodo raíz como seleccionado
+          selected.push(node);
         }
       });
     }
   }
 
-  // Devuelve los nodos seleccionados
   return selected;
 }
 
