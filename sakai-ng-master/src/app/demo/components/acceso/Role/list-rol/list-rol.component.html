@@ -75,7 +75,7 @@
                         {{rol.role_Rol}}
                     </td>
                     <td style="display: flex; justify-content: space-around; grid-gap: 5px;">
-                        <p-button  label="Editar"   icon="pi pi-user-edit" size="small" (click)="llenar()" severity="primary" [raised]="true" [plain]="true"></p-button>
+                        <p-button  label="Editar"   icon="pi pi-user-edit" size="small" (click)="llenar(rol.role_Id)" severity="primary" [raised]="true" [plain]="true"></p-button>
                         <p-button  label="Detalles"   icon="pi pi-book" size="small" (click)="detalles(rol.role_Id)" severity="secondary" [raised]="true" [plain]="true"></p-button>
                         <p-button  label="Eliminar" icon="pi pi-trash" size="small" (click)="deleteSelectedProducts(rol.role_Id)" severity="danger" [raised]="true" [plain]="true"></p-button>
                     </td>

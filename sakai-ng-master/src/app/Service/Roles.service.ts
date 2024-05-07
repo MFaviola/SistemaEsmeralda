@@ -34,6 +34,9 @@ export class ServiceService {
   getFill(codigo: string): Observable<Fill> {
     return this.http.get<Fill>(`${BASE_URL + 'API/Rol/Fill/' + codigo}`);
   }
+  getDetalles(codigo: string): Observable<Fill> {
+    return this.http.get<Fill>(`${BASE_URL + 'API/Rol/FillDetalles/' + codigo}`);
+  }
   EliminarRol(ID): Observable<any>{
     return this.http.delete<any>(`${BASE_URL + 'API/Rol/Delete/' + ID}`)
   }

@@ -1,12 +1,14 @@
+import { an } from "@fullcalendar/core/internal-common";
+
 export class Rol{
     role_Id?:String;
     role_Rol?:String;
 }
 
 export class RolEnviar {
-    Role_Id?:String;
-    Role_Rol: string;
-   
+    Rol_Id?:String;
+    txtRol: string;
+    pantallasSeleccionadas: any;
 }
 export class dropRol{
     value?:String;
@@ -15,6 +17,7 @@ export class dropRol{
 
 export class Fill {
     role_Id: string;
+    pant_Id: string;
     role_Rol: string;
     usuarioCreacion: string;
     usuarioModificacion: string;

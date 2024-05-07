@@ -35,7 +35,7 @@ namespace SistemaEsmeralda.DataAccess.Context
         public virtual DbSet<tbMetodosPago> tbMetodosPago { get; set; }
         public virtual DbSet<tbMunicipios> tbMunicipios { get; set; }
         public virtual DbSet<tbPantallas> tbPantallas { get; set; }
-        public virtual DbSet<tbPantallasXRoles> tbPantallasXRoles { get; set; }
+        public virtual DbSet<tbPantallasPorRoles> tbPantallasXRoles { get; set; }
         public virtual DbSet<tbPreciosBitacora> tbPreciosBitacora { get; set; }
         public virtual DbSet<tbProveedores> tbProveedores { get; set; }
         public virtual DbSet<tbRoles> tbRoles { get; set; }
@@ -648,7 +648,7 @@ namespace SistemaEsmeralda.DataAccess.Context
                     .HasConstraintName("tbPantallas_tbUsuarios_Pant_UsuarioModificacion");
             });
 
-            modelBuilder.Entity<tbPantallasXRoles>(entity =>
+            modelBuilder.Entity<tbPantallasPorRoles>(entity =>
             {
                 entity.HasKey(e => e.Paxr_Id)
                     .HasName("PK__tbPantal__959BB2310295745B");

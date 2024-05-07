@@ -11,7 +11,7 @@ namespace SistemaEsmeralda.Entities.Entities
     {
         public tbRoles()
         {
-            tbPantallasXRoles = new HashSet<tbPantallasXRoles>();
+            tbPantallasXRoles = new HashSet<tbPantallasPorRoles>();
         }
 
         public int Role_Id { get; set; }
@@ -28,7 +28,7 @@ namespace SistemaEsmeralda.Entities.Entities
         public string FechaCreacion { get; set; }
         public virtual tbUsuarios Role_UsuarioCreacionNavigation { get; set; }
         public virtual tbUsuarios Role_UsuarioModificacionNavigation { get; set; }
-        public virtual ICollection<tbPantallasXRoles> tbPantallasXRoles { get; set; }
+        public virtual ICollection<tbPantallasPorRoles> tbPantallasXRoles { get; set; }
         [NotMapped]
         public string UsuarioCreacion { get; set; }
 
