@@ -19,6 +19,8 @@ namespace SistemaEsmeralda.Common.Models
 
         [NotMapped]
         public string UsuarioModificacion { get; set; }
+        [NotMapped]
+        public string Role_Rol { get; set; }
 
     }
 }

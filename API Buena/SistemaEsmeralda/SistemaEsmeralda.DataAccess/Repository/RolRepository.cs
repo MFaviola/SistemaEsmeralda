@@ -13,9 +13,9 @@ namespace SistemaEsmeralda.DataAccess.Repository
     public class RolRepository
     {
 
-        public RequestStatus Insert(tbRoles item)
+        public int Insert(tbRoles item)
         {
-            const string sql = "[Acce].[sp_Roles_insertar]";
+            const string sql = "[Acce].[sp_Roles2_insertar]";
 
 
 
@@ -25,11 +25,14 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 parametro.Add("@Role_Rol", item.Role_Rol);
                 parametro.Add("@Role_UsuarioCreacion", item.Role_UsuarioCreacion);
                 parametro.Add("@Role_FechaCreacion", item.Role_FechaCreacion);
+                parametro.Add("@ID", DbType.Int32, direction: ParameterDirection.Output);
 
 
                 var result = db.Execute(sql, parametro, commandType: CommandType.StoredProcedure);
-                string mensaje = (result == 1) ? "Exito" : "Error";
-                return new RequestStatus { CodeStatus = result, MessageStatus = mensaje };
+                int id = parametro.Get<int>("@ID");
+
+
+                return id;
             }
         }
 

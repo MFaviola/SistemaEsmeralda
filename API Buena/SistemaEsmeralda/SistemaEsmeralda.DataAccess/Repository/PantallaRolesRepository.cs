@@ -16,7 +16,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
 
         public RequestStatus Insert(tbPantallasXRoles item)
         {
-            const string sql = "[Acce].[sp_PantallasRoles_insertar]";
+            const string sql = "[Acce].[sp_PantallasPorRoles_insertar]";
 
 
 
@@ -49,18 +49,14 @@ namespace SistemaEsmeralda.DataAccess.Repository
             }
         }
 
-        public tbPantallasXRoles Fill(int id)
+        public IEnumerable<tbPantallasXRoles> Fill(int id)
         {
-
-            tbPantallasXRoles result = new tbPantallasXRoles();
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
             {
                 var parameter = new DynamicParameters();
-                parameter.Add("Paxr_Id", id);
-                result = db.QueryFirst<tbPantallasXRoles>(ScriptsBaseDeDatos.PantallasRolesllenar, parameter, commandType: CommandType.StoredProcedure);
-                return result;
+                parameter.Add("Role_Id", id);
+                return db.Query<tbPantallasXRoles>(ScriptsBaseDeDatos.PantallasRolesllenar, parameter, commandType: CommandType.StoredProcedure);
             }
-
         }
 
         public RequestStatus Update(tbPantallasXRoles item)
@@ -83,12 +79,12 @@ namespace SistemaEsmeralda.DataAccess.Repository
 
 
 
-        public RequestStatus Delete(string Paxr_Id)
+        public RequestStatus Delete(string Role_Id)
         {
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
             {
                 var parameter = new DynamicParameters();
-                parameter.Add("Paxr_Id", Paxr_Id);
+                parameter.Add("Role_Id", Role_Id);
 
                 var result = db.QueryFirst(ScriptsBaseDeDatos.PantallasRolesEliminar, parameter, commandType: CommandType.StoredProcedure);
                 return new RequestStatus { CodeStatus = result.Resultado, MessageStatus = (result.Resultado == 1) ? "Exito" : "Error" };

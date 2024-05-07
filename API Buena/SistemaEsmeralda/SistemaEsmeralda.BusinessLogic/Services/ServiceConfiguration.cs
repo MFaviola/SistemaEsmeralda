@@ -30,6 +30,7 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             service.AddScoped<RolRepository>();
             service.AddScoped<UsuarioRepository>();
             service.AddScoped<PantallaRolesRepository>();
+            service.AddScoped<GraficosRepository>();
 
             service.AddScoped<FacturaRepository>();
 

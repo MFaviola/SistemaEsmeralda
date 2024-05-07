@@ -62,6 +62,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
 
         }
 
+
         public RequestStatus Update(tbCargos item)
         {
             string sql = ScriptsBaseDeDatos.CargosActualizar;
