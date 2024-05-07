@@ -25,10 +25,6 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 var parametro = new DynamicParameters();
                 parametro.Add("@Role_Id", item.Role_Id);
                 parametro.Add("@Pant_Id ", item.Pant_Id);
-           
-
-
-
                 var result = db.Execute(sql, parametro, commandType: CommandType.StoredProcedure);
                 string mensaje = (result == 1) ? "Exito" : "Error";
                 return new RequestStatus { CodeStatus = result, MessageStatus = mensaje };

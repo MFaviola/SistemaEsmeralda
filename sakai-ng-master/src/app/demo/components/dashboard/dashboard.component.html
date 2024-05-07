@@ -78,7 +78,7 @@
                     </div>
                 </div>
                 <ul class="list-none p-0 m-0">
-                    <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                    <li *ngIf="Top1 && Catidad1" class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
                         <div>
                             <span class="text-900 font-medium mr-2 mb-1 md:mb-0">{{ Top1 }}</span>
                         </div>
@@ -88,7 +88,7 @@
                             <span class="text-orange-500 ml-3 font-medium">{{ Catidad1 }}</span>
                         </div>
                     </li>
-                    <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                    <li *ngIf="Top2 && Catidad2" class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
                         <div>
                             <span class="text-900 font-medium mr-2 mb-1 md:mb-0">{{ Top2 }}</span>
                         </div>
@@ -98,7 +98,7 @@
                             <span class="text-cyan-500 ml-3 font-medium">{{ Catidad2 }}</span>
                         </div>
                     </li>
-                    <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4" [class.hidden]="!CantTop3"> 
+                    <li  *ngIf="Top3 && Catidad3" class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4" [class.hidden]="!CantTop3"> 
                         <div>
                             <span class="text-900 font-medium mr-2 mb-1 md:mb-0"     >{{ Top3 }}</span>
                         </div>
@@ -108,7 +108,7 @@
                             <span class="text-pink-500 ml-3 font-medium">{{ Catidad3 }}</span>
                         </div>
                     </li>
-                    <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                    <li *ngIf="Top4 && Catidad4" class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
                         <div>
                             <span class="text-900 font-medium mr-2 mb-1 md:mb-0">{{ Top4 }}</span>
                         </div>
@@ -118,7 +118,7 @@
                             <span class="text-green-500 ml-3 font-medium">{{ Catidad4 }}</span>
                         </div>
                     </li>
-                    <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                    <li *ngIf="Top5 && Catidad5"  class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
                         <div>
                             <span class="text-900 font-medium mr-2 mb-1 md:mb-0">{{ Top5 }}</span>
                         </div>
@@ -144,7 +144,7 @@
                     </div> -->
                 </div>
                 <ul class="list-none p-0 m-0">
-                    <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                    <li *ngIf="Topm1 && Catidadm1"  class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
                         <div>
                             <span class="text-900 font-medium mr-2 mb-1 md:mb-0">{{ Topm1 }}</span>
                         </div>
@@ -154,7 +154,7 @@
                             <span class="text-orange-500 ml-3 font-medium">{{ Catidadm1 }}</span>
                         </div>
                     </li>
-                    <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                    <li  *ngIf="Topm2 && Catidadm2" class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
                         <div>
                             <span class="text-900 font-medium mr-2 mb-1 md:mb-0">{{ Topm2 }}</span>
                         </div>
@@ -164,7 +164,7 @@
                             <span class="text-cyan-500 ml-3 font-medium">{{ Catidadm2 }}</span>
                         </div>
                     </li>
-                    <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                    <li *ngIf="Topm3 && Catidadm3"class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
                         <div>
                             <span class="text-900 font-medium mr-2 mb-1 md:mb-0">{{ Topm3 }}</span>
                         </div>
@@ -174,7 +174,7 @@
                             <span class="text-pink-500 ml-3 font-medium">{{ Catidadm3 }}</span>
                         </div>
                     </li>
-                    <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                    <li *ngIf="Topm4 && Catidadm4" class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
                         <div>
                             <span class="text-900 font-medium mr-2 mb-1 md:mb-0">{{ Topm4 }}</span>
                         </div>
@@ -184,7 +184,7 @@
                             <span class="text-green-500 ml-3 font-medium">{{ Catidadm4 }}</span>
                         </div>
                     </li>
-                    <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                    <li *ngIf="Topm5 && Catidadm5" class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
                         <div>
                             <span class="text-900 font-medium mr-2 mb-1 md:mb-0">{{ Topm5 }}</span>
                         </div>

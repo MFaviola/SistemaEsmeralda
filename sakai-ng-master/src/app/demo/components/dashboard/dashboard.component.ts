@@ -84,6 +84,7 @@ total13:string;
     }
 
     ngOnInit() {
+
         this.initChart();
         this.productService.getProductsSmall().then(data => this.products = data);
 
@@ -221,20 +222,15 @@ total13:string;
    
   
         this.service.gettj().subscribe((data: totalJo[]) => {
-            console.log(data);
+          
             this.totalJo = data;
 
          
             this.totalfinaljo = data[0].totalFinal
-   
+            console.log("el total"+this.totalfinaljo)
+
         });
    
-
-
-
-
-
-
 
 
 
@@ -288,21 +284,15 @@ total13:string;
         };
 
 
-
-
-        this.service.getMaquioJoya().subscribe((data: MaqJoyaMes[]) => {
        
-            this.MaqJoyaMes = data;
-
-            const totalVendidoe1 = data[0].cantidad;
-            const totalVendido2e = data[1].cantidad;
-            
    
         this.pieData = {
+            
             labels: ['Joyas', 'Maquillaje' ],
             datasets: [
                 {
-                    data: [totalVendidoe1, totalVendido2e],
+                    data: [this.totalfinaljo, this.totalfinalma],
+                    
                     backgroundColor: [
                         documentStyle.getPropertyValue('--indigo-500'),
                         documentStyle.getPropertyValue('--bluegray-700'),
@@ -313,9 +303,11 @@ total13:string;
                         documentStyle.getPropertyValue('--bluegray-700'),
                         documentStyle.getPropertyValue('--teal-400')
                     ]
+                    
                 }]
+               
         };
-    });
+ 
 
         this.pieOptions = {
             plugins: {
@@ -329,6 +321,83 @@ total13:string;
         };
 
     }
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//     this.service.getMaquioJoya().subscribe((data: MaqJoyaMes[]) => {
+       
+//         this.MaqJoyaMes = data;
+
+//         const totalVendidoe1 = data[0].cantidad;
+//         const totalVendido2e = data[1].cantidad;
+        
+
+//     this.pieData = {
+//         labels: ['Joyas', 'Maquillaje' ],
+//         datasets: [
+//             {
+//                 data: [totalVendidoe1, totalVendido2e],
+//                 backgroundColor: [
+//                     documentStyle.getPropertyValue('--indigo-500'),
+//                     documentStyle.getPropertyValue('--bluegray-700'),
+//                     documentStyle.getPropertyValue('--teal-500')
+//                 ],
+//                 hoverBackgroundColor: [
+//                     documentStyle.getPropertyValue('--indigo-400'),
+//                     documentStyle.getPropertyValue('--bluegray-700'),
+//                     documentStyle.getPropertyValue('--teal-400')
+//                 ]
+//             }]
+//     };
+// });
+
+//     this.pieOptions = {
+//         plugins: {
+//             legend: {
+//                 labels: {
+//                     usePointStyle: true,
+//                     color: textColor
+//                 }
+//             }
+//         }
+//     };
+
+// }
+
+
+
+
+
+
 
 
 
