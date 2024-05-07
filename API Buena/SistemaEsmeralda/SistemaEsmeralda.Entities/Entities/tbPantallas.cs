@@ -21,6 +21,7 @@ namespace SistemaEsmeralda.Entities.Entities
         public DateTime? Pant_FechaModificacion { get; set; }
         public bool? Pant_Estado { get; set; }
 
+
         public virtual tbUsuarios Pant_UsuarioCreacionNavigation { get; set; }
         public virtual tbUsuarios Pant_UsuarioModificacionNavigation { get; set; }
         public virtual ICollection<tbPantallasXRoles> tbPantallasXRoles { get; set; }

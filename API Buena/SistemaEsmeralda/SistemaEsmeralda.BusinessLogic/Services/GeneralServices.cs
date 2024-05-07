@@ -23,9 +23,9 @@ namespace SistemaEsmeralda.BusinessLogic.Services
         private readonly EmpleadoRepository _empleadoRepository;
         private readonly ProveedorRepository _proveedorRepository;
         private readonly EstadoCivilRepository _estadoCivilRepository;
+        private readonly GraficosRepository _graficosRepository;
 
-
-        public GeneralServices(DepartamentosRepository departamentosRepository, MunicipioRepository municipioRepository, CargosRepository cargosRepository, CategoriaRepository categoriaRepository, EstadoCivilRepository estadoCivilRepository, ImpuestoRepository impuestoRepository, MarcaRepository marcaRepository, MateriaRepositorycs materiaRepositorycs, MetodoPagoRepository metodoPagoRepository, ClienteRepository clienteRepository, EmpleadoRepository empleadoRepository, ProveedorRepository proveedorRepository, SucursalRepository sucursalRepository)
+        public GeneralServices(DepartamentosRepository departamentosRepository, MunicipioRepository municipioRepository, GraficosRepository graficosRepository, CargosRepository cargosRepository, CategoriaRepository categoriaRepository, EstadoCivilRepository estadoCivilRepository, ImpuestoRepository impuestoRepository, MarcaRepository marcaRepository, MateriaRepositorycs materiaRepositorycs, MetodoPagoRepository metodoPagoRepository, ClienteRepository clienteRepository, EmpleadoRepository empleadoRepository, ProveedorRepository proveedorRepository, SucursalRepository sucursalRepository)
         {
             _departamentosRepository = departamentosRepository;
             _municipioRepository = municipioRepository;
@@ -40,6 +40,7 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             _empleadoRepository = empleadoRepository;
             _proveedorRepository = proveedorRepository;
             _sucursalRepository = sucursalRepository;
+            _graficosRepository = graficosRepository;
 
 
         }
@@ -1570,8 +1571,180 @@ namespace SistemaEsmeralda.BusinessLogic.Services
 
 
 
+        #region Dash
+
+        public ServiceResult totalProductoMes()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _graficosRepository.totalProductoMes();
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
+
+
+
+        public ServiceResult totalMaquillajeMes()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _graficosRepository.totalMaquillajeMes();
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
+
+
+
+
+        public ServiceResult totalinMaquillajeMes()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _graficosRepository.totalinMaquillajeMes();
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
+
+
+
+
+        public ServiceResult totalJoyasMes()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _graficosRepository.totalJoyasMes();
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
+
+        public ServiceResult totalinJoyasMes()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _graficosRepository.totalinJoyasMes();
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
+
+        public ServiceResult totalGeneroMes()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _graficosRepository.totalGeneroMes();
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
+
+
+
+
+        public ServiceResult totalProductosMes()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _graficosRepository.Ventatotal();
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
 
         
+
+
+              public ServiceResult Ventatotalcate()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _graficosRepository.Ventatotalcate();
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
+
+        public ServiceResult Ventatotal()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _graficosRepository.Ventatotal();
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
+
+        
+
+
+
+        #endregion
+
 
 
     }

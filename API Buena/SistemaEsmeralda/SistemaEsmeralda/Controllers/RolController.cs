@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using SistemaEsmeralda.API.Clases;
+using SistemaEsmeralda.BusinessLogic;
 using SistemaEsmeralda.BusinessLogic.Services;
 using SistemaEsmeralda.Common.Models;
 using SistemaEsmeralda.Entities.Entities;
@@ -52,53 +54,113 @@ namespace SistemaEsmeralda.API.Controllers
 
 
         [HttpPost("Create")]
-        public IActionResult Insert(RolViewModel item)
-        {
-            var model = _mapper.Map<tbRoles>(item);
+        
+            public IActionResult Insert([FromBody] FormData formData)
+            {
+
+
+            var msj = new ServiceResult();
+            string txtRol = formData.txtRol;
+            List<int> pantallasSeleccionadas = formData.pantallasSeleccionadas;
+
             var modelo = new tbRoles()
             {
-                Role_Rol = item.Role_Rol
-,
-                Role_UsuarioCreacion = item.Role_UsuarioCreacion,
-                Role_FechaCreacion = item.Role_FechaCreacion,
+                Role_Rol = txtRol,
+                Role_UsuarioCreacion = 1, 
+                Role_FechaCreacion = DateTime.Now
             };
             var list = _accesoServices.InsertarRol(modelo);
-            return Ok(new { success = true, message = list.Message });
-        }
 
+
+            int idRol = Int32.Parse(list);
+
+            foreach (var pantalla in pantallasSeleccionadas)
+            {
+                var modelo2 = new tbPantallasXRoles()
+                {
+                    Pant_Id = pantalla,
+                    Role_Id = idRol,
+                };
+
+                 msj = _accesoServices.InsertarRolesPantalla(modelo2);
+                
+            }
+
+
+            return Ok(new { success = true, message = msj.Message });
+        }
 
 
 
         [HttpGet("Fill/{id}")]
-
         public IActionResult Llenar(int id)
         {
-
-            var list = _accesoServices.obterRol(id);
-            return Json(list.Data);
+            var list = _accesoServices.obterRolesPantalla(id);
+            if (list.Success)
+            {
+                return Ok(list.Data);
+            }
+            else
+            {
+                return BadRequest(list.Message);
+            }
         }
+
+
+
 
 
         [HttpPut("Edit")]
-        public IActionResult Update(RolViewModel item)
+        public IActionResult Update([FromBody] FormData formData)
         {
-            _mapper.Map<tbRoles>(item);
+
+            var msj = new ServiceResult();
+            List<int> pantallasSeleccionadas = formData.pantallasSeleccionadas;
+
+
             var modelo = new tbRoles()
             {
-                Role_Id = item.Role_Id,
-                Role_Rol = item.Role_Rol,
-                Role_UsuarioModificacion = 1,
-                Role_FechaModificacion = DateTime.Now
+                Role_Id = formData.Rol_Id,
+                Role_Rol = formData.txtRol,
+          
             };
             var list = _accesoServices.EditarRol(modelo);
-            return Ok(new { success = true, message = list.Message });
+
+            var idRol = formData.Rol_Id;
+
+            var res = _accesoServices.EliminarRolesPantalla(idRol.ToString());
+
+            foreach (var pantalla in pantallasSeleccionadas)
+            {
+                var modelo2 = new tbPantallasXRoles()
+                {
+                    Pant_Id = pantalla,
+                    Role_Id = idRol,
+                };
+
+                msj = _accesoServices.InsertarRolesPantalla(modelo2);
+
+            }
+
+
+            return Ok(new { success = true, message = msj.Message });
+
         }
+
+
+
+
+
+
+
 
         [HttpDelete("Delete/{id}")]
         public IActionResult Delete(string id)
         {
-            var list = _accesoServices.EliminarRol(id);
-            return Ok(new { success = true, message = list.Message });
+            var list = _accesoServices.EliminarRolesPantalla(id);
+            var list2 = _accesoServices.EliminarRol(id);
+
+            return Ok(new { success = true, message = list2.Message });
         }
 
 

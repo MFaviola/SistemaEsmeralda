@@ -90,25 +90,21 @@ namespace SistemaEsmeralda.BusinessLogic.Services
 
 
 
-        public ServiceResult InsertarRol(tbRoles item)
+        public string InsertarRol(tbRoles item)
         {
-            var result = new ServiceResult();
+            string error = "";
             try
             {
-                var list = _rolRepository.Insert(item);
-                if (list.CodeStatus > 0)
-                {
-                    return result.Ok(list);
-                }
-                else
-                {
-                    return result.Error(list);
-                }
+                int result = _rolRepository.Insert(item);
+                if (result == 0)
+                    error = "el codigo no es valido";
+                else error = result.ToString();
             }
             catch (Exception ex)
             {
-                return result.Error(ex.Message);
+                error = ex.Message;
             }
+            return error;
         }
 
 
@@ -375,12 +371,12 @@ namespace SistemaEsmeralda.BusinessLogic.Services
                 return result.Error(ex);
             }
         }
-        public ServiceResult EliminarRolesPantalla(string Paxr_Id)
+        public ServiceResult EliminarRolesPantalla(string Role_Id)
         {
             var result = new ServiceResult();
             try
             {
-                var list = _pantallaRolesRepository.Delete(Paxr_Id);
+                var list = _pantallaRolesRepository.Delete(Role_Id);
                 if (list.CodeStatus > 0)
                 {
                     return result.Ok($"La accion ha sido existosa", list);
