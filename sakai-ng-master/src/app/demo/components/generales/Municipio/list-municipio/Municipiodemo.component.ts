@@ -133,6 +133,7 @@ export class MunicipioDemoComponent implements OnInit {
              this.DataTable = true;
              this.submitted = false;
              this.Detalles = false;
+             this.Agregar = true;
              this.municipioForm = new FormGroup({
                  Muni_Codigo: new FormControl("",Validators.required),
                  Muni_Municipio: new FormControl("", Validators.required),
@@ -155,6 +156,7 @@ export class MunicipioDemoComponent implements OnInit {
              this.DataTable = true;
              this.Detalles = false;
              this.submitted = false;
+             this.Agregar = true;
              this.municipioForm = new FormGroup({
                  Muni_Codigo: new FormControl("",Validators.required),
                  Muni_Municipio: new FormControl("", Validators.required),
@@ -193,6 +195,7 @@ export class MunicipioDemoComponent implements OnInit {
                     this.DataTable = true;
                     this.Detalles = false;
                     this.submitted = false;
+                    this.Agregar = true;
                     this.municipioForm = new FormGroup({
                         Muni_Codigo: new FormControl("",Validators.required),
                         Muni_Municipio: new FormControl("", Validators.required),

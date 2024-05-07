@@ -10,6 +10,8 @@ namespace SistemaEsmeralda.Entities.Entities
     public partial class tbMaquillajes
     {
         [NotMapped]
+        public int Maqu_Stock { get; set; }
+        [NotMapped]
         public string Prov_Proveedor { get; set; }
 
         [NotMapped]

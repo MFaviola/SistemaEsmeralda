@@ -33,6 +33,13 @@
                     <small class="ng-dirty ng-invalid" *ngIf="submitted && JoyaForm.controls['Joya_PrecioMayor'].invalid" style="color: red !important;">Precio Requerido</small>
                 </div>
                 <div class="field col-12 md:col-6">
+                    <label for="Stock">Stock</label>
+                    <input pInputText id="Stock" formControlName="Joya_Stock" type="text" required autofocus 
+                           [ngClass]="{'ng-invalid ng-dirty': submitted && JoyaForm.controls['Joya_Stock'].invalid}"
+                           (keydown)="ValidarNumeros($event)" />
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && JoyaForm.controls['Joya_Stock'].invalid" style="color: red !important;">Stock Requerido</small>
+                </div>
+                <div class="field col-12 md:col-6">
                   <label for="Proveedor">Proveedor</label>
                   <select formControlName="Prov_Id" pInputText id="Proveedor" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && JoyaForm.get('Prov_Id').value === '0'}" >
                   <option *ngFor="let prov of proveedor" [value]="prov.value">{{ prov.text }}</option>
@@ -118,6 +125,12 @@
                     </th>
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
+                            Stock
+                            <p-columnFilter type="text" field="joya_PrecioVenta" display="menu" placeholder="Search by country"></p-columnFilter>
+                        </div>
+                    </th>
+                    <th style="min-width: 12rem">
+                        <div class="flex justify-content-between align-items-center">
                             Material
                             <p-columnFilter type="text" field="mate_Material" display="menu" placeholder="Search by country"></p-columnFilter>
                         </div>
@@ -146,7 +159,7 @@
                         {{joya.joya_Id}}
                     </td>
                     <td>
-                        <img src="https://esmeralda.s3.us-east-2.amazonaws.com/{{joya.joya_Imagen}}" width="100" alt="">
+                        <img src="https://localhost:44310/uploads/{{joya.joya_Imagen}}" width="100" alt="">
                     </td>
                     <td>
                         {{joya.joya_Nombre}}
@@ -159,6 +172,9 @@
                     </td>
                     <td>
                         {{joya.joya_PrecioVenta}}
+                    </td>
+                    <td>
+                        {{joya.joya_Stock}}
                     </td>
                     <td>
                         {{joya.mate_Material}}
@@ -231,6 +247,14 @@
             </div>
             <div class="field rows">
                 <label for="Precio">{{ Detalle_Venta }}</label>
+            </div>
+        </div>
+        <div class="field col-12 md:col-4">
+            <div class="field rows" style="font-weight: 800;">
+                <label for="Precio">Stock:</label>
+            </div>
+            <div class="field rows">
+                <label for="Precio">{{ Detalle_Stock }}</label>
             </div>
         </div>
         <div class="field col-12 md:col-4">

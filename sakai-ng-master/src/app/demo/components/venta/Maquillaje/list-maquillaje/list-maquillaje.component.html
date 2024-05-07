@@ -33,6 +33,13 @@
                     <small class="ng-dirty ng-invalid" *ngIf="submitted && MaquillajeForm.controls['Maqu_PrecioMayor'].invalid" style="color: red !important;">Precio Requerido</small>
                 </div>
                 <div class="field col-12 md:col-6">
+                    <label for="Maquillaje">Stock</label>
+                    <input pInputText id="Maquillaje" formControlName="Maqu_Stock" type="text" required autofocus 
+                           [ngClass]="{'ng-invalid ng-dirty': submitted && MaquillajeForm.controls['Maqu_Stock'].invalid}"
+                           (keydown)="ValidarNumeros($event)"/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && MaquillajeForm.controls['Maqu_Stock'].invalid" style="color: red !important;">Joya Requerido</small>
+                </div>
+                <div class="field col-12 md:col-6">
                   <label for="Proveedor">Proveedor</label>
                   <select formControlName="Prov_Id" pInputText id="Proveedor" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && MaquillajeForm.get('Prov_Id').value === '0'}" >
                   <option *ngFor="let prov of proveedor" [value]="prov.value">{{ prov.text }}</option>
@@ -111,6 +118,12 @@
                     </th>
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
+                            Stock
+                            <p-columnFilter type="text" field="maqu_PrecioVenta" display="menu" placeholder="Search by country"></p-columnFilter>
+                        </div>
+                    </th>
+                    <th style="min-width: 12rem">
+                        <div class="flex justify-content-between align-items-center">
                             Proveedor
                             <p-columnFilter type="text" field="prov_Proveedor" display="menu" placeholder="Search by country"></p-columnFilter>
                         </div>
@@ -135,7 +148,7 @@
                         {{maqu.maqu_Id}}
                     </td>
                     <td>
-                        <img src="https://esmeralda.s3.us-east-2.amazonaws.com/{{maqu.maqu_Imagen}}" width="100" alt="">
+                        <img src="https://localhost:44310/uploads/{{maqu.maqu_Imagen}}" width="100" alt="">
                     </td>
                     <td>
                         {{maqu.maqu_Nombre}}
@@ -148,6 +161,9 @@
                     </td>
                     <td>
                         {{maqu.maqu_PrecioVenta}}
+                    </td>
+                    <td>
+                        {{maqu.maqu_Stock}}
                     </td>
                     <td>
                         {{maqu.prov_Proveedor}}
@@ -217,6 +233,14 @@
             </div>
             <div class="field rows">
                 <label for="Precio">{{ Detalle_Venta }}</label>
+            </div>
+        </div>
+        <div class="field col-12 md:col-4">
+            <div class="field rows" style="font-weight: 800;">
+                <label for="Precio">Stock</label>
+            </div>
+            <div class="field rows">
+                <label for="Precio">{{ Detalle_Stock }}</label>
             </div>
         </div>
         <div class="field col-12 md:col-4">

@@ -148,6 +148,7 @@ validarTexto(event: KeyboardEvent) {
                this.DataTable = true;
                this.submitted = false;
                this.Detalles = false;
+               this.Agregar= true;
 
         this.categoriaForm = new FormGroup({
           cate_Categoria: new FormControl("", Validators.required),
@@ -169,6 +170,7 @@ validarTexto(event: KeyboardEvent) {
                this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Actualizado con Exito', life: 3000 });
                this.Collapse= false;
                this.DataTable = true;
+               this.Agregar= true;
                this.Detalles = false;
                this.submitted = false;
                this.categoriaForm = new FormGroup({

@@ -1,18 +1,32 @@
+<p-toast ></p-toast>
 <div class="main-card mb-3 card"> 
     <div class="card-header">
-        <h3 class="card-title">Municipios</h3>
+        <h3 class="card-title">Roles</h3>
     </div>
     <div class="card-body">
         <button (click)="collapse()" pButton icon="pi pi-plus" style="margin-bottom: 10px ;" [class.hidden]="!Agregar">Agregar</button>
-          
+     
+
         <div [class.hidden]="!Collapse" style="margin-top: 20px;">
+            <form [formGroup]="rolForm">
+                <div class="p-fluid p-formgrid grid">
+                    <div class="field col-12 md:col-6">
+                        <label for="Rol">Rol</label>
+                        <input pInputText id="Rol" formControlName="Rol_Rol" type="text" required autofocus 
+                               [ngClass]="{'ng-invalid ng-dirty': submitted && rolForm.controls['Rol_Rol'].invalid}"
+                               (keydown)="validarTexto($event)" />
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && rolForm.controls['Rol_Rol'].invalid" style="color: red !important;">Rol Requerido</small>
+                    </div>
+                </div>
+            </form>  
             <p-tree [value]="files1" selectionMode="checkbox" [(selection)]="selectedFiles1"
             (onNodeSelect)="onNodeSelect($event)" (onNodeUnselect)="onNodeUnselect($event)">
     </p-tree>
        
               <div style="display: flex; justify-content: flex-end; margin-top: 1rem; grid-gap: 5px;">
-                <button pButton icon="pi pi-check" type="submit" label="Agregar" class="p-button-outlined"></button>
+                <button pButton  type="button" (click)="onSubmit()" label="Agregar"  icon="pi pi-check" size="small" class="p-button-outlined"></button>
                 <button pButton icon="pi pi-stop" type="button" (click)="cancelar()" label="Cancelar" class="p-button-outlined"></button>
+
               </div>
 
        
@@ -60,10 +74,10 @@
                     <td>
                         {{rol.role_Rol}}
                     </td>
-                    <td style="display: flex; justify-content: space-around;">
-                        <button pButton pRipple type="button" label="Editar" class="p-button-raised p-button-success" (click)="llenar()"></button>
-                        <button pButton pRipple type="button" label="Detalles" class="p-button-raised p-button-secondary"></button>
-                        <button pButton pRipple type="button" label="Eliminar" class="p-button-raised p-button-danger"></button>
+                    <td style="display: flex; justify-content: space-around; grid-gap: 5px;">
+                        <p-button  label="Editar"   icon="pi pi-user-edit" size="small" (click)="llenar()" severity="primary" [raised]="true" [plain]="true"></p-button>
+                        <p-button  label="Detalles"   icon="pi pi-book" size="small" (click)="detalles(rol.role_Id)" severity="secondary" [raised]="true" [plain]="true"></p-button>
+                        <p-button  label="Eliminar" icon="pi pi-trash" size="small" (click)="deleteSelectedProducts(rol.role_Id)" severity="danger" [raised]="true" [plain]="true"></p-button>
                     </td>
                 </tr>
             </ng-template>
@@ -78,6 +92,71 @@
                 </tr>
             </ng-template>
         </p-table>
+        <div class="card-body" [class.hidden]="!Detalles">
+            <div class="p-fluid p-formgrid grid">
+
+                <div class="field col-12 md:col-4">
+                    <div class="field rows">
+                        <label for="Codigo" style="font-weight: 800;">Codigo:</label>
+                    </div>
+                    <div class="field rows">
+                        <label for="Codigo">{{ ID }}</label>
+                    </div>
+                </div>
+                
+                <div class="field col-12 md:col-4">
+                    <div class="field rows">
+                        <label for="Municipio" style="font-weight: 800;">Rol:</label>
+                    </div>
+                    <div class="field rows">
+                        <label for="Municipio">{{ Detalle_Rol }}</label>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                       <h1>Auditoria</h1>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p-table [value]="staticData">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="width:200px">Accion</th>
+                                <th style="width:200px">Usuario</th>
+                                <th style="width:200px">Fecha</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-transaction>
+                            <tr>
+                                <td style="width:200px;">Creado</td>
+                                <td style="width:200px">{{ UsuarioCreacion }}</td>
+                                <td style="width:200px">{{ FechaCreacion }}</td>
+                            </tr>
+                            <tr>
+                                <td style="width:200px;">Modificado</td>
+                                <td style="width:200px">{{ UsuarioModificacion }}</td>
+                                <td style="width:200px">{{ FechaModificacion }}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+            <div style="display: flex; justify-content: flex-end; margin-top: 1rem; grid-gap: 5px;">
+              <button pButton icon="pi pi-stop" type="button" (click)="cancelar()" label="Volver" class="p-button-outlined"></button>
+            </div>
+        </div>
+        <p-dialog [(visible)]="deleteProductDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span>Esta seguro de eliminarlo?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteProductDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDelete()"></button>
+            </ng-template>
+        </p-dialog>
     </div>
 </div>
 

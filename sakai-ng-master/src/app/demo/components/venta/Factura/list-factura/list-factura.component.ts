@@ -59,7 +59,7 @@ export class ListFacturaComponent {
   city1: any = null;
 
   city2: any = null;
-
+  facura_impresa: any = null;
   constructor(private service: ServiceService, private router: Router, private srvImprecion : YService
   
   ) { }
@@ -90,6 +90,6 @@ export class ListFacturaComponent {
     const cuerpo=["1", "Eduardo", "Jezer"]
     const titulo= "fdsfdsfdsfdsfdsfds";
     const img = "assets/demo/images/galleria/Esmeraldas.png"
-    this.srvImprecion.imprimirFactura(cuerpo,img,cliente,DNI,Municipi,Depa,Numero,Fecha,Factura,Impuesto,Metodo,Subtotal,Total)
+    this.facura_impresa = this.srvImprecion.Reporte1PDF(cuerpo,img,cliente,DNI,Municipi,Depa,Numero,Fecha,Factura,Impuesto,Metodo,Subtotal,Total)
  } 
 }

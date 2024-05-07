@@ -27,6 +27,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 parametro.Add("@Maqu_Nombre", item.Maqu_Nombre);
                 parametro.Add("@Maqu_PrecioCompra", item.Maqu_PrecioCompra);
                 parametro.Add("@Maqu_PrecioVenta", item.Maqu_PrecioVenta);
+                parametro.Add("@Maqu_Stock", item.Maqu_Stock);
                 parametro.Add("@Maqu_PrecioMayor", item.Maqu_PrecioMayor);
                 parametro.Add("@Maqu_Imagen", item.Maqu_Imagen);
                 parametro.Add("@Prov_Id", item.Prov_Id);
@@ -82,6 +83,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 parameter.Add("@Maqu_PrecioVenta", item.Maqu_PrecioVenta);
                 parameter.Add("@Maqu_PrecioMayor", item.Maqu_PrecioMayor);
                 parameter.Add("@Maqu_Imagen", item.Maqu_Imagen);
+                parameter.Add("@Maqu_Stock", item.Maqu_Stock);
                 parameter.Add("@Prov_Id", item.Prov_Id);
                 parameter.Add("@Marc_Id", item.Marc_Id);
                 parameter.Add("@Maqu_UsuarioModificacion", item.Maqu_UsuarioModificacion);

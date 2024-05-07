@@ -7,7 +7,7 @@ import autoTable from 'jspdf-autotable'
 export class YService {
 
   constructor() { }
-   imprimirFactura(cuerpo, logoURL, Cliente,DNI,Muni,Depa,Numero,Fecha,Pedido,Imouesto,Metodo,Subtotal,Total) {
+   Reporte1PDF(cuerpo, logoURL, Cliente,DNI,Muni,Depa,Numero,Fecha,Pedido,Imouesto,Metodo,Subtotal,Total): Blob {
     const doc = new jsPDF({
         orientation: 'portrait',
         unit: 'px',
@@ -94,10 +94,67 @@ export class YService {
 
   });
   // Aquí puedes continuar con la sección de detalles del cliente y de la factura
-    const pdfData = doc.output('bloburl');
-    window.open(pdfData, '_blank');
+  
+  return doc.output('blob');
+
 }
   
-   
+
+Reporte2PDF(cuerpo: any[], logoURL): Blob {
+  const doc = new jsPDF({
+      orientation: 'portrait',
+      unit: 'px',
+      format: 'letter'
+  });
+
+  // Logo
+  const imgWidth = 120;
+  const imgHeight = 20;
+  doc.addImage(logoURL, 'JPEG', 10, 20, imgWidth, imgHeight);
+
+  // Título del Documento - ACOSA Honduras
+  doc.setFontSize(12);
+  doc.setFont(undefined, 'bold');
+  doc.text('Esmeraldas HN', 140*2 , 30);
+
+  // Información de la empresa - Direcciones
+  doc.setFontSize(12);
+  doc.setFont(undefined, 'normal');
+  doc.text('Direccion:', 140*2 , 40);
+  doc.setFontSize(12);
+  doc.setFont(undefined, 'normal');
+  doc.text("San Pedro Sula: Barrio San Fernando,", 140*2 , 50);
+  doc.setFontSize(12);
+  doc.setFont(undefined, 'normal');
+  doc.text("Salida Vieja a La Lima, SPS", 140*2 , 60);
+  doc.setFontSize(20);
+  doc.setFont(undefined, 'bold');
+  doc.text("Control de Stock Joyas", 70*2 , 100);
+ 
+  // Mostrar PDF
+  autoTable(doc, {
+    head: [['Codigo','Producto', 'Stock', 'Pedir']],
+    body: cuerpo,
+    startY: 130, // Inicio de la tabla
+    styles: {
+        font: 'helvetica',
+        fontSize: 10,
+    },
+    headStyles: {
+        fillColor: [0, 0, 0], // Fondo negro
+        textColor: [255, 255, 255], // Texto blanco
+        halign: 'center',
+        valign: 'middle',
+        fontStyle: 'bold',
+    },
+    theme: 'grid',
+
+});
+// Aquí puedes continuar con la sección de detalles del cliente y de la factura
+
+return doc.output('blob');
+
+}
+
   
 }

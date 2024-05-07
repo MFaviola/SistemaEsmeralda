@@ -76,6 +76,7 @@ namespace SistemaEsmeralda.API.Controllers
                 Joya_PrecioVenta = item.Joya_PrecioVenta,
                 Joya_PrecioMayor = item.Joya_PrecioMayor,
                 Joya_Imagen = item.Joya_Imagen,
+                Joya_Stock = item.Joya_Stock,
                 Prov_Id = item.Prov_Id,
                 Mate_Id = item.Mate_Id,
                 Cate_Id = item.Cate_Id,
@@ -95,29 +96,37 @@ namespace SistemaEsmeralda.API.Controllers
             var fileExtension = Path.GetExtension(file.FileName).ToLower();
             if (!allowedExtensions.Contains(fileExtension))
             {
-                return Ok(new { message = "Error" });
+                return Ok(new { message = "Error", detail = "Extensión de archivo no permitida." });
             }
 
-            var bucketName = _configuration["AWS:BucketName"];
+            // Define la carpeta de destino dentro de tu proyecto
+            var uploadsFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
 
+            // Crea la carpeta si no existe
+            if (!Directory.Exists(uploadsFolderPath))
+            {
+                Directory.CreateDirectory(uploadsFolderPath);
+            }
+
+            // Genera un nombre único para el archivo
+          
+
+            // Crea la ruta completa del archivo en el servidor
+            var filePath = Path.Combine(uploadsFolderPath, file.FileName);
 
             try
             {
-                using (var stream = file.OpenReadStream())
+                // Copia el archivo a la carpeta especificada
+                using (var stream = new FileStream(filePath, FileMode.Create))
                 {
-                    var transferUtility = new TransferUtility(_s3Client);
-                    await transferUtility.UploadAsync(stream, bucketName, file.FileName);
-                    return Ok(new { message = "Éxito" });
+                    await file.CopyToAsync(stream);
                 }
-            }
-            catch (AmazonS3Exception e)
-            {
-                // Log e.ToString() or send it back as a response
-                return StatusCode(500, $"AWS error: {e.ToString()}");
+
+                return Ok(new { message = "Exito" });
             }
             catch (Exception e)
             {
-                // General exception catch, if something else went wrong
+                // Si ocurre un error, captura la excepción y devuélvela
                 return StatusCode(500, $"General error: {e.ToString()}");
             }
         }
@@ -146,6 +155,7 @@ namespace SistemaEsmeralda.API.Controllers
                 Joya_PrecioVenta = item.Joya_PrecioVenta,
                 Joya_PrecioMayor = item.Joya_PrecioMayor,
                 Joya_Imagen = item.Joya_Imagen,
+                Joya_Stock = item.Joya_Stock,
                 Prov_Id = item.Prov_Id,
                 Mate_Id = item.Mate_Id,
                 Cate_Id = item.Cate_Id,

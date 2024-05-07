@@ -11,6 +11,7 @@ import { dropProveedor } from 'src/app/Models/ProveedorViewModel';
 import { dropMaterial } from 'src/app/Models/MaterialViewModel';
 import { dropCategoria } from 'src/app/Models/CategoriaViewModel';
 import { FileUpload } from 'primeng/fileupload';
+import { BASE_URL } from 'src/app/Service/ulrsettings';
 
 @Component({
   templateUrl: './list-joya.component.html',
@@ -19,6 +20,7 @@ import { FileUpload } from 'primeng/fileupload';
 export class ListJoyaComponent {
   @ViewChild('fileUpload') fileUpload: FileUpload;
   Joya!:Joya[];
+  URL = BASE_URL;
   MensajeViewModel!: MensajeViewModel[];
   submitted: boolean = false;
   loading: boolean = false;
@@ -44,6 +46,7 @@ export class ListJoyaComponent {
   Detalle_Compra: String = "";
   Detalle_Mayor: String = "";
   Detalle_Venta: String = "";
+  Detalle_Stock: String = "";
   Detalle_Material: String = "";
   Detalle_Proveedor: String = "";
   Detalle_Categoria: String = "";
@@ -63,6 +66,7 @@ export class ListJoyaComponent {
       Joya_PrecioCompra: new FormControl(null, Validators.required),
       Joya_PrecioVenta: new FormControl(null, [Validators.required]),
       Joya_PrecioMayor: new FormControl(null, [Validators.required]),
+      Joya_Stock: new FormControl("", [Validators.required]),
       Joya_Imagen: new FormControl("", [Validators.required]),
       Prov_Id: new FormControl('0', [Validators.required]),
       Mate_Id: new FormControl('0', [Validators.required]),
@@ -137,6 +141,7 @@ detalles(codigo){
       this.Detalle_Proveedor = data.prov_Proveedor;
       this.Detalle_Categoria = data.cate_Categoria;
       this.UsuarioCreacion = data.usuarioCreacion;
+      this.Detalle_Stock =  data.joya_Stock;
       this.UsuarioModificacion = data.usuarioModificacion;
       this.FechaCreacion = data.fechaCreacion;
       this.FechaModificacion = data.fechaModificacion;
@@ -161,7 +166,11 @@ validarTexto(event: KeyboardEvent) {
       event.preventDefault();
   }
 }
-
+ValidarNumeros(event: KeyboardEvent) {
+  if (!/[0-9]/.test(event.key) && event.key !== 'Backspace' && event.key !== 'Tab') {
+      event.preventDefault();
+  }
+}
 onSubmit() {
   if (this.JoyaForm.valid && this.JoyaForm.get('Cate_Id').value !== '0' && this.JoyaForm.get('Mate_Id').value !== '0'&& this.JoyaForm.get('Prov_Id').value !== '0') {
      this.viewModel = this.JoyaForm.value;
@@ -241,6 +250,7 @@ Fill(codigo) {
             Joya_PrecioVenta: new FormControl(data.joya_PrecioVenta, [Validators.required]),
             Joya_PrecioMayor: new FormControl(data.joya_PrecioMayor, [Validators.required]),
             Joya_Imagen: new FormControl(data.joya_Imagen, [Validators.required]),
+            Joya_Stock: new FormControl(data.joya_Stock, [Validators.required]),
             Prov_Id: new FormControl(data.prov_Id, [Validators.required]),
             Mate_Id: new FormControl(data.mate_Id, [Validators.required]),
             Cate_Id: new FormControl(data.cate_Id, [Validators.required]),

@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ListRolComponent } from './list-rol.component';
-import { ListRolRoutingModule } from './roldemo-routing.module';
+import { reporteComponent } from './reporte.component';
+import { reporteDemoRoutingModule } from './reportedemo-routing.module';
 import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
@@ -15,13 +15,10 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { TooltipModule } from 'primeng/tooltip';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from "primeng/dropdown";
-import { TreeModule } from 'primeng/tree';
-import { ReactiveFormsModule } from '@angular/forms';
-import { TreeTableModule } from 'primeng/treetable';
 @NgModule({
 	imports: [
 		CommonModule,
-		ListRolRoutingModule,
+		reporteDemoRoutingModule,
 		ToastModule,
 		DialogModule,
 		FormsModule,
@@ -34,12 +31,8 @@ import { TreeTableModule } from 'primeng/treetable';
 		ConfirmDialogModule,
 		SidebarModule,
 		RippleModule,
-		ConfirmPopupModule,
-		TreeModule,
-		TreeTableModule,
-		ReactiveFormsModule
-		
+		ConfirmPopupModule
 	],
-	declarations: [ListRolComponent]
+	declarations: [reporteComponent]
 })
-export class RolDemoModule { }
+export class ReporteDemoModule { }

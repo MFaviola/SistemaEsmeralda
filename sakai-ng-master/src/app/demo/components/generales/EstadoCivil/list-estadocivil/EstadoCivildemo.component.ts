@@ -141,6 +141,7 @@ validarTexto(event: KeyboardEvent) {
            this.DataTable = true;
            this.submitted = false;
            this.Detalles = false;
+           this.Agregar= true;
            this.estadocivilForm = new FormGroup({
             Esta_EstadoCivil: new FormControl("", Validators.required),
           });
@@ -162,6 +163,7 @@ validarTexto(event: KeyboardEvent) {
            this.DataTable = true;
            this.Detalles = false;
            this.submitted = false;
+           this.Agregar= true;
            this.estadocivilForm = new FormGroup({
             Esta_EstadoCivil: new FormControl("", Validators.required),
           });

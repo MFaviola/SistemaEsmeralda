@@ -32,12 +32,12 @@ export class ServiceService {
     );
   }
   getFill(codigo: string): Observable<Fill> {
-    return this.http.get<Fill>(`${BASE_URL + 'API/Proveedor/Fill/' + codigo}`);
+    return this.http.get<Fill>(`${BASE_URL + 'API/Rol/Fill/' + codigo}`);
   }
   EliminarRol(ID): Observable<any>{
-    return this.http.delete<any>(`${BASE_URL + 'API/Proveedor/Delete/' + ID}`)
+    return this.http.delete<any>(`${BASE_URL + 'API/Rol/Delete/' + ID}`)
   }
-  ActualizarRolr(formData){
-    return this.http.put(BASE_URL + 'API/Proveedor/Edit/', formData)
+  ActualizarRol(formData){
+    return this.http.put(BASE_URL + 'API/Rol/Edit/', formData)
   }
 }

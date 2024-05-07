@@ -16,6 +16,8 @@ using System.Threading.Tasks;
 using SistemaEsmeralda.API.Extensions;
 using SistemaEsmeralda.API;
 using SistemaRestaurante.API.Herramientas;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 namespace SistemaEsmeralda
 {
@@ -66,13 +68,18 @@ namespace SistemaEsmeralda
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SistemaEsmeralda v1"));
+       
             }
-
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SistemaEsmeralda v1"));
             app.UseHttpsRedirection();
-
-            app.UseCors("AllowAll");
+            app.UseDefaultFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads")),
+                RequestPath = "/uploads"
+            });
 
             app.UseRouting();
 

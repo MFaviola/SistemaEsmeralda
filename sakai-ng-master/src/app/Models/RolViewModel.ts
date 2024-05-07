@@ -4,6 +4,7 @@ export class Rol{
 }
 
 export class RolEnviar {
+    Role_Id?:String;
     Role_Rol: string;
    
 }

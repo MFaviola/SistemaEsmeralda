@@ -6249,7 +6249,8 @@
 }
 @layer primeng {
   .p-button-label {
-    font-weight: 700;
+    
+    font-weight: 900;
   }
 
   .p-selectbutton > .p-button,
