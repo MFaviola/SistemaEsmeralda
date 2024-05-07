@@ -3,11 +3,13 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { Product } from 'src/app/demo/api/product';
 import {Router} from '@angular/router';
 import { Table } from 'primeng/table';
-import { Factura } from 'src/app/Models/FacturaViewModel';
+import { Factura, FacturaEnviar } from 'src/app/Models/FacturaViewModel';
 import { ServiceService } from 'src/app/Service/Factura.service';
 import { YService } from '../../Impresion/impresion.service';
 import { Cliente } from 'src/app/Models/ClienteViewModel';
-
+import { MensajeViewModel } from 'src/app/Models/MensajeViewModel';
+import { MegaMenuItem, MenuItem } from 'primeng/api';
+import { FormGroup, FormControl,  Validators  } from '@angular/forms';
 @Component({
   templateUrl: './list-factura.component.html',
   providers: [ConfirmationService, MessageService]
@@ -15,52 +17,38 @@ import { Cliente } from 'src/app/Models/ClienteViewModel';
 export class ListFacturaComponent {
   Factura!:Factura[];
 
-  statuses: any[] = [];
-
-  products: Product[] = [];
-  productDialog: boolean = false;
-  rowGroupMetadata: any;
+  routeItems: MenuItem[] = [];
+  MensajeViewModel!: MensajeViewModel[];
   submitted: boolean = false;
-
-  display: boolean = false;
-  activityValues: number[] = [0, 100];
-
-  isExpanded: boolean = false;
-
-  idFrozen: boolean = false;
-
   loading: boolean = false;
+  departamentos: any[] = [];
+  fill: any[] = [];
+  viewModel: FacturaEnviar = new FacturaEnviar();
+  FacturaForm: FormGroup;
  
   @ViewChild('filter') filter!: ElementRef;
+  Collapse: boolean = false;
+  DataTable: boolean = true;
+  Tabla: boolean = false;
+  Detalles: boolean = false;
+  Agregar: boolean = true;
+  MunCodigo: boolean = true;
+  Valor: string = "";
+  staticData = [{}];
 
-  selectedState: any = null;
 
-  states: any[] = [
-      {name: 'Arizona', code: 'Arizona'},
-      {name: 'California', value: 'California'},
-      {name: 'Florida', code: 'Florida'},
-      {name: 'Ohio', code: 'Ohio'},
-      {name: 'Washington', code: 'Washington'}
-  ];
-
-  dropdownItems = [
-      { name: 'Option 1', code: 'Option 1' },
-      { name: 'Option 2', code: 'Option 2' },
-      { name: 'Option 3', code: 'Option 3' },
-      { name: 'Option 3', code: 'Option 3' },
-      { name: 'Option 3', code: 'Option 3' },
-      
-  ];
-
-  cities1: any[] = [];
-
-  cities2: any[] = [];
-
-  city1: any = null;
-
-  city2: any = null;
+  deleteProductDialog: boolean = false;
+  //Detalle
+  Esta: String = "";
+  id: string="";
+  UsuarioCreacion: String = "";
+  UsuarioModificacion: String = "";
+  FechaCreacion: String = "";
+  FechaModificacion: String = "";
+  ID: String = "";
   facura_impresa: any = null;
-  constructor(private service: ServiceService, private router: Router, private srvImprecion : YService
+  constructor(private service: ServiceService, private router: Router, private srvImprecion : YService,
+    private messageService: MessageService
   
   ) { }
 
@@ -72,6 +60,22 @@ export class ListFacturaComponent {
       },error=>{
         console.log(error);
       });
+      this.FacturaForm = new FormGroup({
+        Impu_Id: new FormControl("0",Validators.required),
+        Mepa_Id: new FormControl("", Validators.required),
+        Empl_Id: new FormControl("", [Validators.required]),
+        Clie_Id: new FormControl("", [Validators.required]),
+        Clie_DNI: new FormControl("", [Validators.required]),
+        Impu_Impuesto: new FormControl("15%",Validators.required),
+        Clie_Nombre: new FormControl("Usuario Final", [Validators.required]),
+        Empl_Nombre: new FormControl("Eduardo Varela", [Validators.required]),
+    });
+      this.routeItems = [
+        { label: 'Personal', routerLink: 'personal' },
+        { label: 'Seat', routerLink: 'seat' },
+        { label: 'Payment', routerLink: 'payment' },
+        { label: 'Confirmation', routerLink: 'confirmation' },
+    ];
    } 
 
    Imprimir(){
@@ -92,4 +96,72 @@ export class ListFacturaComponent {
     const img = "assets/demo/images/galleria/Esmeraldas.png"
     this.facura_impresa = this.srvImprecion.Reporte1PDF(cuerpo,img,cliente,DNI,Municipi,Depa,Numero,Fecha,Factura,Impuesto,Metodo,Subtotal,Total)
  } 
+ cancelar(){
+  this.Collapse= false;
+  this.DataTable = true;
+  this.Detalles = false;
+  this.ngOnInit();
+  this.submitted = false;
+  this.Agregar= true;
+  this.MunCodigo=true;
+  this.Valor = "";
 }
+validarTexto(event: KeyboardEvent) {
+
+  if (!/^[a-zA-Z\s]+$/.test(event.key) && event.key !== 'Backspace' && event.key !== 'Tab' && event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {
+      event.preventDefault();
+  }
+}
+onSubmit() {
+  if (this.FacturaForm.valid && this.FacturaForm.get('Impu_Id').value !== '0') {
+     this.viewModel = this.FacturaForm.value;
+     if (this.Valor == "Agregar") {
+      this.service.EnviarFactura(this.viewModel).subscribe((data: MensajeViewModel[]) => {
+          if(data["message"] == "Operación completada exitosamente."){
+           this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Insertado con Exito', life: 3000 });
+           this.Collapse= false;
+           this.DataTable = true;
+           this.submitted = false;
+           this.Detalles = false;
+           this.Agregar = true;
+           this.ngOnInit();
+   
+          }else{
+           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro insertar', life: 3000 });
+          }
+          
+       })
+     } else {
+          this.service.ActualizarFactura(this.viewModel).subscribe((data: MensajeViewModel[]) => {
+          if(data["message"] == "Operación completada exitosamente."){
+           this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Actualizado con Exito', life: 3000 });
+           this.Collapse= false;
+           this.DataTable = true;
+           this.Detalles = false;
+           this.submitted = false;
+           this.Agregar = true;
+           this.ngOnInit();
+   
+          }else{
+           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro actualizar', life: 3000 });
+          }
+          
+       })
+     }  
+     
+  }   
+      else 
+      {
+          this.submitted = true;
+      }
+  }
+  collapse(){
+    this.Collapse= true;
+    this.DataTable = false;
+    this.Valor = "Agregar";
+    this.Agregar= false;
+    this.Detalles = false;
+    this.Tabla = true;
+}
+}
+

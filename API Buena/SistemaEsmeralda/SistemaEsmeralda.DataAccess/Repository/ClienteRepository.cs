@@ -32,7 +32,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 parametro.Add("@Esta_Id", item.Esta_Id);
                 parametro.Add("@Clie_UsuarioCreacion", 1);
                 parametro.Add("@Clie_FechaCreacion", item.Clie_FechaCreacion);
-             
+                parametro.Add("@Clie_DNI", item.Clie_DNI);
 
 
                 var result = db.Execute(sql, parametro, commandType: CommandType.StoredProcedure);
@@ -83,6 +83,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 parameter.Add("@Clie_Sexo", item.Clie_Sexo);
                 parameter.Add("@Muni_Codigo", item.Muni_Codigo);
                 parameter.Add("@Esta_Id", item.Esta_Id);
+                parameter.Add("@Clie_DNI", item.Clie_DNI);
                 parameter.Add("@Clie_UsuarioModificacion", 1);
                 parameter.Add("@Clie_FechaModificacion", item.Clie_FechaModificacion);
                 var result = db.Execute(sql, parameter, commandType: CommandType.StoredProcedure);

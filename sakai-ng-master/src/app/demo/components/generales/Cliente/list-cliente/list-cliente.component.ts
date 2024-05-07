@@ -46,6 +46,7 @@ export class ListClienteComponent implements OnInit{
   Id_Municipio: string = "";
   deleteProductDialog: boolean = false;
   //Detalle
+  Detalle_DNI: String = "";
   Detalle_Codigo: String = "";
   Detalle_Nombre: String = "";
   Detalle_Apellido: String = "";
@@ -69,6 +70,7 @@ export class ListClienteComponent implements OnInit{
 
   ngOnInit(): void {
     this.clienteForm = new FormGroup({
+      Clie_DNI: new FormControl("",Validators.required),
       Clie_Nombre: new FormControl("",Validators.required),
       Clie_Apellido: new FormControl("", Validators.required),
       Clie_Sexo: new FormControl("", Validators.required),
@@ -130,11 +132,13 @@ detalles(codigo){
     this.Detalles = true;
     this.service.getFill(codigo).subscribe({
       next: (data: Fill) => {
+        this.Detalle_DNI = data.clie_DNI,
          this.Detalle_Codigo = data.clie_Id,
          this.Detalle_Nombre = data.clie_Nombre,
          this.Detalle_Apellido = data.clie_Apellido,
          this.Detalle_Sexo = data.clie_Sexo,
          this.Detalle_Estado = data.esta_EstadoCivil,
+         this.Detalle_DNI = data.clie_DNI;
         //  this.Detalle_Cargo = data.carg_Cargo,
          this.Detalle_FechaNac = data.clie_FechaNac,
          this.Detalle_Departamento = data.depa_Departamento,
@@ -146,6 +150,11 @@ detalles(codigo){
       }
     });
     this.ngOnInit();
+}
+ValidarNumeros(event: KeyboardEvent) {
+  if (!/[0-9]/.test(event.key) && event.key !== 'Backspace' && event.key !== 'Tab') {
+      event.preventDefault();
+  }
 }
 //Cerrar Collapse y reiniciar el form
 cancelar(){
@@ -241,6 +250,7 @@ Fill(codigo) {
         next: (data: Fill) => {
 
           this.clienteForm = new FormGroup({
+            Clie_DNI: new FormControl(data.clie_DNI,Validators.required),
             Clie_Nombre: new FormControl(data.clie_Nombre,Validators.required),
             Clie_Apellido: new FormControl(data.clie_Apellido, Validators.required),
             Clie_Sexo: new FormControl(data.clie_Sexo, Validators.required),
