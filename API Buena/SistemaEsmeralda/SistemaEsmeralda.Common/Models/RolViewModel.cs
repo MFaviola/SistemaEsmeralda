@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SistemaEsmeralda.Entities.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -22,6 +23,15 @@ namespace SistemaEsmeralda.Common.Models
 
         [NotMapped]
         public string UsuarioModificacion { get; set; }
+
+
+        [NotMapped]
+        public List<tbPantallas> pantallas { get; set; }
+
+        [NotMapped]
+        public List<int> PantallasID { get; set; }
+
+
 
 
 
