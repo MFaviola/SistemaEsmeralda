@@ -14,6 +14,20 @@ namespace SistemaEsmeralda.Entities.Entities
             tbFacturaDetalles = new HashSet<tbFacturaDetalles>();
         }
         [NotMapped]
+        public string FaxD_Id { get; set; }
+        [NotMapped]
+        public string Prod_Id { get; set; }
+        [NotMapped]
+        public string Producto { get; set; }
+        [NotMapped]
+        public string Cantidad { get; set; }
+        [NotMapped]
+        public string Precio_Unitario { get; set; }
+        [NotMapped]
+        public string Total { get; set; }
+        [NotMapped]
+        public string Categoria { get; set; }
+        [NotMapped]
         public string Impu_Impuesto { get; set; }
         [NotMapped]
         public string Mepa_Metodo { get; set; }

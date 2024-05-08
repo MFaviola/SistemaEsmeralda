@@ -9,7 +9,10 @@ export class Joya{
     prov_Proveedor?:String;
     cate_Categoria?:String;
 }
-
+export class dropJoya{
+    value?:String;
+    text?:String;
+}
 export class JoyaEnviar {
     Joya_Stock?:String;
     Joya_Id?:String;

@@ -9,6 +9,10 @@ export class Maquillaje{
     maqu_Imagen?:string;
     marc_Marca?:String;
 }
+export class dropMaqui{
+    value?:String;
+    text?:String;
+}
 export class MaquillajeEnviar {
     Maqu_Id?:String;
     Maqu_Nombre: string;

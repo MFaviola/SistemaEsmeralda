@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using SistemaEsmeralda.BusinessLogic.Services;
 using SistemaEsmeralda.Common.Models;
 using SistemaEsmeralda.Entities.Entities;
@@ -29,7 +30,6 @@ namespace SistemaEsmeralda.API.Controllers
             var list = _generalServices.ListadoClientes();
             return Ok(list.Data);
         }
-
 
 
 

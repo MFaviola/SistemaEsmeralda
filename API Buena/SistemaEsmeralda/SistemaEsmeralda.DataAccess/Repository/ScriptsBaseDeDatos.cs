@@ -180,6 +180,12 @@ namespace SistemaEsmeralda.DataAccess.Repository
         public static string MaquillajesEliminar = "Vent.sp_Maquillajes_eliminar";
 
         #endregion
+        #region Factura
+
+        public static string CrearFactura = "[Vent].[sp_Facturas_Insertar]";
+
+
+        #endregion
 
 
 
@@ -239,7 +245,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
         #endregion
 
 
-
+      
 
 
     }
