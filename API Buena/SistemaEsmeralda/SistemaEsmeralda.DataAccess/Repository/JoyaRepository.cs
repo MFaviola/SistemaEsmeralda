@@ -43,6 +43,30 @@ namespace SistemaEsmeralda.DataAccess.Repository
             }
         }
 
+        public IEnumerable<tbJoyas> ListaAutoCompletado()
+        {
+            const string sql = "Vent.sp_Joyas_listar";
+
+
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+                return db.Query<tbJoyas>(sql, commandType: CommandType.StoredProcedure).ToList();
+            }
+        }
+
+        public IEnumerable<tbJoyas> ListaPorCodigo(string codigo)
+        {
+            const string sql = "[Vent].[sp_FiltroJoyaCodigo]";
+
+            var parameters = new { Joya_Id = codigo };
+
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+                return db.Query<tbJoyas>(sql, parameters, commandType: CommandType.StoredProcedure).ToList();
+            }
+        }
+
+
         public IEnumerable<tbJoyas> List()
         {
             const string sql = "Vent.sp_Joyas_listar";
@@ -56,6 +80,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 return result;
             }
         }
+
 
         public tbJoyas Fill(int id)
         {

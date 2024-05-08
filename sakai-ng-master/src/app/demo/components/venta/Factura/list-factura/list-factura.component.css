@@ -1,1 +1,8 @@
-/*# sourceMappingURL=list-factura.component.css.map */
+.ui-autocomplete {
+    position: relative;
+}
+.ui-autocomplete-panel {
+    z-index: 1050 !important; /* Asegúrate de que sea mayor que el del datatable */
+}::ng-deep .p-datatable {
+    overflow: visible;
+}

@@ -16,6 +16,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from "primeng/dropdown";
 import { ReactiveFormsModule } from '@angular/forms';
+import { AutoCompleteModule } from "primeng/autocomplete";
 @NgModule({
 	imports: [
 		CommonModule,
@@ -33,7 +34,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 		SidebarModule,
 		RippleModule,
 		ConfirmPopupModule,
-		ReactiveFormsModule
+		ReactiveFormsModule,
+		AutoCompleteModule
 	],
 	declarations: [ListFacturaComponent]
 })

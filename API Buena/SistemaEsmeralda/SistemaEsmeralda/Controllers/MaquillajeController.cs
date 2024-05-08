@@ -3,6 +3,7 @@ using Amazon.S3.Transfer;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using SistemaEsmeralda.BusinessLogic.Services;
 using SistemaEsmeralda.Common.Models;
@@ -89,6 +90,35 @@ namespace SistemaEsmeralda.API.Controllers
 
 
 
+        [HttpGet("AutoCompletado")]
+        public IActionResult AutoCompletado()
+        {
+            var list = _ventasServices.ListaAutoCompletadoMaqui();
+            var drop = list.Data as List<tbMaquillajes>;
+            var rol = drop.Select(x => new SelectListItem
+            {
+                Text = x.Maqu_Nombre,
+                Value = x.Maqu_Id.ToString()
+            }).ToList();
+
+            return Ok(rol.ToList());
+        }
+
+
+
+        [HttpGet("FiltroCodigo/{id}")]
+        public IActionResult FiltroCodigo(string id)
+        {
+            var list = _ventasServices.ListaPorCodigoMaqui(id);
+            var drop = list.Data as List<tbMaquillajes>;
+            var rol = drop.Select(x => new SelectListItem
+            {
+                Text = x.Maqu_Nombre,
+                Value = x.Maqu_Id.ToString()
+            }).ToList();
+
+            return Ok(rol.ToList());
+        }
 
 
         [HttpPost("Create")]

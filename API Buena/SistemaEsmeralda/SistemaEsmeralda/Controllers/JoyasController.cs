@@ -46,10 +46,10 @@ namespace SistemaEsmeralda.API.Controllers
             return Ok(list.Data);
         }
 
-        [HttpGet("DropDown")]
-        public IActionResult List()
+        [HttpGet("AutoCompletado")]
+        public IActionResult AutoCompletado()
         {
-            var list = _ventasServices.ListadoJoyas();
+            var list = _ventasServices.ListadoAutoCompletado();
             var drop = list.Data as List<tbJoyas>;
             var rol = drop.Select(x => new SelectListItem
             {
@@ -57,11 +57,24 @@ namespace SistemaEsmeralda.API.Controllers
                 Value = x.Joya_Id.ToString()
             }).ToList();
 
-
-            rol.Insert(0, new SelectListItem { Text = "-- SELECCIONE --", Value = "0" });
             return Ok(rol.ToList());
         }
 
+
+
+        [HttpGet("FiltroCodigo/{id}")]
+        public IActionResult FiltroCodigo(string id)
+        {
+            var list = _ventasServices.ListadoJoyaPorCodigo(id);
+            var drop = list.Data as List<tbJoyas>;
+            var rol = drop.Select(x => new SelectListItem
+            {
+                Text = x.Joya_Nombre,
+                Value = x.Joya_Id.ToString()
+            }).ToList();
+
+            return Ok(rol.ToList());
+        }
 
 
 

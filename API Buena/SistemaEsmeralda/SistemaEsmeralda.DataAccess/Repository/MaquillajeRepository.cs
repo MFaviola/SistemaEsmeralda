@@ -56,6 +56,29 @@ namespace SistemaEsmeralda.DataAccess.Repository
             }
         }
 
+
+        public IEnumerable<tbMaquillajes> ListaAutocompletado()
+        {
+            const string sql = "Vent.sp_Maquillajes_listar";
+
+
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+                return db.Query<tbMaquillajes>(sql, commandType: CommandType.StoredProcedure).ToList();
+            }
+        }
+
+        public IEnumerable<tbMaquillajes> ListaPorCodigo(string codigo)
+        {
+            const string sql = "[Vent].[sp_FiltroMaquillajeCodigo]";
+
+            var parameters = new { Maqu_Id = codigo };
+
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+                return db.Query<tbMaquillajes>(sql, parameters, commandType: CommandType.StoredProcedure).ToList();
+            }
+        }
         public tbMaquillajes Fill(int id)
         {
 

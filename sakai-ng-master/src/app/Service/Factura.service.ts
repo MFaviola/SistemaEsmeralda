@@ -4,6 +4,8 @@ import { BASE_URL } from './ulrsettings';
 import { Factura,Fill } from '../Models/FacturaViewModel';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs';
+import { dropJoya } from '../Models/JoyaViewModel';
+import { dropMaqui } from '../Models/MaquillajeViewModel';
 
 
 
@@ -14,7 +16,17 @@ export class ServiceService {
 
   constructor(private http:HttpClient) { }
 
+  urlAuto = BASE_URL + 'API/Joyas/AutoCompletado'
 
+  getAutoCompletadoJoya(){
+    return this.http.get<dropJoya[]>(this.urlAuto)
+  }
+
+  urlAutoMaqui = BASE_URL + 'API/Maquillaje/AutoCompletado'
+
+  getAutoCompletadoMaquillaje(){
+    return this.http.get<dropMaqui[]>(this.urlAutoMaqui)
+  }
   url = BASE_URL + 'API/Factura/List'
 
   getFacturas(){

@@ -41,6 +41,38 @@ namespace SistemaEsmeralda.BusinessLogic.Services
         }
 
 
+        public ServiceResult ListadoJoyaPorCodigo(string codigo)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _joyaRepository.ListaPorCodigo(codigo);
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult ListadoAutoCompletado()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _joyaRepository.ListaAutoCompletado();
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
         public ServiceResult EditarJoyas(tbJoyas item)
         {
             var result = new ServiceResult();
@@ -153,8 +185,36 @@ namespace SistemaEsmeralda.BusinessLogic.Services
                 return result.Error(ex.Message);
             }
         }
+        public ServiceResult ListaPorCodigoMaqui(string codigo)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _maquillajeRepository.ListaPorCodigo(codigo);
+                return result.Ok(list);
+            }
 
+            catch (Exception ex)
+            {
 
+                return result.Error(ex.Message);
+            }
+        }
+        public ServiceResult ListaAutoCompletadoMaqui()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _maquillajeRepository.ListaAutocompletado();
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
         public ServiceResult EditarMaquillaje(tbMaquillajes item)
         {
             var result = new ServiceResult();
@@ -267,12 +327,63 @@ namespace SistemaEsmeralda.BusinessLogic.Services
         }
 
 
-       
+
 
 
 
 
         #endregion
+        #region Factura
+
+
+        public ServiceResult CrearFactura(tbFactura item, out int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var (lost, scope) = _facturaRepository.Insertar(item);
+                id = scope;
+                if (lost.CodeStatus > 0)
+                {
+                    return result.Ok(lost);
+                }
+                else
+                {
+                    lost.MessageStatus = (lost.CodeStatus != 1) ? "401 Error de consulta" : lost.MessageStatus;
+                    return result.Error(lost);
+                }
+            }
+            catch (Exception ex)
+            {
+                id = 0;
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult InsertarDetalle(tbFacturaDetalles item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _facturaRepository.InsertarDetalle(item);
+                if (list.CodeStatus > 0)
+                {
+                    return result.Ok(list);
+                }
+                else
+                {
+                    return result.Error(list);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+
+        #endregion
+
 
     }
 }

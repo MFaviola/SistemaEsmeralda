@@ -7,12 +7,21 @@ export class Factura{
 }
 
 export class FacturaEnviar {
-    Impu_Id?:String;
     Mepa_Id?:String;
     Empl_Id?:String;
     Clie_Id?:String;
     Fact_Id?:String;
 }
+
+
+
+export class FacturaDetallesEnviar {
+    Faxd_Dif?:String;
+    Prod_Id?:String;
+    Faxd_Cantidad?:String;
+    Fact_Id?:String;
+}
+
 
 
 export class Fill {
