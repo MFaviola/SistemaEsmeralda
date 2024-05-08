@@ -1,80 +1,77 @@
 <div class="grid p-fluid">
-    <div class="col-12 lg:col-6">
+    <div class="col-12 lg:col-12">
         <div class="card">
-            <h5>Total de Ventas</h5>
-            <p-chart type="line" [data]="lineData" [options]="lineOptions"></p-chart>
-        </div>
+            <h2>Seleccione el rango de fechas a filtrar:</h2>
+            <div class="grid">
+                <div class="col-12 lg:col-6">
+                    <label for="fechaInicio"> Fecha Inicio:</label>
+                    <input type="date" id="fechaInicio" [(ngModel)]="fechaInicio" (change)="actualizarGraficos()" class="p-inputtext col-12">
+                </div>
 
-
-
-        <div class="card flex flex-column ">
-            <h5 class="text-left w-full">Total  Vendidos</h5>
-                   
-           <div class="card flex flex-column align-items-center">
-             
-                                     <div class="field col-12 md:col-12">
-                                     
-                                       <div class="field rows">
-                                           <p-calendar [showIcon]="true" inputId="fecha" placeholder="Sleccione la fecha"></p-calendar>  
-                                       </div>
-                                   </div>
-
-
-                                     
-           <p-chart type="doughnut" [data]="pieData" [options]="pieOptions"></p-chart>
-           </div>
-       </div>
-
-        <!-- <div class="card flex flex-column align-items-center">
-
-            <div class="field col-12 md:col-12">
-                                      
-                <div class="field rows">
-                    <p-calendar [showIcon]="true" inputId="icon" placeholder="Sleccione la fecha"></p-calendar>  
+                <div class="col-12 lg:col-6">
+                    <label for="fechaFin"> Fecha Fin:</label>
+                    <input type="date" id="fechaFin" [(ngModel)]="fechaFin" (change)="actualizarGraficos()" class="p-inputtext col-12">
                 </div>
             </div>
-
-            <p-chart type="pie" [data]="pieData" [options]="pieOptions"></p-chart>
-        </div> -->
-
-        <!-- <div class="card flex flex-column align-items-center">
-            <h5 class="text-left w-full">Top  5 Joyas</h5>
-            <p-chart type="polarArea" [data]="polarData2" [options]="polarOptions"></p-chart>
-        </div> -->
-    </div>
-    <div class="col-12 lg:col-6">
-        <div class="card">
-            <h5>Total ventas por Mes</h5>
-            <p-chart type="bar" [data]="barData" [options]="barOptions"></p-chart>
         </div>
+    </div>
+</div>
 
-        <div class="card flex flex-column ">
-             <h5 class="text-left w-full">Total  Cantidad Vendidas</h5>
+
+
+
+<div class="grid p-fluid">
+    <div class="col-12 lg:col-6">
+  
+
+
+
+                   
+           <div class="card flex flex-column align-items-center">
+            
+                                     
+           <p-chart type="doughnut" [data]="pieData" [options]="pieOptions"></p-chart>
+       </div>
+
+       
+    </div>
+
+
+  
+
+
+   
+
+
+    <div class="col-12 lg:col-6">
+     
+
+ 
+       
                     
             <div class="card flex flex-column align-items-center">
-              
-                                      <div class="field col-12 md:col-12">
+                <h5 class="text-left w-full">Total  Cantidad Vendidas</h5>
+                                    
                                       
-                                        <div class="field rows">
-                                            <p-calendar [showIcon]="true" inputId="icon" placeholder="Sleccione la fecha"></p-calendar>  
-                                        </div>
-                                    </div>
-
-
-                                      
-            <p-chart type="doughnut" [data]="pieData2" [options]="pieOptions"></p-chart>
+            <p-chart type="pie" [data]="pieData2" [options]="pieOptions"></p-chart>
             </div>
+     
+
+    </div>
+
+    <div class="col-12 lg:col-6">
+
+        <div class="card flex flex-column align-items-center">
+            <h5 class="text-left w-full">Top 5 Joyas</h5>
+            <p-chart type="polarArea" [data]="polarData2" [options]="polarOptions"></p-chart>
+        </div>
         </div>
 
-        <!-- <div class="card flex flex-column align-items-center">
-            <h5 class="text-left w-full">Top 5 Maquillaje</h5>
-            <p-chart type="polarArea" [data]="polarData" [options]="polarOptions"></p-chart>
-        </div>
-       -->
+    <div class="col-12 lg:col-6">
 
-        <!-- <div class="card flex flex-column align-items-center">
-            <h5 class="text-left w-full">Radar Chart</h5>
-            <p-chart type="radar" [data]="radarData" [options]="radarOptions"></p-chart>
-        </div> -->
+    <div class="card flex flex-column align-items-center">
+        <h5 class="text-left w-full">Top 5 Maquillajes</h5>
+        <p-chart type="polarArea" [data]="polarData" [options]="polarOptions"></p-chart>
+    </div>
     </div>
 </div>

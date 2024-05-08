@@ -87,23 +87,27 @@ export class ServiceService {
 ////////////////FILTRADOS //////////////////
 
 
-getJoyasf(fecha: string): Observable<JoyaMes> {
-  return this.http.get<JoyaMes>(`${BASE_URL + 'API/Graficos/JoyaMesfiltrado' + fecha}`);
+// getventasporcategoria(anio: string): Observable<totalanual> {
+//   return this.http.get<totalanual>(`${BASE_URL + 'API/Graficos/Ventatotales' + anio}`);
+// }
+
+getventasporcategoria(anio: string): Observable<totalanual[]> {
+  const url = `${BASE_URL}API/Graficos/Ventatotales/${anio}`;
+  return this.http.get<totalanual[]>(url);
+}
+
+
+getcategoriatotal(anio: string): Observable<totalcate[]> {
+  const url = `${BASE_URL}API/Graficos/Ventatotalescatgoria/${anio}`;
+  return this.http.get<totalcate[]>(url);
 }
 
 
 
 
-getMaquioJoyaf(fecha: string): Observable<MaqJoyaMes> {
-  return this.http.get<MaqJoyaMes>(`${BASE_URL + 'API/Graficos/ProductoMesfiltrado' + fecha}`);
-}
-
-
-
-
-
-gettjf(fecha: string): Observable<totalJo> {
-  return this.http.get<totalJo>(`${BASE_URL + 'API/Graficos/JoyatotalMesfiltrado' + fecha}`);
+getcantidadvendidaanio(fechaInicio: string, fechaFin: string): Observable<totalcate[]> {
+  const url = `${BASE_URL}API/Graficos/cantidadMesfiltrado/${fechaInicio}/${fechaFin}`;
+  return this.http.get<totalcate[]>(url);
 }
 
 
@@ -111,15 +115,24 @@ gettjf(fecha: string): Observable<totalJo> {
 
 
 
-gettmf(fecha: string): Observable<totalMa> {
-  return this.http.get<totalMa>(`${BASE_URL + 'API/Graficos/MaquillajetotalMesfiltrado' + fecha}`);
+getotalmesescategorias(fechainicio: string, fechafin: string): Observable<MaqJoyaMes[]> {
+  const url = `${BASE_URL}API/Graficos/totaldMesfiltrado/${fechainicio}/${fechafin}`;
+  return this.http.get<MaqJoyaMes[]>(url);
 }
 
 
 
 
+top5maquillaje(fechainicio: string, fechafin: string): Observable<MaquillajeMes[]> {
+  const url = `${BASE_URL}API/Graficos/top5maquillaje/${fechainicio}/${fechafin}`;
+  return this.http.get<MaquillajeMes[]>(url);
+}
 
 
+top5joyas(fechainicio: string, fechafin: string): Observable<MaquillajeMes[]> {
+  const url = `${BASE_URL}API/Graficos/top5joyas/${fechainicio}/${fechafin}`;
+  return this.http.get<MaquillajeMes[]>(url);
+}
 
 
 

@@ -1,0 +1,84 @@
+<div class="grid p-fluid">
+    <div class="col-12 lg:col-12">
+    <!-- <div class="field col-12 md:col-6">
+        <div class="card">
+            <label for="year-select">Selecciona un año:</label>
+            <select id="year-select" [(ngModel)]="selectedYear" name="year">
+                <option value="">Seleccione un año</option>
+                <option *ngFor="let year of availableYears" [value]="year">{{ year }}</option>
+            </select>
+    
+            <label for="year-input"></label>
+            <input id="year-input" [(ngModel)]="selectedYear" type="number" readonly class="p-inputtext col-6" class="hidden">
+        </div>
+    </div>
+    
+ -->
+
+
+    <div class="field col-12 md:col-6">
+        <div class="card">
+            <label for="year-select">Selecciona un año:</label>
+            <!-- ngModelChange ejecuta el método cada vez que se selecciona un nuevo año -->
+            <select id="year-select" [(ngModel)]="selectedYear" (ngModelChange)="actualizarGrafico()" name="year">
+                <option value="">Seleccione un año</option>
+                <option *ngFor="let year of availableYears" [value]="year">{{ year }}</option>
+            </select>
+        </div>
+    </div>
+    
+
+
+
+
+
+
+
+
+<div class="grid p-fluid">
+    <div class="col-12 lg:col-6">
+        <div class="card">
+            <h5>Total de Ventas</h5>
+            <p-chart type="line" [data]="lineData" [options]="lineOptions"></p-chart>
+        </div>
+
+
+
+    
+
+        <!-- <div class="card flex flex-column align-items-center">
+
+            <div class="field col-12 md:col-12">
+                                      
+                <div class="field rows">
+                    <p-calendar [showIcon]="true" inputId="icon" placeholder="Sleccione la fecha"></p-calendar>  
+                </div>
+            </div>
+
+            <p-chart type="pie" [data]="pieData" [options]="pieOptions"></p-chart>
+        </div> -->
+
+        <!-- <div class="card flex flex-column align-items-center">
+            <h5 class="text-left w-full">Top  5 Joyas</h5>
+            <p-chart type="polarArea" [data]="polarData2" [options]="polarOptions"></p-chart>
+        </div> -->
+    </div>
+    <div class="col-12 lg:col-6">
+        <div class="card">
+            <h5>Total ventas por Mes</h5>
+            <p-chart type="bar" [data]="barData" [options]="barOptions"></p-chart>
+        </div>
+
+    
+        <!-- <div class="card flex flex-column align-items-center">
+            <h5 class="text-left w-full">Top 5 Maquillaje</h5>
+            <p-chart type="polarArea" [data]="polarData" [options]="polarOptions"></p-chart>
+        </div>
+       -->
+
+        <!-- <div class="card flex flex-column align-items-center">
+            <h5 class="text-left w-full">Radar Chart</h5>
+            <p-chart type="radar" [data]="radarData" [options]="radarOptions"></p-chart>
+        </div> -->
+    </div>
+</div>
