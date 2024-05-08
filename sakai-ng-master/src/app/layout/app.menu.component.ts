@@ -180,12 +180,42 @@ export class AppMenuComponent implements OnInit {
 
 
             },
+            // {
+            //     items: [
+            //         {
+            //             label: 'Graficos',
+            //             icon: 'pi pi-fw pi-chart-bar',
+            //             routerLink: ['/uikit/charts']
+                        
+            //         },
+            //     ]
+
+
+                
+
+
+
+            // },
+
             {
                 items: [
                     {
                         label: 'Graficos',
                         icon: 'pi pi-fw pi-chart-bar',
-                        routerLink: ['/uikit/charts']
+                        items: [
+                            {
+                                label: 'Mesuales',
+                                icon: 'pi pi-fw pi-dollar',
+                                routerLink: ['/uikit/charts']
+                            },
+                            {
+                                label: 'Anuales',
+                                icon: 'pi pi-fw pi-pencil',
+                                routerLink: ['/uikit/chartsanuales']
+                            },
+                         
+                         
+                        ]
                     },
                 ]
 
@@ -195,22 +225,21 @@ export class AppMenuComponent implements OnInit {
 
 
 
-                
-
-
-
-
-
-
-
-
-
-
-
-
 
 
             },
+
+
+
+
+
+
         ];
     }
+
+
+
+
+
+
 }

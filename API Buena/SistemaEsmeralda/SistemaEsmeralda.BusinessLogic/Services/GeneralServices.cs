@@ -1592,6 +1592,9 @@ namespace SistemaEsmeralda.BusinessLogic.Services
 
 
 
+
+
+
         public ServiceResult totalMaquillajeMes()
         {
             var result = new ServiceResult();
@@ -1722,6 +1725,8 @@ namespace SistemaEsmeralda.BusinessLogic.Services
         }
 
 
+
+
         public ServiceResult Ventatotal()
         {
             var result = new ServiceResult();
@@ -1747,12 +1752,56 @@ namespace SistemaEsmeralda.BusinessLogic.Services
 
 
 
-        public ServiceResult totalMaquillajeMesfiltrado(DateTime fecha)
+        #region Anual
+
+
+        public ServiceResult totalProductosMesaño(int anio)
         {
             var result = new ServiceResult();
             try
             {
-                var list = _graficosRepository.totalMaquillajeMesfiltrado(fecha);
+                var list = _graficosRepository.Ventatotalaño(anio);
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
+
+
+
+        public ServiceResult Ventatotalcateaño(int anio)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _graficosRepository.Ventatotalcateaño(anio);
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
+
+        #endregion
+
+
+
+
+        public ServiceResult totalProductoMesfiltrado(DateTime fechainicio, DateTime fechafin)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _graficosRepository.Productofiltrado(fechainicio, fechafin);
                 return result.Ok(list);
             }
 
@@ -1767,12 +1816,13 @@ namespace SistemaEsmeralda.BusinessLogic.Services
 
 
 
-        public ServiceResult totalinMaquillajeMesfiltrado( DateTime fecha)
+        
+              public ServiceResult totalcantidadMesfiltrado(DateTime fechainicio, DateTime fechafin)
         {
             var result = new ServiceResult();
             try
             {
-                var list = _graficosRepository.totalinMaquillajeMesfiltrado(fecha);
+                var list = _graficosRepository.cantidadfiltrado(fechainicio, fechafin);
                 return result.Ok(list);
             }
 
@@ -1787,12 +1837,14 @@ namespace SistemaEsmeralda.BusinessLogic.Services
 
 
 
-        public ServiceResult totalJoyasMesfiltrado(DateTime fecha)
+
+
+        public ServiceResult Top5Maquillaje(DateTime fechainicio, DateTime fechafin)
         {
             var result = new ServiceResult();
             try
             {
-                var list = _graficosRepository.totalJoyasMesfiltrado(fecha);
+                var list = _graficosRepository.Top5Maquillaje(fechainicio, fechafin);
                 return result.Ok(list);
             }
 
@@ -1804,12 +1856,16 @@ namespace SistemaEsmeralda.BusinessLogic.Services
         }
 
 
-        public ServiceResult totalinJoyasMesfiltrado(DateTime fecha)
+
+
+
+
+        public ServiceResult Top5Joyas(DateTime fechainicio, DateTime fechafin)
         {
             var result = new ServiceResult();
             try
             {
-                var list = _graficosRepository.totalinJoyasMesfiltrado(fecha);
+                var list = _graficosRepository.Top5Joyas(fechainicio, fechafin);
                 return result.Ok(list);
             }
 
@@ -1819,6 +1875,7 @@ namespace SistemaEsmeralda.BusinessLogic.Services
                 return result.Error(ex.Message);
             }
         }
+
 
 
 
