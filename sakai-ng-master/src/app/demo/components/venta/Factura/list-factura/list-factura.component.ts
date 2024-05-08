@@ -31,7 +31,7 @@ export class ListFacturaComponent {
   @ViewChild('filter') filter!: ElementRef;
   Collapse: boolean = false;
   DataTable: boolean = true;
-  Tabla: boolean = false;
+  Tabla: boolean = true;
   Detalles: boolean = false;
   Agregar: boolean = true;
   MunCodigo: boolean = true;

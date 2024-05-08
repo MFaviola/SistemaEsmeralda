@@ -57,7 +57,7 @@
                 </p-autoComplete>
                     <small class="ng-dirty ng-invalid" *ngIf="submitted && FacturaForm.controls['Mepa_Metodo'].invalid" style="color: red !important;">Metodo Requerido</small>
                   </div>
-    
+     
                
                 </div>
              
@@ -66,7 +66,7 @@
 
        
 
-          <form [formGroup]="DetalleForm" (ngSubmit)="subir()" [class.hidden]="!Tabla"> 
+          <form [formGroup]="DetalleForm" (ngSubmit)="subir()"> 
           <p-table [value]="staticData" >
             <ng-template pTemplate="header">
                 <tr>
