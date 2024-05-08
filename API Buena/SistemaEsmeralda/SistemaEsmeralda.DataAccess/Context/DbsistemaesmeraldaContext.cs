@@ -26,6 +26,8 @@ namespace SistemaEsmeralda.DataAccess.Context
         public virtual DbSet<tbEmpleados> tbEmpleados { get; set; }
         public virtual DbSet<tbEstadosCiviles> tbEstadosCiviles { get; set; }
         public virtual DbSet<tbFactura> tbFactura { get; set; }
+        public virtual DbSet<tbFacturaCompraDetalle> tbFacturaCompraDetalle { get; set; }
+        public virtual DbSet<tbFacturaCompraEncabezado> tbFacturaCompraEncabezado { get; set; }
         public virtual DbSet<tbFacturaDetalles> tbFacturaDetalles { get; set; }
         public virtual DbSet<tbImpuestos> tbImpuestos { get; set; }
         public virtual DbSet<tbJoyas> tbJoyas { get; set; }
@@ -35,13 +37,12 @@ namespace SistemaEsmeralda.DataAccess.Context
         public virtual DbSet<tbMetodosPago> tbMetodosPago { get; set; }
         public virtual DbSet<tbMunicipios> tbMunicipios { get; set; }
         public virtual DbSet<tbPantallas> tbPantallas { get; set; }
-        public virtual DbSet<tbPantallasPorRoles> tbPantallasXRoles { get; set; }
+        public virtual DbSet<tbPantallasPorRoles> tbPantallasPorRoles { get; set; }
         public virtual DbSet<tbPreciosBitacora> tbPreciosBitacora { get; set; }
         public virtual DbSet<tbProveedores> tbProveedores { get; set; }
         public virtual DbSet<tbRoles> tbRoles { get; set; }
         public virtual DbSet<tbSucursales> tbSucursales { get; set; }
         public virtual DbSet<tbUsuarios> tbUsuarios { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
@@ -63,17 +64,6 @@ namespace SistemaEsmeralda.DataAccess.Context
                 entity.Property(e => e.Carg_FechaCreacion).HasColumnType("datetime");
 
                 entity.Property(e => e.Carg_FechaModificacion).HasColumnType("datetime");
-
-                entity.HasOne(d => d.Carg_UsuarioCreacionNavigation)
-                    .WithMany(p => p.tbCargosCarg_UsuarioCreacionNavigation)
-                    .HasForeignKey(d => d.Carg_UsuarioCreacion)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("tbCargos_tbUsuarios_Carg_UsuarioCreacion");
-
-                entity.HasOne(d => d.Carg_UsuarioModificacionNavigation)
-                    .WithMany(p => p.tbCargosCarg_UsuarioModificacionNavigation)
-                    .HasForeignKey(d => d.Carg_UsuarioModificacion)
-                    .HasConstraintName("tbCargos_tbUsuarios_Carg_UsuarioModificacion");
             });
 
             modelBuilder.Entity<tbCategorias>(entity =>
@@ -92,16 +82,6 @@ namespace SistemaEsmeralda.DataAccess.Context
                 entity.Property(e => e.Cate_FechaCreacion).HasColumnType("datetime");
 
                 entity.Property(e => e.Cate_FechaModificacion).HasColumnType("datetime");
-
-                entity.HasOne(d => d.Cate_UsuarioCreacionNavigation)
-                    .WithMany(p => p.tbCategoriasCate_UsuarioCreacionNavigation)
-                    .HasForeignKey(d => d.Cate_UsuarioCreacion)
-                    .HasConstraintName("tbCategorias_tbUsuarios_Cate_UsuarioCreacion");
-
-                entity.HasOne(d => d.Cate_UsuarioModificacionNavigation)
-                    .WithMany(p => p.tbCategoriasCate_UsuarioModificacionNavigation)
-                    .HasForeignKey(d => d.Cate_UsuarioModificacion)
-                    .HasConstraintName("tbCategorias_tbUsuarios_Cate_UsuarioModificacion");
             });
 
             modelBuilder.Entity<tbClientes>(entity =>
@@ -114,6 +94,10 @@ namespace SistemaEsmeralda.DataAccess.Context
                 entity.Property(e => e.Clie_Apellido)
                     .IsRequired()
                     .HasMaxLength(60)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Clie_DNI)
+                    .HasMaxLength(13)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Clie_Estado).HasDefaultValueSql("((1))");
@@ -139,16 +123,6 @@ namespace SistemaEsmeralda.DataAccess.Context
                     .IsRequired()
                     .HasMaxLength(4)
                     .IsUnicode(false);
-
-                entity.HasOne(d => d.Clie_UsuarioCreacionNavigation)
-                    .WithMany(p => p.tbClientesClie_UsuarioCreacionNavigation)
-                    .HasForeignKey(d => d.Clie_UsuarioCreacion)
-                    .HasConstraintName("tbClientes_tbUsuarios_Clie_UsuarioCreacion");
-
-                entity.HasOne(d => d.Clie_UsuarioModificacionNavigation)
-                    .WithMany(p => p.tbClientesClie_UsuarioModificacionNavigation)
-                    .HasForeignKey(d => d.Clie_UsuarioModificacion)
-                    .HasConstraintName("tbClientes_tbUsuarios_Clie_UsuarioModificacion");
 
                 entity.HasOne(d => d.Esta)
                     .WithMany(p => p.tbClientes)
@@ -182,17 +156,6 @@ namespace SistemaEsmeralda.DataAccess.Context
                 entity.Property(e => e.Depa_FechaCreacion).HasColumnType("datetime");
 
                 entity.Property(e => e.Depa_FechaModificacion).HasColumnType("datetime");
-
-                entity.HasOne(d => d.Depa_UsuarioCreacionNavigation)
-                    .WithMany(p => p.tbDepartamentosDepa_UsuarioCreacionNavigation)
-                    .HasForeignKey(d => d.Depa_UsuarioCreacion)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("tbUsuarios_tbUsuarios_Depa_UsuarioCreacion");
-
-                entity.HasOne(d => d.Depa_UsuarioModificacionNavigation)
-                    .WithMany(p => p.tbDepartamentosDepa_UsuarioModificacionNavigation)
-                    .HasForeignKey(d => d.Depa_UsuarioModificacion)
-                    .HasConstraintName("tbUsuarios_tbUsuarios_Depa_UsuarioModificacion");
             });
 
             modelBuilder.Entity<tbEmpleados>(entity =>
@@ -205,6 +168,12 @@ namespace SistemaEsmeralda.DataAccess.Context
                 entity.Property(e => e.Empl_Apellido)
                     .IsRequired()
                     .HasMaxLength(30)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Empl_Correo).IsUnicode(false);
+
+                entity.Property(e => e.Empl_DNI)
+                    .HasMaxLength(13)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Empl_Estado).HasDefaultValueSql("((1))");
@@ -237,16 +206,6 @@ namespace SistemaEsmeralda.DataAccess.Context
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("tbEmpleados_tbCargos_carg_Id");
 
-                entity.HasOne(d => d.Empl_UsuarioCreacionNavigation)
-                    .WithMany(p => p.tbEmpleadosEmpl_UsuarioCreacionNavigation)
-                    .HasForeignKey(d => d.Empl_UsuarioCreacion)
-                    .HasConstraintName("tbEmpleados_tbUsuarios_Prov_UsuarioCreacion");
-
-                entity.HasOne(d => d.Empl_UsuarioModificacionNavigation)
-                    .WithMany(p => p.tbEmpleadosEmpl_UsuarioModificacionNavigation)
-                    .HasForeignKey(d => d.Empl_UsuarioModificacion)
-                    .HasConstraintName("tbEmpleados_tbUsuarios_Prov_UsuarioModificacion");
-
                 entity.HasOne(d => d.Esta)
                     .WithMany(p => p.tbEmpleados)
                     .HasForeignKey(d => d.Esta_Id)
@@ -258,12 +217,6 @@ namespace SistemaEsmeralda.DataAccess.Context
                     .HasForeignKey(d => d.Muni_Codigo)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("tbEmpleados_tbMunicipios_Muni_Codigo");
-
-                entity.HasOne(d => d.Sucu)
-                    .WithMany(p => p.tbEmpleados)
-                    .HasForeignKey(d => d.Sucu_Id)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("tbEmpleados_tbSucursales_Sucu_Id");
             });
 
             modelBuilder.Entity<tbEstadosCiviles>(entity =>
@@ -283,16 +236,6 @@ namespace SistemaEsmeralda.DataAccess.Context
                 entity.Property(e => e.Esta_FechaCreacion).HasColumnType("datetime");
 
                 entity.Property(e => e.Esta_FechaModificacion).HasColumnType("datetime");
-
-                entity.HasOne(d => d.Esta_UsuarioCreacionNavigation)
-                    .WithMany(p => p.tbEstadosCivilesEsta_UsuarioCreacionNavigation)
-                    .HasForeignKey(d => d.Esta_UsuarioCreacion)
-                    .HasConstraintName("tbEstadosCiviles_tbUsuarios_Esta_UsuarioCreacion");
-
-                entity.HasOne(d => d.Esta_UsuarioModificacionNavigation)
-                    .WithMany(p => p.tbEstadosCivilesEsta_UsuarioModificacionNavigation)
-                    .HasForeignKey(d => d.Esta_UsuarioModificacion)
-                    .HasConstraintName("tbEstadosCiviles_tbUsuarios_Esta_UsuarioModificacion");
             });
 
             modelBuilder.Entity<tbFactura>(entity =>
@@ -320,27 +263,39 @@ namespace SistemaEsmeralda.DataAccess.Context
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("tbFactura_tbEmpleados_Empl_Id");
 
-                entity.HasOne(d => d.Fact_UsuarioCreacionNavigation)
-                    .WithMany(p => p.tbFacturaFact_UsuarioCreacionNavigation)
-                    .HasForeignKey(d => d.Fact_UsuarioCreacion)
-                    .HasConstraintName("tbFactura_tbUsuarios_Fact_UsuarioCreacion");
-
-                entity.HasOne(d => d.Fact_UsuarioModificacionNavigation)
-                    .WithMany(p => p.tbFacturaFact_UsuarioModificacionNavigation)
-                    .HasForeignKey(d => d.Fact_UsuarioModificacion)
-                    .HasConstraintName("tbFactura_tbUsuarios_Fact_UsuarioModificacion");
-
-                entity.HasOne(d => d.Impu)
-                    .WithMany(p => p.tbFactura)
-                    .HasForeignKey(d => d.Impu_Id)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("tbFactura_tbImpuestos_Impu_Id");
-
                 entity.HasOne(d => d.Mepa)
                     .WithMany(p => p.tbFactura)
                     .HasForeignKey(d => d.Mepa_Id)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("tbFactura_tbMetodosPago_Mepa_Id");
+            });
+
+            modelBuilder.Entity<tbFacturaCompraDetalle>(entity =>
+            {
+                entity.HasKey(e => e.FaCD_Id)
+                    .HasName("PK__tbFactur__26F84ECC4A1ECD60");
+
+                entity.ToTable("tbFacturaCompraDetalle", "Vent");
+
+                entity.HasOne(d => d.FaCE)
+                    .WithMany(p => p.tbFacturaCompraDetalle)
+                    .HasForeignKey(d => d.FaCE_Id)
+                    .HasConstraintName("FK_FacturaencabezadoCompra_FaCE_Id");
+            });
+
+            modelBuilder.Entity<tbFacturaCompraEncabezado>(entity =>
+            {
+                entity.HasKey(e => e.FaCE_Id)
+                    .HasName("PK__tbFactur__BA5F4403C684DF9B");
+
+                entity.ToTable("tbFacturaCompraEncabezado", "Vent");
+
+                entity.Property(e => e.FaCE_FechaCreacion).HasColumnType("datetime");
+
+                entity.Property(e => e.FaCE_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.FaCE_fechafinalizacion).HasColumnType("datetime");
+
             });
 
             modelBuilder.Entity<tbFacturaDetalles>(entity =>
@@ -370,16 +325,6 @@ namespace SistemaEsmeralda.DataAccess.Context
                 entity.Property(e => e.Impu_FechaModificacion).HasColumnType("datetime");
 
                 entity.Property(e => e.Impu_Impuesto).HasColumnType("decimal(18, 0)");
-
-                entity.HasOne(d => d.Impu_UsuarioCreacionNavigation)
-                    .WithMany(p => p.tbImpuestosImpu_UsuarioCreacionNavigation)
-                    .HasForeignKey(d => d.Impu_UsuarioCreacion)
-                    .HasConstraintName("tbImpuestos_tbUsuarios_Impu_UsuarioCreacion");
-
-                entity.HasOne(d => d.Impu_UsuarioModificacionNavigation)
-                    .WithMany(p => p.tbImpuestosImpu_UsuarioModificacionNavigation)
-                    .HasForeignKey(d => d.Impu_UsuarioModificacion)
-                    .HasConstraintName("tbImpuestos_tbUsuarios_Impu_UsuarioModificacion");
             });
 
             modelBuilder.Entity<tbJoyas>(entity =>
@@ -410,21 +355,13 @@ namespace SistemaEsmeralda.DataAccess.Context
 
                 entity.Property(e => e.Joya_PrecioVenta).HasColumnType("numeric(8, 2)");
 
+                entity.Property(e => e.Joya_Stock).HasDefaultValueSql("((0))");
+
                 entity.HasOne(d => d.Cate)
                     .WithMany(p => p.tbJoyas)
                     .HasForeignKey(d => d.Cate_Id)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("tbJoyas_tbCategorias_Cate_Id");
-
-                entity.HasOne(d => d.Joya_UsuarioCreacionNavigation)
-                    .WithMany(p => p.tbJoyasJoya_UsuarioCreacionNavigation)
-                    .HasForeignKey(d => d.Joya_UsuarioCreacion)
-                    .HasConstraintName("tbJoyas_tbUsuarios_Joya_UsuarioCreacion");
-
-                entity.HasOne(d => d.Joya_UsuarioModificacionNavigation)
-                    .WithMany(p => p.tbJoyasJoya_UsuarioModificacionNavigation)
-                    .HasForeignKey(d => d.Joya_UsuarioModificacion)
-                    .HasConstraintName("tbJoyas_tbUsuarios_Joya_UsuarioModificacion");
 
                 entity.HasOne(d => d.Mate)
                     .WithMany(p => p.tbJoyas)
@@ -467,15 +404,7 @@ namespace SistemaEsmeralda.DataAccess.Context
 
                 entity.Property(e => e.Maqu_PrecioVenta).HasColumnType("numeric(8, 2)");
 
-                entity.HasOne(d => d.Maqu_UsuarioCreacionNavigation)
-                    .WithMany(p => p.tbMaquillajesMaqu_UsuarioCreacionNavigation)
-                    .HasForeignKey(d => d.Maqu_UsuarioCreacion)
-                    .HasConstraintName("tbMaquillajes_tbUsuarios_Maqu_UsuarioCreacion");
-
-                entity.HasOne(d => d.Maqu_UsuarioModificacionNavigation)
-                    .WithMany(p => p.tbMaquillajesMaqu_UsuarioModificacionNavigation)
-                    .HasForeignKey(d => d.Maqu_UsuarioModificacion)
-                    .HasConstraintName("tbMaquillajes_tbUsuarios_Maqu_UsuarioModificacion");
+                entity.Property(e => e.Maqu_Stock).HasDefaultValueSql("((0))");
 
                 entity.HasOne(d => d.Marc)
                     .WithMany(p => p.tbMaquillajes)
@@ -507,16 +436,6 @@ namespace SistemaEsmeralda.DataAccess.Context
                     .IsRequired()
                     .HasMaxLength(60)
                     .IsUnicode(false);
-
-                entity.HasOne(d => d.Marc_UsuarioCreacionNavigation)
-                    .WithMany(p => p.tbMarcasMarc_UsuarioCreacionNavigation)
-                    .HasForeignKey(d => d.Marc_UsuarioCreacion)
-                    .HasConstraintName("tbMarcas_tbUsuarios_Marc_UsuarioCreacion");
-
-                entity.HasOne(d => d.Marc_UsuarioModificacionNavigation)
-                    .WithMany(p => p.tbMarcasMarc_UsuarioModificacionNavigation)
-                    .HasForeignKey(d => d.Marc_UsuarioModificacion)
-                    .HasConstraintName("tbMarcas_tbUsuarios_Marc_UsuarioModificacion");
             });
 
             modelBuilder.Entity<tbMateriales>(entity =>
@@ -536,16 +455,6 @@ namespace SistemaEsmeralda.DataAccess.Context
                     .IsRequired()
                     .HasMaxLength(60)
                     .IsUnicode(false);
-
-                entity.HasOne(d => d.Mate_UsuarioCreacionNavigation)
-                    .WithMany(p => p.tbMaterialesMate_UsuarioCreacionNavigation)
-                    .HasForeignKey(d => d.Mate_UsuarioCreacion)
-                    .HasConstraintName("tbMateriales_tbUsuarios_Marc_UsuarioCreacion");
-
-                entity.HasOne(d => d.Mate_UsuarioModificacionNavigation)
-                    .WithMany(p => p.tbMaterialesMate_UsuarioModificacionNavigation)
-                    .HasForeignKey(d => d.Mate_UsuarioModificacion)
-                    .HasConstraintName("tbMateriales_tbUsuarios_Marc_UsuarioModificacion");
             });
 
             modelBuilder.Entity<tbMetodosPago>(entity =>
@@ -565,16 +474,6 @@ namespace SistemaEsmeralda.DataAccess.Context
                     .IsRequired()
                     .HasMaxLength(60)
                     .IsUnicode(false);
-
-                entity.HasOne(d => d.Mepa_UsuarioCreacionNavigation)
-                    .WithMany(p => p.tbMetodosPagoMepa_UsuarioCreacionNavigation)
-                    .HasForeignKey(d => d.Mepa_UsuarioCreacion)
-                    .HasConstraintName("tbMetodosPago_tbUsuarios_Mepa_UsuarioCreacion");
-
-                entity.HasOne(d => d.Mepa_UsuarioModificacionNavigation)
-                    .WithMany(p => p.tbMetodosPagoMepa_UsuarioModificacionNavigation)
-                    .HasForeignKey(d => d.Mepa_UsuarioModificacion)
-                    .HasConstraintName("tbMetodosPago_tbUsuarios_Mepa_UsuarioModificacion");
             });
 
             modelBuilder.Entity<tbMunicipios>(entity =>
@@ -607,16 +506,6 @@ namespace SistemaEsmeralda.DataAccess.Context
                     .HasForeignKey(d => d.Depa_Codigo)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("tbDepartamentos_tbMunicipios_Depa_Codigo");
-
-                entity.HasOne(d => d.Muni_UsuarioCreacionNavigation)
-                    .WithMany(p => p.tbMunicipiosMuni_UsuarioCreacionNavigation)
-                    .HasForeignKey(d => d.Muni_UsuarioCreacion)
-                    .HasConstraintName("tbUsuarios_tbUsuarios_Muni_UsuarioCreacion");
-
-                entity.HasOne(d => d.Muni_UsuarioModificacionNavigation)
-                    .WithMany(p => p.tbMunicipiosMuni_UsuarioModificacionNavigation)
-                    .HasForeignKey(d => d.Muni_UsuarioModificacion)
-                    .HasConstraintName("tbUsuarios_tbUsuarios_Muni_UsuarioModificacion");
             });
 
             modelBuilder.Entity<tbPantallas>(entity =>
@@ -636,34 +525,14 @@ namespace SistemaEsmeralda.DataAccess.Context
                 entity.Property(e => e.Pant_FechaCreacion).HasColumnType("datetime");
 
                 entity.Property(e => e.Pant_FechaModificacion).HasColumnType("datetime");
-
-                entity.HasOne(d => d.Pant_UsuarioCreacionNavigation)
-                    .WithMany(p => p.tbPantallasPant_UsuarioCreacionNavigation)
-                    .HasForeignKey(d => d.Pant_UsuarioCreacion)
-                    .HasConstraintName("tbPantallas_tbUsuarios_Pant_UsuarioCreacion");
-
-                entity.HasOne(d => d.Pant_UsuarioModificacionNavigation)
-                    .WithMany(p => p.tbPantallasPant_UsuarioModificacionNavigation)
-                    .HasForeignKey(d => d.Pant_UsuarioModificacion)
-                    .HasConstraintName("tbPantallas_tbUsuarios_Pant_UsuarioModificacion");
             });
 
             modelBuilder.Entity<tbPantallasPorRoles>(entity =>
             {
                 entity.HasKey(e => e.Paxr_Id)
-                    .HasName("PK__tbPantal__959BB2310295745B");
+                    .HasName("PK__tbPantal__959BB231FE9777A3");
 
-                entity.ToTable("tbPantallasXRoles", "Acce");
-
-                entity.HasOne(d => d.Pant)
-                    .WithMany(p => p.tbPantallasXRoles)
-                    .HasForeignKey(d => d.Pant_Id)
-                    .HasConstraintName("tbUsuarios_tbPantallas_Esta_Id");
-
-                entity.HasOne(d => d.Role)
-                    .WithMany(p => p.tbPantallasXRoles)
-                    .HasForeignKey(d => d.Role_Id)
-                    .HasConstraintName("tbUsuarios_tbRoles_Role_Id");
+                entity.ToTable("tbPantallasPorRoles", "Acce");
             });
 
             modelBuilder.Entity<tbPreciosBitacora>(entity =>
@@ -717,17 +586,6 @@ namespace SistemaEsmeralda.DataAccess.Context
                     .HasForeignKey(d => d.Muni_Codigo)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("tbProveedores_tbMunicipios_Muni_Codigo");
-
-                entity.HasOne(d => d.Prov_UsuarioCreacionNavigation)
-                    .WithMany(p => p.tbProveedoresProv_UsuarioCreacionNavigation)
-                    .HasForeignKey(d => d.Prov_UsuarioCreacion)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("tbProveedores_tbUsuarios_Prov_UsuarioCreacion");
-
-                entity.HasOne(d => d.Prov_UsuarioModificacionNavigation)
-                    .WithMany(p => p.tbProveedoresProv_UsuarioModificacionNavigation)
-                    .HasForeignKey(d => d.Prov_UsuarioModificacion)
-                    .HasConstraintName("tbProveedores_tbUsuarios_Prov_UsuarioModificacion");
             });
 
             modelBuilder.Entity<tbRoles>(entity =>
@@ -747,16 +605,6 @@ namespace SistemaEsmeralda.DataAccess.Context
                     .IsRequired()
                     .HasMaxLength(60)
                     .IsUnicode(false);
-
-                entity.HasOne(d => d.Role_UsuarioCreacionNavigation)
-                    .WithMany(p => p.tbRolesRole_UsuarioCreacionNavigation)
-                    .HasForeignKey(d => d.Role_UsuarioCreacion)
-                    .HasConstraintName("tbRoles_tbUsuarios_Role_UsuarioCreacion");
-
-                entity.HasOne(d => d.Role_UsuarioModificacionNavigation)
-                    .WithMany(p => p.tbRolesRole_UsuarioModificacionNavigation)
-                    .HasForeignKey(d => d.Role_UsuarioModificacion)
-                    .HasConstraintName("tbRoles_tbUsuarios_Role_UsuarioModificacion");
             });
 
             modelBuilder.Entity<tbSucursales>(entity =>
@@ -784,16 +632,6 @@ namespace SistemaEsmeralda.DataAccess.Context
                     .WithMany(p => p.tbSucursales)
                     .HasForeignKey(d => d.Muni_Codigo)
                     .HasConstraintName("tbSucursales_tbMunicipios_Muni_Codigo");
-
-                entity.HasOne(d => d.Sucu_UsuarioCreacionNavigation)
-                    .WithMany(p => p.tbSucursalesSucu_UsuarioCreacionNavigation)
-                    .HasForeignKey(d => d.Sucu_UsuarioCreacion)
-                    .HasConstraintName("tbSucursales_tbUsuarios_Prov_UsuarioCreacion");
-
-                entity.HasOne(d => d.Sucu_UsuarioModificacionNavigation)
-                    .WithMany(p => p.tbSucursalesSucu_UsuarioModificacionNavigation)
-                    .HasForeignKey(d => d.Sucu_UsuarioModificacion)
-                    .HasConstraintName("tbSucursales_tbUsuarios_Prov_UsuarioModificacion");
             });
 
             modelBuilder.Entity<tbUsuarios>(entity =>
