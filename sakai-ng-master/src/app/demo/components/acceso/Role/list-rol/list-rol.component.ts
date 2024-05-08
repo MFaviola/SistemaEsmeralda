@@ -140,8 +140,8 @@ llenar(id){
     this.service.getFill(id).subscribe((data) => {
       if (Array.isArray(data)) {
         const pantIds = data.map((item) => item.pant_Id);
-       // Extrae `pant_Id`
-        this.markAddedScreens(treeFiles, pantIds); // Pasa la lista directamente
+      
+        this.markAddedScreens(treeFiles, pantIds); 
       } else {
         console.error("El formato de datos devuelto no es un arreglo.");
       }
@@ -159,9 +159,9 @@ llenar(id){
 }
 markAddedScreens(treeNodes: TreeNode[], pantIds: number[]) {
   const addedKeys = pantIds.map((id) => id.toString()); 
-  console.log(addedKeys)// Convierte a string si las keys están en este formato
+  console.log(addedKeys)
   this.selectedFiles1 = this.findNodesByKey(treeNodes, addedKeys);
-  this.updateSelectedKeys(); // Si tienes lógica adicional para actualizar claves seleccionadas
+  this.updateSelectedKeys(); 
 }
 
 findNodesByKey(nodes: TreeNode[], keys: string[], parent: TreeNode | null = null): TreeNode[] {

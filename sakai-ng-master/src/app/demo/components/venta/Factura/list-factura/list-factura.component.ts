@@ -58,9 +58,15 @@ export class ListFacturaComponent {
 
   //AUTOCOMPLETADO
   detalleForm: FormGroup;
+  metodos: any[] = [];
+  clientes: any[] = [];
   countries: any[] = [];
   selectedCountryAdvanced: any[] = [];
+  selectedClientesAdvanced: any[] = [];
+  selectedMetodoPagoAdvanced: any[] = [];
+  filteredMetodoPago: any[] = [];
   filteredCountries: any[] = [];
+  filteredClientes: any[] = [];
   constructor(private service: ServiceService, private router: Router, private srvImprecion : YService,
     private messageService: MessageService,private countryService: CountryService,private fb: FormBuilder
   
@@ -75,11 +81,11 @@ export class ListFacturaComponent {
         console.log(error);
       });
       this.FacturaForm = new FormGroup({
-        Impu_Id: new FormControl("0",Validators.required),
+        Mepa_Metodo: new FormControl("", Validators.required),
         Mepa_Id: new FormControl("", Validators.required),
-        Empl_Id: new FormControl("", [Validators.required]),
-        Clie_Id: new FormControl("", [Validators.required]),
-        Clie_DNI: new FormControl("", [Validators.required]),
+        Empl_Id: new FormControl("3", [Validators.required]),
+        Clie_Id: new FormControl("1", [Validators.required]),
+        Clie_DNI: new FormControl(""),
         Impu_Impuesto: new FormControl("15%",Validators.required),
         Clie_Nombre: new FormControl("Usuario Final", [Validators.required]),
         Empl_Nombre: new FormControl("Eduardo Varela", [Validators.required]),
@@ -98,7 +104,12 @@ export class ListFacturaComponent {
       this.service.getAutoCompletadoJoya().subscribe(countries => {
         this.countries = countries;
     });
-
+    this.service.getMetodo().subscribe(meto => {
+      this.metodos = meto;
+   });
+   this.service.getClientes().subscribe(client => {
+    this.clientes = client;
+    });
    } 
 
    onRadioChange(event: Event) {
@@ -130,6 +141,7 @@ export class ListFacturaComponent {
     });
     }
   }
+
    filterCountry(event: any) {
     const filtered: any[] = [];
     const query = event.query;
@@ -145,11 +157,56 @@ export class ListFacturaComponent {
     this.DetalleForm.get('Faxd_Cantidad').setValue(1); 
     this.filteredCountries = filtered;
 }
+
+
+filterMetodo(event: any) {
+  const filtered: any[] = [];
+  const query = event.query;
+  for (let i = 0; i < this.metodos.length; i++) {
+      const metodo = this.metodos[i];
+      
+      if (metodo.mepa_Metodo.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+
+          filtered.push(metodo);
+      }
+  }
+ 
+  this.filteredMetodoPago = filtered;
+}
+
+filterCliente(event: any) {
+  const filtered: any[] = [];
+  const query = event.query;
+  for (let i = 0; i < this.clientes.length; i++) {
+      const cliente = this.clientes[i];
+      
+      if (cliente.clie_DNI.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+
+          filtered.push(cliente);
+      }
+  }
+ 
+  this.filteredClientes = filtered;
+}
 onSelectProduct(event) {
 
   this.DetalleForm.get('Prod_Id').setValue(event.value.value); 
 
 }
+
+onSelectCliente(event) {
+
+  this.FacturaForm.get('Clie_Nombre').setValue(event.value.clie_Nombre); 
+
+}
+onSelectMetodo(event) {
+
+  this.FacturaForm.get('Mepa_Id').setValue(event.value.mepa_Id); 
+
+}
+
+
+
 subir() {
   if (this.DetalleForm.valid) {
     // Procesa los datos del formulario aquí
@@ -198,7 +255,7 @@ validarTexto(event: KeyboardEvent) {
   }
 }
 onSubmit() {
-  if (this.FacturaForm.valid && this.FacturaForm.get('Impu_Id').value !== '0') {
+  if (this.FacturaForm.valid) {
      this.viewModel = this.FacturaForm.value;
      if (this.Valor == "Agregar") {
       this.service.EnviarFactura(this.viewModel).subscribe((data: MensajeViewModel[]) => {
@@ -246,7 +303,7 @@ onSubmit() {
     this.Valor = "Agregar";
     this.Agregar= false;
     this.Detalles = false;
-    this.Tabla = true;
+    this.Tabla = false;
 }
 }
 

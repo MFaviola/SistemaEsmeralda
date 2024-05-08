@@ -29,6 +29,14 @@ namespace SistemaEsmeralda.API.Controllers
             return Ok(list.Data);
         }
 
+        [HttpGet("ListaDetalles/id")]
+        public IActionResult ListaDetalles(string id)
+        {
+            var list = _ventasServices.ListadoFactura();
+            return Ok(list.Data);
+        }
+
+
 
         [HttpPost("Create")]
 
@@ -48,8 +56,7 @@ namespace SistemaEsmeralda.API.Controllers
             var list = _ventasServices.CrearFactura(modelo, out int id);
             if (list.Success)
             {
-                list.Message = id.ToString();
-                return Ok(list.Message);
+                return Ok(new { success = true, message = list.Message, id = id.ToString()});
             }
             else
             {
