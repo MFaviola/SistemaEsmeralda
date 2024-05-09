@@ -101,6 +101,19 @@ namespace SistemaEsmeralda.DataAccess.Repository
             }
         }
 
+        public RequestStatus Delete(string Fact_Id)
+        {
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+                var parameter = new DynamicParameters();
+                parameter.Add("Fact_Id", Fact_Id);
+
+                var result = db.QueryFirst(ScriptsBaseDeDatos.DetalleEliminar, parameter, commandType: CommandType.StoredProcedure);
+                return new RequestStatus { CodeStatus = result.Resultado, MessageStatus = (result.Resultado == 1) ? "Exito" : "Error" };
+            }
+        }
+
+
         public RequestStatus Update(tbFactura item)
         {
             throw new NotImplementedException();

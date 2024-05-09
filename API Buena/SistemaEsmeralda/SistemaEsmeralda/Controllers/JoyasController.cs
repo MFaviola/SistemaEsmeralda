@@ -66,16 +66,10 @@ namespace SistemaEsmeralda.API.Controllers
         public IActionResult FiltroCodigo(string id)
         {
             var list = _ventasServices.ListadoJoyaPorCodigo(id);
-            var drop = list.Data as List<tbJoyas>;
-            var rol = drop.Select(x => new SelectListItem
-            {
-                Text = x.Joya_Nombre,
-                Value = x.Joya_Id.ToString()
-            }).ToList();
-
-            return Ok(rol.ToList());
+     
+            return Ok(list.Data);
         }
-
+          
 
 
         [HttpPost("Create")]

@@ -85,7 +85,12 @@ namespace SistemaEsmeralda.API.Controllers
 
     }
 
-
+        [HttpDelete("DeleteFactura/{id}")]
+        public IActionResult DeleteFactura(string id)
+        {
+            var list = _ventasServices.ElimnarFacturaDetalle(id);
+            return Ok(new { success = true, message = list.Message });
+        }
 
     }
 }

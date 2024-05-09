@@ -172,6 +172,18 @@ handleKeyDown(event: KeyboardEvent) {
   
   }
 }
+
+cantidad(event: any){
+  console.log(event.key)
+  console.log()
+  this.service.getDatosPorCodigo(this.FacturaForm.get('Prod_Id').value).subscribe(countries => {
+    this.FacturaForm.get('Prod_Nombre').setValue(countries[0].maqu_Nombre); 
+    this.FacturaForm.get('Prod_Id').setValue(countries[0].maqu_Id); 
+    this.FacturaForm.get('Prod_Producto').setValue(countries[0].maqu_Nombre); 
+    this.FacturaForm.get('Faxd_Cantidad').setValue(1); 
+  });
+
+}
 filterMetodo(event: any) {
   const filtered: any[] = [];
   const query = event.query;
@@ -261,9 +273,7 @@ validarTexto(event: KeyboardEvent) {
   }
 }
 onSubmit() {
-  if (this.FacturaForm.valid) {
-   
-    
+  if (this.FacturaForm.valid && this.FacturaForm.get('Faxd_Cantidad').value !== '0') {
      this.viewModel = this.FacturaForm.value;
      this.viewModel.Fact_Id = this.Fact_ID;
      if (this.Valor == "Agregar") {

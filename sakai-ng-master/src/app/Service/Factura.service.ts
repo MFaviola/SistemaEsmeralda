@@ -5,7 +5,7 @@ import { Factura,FacturaDetalle,Fill } from '../Models/FacturaViewModel';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs';
 import { dropJoya } from '../Models/JoyaViewModel';
-import { dropMaqui } from '../Models/MaquillajeViewModel';
+import { Maquillaje, dropMaqui } from '../Models/MaquillajeViewModel';
 import { Metodo } from '../Models/MetodoPagoViewModel';
 import { Cliente } from '../Models/ClienteViewModel';
 
@@ -48,6 +48,10 @@ export class ServiceService {
 
   getFacturasDetalle(id){
     return this.http.get<FacturaDetalle[]>(BASE_URL + 'API/Factura/ListaDetalles/' + id)
+  }
+
+  getDatosPorCodigo(codigo){
+    return this.http.get<Maquillaje[]>(BASE_URL + 'API/Joyas/FiltroCodigo/' + codigo)
   }
 
 

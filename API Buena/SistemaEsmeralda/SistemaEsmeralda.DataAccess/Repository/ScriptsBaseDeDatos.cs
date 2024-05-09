@@ -183,7 +183,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
         #region Factura
 
         public static string CrearFactura = "[Vent].[sp_Facturas_Insertar]";
-
+        public static string DetalleEliminar = "Vent.tbFacturaDetalles_eliminar";
 
         #endregion
 
