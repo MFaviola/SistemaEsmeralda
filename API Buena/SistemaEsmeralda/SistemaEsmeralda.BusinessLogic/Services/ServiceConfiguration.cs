@@ -33,19 +33,7 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             service.AddScoped<GraficosRepository>();
 
             service.AddScoped<FacturaRepository>();
-
-
-
-
-
-
-
-
-
-
-
-
-
+            service.AddScoped<FacturaCompraRepository>();
 
 
             SistemaEsmeraldaContex.BuildConnectionString(conn);

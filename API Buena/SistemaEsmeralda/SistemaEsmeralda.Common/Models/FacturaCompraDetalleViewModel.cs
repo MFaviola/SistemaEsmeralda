@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SistemaEsmeralda.Common.Models
 {
-    public class FacturaCompraEncabezadoViewModel
+    public class FacturaCompraDetalleViewModel
     {
     }
 }

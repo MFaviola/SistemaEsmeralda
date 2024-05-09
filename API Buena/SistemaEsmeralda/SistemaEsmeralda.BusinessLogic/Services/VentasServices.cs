@@ -14,11 +14,13 @@ namespace SistemaEsmeralda.BusinessLogic.Services
         private readonly JoyaRepository _joyaRepository;
         private readonly MaquillajeRepository _maquillajeRepository;
         private readonly FacturaRepository _facturaRepository;
-        public VentasServices(JoyaRepository joyaRepository, MaquillajeRepository maquillajeRepository, FacturaRepository facturaRepository)
+        private readonly FacturaCompraRepository _facturaCompraRepository;
+        public VentasServices(JoyaRepository joyaRepository, MaquillajeRepository maquillajeRepository, FacturaRepository facturaRepository, FacturaCompraRepository facturaCompraRepository)
         {
             _joyaRepository = joyaRepository;
             _maquillajeRepository = maquillajeRepository;
             _facturaRepository = facturaRepository;
+            _facturaCompraRepository = facturaCompraRepository;
         }
 
 
@@ -384,6 +386,125 @@ namespace SistemaEsmeralda.BusinessLogic.Services
 
         #endregion
 
+
+        #region FacturaCompra
+        public ServiceResult ListadoFacturaCompra()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _facturaCompraRepository.List();
+                if (list.Count() > 0)
+                {
+                    return result.Ok(list);
+                }
+                else
+                {
+                    return result.Error();
+                }
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult InsertarFacturaCompra(tbFacturaCompraEncabezado item, out int fac, out int provee)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var (list, scope1, scope2) = _facturaCompraRepository.Insert1(item);
+                fac = scope1;
+                provee = scope2;
+                if (list.CodeStatus >0 )
+                {
+                    return result.Ok(list);
+                }
+                else
+                {
+                    return result.Error();
+                }
+            }
+
+            catch (Exception ex)
+            {
+                fac = 0;
+                provee = 0;
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult ActualizarFacturaCompra(tbFacturaCompraEncabezado item, out int provee)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var (list, scope2) = _facturaCompraRepository.Update1(item);
+                provee = scope2;
+                if (list.CodeStatus > 0 )
+                {
+                    return result.Ok(list);
+                }
+                else
+                {
+                    return result.Error();
+                }
+            }
+
+            catch (Exception ex)
+            {
+                provee = 0;
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult EliminarFacturaCompra(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _facturaCompraRepository.Delete(id);
+                if (list.CodeStatus > 0)
+                {
+                    return result.Ok(list);
+                }
+                else
+                {
+                    return result.Error();
+                }
+            }
+
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult BuscarFacturaCompra(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _facturaCompraRepository.find1(id);
+                if (list.Count() > 0)
+                {
+                    return result.Ok(list);
+                }
+                else
+                {
+                    return result.Error();
+                }
+            }
+
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+        #endregion
 
     }
 }
