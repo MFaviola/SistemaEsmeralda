@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BASE_URL } from './ulrsettings';
-import { Factura,Fill } from '../Models/FacturaViewModel';
+import { Factura,FacturaDetalle,Fill } from '../Models/FacturaViewModel';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs';
 import { dropJoya } from '../Models/JoyaViewModel';
@@ -43,6 +43,11 @@ export class ServiceService {
 
   getFacturas(){
     return this.http.get<Factura[]>(this.url)
+  }
+
+
+  getFacturasDetalle(id){
+    return this.http.get<FacturaDetalle[]>(BASE_URL + 'API/Factura/ListaDetalles/' + id)
   }
 
 

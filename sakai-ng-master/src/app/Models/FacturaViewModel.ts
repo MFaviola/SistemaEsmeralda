@@ -11,8 +11,22 @@ export class FacturaEnviar {
     Empl_Id?:String;
     Clie_Id?:String;
     Fact_Id?:String;
+    Faxd_Dif?:String;
+    Prod_Nombre?:String;
+    Faxd_Cantidad?:String;
+    
 }
 
+
+export class FacturaDetalle {
+    faxD_Id?:String;
+    prod_Id?:String;
+    producto?:String;
+    cantidad?:String;
+    precio_Unitario?:String;
+    total?:String;
+    categoria?:String;
+}
 
 
 export class FacturaDetallesEnviar {

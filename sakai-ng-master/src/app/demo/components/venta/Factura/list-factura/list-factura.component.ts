@@ -3,7 +3,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { Product } from 'src/app/demo/api/product';
 import {Router} from '@angular/router';
 import { Table } from 'primeng/table';
-import { Factura, FacturaEnviar } from 'src/app/Models/FacturaViewModel';
+import { Factura, FacturaDetalle, FacturaEnviar } from 'src/app/Models/FacturaViewModel';
 import { ServiceService } from 'src/app/Service/Factura.service';
 import { YService } from '../../Impresion/impresion.service';
 import { Cliente } from 'src/app/Models/ClienteViewModel';
@@ -18,7 +18,7 @@ import { CountryService } from 'src/app/demo/service/country.service';
 })
 export class ListFacturaComponent {
   Factura!:Factura[];
-
+  FacturaDetalle!:FacturaDetalle[];
   routeItems: MenuItem[] = [];
   MensajeViewModel!: MensajeViewModel[];
   submitted: boolean = false;
@@ -53,8 +53,8 @@ export class ListFacturaComponent {
   selectedRadio: string = '1'; 
 
 
-
-
+  Fact_ID: string = "0";
+  selectedMetodo: string = '';
 
   //AUTOCOMPLETADO
   detalleForm: FormGroup;
@@ -80,24 +80,30 @@ export class ListFacturaComponent {
       },error=>{
         console.log(error);
       });
+
+      this.service.getFacturasDetalle(0).subscribe((data: any)=>{
+        console.log(data);
+        this.FacturaDetalle = data;
+    },error=>{
+      console.log(error);
+    });
       this.FacturaForm = new FormGroup({
-        Mepa_Metodo: new FormControl("", Validators.required),
-        Mepa_Id: new FormControl("", Validators.required),
+        //FACTURA
+        Mepa_Metodo: new FormControl("Paypal", Validators.required),
+        Mepa_Id: new FormControl("1", Validators.required),
         Empl_Id: new FormControl("3", [Validators.required]),
         Clie_Id: new FormControl("1", [Validators.required]),
         Clie_DNI: new FormControl(""),
         Impu_Impuesto: new FormControl("15%",Validators.required),
         Clie_Nombre: new FormControl("Usuario Final", [Validators.required]),
         Empl_Nombre: new FormControl("Eduardo Varela", [Validators.required]),
+        Prod_Producto: new FormControl(""),
+        //Detalle
+        Faxd_Dif: new FormControl("1",Validators.required),
+        Prod_Nombre: new FormControl("", Validators.required),
+        Prod_Id: new FormControl("", Validators.required),
+        Faxd_Cantidad: new FormControl("", [Validators.required]),
     });  
-    this.DetalleForm = new FormGroup({
-      radio: new FormControl("1",Validators.required),
-      Faxd_Dif: new FormControl("1",Validators.required),
-      Prod_Producto: new FormControl("", Validators.required),
-      Prod_Id: new FormControl("", Validators.required),
-      Faxd_Cantidad: new FormControl("", [Validators.required]),
-      Fact_Id: new FormControl("",Validators.required),
-  });
 
 
       //AUTOCOMPLETADO
@@ -111,7 +117,12 @@ export class ListFacturaComponent {
     this.clientes = client;
     });
    } 
+   selectMetodoPago(metodo: string) {
+    this.selectedMetodo = metodo;
 
+    // Actualiza el valor en el formulario
+    this.FacturaForm.controls['Mepa_Metodo'].setValue(metodo);
+}
    onRadioChange(event: Event) {
     const target = event.target as HTMLInputElement;
     const value = target.value;
@@ -120,24 +131,20 @@ export class ListFacturaComponent {
     if (value === "1") {
       this.service.getAutoCompletadoJoya().subscribe(countries => {
       this.countries = countries;
-      this.DetalleForm = new FormGroup({
-        Faxd_Dif: new FormControl(value,Validators.required),
-        Prod_Producto: new FormControl("", Validators.required),
-        Prod_Id: new FormControl("", Validators.required),
-        Faxd_Cantidad: new FormControl("", [Validators.required]),
-        Fact_Id: new FormControl("",Validators.required),
-    });
+      this.FacturaForm.get('Faxd_Dif').setValue(value); 
+      this.FacturaForm.get('Prod_Nombre').setValue(""); 
+      this.FacturaForm.get('Prod_Id').setValue(""); 
+      this.FacturaForm.get('Prod_Producto').setValue(""); 
+      this.FacturaForm.get('Faxd_Cantidad').setValue(""); 
     });
     } else {
       this.service.getAutoCompletadoMaquillaje().subscribe(countries => {
         this.countries = countries;
-        this.DetalleForm = new FormGroup({
-          Faxd_Dif: new FormControl(value,Validators.required),
-          Prod_Producto: new FormControl("", Validators.required),
-          Prod_Id: new FormControl("", Validators.required),
-          Faxd_Cantidad: new FormControl("", [Validators.required]),
-          Fact_Id: new FormControl("",Validators.required),
-      });
+      this.FacturaForm.get('Faxd_Dif').setValue(value); 
+      this.FacturaForm.get('Prod_Nombre').setValue(""); 
+      this.FacturaForm.get('Prod_Producto').setValue(""); 
+      this.FacturaForm.get('Prod_Id').setValue(""); 
+      this.FacturaForm.get('Faxd_Cantidad').setValue(""); 
     });
     }
   }
@@ -154,11 +161,17 @@ export class ListFacturaComponent {
         }
     }
    
-    this.DetalleForm.get('Faxd_Cantidad').setValue(1); 
+    this.FacturaForm.get('Faxd_Cantidad').setValue(1); 
     this.filteredCountries = filtered;
 }
 
-
+handleKeyDown(event: KeyboardEvent) {
+  if (event.key === "Enter" || event.key === "Tab") {
+      event.preventDefault();
+      this.onSubmit(); 
+  
+  }
+}
 filterMetodo(event: any) {
   const filtered: any[] = [];
   const query = event.query;
@@ -190,8 +203,8 @@ filterCliente(event: any) {
 }
 onSelectProduct(event) {
 
-  this.DetalleForm.get('Prod_Id').setValue(event.value.value); 
-
+  this.FacturaForm.get('Prod_Id').setValue(event.value.value); 
+  this.FacturaForm.get('Prod_Nombre').setValue(event.value.text); 
 }
 
 onSelectCliente(event) {
@@ -207,14 +220,7 @@ onSelectMetodo(event) {
 
 
 
-subir() {
-  if (this.DetalleForm.valid) {
-    // Procesa los datos del formulario aquí
-    console.log('Formulario enviado:', this.DetalleForm.value);
-  } else {
-    console.log('Formulario no válido');
-  }
-}
+
 
 
 
@@ -256,20 +262,25 @@ validarTexto(event: KeyboardEvent) {
 }
 onSubmit() {
   if (this.FacturaForm.valid) {
+   
+    
      this.viewModel = this.FacturaForm.value;
+     this.viewModel.Fact_Id = this.Fact_ID;
      if (this.Valor == "Agregar") {
       this.service.EnviarFactura(this.viewModel).subscribe((data: MensajeViewModel[]) => {
           if(data["message"] == "Operación completada exitosamente."){
+           this.Fact_ID = data["id"];
            this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Insertado con Exito', life: 3000 });
-           this.Collapse= false;
-           this.DataTable = true;
+           this.DataTable = false;
            this.submitted = false;
            this.Detalles = false;
            this.Agregar = true;
-           this.ngOnInit();
-   
+           this.service.getFacturasDetalle(this.Fact_ID).subscribe((data: any)=>{
+          this.FacturaDetalle = data;
+          console.log(this.Fact_ID);
+          });
           }else{
-           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro insertar', life: 3000 });
+           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No hay stock de este producto', life: 3000 });
           }
           
        })

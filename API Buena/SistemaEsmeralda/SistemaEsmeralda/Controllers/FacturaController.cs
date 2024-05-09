@@ -29,10 +29,10 @@ namespace SistemaEsmeralda.API.Controllers
             return Ok(list.Data);
         }
 
-        [HttpGet("ListaDetalles/id")]
+        [HttpGet("ListaDetalles/{id}")]
         public IActionResult ListaDetalles(string id)
         {
-            var list = _ventasServices.ListadoFactura();
+            var list = _ventasServices.ListadoFacturaDetalles(id);
             return Ok(list.Data);
         }
 
@@ -42,43 +42,50 @@ namespace SistemaEsmeralda.API.Controllers
 
         public IActionResult Insert(FacturaViewModel item)
         {
-
-
-            var model = _mapper.Map<tbFactura>(item);
-            var modelo = new tbFactura()
+            if(item.Fact_Id == 0 )
             {
-                Empl_Id = item.Empl_Id,
-                Clie_Id = item.Clie_Id,
-                Mepa_Id = item.Mepa_Id,
-                Fact_UsuarioCreacion = item.Fact_UsuarioCreacion
+                var modele = _mapper.Map<tbFactura>(item);
+                var modeloFactura = new tbFactura()
+                {
+                    Empl_Id = item.Empl_Id,
+                    Clie_Id = item.Clie_Id,
+                    Mepa_Id = item.Mepa_Id,
+                    Fact_UsuarioCreacion = item.Fact_UsuarioCreacion
+
+                };
+                var IdFactura = _ventasServices.CrearFactura(modeloFactura, out int id);
+                IdFactura.Message = id.ToString();
                 
-            };
-            var list = _ventasServices.CrearFactura(modelo, out int id);
-            if (list.Success)
-            {
-                return Ok(new { success = true, message = list.Message, id = id.ToString()});
+                var model = _mapper.Map<tbFacturaDetalles>(item);
+                var modelo = new tbFacturaDetalles()
+                {
+                    FaxD_Dif = item.Faxd_Dif,
+                    Prod_Nombre = item.Prod_Nombre,
+                    FaxD_Cantidad = item.Faxd_Cantidad,
+                    Fact_Id =Convert.ToInt32(IdFactura.Message),
+                };
+                var list = _ventasServices.InsertarDetalle(modelo);
+                return Ok(new { success = true, message = list.Message, id = IdFactura.Message });
             }
             else
             {
-                list.Message = "0";
-                return Ok(list.Message);
+                var model = _mapper.Map<tbFacturaDetalles>(item);
+                var modelo = new tbFacturaDetalles()
+                {
+                    FaxD_Dif =item.Faxd_Dif,
+                 Prod_Nombre = item.Prod_Nombre,
+                    FaxD_Cantidad = item.Faxd_Cantidad,
+                    Fact_Id = item.Fact_Id,
+                };
+                var list = _ventasServices.InsertarDetalle(modelo);
+                return Ok(new { success = true, message = list.Message, id = item.Fact_Id });
             }
-        }
+        
 
 
-        [HttpPost("CreateDetalle")]
-        public IActionResult InsertDetalle(FacturaDetalleViewModel item)
-        {
-            var model = _mapper.Map<tbFacturaDetalles>(item);
-            var modelo = new tbFacturaDetalles()
-            {
-                FaxD_Dif = item.FaxD_Dif,
-                Prod_Id = item.Prod_Id,
-                FaxD_Cantidad = item.FaxD_Cantidad,
-                Fact_Id = item.Fact_Id,
-            };
-            var list = _ventasServices.InsertarDetalle(modelo);
-            return Ok(new { success = true, message = list.Message });
-        }
+    }
+
+
+
     }
 }

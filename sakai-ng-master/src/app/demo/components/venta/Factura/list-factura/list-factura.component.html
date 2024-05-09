@@ -8,7 +8,7 @@
           
         <div [class.hidden]="!Collapse" style="margin-top: 20px;">
 
-          <form [formGroup]="FacturaForm" (ngSubmit)="onSubmit()">
+          <form [formGroup]="FacturaForm" (keydown)="handleKeyDown($event)" (ngSubmit)="onSubmit()">
               <div class="p-fluid p-formgrid grid">
 
                 <div class="field col-12 md:col-6">
@@ -43,95 +43,101 @@
                     (keydown)="validarTexto($event)" />
                     <small class="ng-dirty ng-invalid" *ngIf="submitted && FacturaForm.controls['Clie_Nombre'].invalid" style="color: red !important;">Impuesto Requerido</small>
                   </div>
-                  <div class="field col-12 md:col-6">
-                    <label for="">Metodo Pago</label>
-                    <p-autoComplete [(ngModel)]="selectedMetodoPagoAdvanced"
-                    [suggestions]="filteredMetodoPago"
-                    (completeMethod)="filterMetodo($event)"
-                    (onSelect)="onSelectMetodo($event)"
-                    required autofocus  [ngClass]="{'ng-invalid ng-dirty': submitted && FacturaForm.get('Mepa_Metodo').value === ''}"
-                    field="mepa_Metodo"
-                    formControlName="Mepa_Metodo"
-                    [dropdown]="true"
-                    appendTo="body">
-                </p-autoComplete>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && FacturaForm.controls['Mepa_Metodo'].invalid" style="color: red !important;">Metodo Requerido</small>
-                  </div>
+                  <div class="field col-12 md:col-12">
+                    <label for="">Método de Pago</label>
+                    <div class="payment-method-icons" >
+                        <!-- Efectivo -->
+                        <button type="button" (click)="selectMetodoPago('Efectivo')" [class.selected]="selectedMetodo === 'Efectivo'">
+                            <i class="pi pi-wallet"></i> Efectivo
+                        </button>
+                
+                        <!-- Tarjeta de Crédito -->
+                        <button type="button" (click)="selectMetodoPago('Tarjeta de Crédito')" [class.selected]="selectedMetodo === 'Tarjeta de Crédito'">
+                            <i class="pi pi-credit-card"></i> Tarjeta de Crédito
+                        </button>
+                
+                        <!-- Pago en Línea -->
+                        <button type="button" (click)="selectMetodoPago('Pago en Línea')" [class.selected]="selectedMetodo === 'Pago en Línea'">
+                            <i class="pi pi-globe"></i> Pago en Línea
+                        </button>
+                    </div>
+                
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && FacturaForm.controls['Mepa_Metodo'].invalid" style="color: red !important;">
+                        Método Requerido
+                    </small>
+                </div>
      
                
                 </div>
              
             
-          </form>
-
        
 
-          <form [formGroup]="DetalleForm" (ngSubmit)="subir()"> 
-          <p-table [value]="staticData" >
+       
+          <p-table [value]="FacturaDetalle" >
             <ng-template pTemplate="header">
                 <tr>
                     <!-- Ajusta los porcentajes según sea necesario -->
-                    <th style="width:20%;">Tabla</th>
+                    <th style="width:15%;">Tabla</th>
                     <th style="width:5%;">Código</th>
-                    <th style="width:35%;">Producto</th>
-                    <th style="width:20%;">Cantidad</th>
-                    <th style="width:20%;">Total</th>
+                    <th style="width:45%;">Producto</th>
+                    <th style="width:10%;">Cantidad</th>
+                    <th style="width:10%;">Precio</th>
+                    <th style="width:10%;">Total</th>
                 </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-transaction>
+            <ng-template pTemplate="body" let-detalle>
                 <tr>
-                    <td style="width:15%;">Joya</td>
-                    <td style="width:5%;">1</td>
-                    <td style="width:40%;">Diamante</td>
-                    <td style="width:20%;">3</td>
-                    <td style="width:20%;">300</td>
+                    <td style="width:15%;">{{detalle.categoria}}</td>
+                    <td style="width:5%;"> {{detalle.prod_Id}}</td>
+                    <td style="width:45%;">{{detalle.producto}}</td>
+                    <td style="width:10%;">{{detalle.cantidad}}</td>
+                    <td style="width:10%;">{{detalle.precio_Unitario}}</td>
+                    <td style="width:10%;">{{detalle.total}}</td>
                 </tr>
+            </ng-template>
+            <ng-template pTemplate="footer">
                 <tr>
-                    <td style="width:20%;">Joya</td>
-                    <td style="width:5%;">2</td>
-                    <td style="width:35%;">Oro</td>
-                    <td style="width:20%;">1</td>
-                    <td style="width:20%;">200</td>
+                    <td style="width:15%;">
+                        <label>
+                            <input type="radio" name="j-m-radio" value="1" (change)="onRadioChange($event)" formControlName="Faxd_Dif" />
+                            J
+                        </label>
+                        <label>
+                            <input type="radio" name="j-m-radio" value="0" (change)="onRadioChange($event)" formControlName="Faxd_Dif" />
+                            M
+                        </label>
+                    </td>
+                    <td style="width:5%;">
+                        <input pInputText id="Prod_Id" formControlName="Prod_Id" type="text" required autofocus
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && FacturaForm.get('Prod_Id').invalid}"
+                            />
+                    </td>
+                    <td style="width:45%;">
+                        <p-autoComplete [(ngModel)]="selectedCountryAdvanced"
+                            [suggestions]="filteredCountries"
+                            (completeMethod)="filterCountry($event)"
+                            (onSelect)="onSelectProduct($event)"
+                            field="text"
+                            formControlName="Prod_Producto"
+                            [dropdown]="true"
+                            appendTo="body">
+                        </p-autoComplete>
+                    </td>
+                    <td style="width:10%;">
+                        <input pInputText id="Faxd_Cantidad" formControlName="Faxd_Cantidad" type="text" required autofocus
+                            [ngClass]="{'ng-invalid ng-dirty': submitted && FacturaForm.get('Faxd_Cantidad').invalid}"
+                             />
+                    </td>
+                    <td style="width:10%;">
+                        0
+                    </td>
+                    <td style="width:10%;">0</td>
                 </tr>
-               
-                    <tr>
-                        <td style="width:20%;">
-                            <label>
-                                <input type="radio" name="j-m-radio" value="1" (change)="onRadioChange($event)" formControlName="radio" />
-                                J
-                            </label>
-                            <label>
-                                <input type="radio" name="j-m-radio" value="0" (change)="onRadioChange($event)" formControlName="radio" />
-                                M
-                            </label>
-                        </td>
-                        <td style="width:5%;">
-                            <input pInputText id="Prod_Id" formControlName="Prod_Id" type="text" required autofocus
-                                [ngClass]="{'ng-invalid ng-dirty': submitted && DetalleForm.get('Prod_Id').invalid}"
-                                (keydown)="validarTexto($event)" />
-                        </td>
-                        <td style="width:35%;">
-                            <p-autoComplete [(ngModel)]="selectedCountryAdvanced"
-                                [suggestions]="filteredCountries"
-                                (completeMethod)="filterCountry($event)"
-                                (onSelect)="onSelectProduct($event)"
-                                field="text"
-                                formControlName="Prod_Producto"
-                                [dropdown]="true"
-                                appendTo="body">
-                            </p-autoComplete>
-                        </td>
-                        <td style="width:20%;">
-                            <input pInputText id="Faxd_Cantidad" formControlName="Faxd_Cantidad" type="text" required autofocus
-                                [ngClass]="{'ng-invalid ng-dirty': submitted && DetalleForm.get('Faxd_Cantidad').invalid}"
-                                (keydown)="validarTexto($event)" />
-                        </td>
-                        <td style="width:20%;">0</td>
-                    </tr>
             </ng-template>
         </p-table>
-    </form>
-           
+    
+
 
         <div style="display: flex; justify-content: flex-end; margin-top: 1rem; grid-gap: 5px;" [class.hidden]="!Tabla">
            <h1>SubTotal:500lps</h1>
@@ -140,11 +146,11 @@
             <h1>Total:575lps</h1>
          </div>
         <div style="display: flex; justify-content: flex-end; margin-top: 1rem; grid-gap: 5px;">
-            <button pButton icon="pi pi-check" type="button"  (click)="onSubmit()" label="Agregar" class="p-button-outlined"></button>
             <button pButton icon="pi pi-stop" type="button" (click)="cancelar()" label="Cancelar" class="p-button-outlined"></button>
         </div>
-        </div>
-
+      
+        </form>
+    </div>
         <p-table #dt1 [value]="Factura" dataKey="fact_Id" [rows]="10" [loading]="loading" [rowHover]="true" styleClass="p-datatable-gridlines" [class.hidden]="!DataTable"[paginator]="true" [globalFilterFields]="['fact_Id,clie_Nombre,empl_Nombre,mepa_Metodo,impu_Impuesto']" responsiveLayout="scroll">
             <ng-template pTemplate="caption">
                 <div class="flex justify-content-between flex-column sm:flex-row">

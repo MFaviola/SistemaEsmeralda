@@ -8,6 +8,10 @@ namespace SistemaEsmeralda.Common.Models
 {
     public class FacturaViewModel
     {
+        public int Faxd_Cantidad { get; set; }
+        public string? Faxd_Dif { get; set; }
+
+        public string? Prod_Nombre { get; set; }
         public int Fact_Id { get; set; }
         public int Clie_Id { get; set; }
         public int Empl_Id { get; set; }

@@ -6,3 +6,31 @@
 }::ng-deep .p-datatable {
     overflow: visible;
 }
+
+.payment-method-icons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+
+    width: 100%;
+}
+
+.payment-method-icons button {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.payment-method-icons button.selected {
+    background-color: #cce5ff;
+    border-color: #007bff;
+}
+
+.payment-method-icons button i {
+    font-size: 18px;
+}

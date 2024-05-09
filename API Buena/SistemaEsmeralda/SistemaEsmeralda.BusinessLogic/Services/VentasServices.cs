@@ -327,6 +327,22 @@ namespace SistemaEsmeralda.BusinessLogic.Services
         }
 
 
+        public ServiceResult ListadoFacturaDetalles(string id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _facturaRepository.ListaDetalles(id);
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
 
 
 
