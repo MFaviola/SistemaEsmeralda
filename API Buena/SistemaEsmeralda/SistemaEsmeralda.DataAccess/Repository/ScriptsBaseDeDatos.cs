@@ -197,6 +197,14 @@ namespace SistemaEsmeralda.DataAccess.Repository
 
         #endregion
 
+        #region Factura Compra Detalle
+        public static string FacturaCompraDetalleInsertar = "[Vent].[SP_FacturaCompraDetalle_Insertar]";
+        public static string FacturaCompraDetalleActualizar = "";
+        public static string FacturaCompraDetalleEliminar = "[Vent].[SP_FacturaCompraDetalle_Eliminar]";
+        public static string FacturaCompraDetalleListar = "[Vent].[SP_FacturaCompraDetalle_Listar]";
+        public static string FacturaCompraDetalleBuscar = "[Vent].[SP_FacturaCompraDetalle_Buscar]";
+        #endregion
+
         #endregion
 
 

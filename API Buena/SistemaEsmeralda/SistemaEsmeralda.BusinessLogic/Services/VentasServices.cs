@@ -506,5 +506,29 @@ namespace SistemaEsmeralda.BusinessLogic.Services
         }
         #endregion
 
+        #region Factura compra detalle
+        public ServiceResult InsertarFacturaCompraDetalle(tbFacturaCompraDetalle item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _facturaCompraRepository.Insert(item);
+              
+                if (list.CodeStatus > 0)
+                {
+                    return result.Ok(list);
+                }
+                else
+                {
+                    return result.Error();
+                }
+            }
+
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+        #endregion
     }
 }

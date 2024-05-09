@@ -95,5 +95,24 @@ namespace SistemaEsmeralda.API.Controllers
                 }
             }
         #endregion
+
+        #region Detalle
+            [HttpPost("CrearDetalle")]
+            public IActionResult Create(FacturaCompraDetalleViewModel item)
+            {
+                var model = _mapper.Map<tbFacturaCompraDetalle>(item);
+
+                var list = _ventasServices.InsertarFacturaCompraDetalle(model);
+                if (list.Success == true)
+                {
+                    return Ok(new { success = true, message = list.Message});
+                }
+                else
+                {
+                    return Problem();
+                }
+            }
+
+        #endregion
     }
 }

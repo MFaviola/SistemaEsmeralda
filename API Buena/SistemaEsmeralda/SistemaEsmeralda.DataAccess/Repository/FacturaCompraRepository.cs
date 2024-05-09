@@ -117,7 +117,23 @@ namespace SistemaEsmeralda.DataAccess.Repository
         {
             throw new NotImplementedException();
         }
+        public RequestStatus Insert(tbFacturaCompraDetalle item)
+        {
+            string sql = ScriptsBaseDeDatos.FacturaCompraDetalleInsertar;
 
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+                var parametro = new DynamicParameters();
+                parametro.Add("@FaCE_Id", item.FaCE_Id);
+                parametro.Add("@FaCD_Dif", item.FaCD_Dif);
+                parametro.Add("@Prod_Id", item.Prod_Id);
+                parametro.Add("@FaCD_Cantidad", item.FaCD_Cantidad);
+                var result = db.Execute(sql, parametro, commandType: System.Data.CommandType.StoredProcedure);
+
+
+                return new RequestStatus { CodeStatus = result, MessageStatus = "" };
+            }
+        }
         RequestStatus IRepository<tbFacturaCompraEncabezado>.Update(tbFacturaCompraEncabezado item)
         {
             throw new NotImplementedException();

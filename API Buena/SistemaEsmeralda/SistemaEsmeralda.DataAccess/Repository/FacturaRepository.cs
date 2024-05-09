@@ -43,7 +43,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
             {
                 var parametro = new DynamicParameters();
                 parametro.Add("@Faxd_Dif", item.FaxD_Dif);
-                parametro.Add("@Prod_Id", item.Prod_Id);
+                parametro.Add("@NombreProducto", item.NombreProducto);
                 parametro.Add("@Faxd_Cantidad", item.FaxD_Cantidad);
                 parametro.Add("@Fact_Id", item.Fact_Id);
 
