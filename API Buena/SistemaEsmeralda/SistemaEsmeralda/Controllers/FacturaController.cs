@@ -26,7 +26,14 @@ namespace SistemaEsmeralda.API.Controllers
         public IActionResult Index()
         {
             var list = _ventasServices.ListadoFactura();
-            return Ok(list.Data);
+            if (list.Success == true)
+            {
+                return Ok(list.Data);
+            }
+            else
+            {
+                return Problem();
+            }
         }
 
         [HttpGet("ListaDetalles/{id}")]
