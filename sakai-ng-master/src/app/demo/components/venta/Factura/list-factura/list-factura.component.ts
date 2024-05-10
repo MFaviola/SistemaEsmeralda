@@ -54,8 +54,13 @@ export class ListFacturaComponent {
 
 
   Fact_ID: string = "0";
-  selectedMetodo: string = '';
+  selectedMetodo: string = '1';
+  
 
+
+  //SUBTOTAL
+  Subtotal: string = "0";
+  Total: string = "0";
   //AUTOCOMPLETADO
   detalleForm: FormGroup;
   metodos: any[] = [];
@@ -88,8 +93,7 @@ export class ListFacturaComponent {
       console.log(error);
     });
       this.FacturaForm = new FormGroup({
-        //FACTURA
-        Mepa_Metodo: new FormControl("Paypal", Validators.required),
+        //FACTUR
         Mepa_Id: new FormControl("1", Validators.required),
         Empl_Id: new FormControl("3", [Validators.required]),
         Clie_Id: new FormControl("1", [Validators.required]),
@@ -120,8 +124,8 @@ export class ListFacturaComponent {
    selectMetodoPago(metodo: string) {
     this.selectedMetodo = metodo;
 
-    // Actualiza el valor en el formulario
-    this.FacturaForm.controls['Mepa_Metodo'].setValue(metodo);
+
+    this.FacturaForm.controls['Mepa_Id'].setValue(metodo);
 }
    onRadioChange(event: Event) {
     const target = event.target as HTMLInputElement;
@@ -161,7 +165,7 @@ export class ListFacturaComponent {
         }
     }
    
-    this.FacturaForm.get('Faxd_Cantidad').setValue(1); 
+  
     this.filteredCountries = filtered;
 }
 
@@ -214,7 +218,7 @@ filterCliente(event: any) {
   this.filteredClientes = filtered;
 }
 onSelectProduct(event) {
-
+  this.FacturaForm.get('Faxd_Cantidad').setValue(1); 
   this.FacturaForm.get('Prod_Id').setValue(event.value.value); 
   this.FacturaForm.get('Prod_Nombre').setValue(event.value.text); 
 }
@@ -222,7 +226,8 @@ onSelectProduct(event) {
 onSelectCliente(event) {
 
   this.FacturaForm.get('Clie_Nombre').setValue(event.value.clie_Nombre); 
-
+  this.FacturaForm.get('Clie_Id').setValue(event.value.clie_Id); 
+  console.log(event.value.clie_Id)
 }
 onSelectMetodo(event) {
 
@@ -287,7 +292,15 @@ onSubmit() {
            this.Agregar = true;
            this.service.getFacturasDetalle(this.Fact_ID).subscribe((data: any)=>{
           this.FacturaDetalle = data;
-          console.log(this.Fact_ID);
+          const total = data.reduce((sum, item) => {
+            const itemTotal = parseFloat(item.total) || 0; // Si no es un número válido, usa 0
+            return sum + itemTotal;
+        }, 0);
+        const impuestoString = this.FacturaForm.get('Impu_Impuesto').value.replace('%', '');
+        const impuesto = parseFloat(impuestoString) / 100 || 0;
+        const TotalFinal = (total + (total * impuesto))
+        this.Subtotal = total.toFixed(2);
+        this.Total = TotalFinal.toFixed(2);
           });
           }else{
            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No hay stock de este producto', life: 3000 });
