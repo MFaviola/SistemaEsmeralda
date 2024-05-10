@@ -11,6 +11,7 @@ import { MensajeViewModel } from 'src/app/Models/MensajeViewModel';
 import { MegaMenuItem, MenuItem } from 'primeng/api';
 import { FormGroup, FormControl,  Validators, FormBuilder  } from '@angular/forms';
 import { CountryService } from 'src/app/demo/service/country.service';
+import { ServiceService } from 'src/app/Service/Joya.service';
 
 @Component({
   selector: 'app-list-facturacompra',
@@ -31,7 +32,10 @@ export class ListFacturacompraComponent {
   FacturaForm: FormGroup;
   DetalleForm: FormGroup;
   @ViewChild('filter') filter!: ElementRef;
+
   Collapse: boolean = false;
+  CollapseMaquillaje: boolean = false;
+  CollapseJoyas: boolean = false;
   DataTable: boolean = true;
   Tabla: boolean = false;
   Detalles: boolean = false;
@@ -42,7 +46,6 @@ export class ListFacturacompraComponent {
 
   deleteProductDialog: boolean = false;
   //Detalle
-  Esta: String = "";
   id: string="";
   UsuarioCreacion: String = "";
   UsuarioModificacion: String = "";
@@ -52,6 +55,10 @@ export class ListFacturacompraComponent {
   facura_impresa: any = null;
 
   selectedRadio: string = '1'; 
+
+  material: any[] = [];
+  JoyaForm: FormGroup;
+  categoria: any[] = [];
 
 
   //AUTOCOMPLETADO
@@ -67,7 +74,7 @@ export class ListFacturacompraComponent {
   filteredClientes: any[] = [];
 
   constructor(private service: FacturaCompraService, private router: Router, private srvImprecion : YService,
-    private messageService: MessageService,private countryService: CountryService,private fb: FormBuilder
+    private messageService: MessageService,private countryService: CountryService,private fb: FormBuilder, private sservice: ServiceService
   ) { }
 
 
@@ -137,6 +144,32 @@ export class ListFacturacompraComponent {
           Fact_Id: new FormControl("",Validators.required),
         });
       });
+    }
+  }
+
+  onUpload(event) {
+    const file: File = event.files[0];
+    if (file) {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+      const uniqueFileName = uniqueSuffix + '-' + file.name;
+
+      this.JoyaForm.get('Joya_Imagen').setValue(uniqueFileName); 
+      const formData: FormData = new FormData();
+
+      formData.append('file', file, uniqueFileName);
+      this.sservice.EnviarImagen(formData).subscribe(
+        response => {
+          console.log('Upload successful', response);
+          if (response.message === "Exito") {
+            this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Imagen Subida', life: 3000 });
+          } else {
+            this.messageService.add({ severity: 'success', summary: 'Error', detail: 'Suba una imagen', life: 3000 });
+          }
+        },
+        error => {
+          console.error('Error uploading image', error);
+        }
+      );
     }
   }
 
@@ -251,7 +284,11 @@ export class ListFacturacompraComponent {
         event.preventDefault();
     }
   }
-
+  ValidarNumeros(event: KeyboardEvent) {
+    if (!/[0-9]/.test(event.key) && event.key !== 'Backspace' && event.key !== 'Tab') {
+        event.preventDefault();
+    }
+  }
 onSubmit() {
   if (this.FacturaForm.valid) {
    this.viewModel = this.FacturaForm.value;
