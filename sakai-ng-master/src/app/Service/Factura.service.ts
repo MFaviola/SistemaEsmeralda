@@ -68,6 +68,9 @@ export class ServiceService {
   EliminarFactura(ID): Observable<any>{
     return this.http.delete<any>(`${BASE_URL + 'API/Factura/Delete/' + ID}`)
   }
+  EliminarDetalles(ID,Prod_Nombre): Observable<any>{
+    return this.http.delete<any>(`${BASE_URL + 'API/Factura/DeleteFactura/' + ID + ',' +  Prod_Nombre}`)
+  }
   ActualizarFactura(formData){
     return this.http.put(BASE_URL + 'API/Factura/Edit/', formData)
   }

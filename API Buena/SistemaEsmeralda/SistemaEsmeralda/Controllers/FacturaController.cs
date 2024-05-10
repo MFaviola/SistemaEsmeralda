@@ -37,6 +37,13 @@ namespace SistemaEsmeralda.API.Controllers
         }
 
 
+        [HttpGet("LLenar/{id}")]
+        public IActionResult LLenar(string id)
+        {
+            var list = _ventasServices.ListadoFacturaDetalles(id);
+            return Ok(list.Data);
+        }
+
 
         [HttpPost("Create")]
 
@@ -85,10 +92,10 @@ namespace SistemaEsmeralda.API.Controllers
 
     }
 
-        [HttpDelete("DeleteFactura/{id}")]
-        public IActionResult DeleteFactura(string id)
+        [HttpDelete("DeleteFactura/{id},{nombre}")]
+        public IActionResult DeleteFactura(string id,string nombre)
         {
-            var list = _ventasServices.ElimnarFacturaDetalle(id);
+            var list = _ventasServices.ElimnarFacturaDetalle(id, nombre);
             return Ok(new { success = true, message = list.Message });
         }
 

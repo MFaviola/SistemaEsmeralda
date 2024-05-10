@@ -86,7 +86,7 @@ export class ListFacturaComponent {
         console.log(error);
       });
 
-      this.service.getFacturasDetalle(0).subscribe((data: any)=>{
+      this.service.getFacturasDetalle(this.Fact_ID).subscribe((data: any)=>{
         console.log(data);
         this.FacturaDetalle = data;
     },error=>{
@@ -235,12 +235,63 @@ onSelectMetodo(event) {
 
 }
 
+confirmDelete(id) {
+  console.log(id);
+  this.service.EliminarDetalles(this.Fact_ID,id).subscribe({
+      next: (response) => {
+          if(response.message == "La accion ha sido existosa"){
+            this.service.getFacturasDetalle(this.Fact_ID).subscribe((data: any)=>{
+              this.FacturaDetalle = data;
+              const total = data.reduce((sum, item) => {
+                const itemTotal = parseFloat(item.total) || 0; // Si no es un número válido, usa 0
+                return sum + itemTotal;
+            }, 0);
+            const impuestoString = this.FacturaForm.get('Impu_Impuesto').value.replace('%', '');
+            const impuesto = parseFloat(impuestoString) / 100 || 0;
+            const TotalFinal = (total + (total * impuesto))
+            this.Subtotal = total.toFixed(2);
+            this.Total = TotalFinal.toFixed(2);
+              });
+     
+             
+             }else{
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'El departamento esta vinculado', life: 3000 });
+             }
+      },
+  });
+
+}
 
 
+detalles(codigo){
+  this.Collapse= false;
+  this.DataTable = false;
+  this.Agregar= false;
+  this.Detalles = true;
+}
 
+Fill(codigo) {
+  this.service.getFacturasDetalle(codigo).subscribe((data: any)=>{
+    this.FacturaDetalle = data;
+    const total = data.reduce((sum, item) => {
+      const itemTotal = parseFloat(item.total) || 0; 
+      return sum + itemTotal;
+  }, 0);
+  const impuestoString = this.FacturaForm.get('Impu_Impuesto').value.replace('%', '');
+  const impuesto = parseFloat(impuestoString) / 100 || 0;
+  const TotalFinal = (total + (total * impuesto))
+  this.Subtotal = total.toFixed(2);
+  this.Total = TotalFinal.toFixed(2);
+  this.Collapse = true;
+  this.DataTable = false;
+  this.Agregar = false;
+  this.Detalles = false;
+  this.Fact_ID = codigo;
+  this.Valor = "Agregar";
+  });
+ 
 
-
-
+}
 
 
    Imprimir(){
@@ -265,10 +316,10 @@ onSelectMetodo(event) {
   this.Collapse= false;
   this.DataTable = true;
   this.Detalles = false;
-  this.ngOnInit();
   this.submitted = false;
   this.Agregar= true;
   this.MunCodigo=true;
+  this.Fact_ID = "0";
   this.Valor = "";
 }
 validarTexto(event: KeyboardEvent) {
@@ -285,11 +336,10 @@ onSubmit() {
       this.service.EnviarFactura(this.viewModel).subscribe((data: MensajeViewModel[]) => {
           if(data["message"] == "Operación completada exitosamente."){
            this.Fact_ID = data["id"];
-           this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Insertado con Exito', life: 3000 });
            this.DataTable = false;
            this.submitted = false;
            this.Detalles = false;
-           this.Agregar = true;
+           this.Agregar = false;
            this.service.getFacturasDetalle(this.Fact_ID).subscribe((data: any)=>{
           this.FacturaDetalle = data;
           const total = data.reduce((sum, item) => {
@@ -315,7 +365,7 @@ onSubmit() {
            this.DataTable = true;
            this.Detalles = false;
            this.submitted = false;
-           this.Agregar = true;
+           this.Agregar = false;
            this.ngOnInit();
    
           }else{
