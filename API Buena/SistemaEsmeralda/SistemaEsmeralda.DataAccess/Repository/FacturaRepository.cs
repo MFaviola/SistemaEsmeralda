@@ -75,6 +75,17 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 return (new RequestStatus { CodeStatus = result, MessageStatus = mensaje }, Fact_Id);
             }
         }
+        public IEnumerable<tbFactura> Buscar(string ID)
+        {
+            const string sql = "Vent.sp_Factura_buscar";
+
+            var parameters = new { Fact_Id = ID };
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+                return db.Query<tbFactura>(sql,parameters, commandType: CommandType.StoredProcedure).ToList();
+            }
+        }
+
         public IEnumerable<tbFactura> ListaDetalles(string ID)
         {
             const string sql = "[Vent].[SP_FacturaDetalles_ProductosVentas]";
@@ -82,11 +93,9 @@ namespace SistemaEsmeralda.DataAccess.Repository
             var parameters = new { FactId = ID };
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
             {
-                return db.Query<tbFactura>(sql,parameters, commandType: CommandType.StoredProcedure).ToList();
+                return db.Query<tbFactura>(sql, parameters, commandType: CommandType.StoredProcedure).ToList();
             }
         }
-
-
         public IEnumerable<tbFactura> List()
         {
             const string sql = "Vent.sp_Factura_listar";

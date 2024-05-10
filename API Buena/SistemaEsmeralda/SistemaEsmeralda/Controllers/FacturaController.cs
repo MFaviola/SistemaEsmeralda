@@ -37,10 +37,10 @@ namespace SistemaEsmeralda.API.Controllers
         }
 
 
-        [HttpGet("LLenar/{id}")]
+        [HttpGet("Fill/{id}")]
         public IActionResult LLenar(string id)
         {
-            var list = _ventasServices.ListadoFacturaDetalles(id);
+            var list = _ventasServices.BuscarFactura(id);
             return Ok(list.Data);
         }
 

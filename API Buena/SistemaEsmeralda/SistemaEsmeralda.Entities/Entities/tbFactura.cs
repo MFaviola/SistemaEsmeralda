@@ -57,5 +57,11 @@ namespace SistemaEsmeralda.Entities.Entities
         public virtual tbImpuestos Impu { get; set; }
         public virtual tbMetodosPago Mepa { get; set; }
         public virtual ICollection<tbFacturaDetalles> tbFacturaDetalles { get; set; }
+
+        [NotMapped]
+        public string UsuarioCreacion { get; set; }
+
+        [NotMapped]
+        public string UsuarioModificacion { get; set; }
     }
 }

@@ -3,7 +3,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { Product } from 'src/app/demo/api/product';
 import {Router} from '@angular/router';
 import { Table } from 'primeng/table';
-import { Factura, FacturaDetalle, FacturaEnviar } from 'src/app/Models/FacturaViewModel';
+import { Factura, FacturaDetalle, FacturaEnviar, Fill } from 'src/app/Models/FacturaViewModel';
 import { ServiceService } from 'src/app/Service/Factura.service';
 import { YService } from '../../Impresion/impresion.service';
 import { Cliente } from 'src/app/Models/ClienteViewModel';
@@ -11,6 +11,7 @@ import { MensajeViewModel } from 'src/app/Models/MensajeViewModel';
 import { MegaMenuItem, MenuItem } from 'primeng/api';
 import { FormGroup, FormControl,  Validators, FormBuilder  } from '@angular/forms';
 import { CountryService } from 'src/app/demo/service/country.service';
+
 @Component({
   templateUrl: './list-factura.component.html',
   styleUrl: '/list-factura.component.css',
@@ -54,7 +55,7 @@ export class ListFacturaComponent {
 
 
   Fact_ID: string = "0";
-  selectedMetodo: string = '1';
+  selectedMetodo: string = '4';
   
 
 
@@ -236,31 +237,39 @@ onSelectMetodo(event) {
 }
 
 confirmDelete(id) {
-  console.log(id);
+  this.submitted = false;
   this.service.EliminarDetalles(this.Fact_ID,id).subscribe({
-      next: (response) => {
-          if(response.message == "La accion ha sido existosa"){
-            this.service.getFacturasDetalle(this.Fact_ID).subscribe((data: any)=>{
-              this.FacturaDetalle = data;
-              const total = data.reduce((sum, item) => {
-                const itemTotal = parseFloat(item.total) || 0; // Si no es un número válido, usa 0
-                return sum + itemTotal;
-            }, 0);
-            const impuestoString = this.FacturaForm.get('Impu_Impuesto').value.replace('%', '');
-            const impuesto = parseFloat(impuestoString) / 100 || 0;
-            const TotalFinal = (total + (total * impuesto))
-            this.Subtotal = total.toFixed(2);
-            this.Total = TotalFinal.toFixed(2);
-              });
-     
-             
-             }else{
-              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'El departamento esta vinculado', life: 3000 });
-             }
-      },
-  });
+    
+    next: (response) => {
+      this.submitted = false;
+        if(response.message == "La accion ha sido existosa"){
+          this.service.getFacturasDetalle(this.Fact_ID).subscribe((data: any)=>{
+            this.FacturaDetalle = data;
+            console.log(this.Fact_ID);
+            console.log(data);
+            const total = data.reduce((sum, item) => {
+            const itemTotal = parseFloat(item.total) || 0; // Si no es un número válido, usa 0
+            return sum + itemTotal;
+                }, 0);
+                      const impuestoString = this.FacturaForm.get('Impu_Impuesto').value.replace('%', '');
+                      const impuesto = parseFloat(impuestoString) / 100 || 0;
+                      const TotalFinal = (total + (total * impuesto))
+                      this.Subtotal = total.toFixed(2);
+                      this.Total = TotalFinal.toFixed(2);
+                      
+                 });
+           }else{
+            
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro eliminar', life: 3000 });
+           }
+        this.submitted = false;
+    },
+});
+
 
 }
+
+
 
 
 detalles(codigo){
@@ -271,6 +280,39 @@ detalles(codigo){
 }
 
 Fill(codigo) {
+  this.service.getFill(codigo).subscribe({
+
+    next: (data: Fill) => {
+      console.log(data);
+      this.submitted = false;
+      this.FacturaForm = new FormGroup({
+        
+        //FACTUR      this.submitted = false;
+        Mepa_Id: new FormControl(data[0].mepa_Id, Validators.required),
+        Empl_Id: new FormControl(data[0].empl_Id, [Validators.required]),
+        Clie_Id: new FormControl(data[0].clie_Id, [Validators.required]),
+        Clie_DNI: new FormControl(""),
+        Impu_Impuesto: new FormControl("15%",Validators.required),
+        Clie_Nombre: new FormControl(data[0].clie_Nombre, [Validators.required]),
+        Empl_Nombre: new FormControl(data[0].empl_Nombre, [Validators.required]),
+        Prod_Producto: new FormControl(""),
+        //Detalle
+        Faxd_Dif: new FormControl("1",Validators.required),
+        Prod_Nombre: new FormControl("", Validators.required),
+        Prod_Id: new FormControl("", Validators.required),
+        Faxd_Cantidad: new FormControl("", [Validators.required]),
+    });  
+    this.selectMetodoPago = data[0].mepa_Id;
+ 
+    this.submitted = false;
+    if (data.clie_Id == "1") {
+      this.FacturaForm.get('Clie_DNI').setValue(""); 
+    }else{
+      this.FacturaForm.get('Clie_DNI').setValue(data[0].clie_DNI); 
+    }
+    }
+  });
+ 
   this.service.getFacturasDetalle(codigo).subscribe((data: any)=>{
     this.FacturaDetalle = data;
     const total = data.reduce((sum, item) => {
@@ -317,6 +359,7 @@ Fill(codigo) {
   this.DataTable = true;
   this.Detalles = false;
   this.submitted = false;
+  this.ngOnInit();
   this.Agregar= true;
   this.MunCodigo=true;
   this.Fact_ID = "0";
@@ -388,6 +431,12 @@ onSubmit() {
     this.Agregar= false;
     this.Detalles = false;
     this.Tabla = false;
+    this.service.getFacturasDetalle(0).subscribe((data: any)=>{
+      console.log(data);
+      this.FacturaDetalle = data;
+  },error=>{
+    console.log(error);
+  })
 }
 }
 

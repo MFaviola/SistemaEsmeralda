@@ -366,6 +366,21 @@ namespace SistemaEsmeralda.BusinessLogic.Services
 
 
 
+        public ServiceResult BuscarFactura(string id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _facturaRepository.Buscar(id);
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
 
 
 

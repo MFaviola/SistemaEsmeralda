@@ -39,6 +39,9 @@ export class FacturaDetallesEnviar {
 
 export class Fill {
     impu_Id: string;
+    clie_Nombre: string;
+    empl_Nombre: string;
+    clie_DNI: string;
     mepa_Id: string;
     empl_Id?:String;
     clie_Id?:String;

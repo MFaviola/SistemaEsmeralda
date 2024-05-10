@@ -82,10 +82,6 @@
                             <i class="pi pi-globe"></i> Pago en Línea
                         </button>
                     </div>
-                
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && FacturaForm.controls['Mepa_Metodo'].invalid" style="color: red !important;">
-                        Método Requerido
-                    </small>
                 </div>
      
                
@@ -153,7 +149,6 @@
                                 <input pInputText id="Faxd_Cantidad" formControlName="Faxd_Cantidad" type="text" required autofocus
                                     [ngClass]="{'ng-invalid ng-dirty': submitted && FacturaForm.get('Faxd_Cantidad').value === '0' || FacturaForm.get('Faxd_Cantidad').value === ''}" />
                                 <small *ngIf="submitted && FacturaForm.get('Faxd_Cantidad').value === '0'" style="color: red;">Cantidad es 0</small>
-                                <small *ngIf="submitted && FacturaForm.get('Faxd_Cantidad').value === ''" style="color: red;">Cantidad es requerida</small>
                             </td>
                             <td style="width:5%;">0</td>
                             <td style="width:5%;">0</td>
