@@ -30,7 +30,7 @@ export class ServiceService {
   getDropDownMaterial(){
     return this.http.get<dropMaterial[]>(this.urlDropMaterial)
   }
-  urlDropCategoria = BASE_URL + 'API/Material/DropDown'
+  urlDropCategoria = BASE_URL + 'API/Categoria/DropDown'
 
   getDropDownCategoria(){
     return this.http.get<dropCategoria[]>(this.urlDropCategoria)

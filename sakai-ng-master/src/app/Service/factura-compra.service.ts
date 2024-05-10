@@ -7,7 +7,7 @@ import { FacturaCompraEncabezado, FacturaCompraDetalle } from '../Models/Factura
 import { dropJoya } from '../Models/JoyaViewModel';
 import { dropMaqui } from '../Models/MaquillajeViewModel';
 import { Metodo } from '../Models/MetodoPagoViewModel';
-
+import { dropProveedor } from '../Models/ProveedorViewModel';
 @Injectable({
   providedIn: 'root'
 })
@@ -24,6 +24,11 @@ export class FacturaCompraService {
     return this.http.get<dropJoya[]>(this.urlAuto)
   }
 
+  urlCProvee = BASE_URL + 'API/Proveedor/List'
+
+  getAutoCompletadoProveedor(){
+    return this.http.get<dropProveedor[]>(this.urlCProvee)
+  }
   urlMetodo = BASE_URL + 'API/MetodoPago/List'
 
   getMetodo(){

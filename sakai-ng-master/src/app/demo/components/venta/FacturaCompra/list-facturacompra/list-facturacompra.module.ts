@@ -18,6 +18,8 @@ import { DropdownModule } from "primeng/dropdown";
 import { ReactiveFormsModule } from '@angular/forms';
 import { FileUploadModule } from 'primeng/fileupload';
 import { AutoCompleteModule } from "primeng/autocomplete";
+import { InputNumberModule } from 'primeng/inputnumber';
+import { SelectButtonModule } from 'primeng/selectbutton';
 @NgModule({
 	imports: [
 		CommonModule,
@@ -31,13 +33,15 @@ import { AutoCompleteModule } from "primeng/autocomplete";
 		DropdownModule,
 		ButtonModule,
 		OverlayPanelModule,
+		SelectButtonModule,
 		TableModule,
 		ConfirmDialogModule,
 		SidebarModule,
 		RippleModule,
 		ConfirmPopupModule,
 		ReactiveFormsModule,
-		AutoCompleteModule
+		AutoCompleteModule,
+		InputNumberModule
 	],
 	declarations: [ListFacturacompraComponent]
 })

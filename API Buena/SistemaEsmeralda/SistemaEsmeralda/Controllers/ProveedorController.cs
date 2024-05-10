@@ -74,6 +74,20 @@ namespace SistemaEsmeralda.API.Controllers
         }
 
 
+        [HttpGet("AutoCompletado")]
+        public IActionResult AutoCompletado()
+        {
+            var list = _generalServices.ListadoProveedor();
+            var drop = list.Data as List<tbProveedores>;
+            var rol = drop.Select(x => new SelectListItem
+            {
+                Text = x.Prov_Proveedor,
+                Value = x.Prov_Id.ToString()
+            }).ToList();
+
+            return Ok(rol.ToList());
+        }
+
         [HttpPut("Edit")]
         public IActionResult Update(ProveedorViewModel item)
         {

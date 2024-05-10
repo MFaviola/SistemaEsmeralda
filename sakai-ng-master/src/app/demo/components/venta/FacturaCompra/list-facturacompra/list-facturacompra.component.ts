@@ -6,12 +6,17 @@ import { Table } from 'primeng/table';
 import { FacturaCompraEncabezado, FacturaCompraDetalle } from 'src/app/Models/FacturaCompraViewModel';
 import { FacturaCompraService } from 'src/app/Service/factura-compra.service'; 
 import { YService } from '../../Impresion/impresion.service';
-import { Cliente } from 'src/app/Models/ClienteViewModel';
 import { MensajeViewModel } from 'src/app/Models/MensajeViewModel';
 import { MegaMenuItem, MenuItem } from 'primeng/api';
 import { FormGroup, FormControl,  Validators, FormBuilder  } from '@angular/forms';
-import { CountryService } from 'src/app/demo/service/country.service';
 import { ServiceService } from 'src/app/Service/Joya.service';
+import { dropMaterial } from 'src/app/Models/MaterialViewModel';
+import { dropCategoria } from 'src/app/Models/CategoriaViewModel';
+import { Fill, Joya, JoyaEnviar } from 'src/app/Models/JoyaViewModel';
+import { MaquillajeService } from 'src/app/Service/Maquillaje.service';
+import { FileUpload } from 'primeng/fileupload';
+import { Maquillaje, MaquillajeEnviar } from 'src/app/Models/MaquillajeViewModel';
+import { dropMarca } from 'src/app/Models/MarcaViewModel';
 
 @Component({
   selector: 'app-list-facturacompra',
@@ -20,17 +25,22 @@ import { ServiceService } from 'src/app/Service/Joya.service';
   providers: [ConfirmationService, MessageService]
 })
 export class ListFacturacompraComponent {
+ 
+ //#region variables
   Factura!:FacturaCompraEncabezado[];
+  @ViewChild('fileUpload') fileUpload: FileUpload;
+  viewModel: FacturaCompraEncabezado = new FacturaCompraEncabezado();
+  viewModelMaquillaje: MaquillajeEnviar = new MaquillajeEnviar();
+  MensajeViewModel!: MensajeViewModel[];
 
   routeItems: MenuItem[] = [];
-  MensajeViewModel!: MensajeViewModel[];
   submitted: boolean = false;
   loading: boolean = false;
   departamentos: any[] = [];
   fill: any[] = [];
-  viewModel: FacturaCompraEncabezado = new FacturaCompraEncabezado();
   FacturaForm: FormGroup;
   DetalleForm: FormGroup;
+  MaquillajeForm: FormGroup;
   @ViewChild('filter') filter!: ElementRef;
 
   Collapse: boolean = false;
@@ -43,7 +53,8 @@ export class ListFacturacompraComponent {
   MunCodigo: boolean = true;
   Valor: string = "";
   staticData = [{}];
-
+  FormularioJoya: boolean = false;
+  FormularioMaquillaje: boolean = false;
   deleteProductDialog: boolean = false;
   //Detalle
   id: string="";
@@ -53,29 +64,29 @@ export class ListFacturacompraComponent {
   FechaModificacion: String = "";
   ID: String = "";
   facura_impresa: any = null;
-
+  Joya!:Joya[];
+  proveedor: any[] = [];
+  material: any[] = [];
+  categoria: any[] = [];
+  marca: any[] = [];
   selectedRadio: string = '1'; 
 
-  material: any[] = [];
   JoyaForm: FormGroup;
-  categoria: any[] = [];
 
 
   //AUTOCOMPLETADO
   detalleForm: FormGroup;
   metodos: any[] = [];
-  clientes: any[] = [];
   countries: any[] = [];
   selectedCountryAdvanced: any[] = [];
-  selectedClientesAdvanced: any[] = [];
+  selectedProveedoresAdvanced: any[] = [];
   selectedMetodoPagoAdvanced: any[] = [];
   filteredMetodoPago: any[] = [];
   filteredCountries: any[] = [];
-  filteredClientes: any[] = [];
-
-  constructor(private service: FacturaCompraService, private router: Router, private srvImprecion : YService,
-    private messageService: MessageService,private countryService: CountryService,private fb: FormBuilder, private sservice: ServiceService
-  ) { }
+  filteredProveedores: any[] = [];
+  //#endregion
+ 
+  constructor(private service: FacturaCompraService, private router: Router, private srvImprecion : YService, private messageService: MessageService,private fb: FormBuilder, private sservice: ServiceService, private maquillajeservice: MaquillajeService) { }
 
 
   ngOnInit(): void {
@@ -89,32 +100,62 @@ export class ListFacturacompraComponent {
     
     this.FacturaForm = new FormGroup({
       Mepa_Metodo: new FormControl("", Validators.required),
-      Mepa_Id: new FormControl("", Validators.required),
-      Empl_Id: new FormControl("3", [Validators.required]),
-      Clie_Id: new FormControl("1", [Validators.required]),
-      Clie_DNI: new FormControl(""),
-      Impu_Impuesto: new FormControl("15%",Validators.required),
-      Clie_Nombre: new FormControl("Usuario Final", [Validators.required]),
-      Empl_Nombre: new FormControl("Eduardo Varela", [Validators.required]),
+      Mepa_Id: new FormControl('0', Validators.required),
+      Prov_Id: new FormControl('0', Validators.required),
+      Prov_Proveedor: new FormControl("", [Validators.required]),
     });
 
     this.DetalleForm = new FormGroup({
+      FaCE_Id: new FormControl("",Validators.required),
       radio: new FormControl("1",Validators.required),
-      Faxd_Dif: new FormControl("1",Validators.required),
+      FaCD_Dif: new FormControl("1",Validators.required),
       Prod_Producto: new FormControl("", Validators.required),
       Prod_Id: new FormControl("", Validators.required),
-      Faxd_Cantidad: new FormControl("", [Validators.required]),
-      Fact_Id: new FormControl("",Validators.required),
+      FaCD_Cantidad: new FormControl("", [Validators.required]),
     });
 
 
-    //AUTOCOMPLETADO
+
+    this.JoyaForm = new FormGroup({
+      Joya_Nombre: new FormControl("",Validators.required),
+      Joya_PrecioCompra: new FormControl(null, Validators.required),
+      Joya_PrecioVenta: new FormControl(null, [Validators.required]),
+      Joya_PrecioMayor: new FormControl(null, [Validators.required]),
+      Joya_Stock: new FormControl("", [Validators.required]),
+      Joya_Imagen: new FormControl("", [Validators.required]),
+      Prov_Id: new FormControl('11', [Validators.required]),
+      Mate_Id: new FormControl('0', [Validators.required]),
+      Cate_Id: new FormControl('0', [Validators.required]),
+    });
+
+    //#region ddls
+    this.sservice.getDropDownMaterial().subscribe((data: dropMaterial[]) => {
+      this.material = data;
+    });
+
+    this.sservice.getDropDownCategoria().subscribe((data: dropCategoria[]) => {
+      this.categoria = data;
+    });
+
+    this.maquillajeservice.getDropDownsMarcas().subscribe((data: dropMarca[]) => {
+      this.marca = data;
+      console.log(this.marca);
+    });
+    //#endregion
+
+    //#region AUTOCOMPLETADO
     this.service.getAutoCompletadoJoya().subscribe(countries => {
       this.countries = countries;
     });
+
+    this.service.getAutoCompletadoProveedor().subscribe(proveedo => {
+      this.proveedor = proveedo;
+    });
+
     this.service.getMetodo().subscribe(meto => {
       this.metodos = meto;
     });
+    //#endregion
  } 
 
   onRadioChange(event: Event) {
@@ -173,6 +214,7 @@ export class ListFacturacompraComponent {
     }
   }
 
+  //#region filtros
   filterCountry(event: any) {
     const filtered: any[] = [];
     const query = event.query;
@@ -205,29 +247,33 @@ export class ListFacturacompraComponent {
     this.filteredMetodoPago = filtered;
   }
 
-  filterCliente(event: any) {
+  filterProveedor(event: any) {
     const filtered: any[] = [];
     const query = event.query;
-    for (let i = 0; i < this.clientes.length; i++) {
-        const cliente = this.clientes[i];
+    for (let i = 0; i < this.proveedor.length; i++) {
+        const proveedor = this.proveedor[i];
+        console.log(proveedor);
         
-        if (cliente.clie_DNI.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-
-            filtered.push(cliente);
+        if (proveedor.prov_Proveedor.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+            filtered.push(proveedor);
         }
     }
 
-    this.filteredClientes = filtered;
+    this.filteredProveedores = filtered;
   }
+
+  //#endregion
+  
+  //#region  selects
   onSelectProduct(event) {
 
     this.DetalleForm.get('Prod_Id').setValue(event.value.value); 
 
   }
 
-  onSelectCliente(event) {
+  onSelectProveedor(event) {
 
-    this.FacturaForm.get('Clie_Nombre').setValue(event.value.clie_Nombre); 
+    this.FacturaForm.get('prov_Id').setValue(event.value.prov_Id); 
 
   }
   onSelectMetodo(event) {
@@ -235,8 +281,7 @@ export class ListFacturacompraComponent {
     this.FacturaForm.get('Mepa_Id').setValue(event.value.mepa_Id); 
 
   }
-
-
+  //#endregion
 
   subir() {
     if (this.DetalleForm.valid) {
@@ -246,10 +291,6 @@ export class ListFacturacompraComponent {
       console.log('Formulario no válido');
     }
   }
-
-
-
-
 
   Imprimir(){
     const cliente = "Eduardo Varela"
@@ -269,6 +310,8 @@ export class ListFacturacompraComponent {
     const img = "assets/demo/images/galleria/Esmeraldas.png"
     this.facura_impresa = this.srvImprecion.Reporte1PDF(cuerpo,img,cliente,DNI,Municipi,Depa,Numero,Fecha,Factura,Impuesto,Metodo,Subtotal,Total)
   } 
+
+  //#region Acciones de cancelar
   cancelar(){
     this.Collapse= false;
     this.DataTable = true;
@@ -279,6 +322,20 @@ export class ListFacturacompraComponent {
     this.MunCodigo=true;
     this.Valor = "";
   }
+  cancelarJM(){
+    this.FormularioJoya = false;
+    this.Detalles = true;
+
+  }
+  cancelarMQ(){
+    this.FormularioMaquillaje = false;
+    this.Detalles = true;
+
+  }
+
+  //#endregion
+
+  //#region validaciones inputs
   validarTexto(event: KeyboardEvent) {
     if (!/^[a-zA-Z\s]+$/.test(event.key) && event.key !== 'Backspace' && event.key !== 'Tab' && event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {
         event.preventDefault();
@@ -289,55 +346,117 @@ export class ListFacturacompraComponent {
         event.preventDefault();
     }
   }
-onSubmit() {
-  if (this.FacturaForm.valid) {
-   this.viewModel = this.FacturaForm.value;
-   if (this.Valor == "Agregar") {
-    this.service.insertarFacturaCom(this.viewModel).subscribe((data: MensajeViewModel[]) => {
-        if(data["message"] == "Operación completada exitosamente."){
-         this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Insertado con Exito', life: 3000 });
-         this.Collapse= false;
-         this.DataTable = true;
-         this.submitted = false;
-         this.Detalles = false;
-         this.Agregar = true;
-         this.ngOnInit();
- 
-        }else{
-         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro insertar', life: 3000 });
-        }
-        
-     })
-   } else {
-        this.service.editarFacturaEnca(this.viewModel).subscribe((data: MensajeViewModel[]) => {
-        if(data["message"] == "Operación completada exitosamente."){
-         this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Actualizado con Exito', life: 3000 });
-         this.Collapse= false;
-         this.DataTable = true;
-         this.Detalles = false;
-         this.submitted = false;
-         this.Agregar = true;
-         this.ngOnInit();
- 
-        }else{
-         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro actualizar', life: 3000 });
-        }
-        
-     })
-   }  
-   
-  }   
-      else 
-      {
-          this.submitted = true;
-      }
+//#endregion
+
+
+
+  onSubmit() {
+    if (this.FacturaForm.valid) {
+    this.viewModel = this.FacturaForm.value;
+    if (this.Valor == "Agregar") {
+      this.service.insertarFacturaCom(this.viewModel).subscribe((data: MensajeViewModel[]) => {
+          if(data["message"] == "Operación completada exitosamente."){
+          this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Insertado con Exito', life: 3000 });
+          this.Collapse= false;
+          this.DataTable = true;
+          this.submitted = false;
+          this.Detalles = false;
+          this.Agregar = true;
+          this.ngOnInit();
+  
+          }else{
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro insertar', life: 3000 });
+          }
+          
+      })
+    } else {
+          this.service.editarFacturaEnca(this.viewModel).subscribe((data: MensajeViewModel[]) => {
+          if(data["message"] == "Operación completada exitosamente."){
+          this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Actualizado con Exito', life: 3000 });
+          this.Collapse= false;
+          this.DataTable = true;
+          this.Detalles = false;
+          this.submitted = false;
+          this.Agregar = true;
+          this.ngOnInit();
+  
+          }else{
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro actualizar', life: 3000 });
+          }
+          
+      })
+    }  
+    
+    }   
+    else 
+    {
+      this.submitted = true;
+    }
   }
+
+  onSubmitMaquillaje() {
+    if (this.MaquillajeForm.valid && this.MaquillajeForm.get('Prov_Id').value !== '0' && this.MaquillajeForm.get('Marc_Id').value !== '0') {
+       this.viewModelMaquillaje = this.MaquillajeForm.value;
+       if (this.Valor == "Agregar") {
+        this.maquillajeservice.EnviarMaquillaje(this.viewModelMaquillaje).subscribe((data: MensajeViewModel[]) => {
+            if(data["message"] == "Operación completada exitosamente."){
+            this.ngOnInit();
+             this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Insertado con Exito', life: 3000 });
+             this.Collapse= false;
+             this.DataTable = true;
+             this.submitted = false;
+             this.Detalles = false;
+             this.Agregar= true;
+             this.fileUpload.clear();
+            }else{
+             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro insertar', life: 3000 });
+            }
+            
+         })
+       } else {
+            this.viewModelMaquillaje.Maqu_Id = this.ID
+            this.maquillajeservice.ActualizarMaquillaje(this.viewModelMaquillaje).subscribe((data: MensajeViewModel[]) => {
+            if(data["message"] == "Operación completada exitosamente."){
+              this.ngOnInit();
+             this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Actualizado con Exito', life: 3000 });
+             this.Collapse= false;
+             this.DataTable = true;
+             this.Detalles = false;
+             this.submitted = false;
+             this.Agregar= true;
+            }else{
+             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro actualizar', life: 3000 });
+            }
+            
+         })
+       }  
+       
+    }   
+        else 
+        {
+            this.submitted = true;
+        }
+    }
+
+  //#region collaps
   collapse(){
+    this.FormularioJoya=false;
+    this.FormularioMaquillaje=false;
     this.Collapse= true;
     this.DataTable = false;
     this.Valor = "Agregar";
     this.Agregar= false;
-    this.Detalles = false;
+    this.Detalles = true;
     this.Tabla = false;
   }
+  Onjoya(){
+    this.Detalles = false;
+    this.FormularioJoya = true;
+  }
+  Onmaquillaje(){
+    this.Detalles = false;
+    this.FormularioMaquillaje = true;
+  }
+
+  //#endregion
 }

@@ -59,7 +59,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 parametro.Add("@Prov_Id", item.Prov_Id);
                 parametro.Add("@Mepa_Id", item.Mepa_Id);
                 parametro.Add("@FaCE_fechafinalizacion", item.FaCE_fechafinalizacion);
-                parametro.Add("@FeCE_UsuarioCreacion", item.FeCE_UsuarioCreacion);
+                parametro.Add("@FeCE_UsuarioCreacion", 1);
                 parametro.Add("@ID", dbType: DbType.Int32, direction: ParameterDirection.Output);
                 parametro.Add("@proveedor", dbType: DbType.Int32, direction: ParameterDirection.Output);
                 var result = db.Execute(sql, parametro, commandType: System.Data.CommandType.StoredProcedure);
