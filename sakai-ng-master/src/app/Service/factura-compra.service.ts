@@ -3,7 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { BASE_URL } from './ulrsettings';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs';
-import { FacturaCompraEncabezado } from '../Models/FacturaCompraViewModel';
+import { FacturaCompraEncabezado, FacturaCompraDetalle } from '../Models/FacturaCompraViewModel';
+import { dropJoya } from '../Models/JoyaViewModel';
+import { dropMaqui } from '../Models/MaquillajeViewModel';
+import { Metodo } from '../Models/MetodoPagoViewModel';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +17,46 @@ export class FacturaCompraService {
 
   url = BASE_URL + 'API/FacturaCompra/'
 
-  getFacturaCompra(){
-    return this.http.get<FacturaCompraEncabezado[]>(this.url)
+  
+  urlAuto = BASE_URL + 'API/Joyas/AutoCompletado'
+
+  getAutoCompletadoJoya(){
+    return this.http.get<dropJoya[]>(this.urlAuto)
   }
 
+  urlMetodo = BASE_URL + 'API/MetodoPago/List'
+
+  getMetodo(){
+    return this.http.get<Metodo[]>(this.urlMetodo)
+  }
+  urlAutoMaqui = BASE_URL + 'API/Maquillaje/AutoCompletado'
+
+  getAutoCompletadoMaquillaje(){
+    return this.http.get<dropMaqui[]>(this.urlAutoMaqui)
+  }
+
+
+  getFacturaCompra(){
+    return this.http.get<FacturaCompraEncabezado[]>(`${this.url}listado`);
+  }
+
+  insertarFacturaCom(facturaEnca: FacturaCompraEncabezado ): Observable<any>{
+    return this.http.post<any>(`${this.url}Crear`,facturaEnca);
+  }
+
+  editarFacturaEnca(facturaencaupdate: FacturaCompraEncabezado):Observable<any>{
+    return this.http.put<any>(`${this.url}Editar`,facturaencaupdate);
+  }
+
+  eliminarFactura(id) : Observable<any>{
+    return this.http.delete<any>(`${this.url}Eliminar/${id}`);
+  }
+
+  fillenca(id) : Observable<any>{
+    return this.http.get<any>(`${this.url}Buscar/${id}`);
+  }
+
+  insertarFacturaDeta(facturaDeta: FacturaCompraEncabezado ): Observable<any>{
+    return this.http.post<any>(`${this.url}CrearDetalle`,facturaDeta);
+  }
 }

@@ -147,6 +147,11 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['/venta/factura']
                             },
                             {
+                                label: 'Facturas de Compra',
+                                icon: 'pi pi-fw pi-cart-plus',
+                                routerLink: ['/venta/facturacompra']
+                            },
+                            {
                                 label: 'Reportes',
                                 icon: 'pi pi-fw pi-download',
                                 routerLink: ['/venta/reporte']

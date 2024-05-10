@@ -1,14 +1,23 @@
 export class FacturaCompraEncabezado{
-    FaCE_Id !: Number;
-    Prov_Id !: Number;
-    Mepa_Id !: Number;
-    FaCE_fechafinalizacion !: String;
-    FeCE_UsuarioCreacion !: Number;
-    FaCE_FechaCreacion !: String;
-    FaCE_UsuarioModificacion !: Number;
-    FaCE_FechaModificacion !: String;
-    Prov_Proveedor !: String;
-    Mepa_Metodo !: String;
-    UsuarioCreacion !: String;
-    UsuarioModificacion !: String;
+    faCE_Id !: Number;
+    prov_Id !: Number;
+    mepa_Id !: Number;
+    faCE_fechafinalizacion !: String;
+    feCE_UsuarioCreacion !: Number;
+    faCE_FechaCreacion !: String;
+    faCE_UsuarioModificacion !: Number;
+    faCE_FechaModificacion !: String;
+    prov_Proveedor !: String;
+    mepa_Metodo !: String;
+    usuarioCreacion !: String;
+    usuarioModificacion !: String;
+}
+
+export class FacturaCompraDetalle{
+    faCD_Id !: Number;
+    faCE_Id !: Number;
+    faCD_Dif !: Boolean;
+    prod_Id !: Number;
+    nombreProducto !: String;
+    faCD_Cantidad !: Number;
 }
