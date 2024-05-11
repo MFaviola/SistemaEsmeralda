@@ -96,7 +96,7 @@ export class MaquillajeService {
   }
 
   EnviarMaquillaje(formData: any): Observable<any> {
-    return this.http.post<any>(BASE_URL + 'API/Maquillaje/Create/', formData).pipe(
+    return this.http.post<any>(BASE_URL + 'API/Maquillaje/Create', formData).pipe(
       map(response => {
         return response;
       }),

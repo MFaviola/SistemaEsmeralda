@@ -17,6 +17,7 @@ import { MaquillajeService } from 'src/app/Service/Maquillaje.service';
 import { FileUpload } from 'primeng/fileupload';
 import { Maquillaje, MaquillajeEnviar } from 'src/app/Models/MaquillajeViewModel';
 import { dropMarca } from 'src/app/Models/MarcaViewModel';
+import { JoyaService } from 'src/app/Service/Joya.service';
 
 @Component({
   selector: 'app-list-facturacompra',
@@ -32,6 +33,7 @@ export class ListFacturacompraComponent {
   viewModel: FacturaCompraEncabezado = new FacturaCompraEncabezado();
   viewModelMaquillaje: MaquillajeEnviar = new MaquillajeEnviar();
   MensajeViewModel!: MensajeViewModel[];
+  viewModelJoya: JoyaEnviar = new JoyaEnviar();
 
   routeItems: MenuItem[] = [];
   submitted: boolean = false;
@@ -86,7 +88,7 @@ export class ListFacturacompraComponent {
   filteredProveedores: any[] = [];
   //#endregion
  
-  constructor(private service: FacturaCompraService, private router: Router, private srvImprecion : YService, private messageService: MessageService,private fb: FormBuilder, private sservice: ServiceService, private maquillajeservice: MaquillajeService) { }
+  constructor(private service: FacturaCompraService, private router: Router, private srvImprecion : YService, private messageService: MessageService,private fb: FormBuilder, private sservice: ServiceService, private maquillajeservice: MaquillajeService, private joyaService : JoyaService) { }
 
 
   ngOnInit(): void {
@@ -114,7 +116,16 @@ export class ListFacturacompraComponent {
       FaCD_Cantidad: new FormControl("", [Validators.required]),
     });
 
-
+    this.MaquillajeForm = new FormGroup({
+      Maqu_Nombre: new FormControl("",Validators.required),
+      Maqu_PrecioCompra: new FormControl(null, Validators.required),
+      Maqu_PrecioVenta: new FormControl(null, [Validators.required]),
+      Maqu_PrecioMayor: new FormControl(null, [Validators.required]),
+      Maqu_Stock: new FormControl("", [Validators.required]),
+      Maqu_Imagen: new FormControl("", [Validators.required]),
+      Prov_Id: new FormControl('11', [Validators.required]),
+      Marc_Id: new FormControl('0', [Validators.required]),
+    });
 
     this.JoyaForm = new FormGroup({
       Joya_Nombre: new FormControl("",Validators.required),
@@ -136,11 +147,10 @@ export class ListFacturacompraComponent {
     this.sservice.getDropDownCategoria().subscribe((data: dropCategoria[]) => {
       this.categoria = data;
     });
-
     this.maquillajeservice.getDropDownsMarcas().subscribe((data: dropMarca[]) => {
       this.marca = data;
-      console.log(this.marca);
     });
+    
     //#endregion
 
     //#region AUTOCOMPLETADO
@@ -167,22 +177,22 @@ export class ListFacturacompraComponent {
       this.service.getAutoCompletadoJoya().subscribe(countries => {
         this.countries = countries;
         this.DetalleForm = new FormGroup({
-          Faxd_Dif: new FormControl(value,Validators.required),
+          FaCD_Dif: new FormControl(value,Validators.required),
           Prod_Producto: new FormControl("", Validators.required),
           Prod_Id: new FormControl("", Validators.required),
-          Faxd_Cantidad: new FormControl("", [Validators.required]),
-          Fact_Id: new FormControl("",Validators.required),
+          FaCD_Cantidad: new FormControl("", [Validators.required]),
+          FaCE_Id: new FormControl("",Validators.required),
         });
       });
     } else {
       this.service.getAutoCompletadoMaquillaje().subscribe(countries => {
         this.countries = countries;
         this.DetalleForm = new FormGroup({
-          Faxd_Dif: new FormControl(value,Validators.required),
+          FaCD_Dif: new FormControl(value,Validators.required),
           Prod_Producto: new FormControl("", Validators.required),
           Prod_Id: new FormControl("", Validators.required),
-          Faxd_Cantidad: new FormControl("", [Validators.required]),
-          Fact_Id: new FormControl("",Validators.required),
+          FaCD_Cantidad: new FormControl("", [Validators.required]),
+          FaCE_Id: new FormControl("",Validators.required),
         });
       });
     }
@@ -349,7 +359,7 @@ export class ListFacturacompraComponent {
 //#endregion
 
 
-
+  //FacturaEncabezado
   onSubmit() {
     if (this.FacturaForm.valid) {
     this.viewModel = this.FacturaForm.value;
@@ -394,19 +404,17 @@ export class ListFacturacompraComponent {
     }
   }
 
-  onSubmitMaquillaje() {
-    if (this.MaquillajeForm.valid && this.MaquillajeForm.get('Prov_Id').value !== '0' && this.MaquillajeForm.get('Marc_Id').value !== '0') {
-       this.viewModelMaquillaje = this.MaquillajeForm.value;
+  //Joya
+  OnSubmitJoya() {
+    if (this.JoyaForm.valid && this.JoyaForm.get('Cate_Id').value !== '0' && this.JoyaForm.get('Mate_Id').value !== '0'&& this.JoyaForm.get('Prov_Id').value !== '0') {
+       this.viewModel = this.JoyaForm.value;
        if (this.Valor == "Agregar") {
-        this.maquillajeservice.EnviarMaquillaje(this.viewModelMaquillaje).subscribe((data: MensajeViewModel[]) => {
+        this.joyaService.EnviarJoyas(this.viewModel).subscribe((data: MensajeViewModel[]) => {
             if(data["message"] == "Operación completada exitosamente."){
             this.ngOnInit();
              this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Insertado con Exito', life: 3000 });
-             this.Collapse= false;
-             this.DataTable = true;
-             this.submitted = false;
-             this.Detalles = false;
-             this.Agregar= true;
+             this.FormularioJoya = false;
+             this.Detalles = true;
              this.fileUpload.clear();
             }else{
              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro insertar', life: 3000 });
@@ -414,7 +422,49 @@ export class ListFacturacompraComponent {
             
          })
        } else {
-            this.viewModelMaquillaje.Maqu_Id = this.ID
+            this.viewModelJoya.Joya_Id = this.ID
+            this.joyaService.ActualizarJoyas(this.viewModel).subscribe((data: MensajeViewModel[]) => {
+            if(data["message"] == "Operación completada exitosamente."){
+              this.ngOnInit();
+             this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Actualizado con Exito', life: 3000 });
+             this.Detalles = false;
+             this.FormularioJoya = true;
+            }else{
+             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro actualizar', life: 3000 });
+            }
+            
+         })
+       }  
+       
+    }   
+        else 
+        {
+            this.submitted = true;
+        }
+    }
+
+  //Maquillaje
+  onSubmitMaquillaje() {
+    if ( this.MaquillajeForm.get('Marc_Id').value !== '0') {
+       this.viewModelMaquillaje = this.MaquillajeForm.value;
+       console.log("entra aqui");
+       if (this.Valor == "Agregar") {
+        this.maquillajeservice.EnviarMaquillaje(this.viewModelMaquillaje).subscribe((data: MensajeViewModel[]) => {
+       console.log("no entra aqui");
+       if(data["message"] == "Operación completada exitosamente."){
+            this.ngOnInit();
+             this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Insertado con Exito', life: 3000 });
+             this.FormularioMaquillaje = false;
+             this.Detalles = true;
+             this.fileUpload.clear();
+            }else{
+             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro insertar', life: 3000 });
+            }
+            
+         })
+       } else {
+       console.log("entra aqui");
+       this.viewModelMaquillaje.Maqu_Id = this.ID
             this.maquillajeservice.ActualizarMaquillaje(this.viewModelMaquillaje).subscribe((data: MensajeViewModel[]) => {
             if(data["message"] == "Operación completada exitosamente."){
               this.ngOnInit();

@@ -80,6 +80,7 @@ export class ListMaquillajeComponent implements OnInit{
     this.service.getDropDownsMarcas().subscribe((data: dropMarca[]) => {
       this.marca = data;
     });
+    
       this.service.getMaquillaje().subscribe((data: any)=>{
           console.log(data);
           this.Maquillaje = data;

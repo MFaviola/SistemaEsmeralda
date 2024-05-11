@@ -1,7 +1,7 @@
 <p-toast></p-toast>
 <div class="main-card mb-3 card"> 
     <div class="card-header">
-        <h3 class="card-title">Factura</h3>
+        <h3 class="card-title">Factura de Compra</h3>
     </div>
     <div class="card-body">
          <button (click)="collapse()" pButton icon="pi pi-plus" style="margin-bottom: 10px ;" [class.hidden]="!Agregar">Agregar</button>
@@ -92,7 +92,7 @@
                         
                         </td>
                             <td style="width:20%;">
-                                <input pInputText id="Faxd_Cantidad" formControlName="Faxd_Cantidad" type="text" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && DetalleForm.get('Faxd_Cantidad').invalid}" (keydown)="validarTexto($event)" />
+                                <input pInputText id="FaCD_Cantidad" formControlName="FaCD_Cantidad" type="text" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && DetalleForm.get('FaCD_Cantidad').invalid}" (keydown)="validarTexto($event)" />
                             </td>
                             <td style="width:20%;">
                                 <button pButton  type="button" label="Eliminar" class="p-button-outlined"></button>
@@ -166,7 +166,7 @@
           </div>
         </div>
     </form>
-        <button pButton icon="pi pi-check" type="button"  (click)="onSubmit()" label="Agregar" class="p-button-outlined"></button>
+        <button pButton icon="pi pi-check" type="button"  (click)="OnSubmitJoya()" label="Agregar" class="p-button-outlined"></button>
         <button pButton icon="pi pi-sort-up" type="button" (click)="cancelarJM()" label="Cancelar" class="p-button-outlined"></button>
 </div>
 
@@ -201,13 +201,14 @@
             <small class="ng-dirty ng-invalid" *ngIf="submitted && MaquillajeForm.controls['Maqu_Stock'].invalid" style="color: red !important;">Maquillaje Requerido</small>
         </div>
        
-        <!-- <div class="field col-12 md:col-6">
+        <div class="field col-12 md:col-6">
             <label for="Marca">Marca</label>
             <select formControlName="Marc_Id" pInputText id="Marca" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && MaquillajeForm.get('Marc_Id').value === '0'}" >
-            <option *ngFor="let marc of " [value]="marc.value">{{ marc.text }}</option>
-            </select>
+                <option *ngFor="let marc of marca" [value]="marc.value">{{ marc.text }}</option>
+                </select>
+            
             <small *ngIf="submitted && MaquillajeForm.get('Marc_Id').value === '0'" style="color: red;">Material Requerido</small>
-        </div> -->
+        </div> 
         <div class="field col-12 md:col-6">
             <p-fileUpload #fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" customUpload="true" (onSelect)="onUpload($event)" label="Subir Imagen" chooseLabel="Subir" class="mr-2"></p-fileUpload>
             <small *ngIf="submitted && MaquillajeForm.get('Maqu_Imagen').value === ''" style="color: red;">Imagen Requerido</small>
@@ -215,7 +216,7 @@
         </div>
 
         <div style="display: flex; justify-content: flex-end; margin-top: 1rem; grid-gap: 5px;">
-        <button pButton icon="pi pi-check" type="submit" label="Maquillaje" class="p-button-outlined"></button>
+            <button pButton icon="pi pi-check" type="button"  (click)="onSubmitMaquillaje()" label="Maquillaje" class="p-button-outlined"></button>
         <button pButton icon="pi pi-sort-up" type="button" (click)="cancelarMQ()" label="Cancelar" class="p-button-outlined"></button>
         </div>
 
