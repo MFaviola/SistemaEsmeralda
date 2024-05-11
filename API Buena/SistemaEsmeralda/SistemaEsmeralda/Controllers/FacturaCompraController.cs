@@ -39,16 +39,41 @@ namespace SistemaEsmeralda.API.Controllers
             [HttpPost("Crear")]
             public IActionResult Insert(FacturaCompraViewModel item)
             {
-                var model = _mapper.Map<tbFacturaCompraEncabezado>(item);
-           
-                var list = _ventasServices.InsertarFacturaCompra(model, out int fac, out int provee );
-                if (list.Success == true)
+                if (item.FaCE_Id == 0)
                 {
-                    return Ok(new { success = true, message = list.Message, id= fac.ToString(), prov = provee.ToString()});
+
+                    var model = _mapper.Map<tbFacturaCompraEncabezado>(item);
+                    var list = _ventasServices.InsertarFacturaCompra(model, out int fac, out int provee);
+                    if (list.Success == true)
+                    {
+                        var modelo = _mapper.Map<tbFacturaCompraDetalle>(item);
+                        var lista = _ventasServices.InsertarFacturaCompraDetalle(modelo);
+                        if (lista.Success == true)
+                        {
+                            return Ok(new { success = true, message = lista.Message });
+                        }
+                        else
+                        {
+                            return Problem();
+                        }
+                    }
+                    else
+                    {
+                        return Problem();
+                    }
                 }
                 else
                 {
-                    return Problem();
+                    var modelo = _mapper.Map<tbFacturaCompraDetalle>(item);
+                    var lista = _ventasServices.InsertarFacturaCompraDetalle(modelo);
+                    if (lista.Success == true)
+                    {
+                        return Ok(new { success = true, message = lista.Message });
+                    }
+                    else
+                    {
+                        return Problem();
+                    }
                 }
             }
 
