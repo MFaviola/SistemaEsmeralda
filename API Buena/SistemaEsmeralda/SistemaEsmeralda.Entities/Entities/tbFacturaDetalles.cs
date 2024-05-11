@@ -10,12 +10,13 @@ namespace SistemaEsmeralda.Entities.Entities
     public partial class tbFacturaDetalles
     {
         public int FaxD_Id { get; set; }
-        public bool? FaxD_Dif { get; set; }
+        public string? FaxD_Dif { get; set; }
         public int? Prod_Id { get; set; }
         public int? FaxD_Cantidad { get; set; }
         public int? total { get; set; }
         public int? Fact_Id { get; set; }
-     
+        [NotMapped]
+        public string? Prod_Nombre { get; set; }
         [NotMapped]
         public string? TotalFinal { get; set; }
 

@@ -116,6 +116,27 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             }
         }
 
+        public ServiceResult ElimnarFacturaDetalle(string Fact_Id,string prod_nombre)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _facturaRepository.Delete(Fact_Id,prod_nombre);
+                if (list.CodeStatus > 0)
+                {
+                    return result.Ok($"La accion ha sido existosa", list);
+                }
+                else
+                {
+                    return result.Error("No se pudo realizar la accion");
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
 
 
 
@@ -329,8 +350,39 @@ namespace SistemaEsmeralda.BusinessLogic.Services
         }
 
 
+        public ServiceResult ListadoFacturaDetalles(string id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _facturaRepository.ListaDetalles(id);
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
 
 
+
+        public ServiceResult BuscarFactura(string id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _facturaRepository.Buscar(id);
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
 
 
 

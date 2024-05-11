@@ -6,3 +6,84 @@
 }::ng-deep .p-datatable {
     overflow: visible;
 }
+
+.payment-method-icons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+ 
+    width: 100%;
+}
+
+.payment-method-icons button {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #6b7280;
+}
+
+.payment-method-icons button.selected {
+    background-color: #e2c8c8;
+    
+    border-color: #C8B6B6;
+}
+
+.payment-method-icons button i {
+    font-size: 18px;
+}
+
+.styled-input-group {
+    display: flex;
+    align-items: center;
+}
+
+.styled-addon {
+    padding: 10px; /* Ajusta según sea necesario */
+    background-color: #f3f4f6; /* Mismo fondo */
+    border-top: 1px solid #d1d5db;
+    border-left: 1px solid #d1d5db;
+    border-bottom: 1px solid #d1d5db;
+    height: 39px !important;
+    width: 42px !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.p-inputtext{
+    border-radius: 0 px !important;  /* Bordes redondeados */
+}
+.autocomplete-input {
+    width: 100%;
+    border: none; /* Elimina borde del input */
+    outline: none;
+    box-sizing: border-box;
+    background-color: transparent; /* Fondo del grupo de entrada */
+}
+
+.totals-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-top: 1rem;
+}
+
+.total-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 1.25rem; /* Tamaño de fuente más grande */
+}
+
+.total-label {
+    font-weight: bold;
+    margin-right: 0.5rem;
+}
+
+.total-value {
+    color: #e2c8c8; /* O elige el color que prefieras */
+}

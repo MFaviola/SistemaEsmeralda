@@ -59,7 +59,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
 
         public IEnumerable<tbMaquillajes> ListaAutocompletado()
         {
-            const string sql = "Vent.sp_Maquillajes_listar";
+            const string sql = "[Vent].[sp_Maquillajes_listarAutoCompletado]";
 
 
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))

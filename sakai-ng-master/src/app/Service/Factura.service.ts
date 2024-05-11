@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BASE_URL } from './ulrsettings';
-import { Factura,Fill } from '../Models/FacturaViewModel';
+import { Factura,FacturaDetalle,Fill } from '../Models/FacturaViewModel';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs';
 import { dropJoya } from '../Models/JoyaViewModel';
-import { dropMaqui } from '../Models/MaquillajeViewModel';
+import { Maquillaje, dropMaqui } from '../Models/MaquillajeViewModel';
 import { Metodo } from '../Models/MetodoPagoViewModel';
 import { Cliente } from '../Models/ClienteViewModel';
 
@@ -46,6 +46,15 @@ export class ServiceService {
   }
 
 
+  getFacturasDetalle(id){
+    return this.http.get<FacturaDetalle[]>(BASE_URL + 'API/Factura/ListaDetalles/' + id)
+  }
+
+  getDatosPorCodigo(codigo){
+    return this.http.get<Maquillaje[]>(BASE_URL + 'API/Joyas/FiltroCodigo/' + codigo)
+  }
+
+
   EnviarFactura(formData: any): Observable<any> {
     return this.http.post<any>(BASE_URL + 'API/Factura/Create/', formData).pipe(
       map(response => {
@@ -58,6 +67,9 @@ export class ServiceService {
   }
   EliminarFactura(ID): Observable<any>{
     return this.http.delete<any>(`${BASE_URL + 'API/Factura/Delete/' + ID}`)
+  }
+  EliminarDetalles(ID,Prod_Nombre): Observable<any>{
+    return this.http.delete<any>(`${BASE_URL + 'API/Factura/DeleteFactura/' + ID + ',' +  Prod_Nombre}`)
   }
   ActualizarFactura(formData){
     return this.http.put(BASE_URL + 'API/Factura/Edit/', formData)
