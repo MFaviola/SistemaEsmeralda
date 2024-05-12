@@ -54,6 +54,17 @@ namespace SistemaEsmeralda.DataAccess.Repository
             }
         }
 
+        public IEnumerable<tbJoyas> ListaAutoCompletado1()
+        {
+            const string sql = "[Vent].[sp_Joyas_listarAutoCompletado1]";
+
+
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+                return db.Query<tbJoyas>(sql, commandType: CommandType.StoredProcedure).ToList();
+            }
+        }
+
         public IEnumerable<tbJoyas> ListaPorCodigo(string codigo)
         {
             const string sql = "[Vent].[sp_FiltroJoyaCodigo]";

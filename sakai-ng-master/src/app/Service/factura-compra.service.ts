@@ -18,7 +18,7 @@ export class FacturaCompraService {
   url = BASE_URL + 'API/FacturaCompra/'
 
   
-  urlAuto = BASE_URL + 'API/Joyas/AutoCompletado'
+  urlAuto = BASE_URL + 'API/Joyas/AutoCompletado1'
   getAutoCompletadoJoya(){
     return this.http.get<dropJoya[]>(this.urlAuto)
   }
@@ -35,7 +35,7 @@ export class FacturaCompraService {
   }
 
 
-  urlAutoMaqui = BASE_URL + 'API/Maquillaje/Autocompletado'
+  urlAutoMaqui = BASE_URL + 'API/Maquillaje/Autocompletado1'
   getAutoCompletadoMaquillaje(){
     return this.http.get<dropMaqui[]>(this.urlAutoMaqui)
   }

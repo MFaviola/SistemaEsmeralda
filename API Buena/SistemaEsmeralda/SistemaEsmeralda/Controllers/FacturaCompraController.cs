@@ -46,7 +46,7 @@ namespace SistemaEsmeralda.API.Controllers
                     var list = _ventasServices.InsertarFacturaCompra(model, out int fac, out int provee);
                     if (list.Success == true)
                     {
-                        var modelo = _mapper.Map<tbFacturaCompraDetalle>(item);
+                        var modelo = _mapper.Map<tbFacturaCompraEncabezado>(item);
                         var lista = _ventasServices.InsertarFacturaCompraDetalle(modelo);
                         if (lista.Success == true)
                         {
@@ -64,7 +64,7 @@ namespace SistemaEsmeralda.API.Controllers
                 }
                 else
                 {
-                    var modelo = _mapper.Map<tbFacturaCompraDetalle>(item);
+                    var modelo = _mapper.Map<tbFacturaCompraEncabezado>(item);
                     var lista = _ventasServices.InsertarFacturaCompraDetalle(modelo);
                     if (lista.Success == true)
                     {
@@ -122,21 +122,21 @@ namespace SistemaEsmeralda.API.Controllers
         #endregion
 
         #region Detalle
-            [HttpPost("CrearDetalle")]
-            public IActionResult Create(FacturaCompraDetalleViewModel item)
-            {
-                var model = _mapper.Map<tbFacturaCompraDetalle>(item);
+            //[HttpPost("CrearDetalle")]
+            //public IActionResult Create(FacturaCompraDetalleViewModel item)
+            //{
+            //    var model = _mapper.Map<tbFacturaCompraDetalle>(item);
 
-                var list = _ventasServices.InsertarFacturaCompraDetalle(model);
-                if (list.Success == true)
-                {
-                    return Ok(new { success = true, message = list.Message});
-                }
-                else
-                {
-                    return Problem();
-                }
-            }
+            //    var list = _ventasServices.InsertarFacturaCompraDetalle(model);
+            //    if (list.Success == true)
+            //    {
+            //        return Ok(new { success = true, message = list.Message});
+            //    }
+            //    else
+            //    {
+            //        return Problem();
+            //    }
+            //}
 
         #endregion
     }

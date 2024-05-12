@@ -61,6 +61,19 @@ namespace SistemaEsmeralda.API.Controllers
         }
 
 
+        [HttpGet("AutoCompletado1")]
+        public IActionResult AutoCompletado1()
+        {
+            var list = _ventasServices.ListadoAutoCompletado1();
+            var drop = list.Data as List<tbJoyas>;
+            var rol = drop.Select(x => new SelectListItem
+            {
+                Text = x.Joya_Nombre,
+                Value = x.Joya_Id.ToString()
+            }).ToList();
+
+            return Ok(rol.ToList());
+        }
 
         [HttpGet("FiltroCodigo/{id}")]
         public IActionResult FiltroCodigo(string id)

@@ -30,7 +30,22 @@ namespace SistemaEsmeralda.Entities.Entities
         public string UsuarioCreacion { get; set; }
         [NotMapped]
         public string UsuarioModificacion { get; set; }
-
+        [NotMapped]
+        public int FaCD_Id { get; set; }
+        [NotMapped]
+        public bool? FaCD_Dif { get; set; }
+        [NotMapped]
+        public int? Prod_Id { get; set; }
+        [NotMapped]
+        public string NombreProducto { get; set; }
+        [NotMapped]
+        public int? FaCD_Cantidad { get; set; }
+        [NotMapped]
+        public decimal PrecioCompra { get; set; }
+        [NotMapped]
+        public decimal PrecioVenta { get; set; }
+        [NotMapped]
+        public decimal PrecioMayorista { get; set; }
         public virtual tbMetodosPago Mepa { get; set; }
         public virtual tbProveedores Prov { get; set; }
         public virtual ICollection<tbFacturaCompraDetalle> tbFacturaCompraDetalle { get; set; }

@@ -75,6 +75,22 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             }
         }
 
+        public ServiceResult ListadoAutoCompletado1()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _joyaRepository.ListaAutoCompletado1();
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
         public ServiceResult EditarJoyas(tbJoyas item)
         {
             var result = new ServiceResult();
@@ -238,6 +254,23 @@ namespace SistemaEsmeralda.BusinessLogic.Services
                 return result.Error(ex.Message);
             }
         }
+
+        public ServiceResult ListaAutoCompletadoMaqui1()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _maquillajeRepository.ListaAutocompletado1();
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
         public ServiceResult EditarMaquillaje(tbMaquillajes item)
         {
             var result = new ServiceResult();
@@ -559,7 +592,7 @@ namespace SistemaEsmeralda.BusinessLogic.Services
         #endregion
 
         #region Factura compra detalle
-        public ServiceResult InsertarFacturaCompraDetalle(tbFacturaCompraDetalle item)
+        public ServiceResult InsertarFacturaCompraDetalle(tbFacturaCompraEncabezado item)
         {
             var result = new ServiceResult();
             try

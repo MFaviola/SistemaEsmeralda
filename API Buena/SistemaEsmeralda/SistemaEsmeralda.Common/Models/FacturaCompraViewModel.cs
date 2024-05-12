@@ -35,6 +35,12 @@ namespace SistemaEsmeralda.Common.Models
         public string NombreProducto { get; set; }
         [NotMapped]
         public int? FaCD_Cantidad { get; set; }
+        [NotMapped]
+        public decimal PrecioCompra { get; set; }
+        [NotMapped]
+        public decimal PrecioVenta { get; set; }
+        [NotMapped]
+        public decimal PrecioMayorista { get; set; }
 
     }
 }
