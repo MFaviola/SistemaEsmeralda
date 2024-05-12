@@ -79,8 +79,11 @@ export class ListFacturacompraComponent {
   //AUTOCOMPLETADO
   detalleForm: FormGroup;
   metodos: any[] = [];
+  joyas: any[] = [];
+  maquillajes: any[] = [];
   countries: any[] = [];
   selectedCountryAdvanced: any[] = [];
+  selectedProductosAdvanced: any[] = [];
   selectedProveedoresAdvanced: any[] = [];
   selectedMetodoPagoAdvanced: any[] = [];
   filteredMetodoPago: any[] = [];
@@ -164,6 +167,14 @@ export class ListFacturacompraComponent {
 
     this.service.getMetodo().subscribe(meto => {
       this.metodos = meto;
+    });
+
+    this.service.getAutoCompletadoJoya().subscribe(joya => {
+      this.joyas = joya;
+    });
+
+    this.service.getAutoCompletadoMaquillaje().subscribe(maqu => {
+      this.maquillajes = maqu;
     });
     //#endregion
  } 

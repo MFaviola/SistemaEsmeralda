@@ -26,25 +26,70 @@
                 </div>
             </form>
 
-            <div class="formGroup">
-                <div [class.hidden]="!Detalles">
-                    <button pButton icon="pi pi-plus" type="button"  (click)="Onjoya()" label="Agregar Joya" class="p-button-outlined"></button>
-                    <button pButton icon="pi pi-plus" type="button"  (click)="Onmaquillaje()" label="Agregar Maquillaje" class="p-button-outlined"></button>
-
-                </div>
-                <div [class.hidden]="!FormularioJoya">
-                    <button pButton icon="pi pi-times" type="button" (click)="cancelarJM()" label="Cancelar" class="p-button-outlined"></button>
-
-                </div>
-                <div [class.hidden]="!FormularioMaquillaje">
-                    <button pButton icon="pi pi-times" type="button" (click)="cancelarMQ()" label="Cancelar" class="p-button-outlined"></button>
-
-                </div>
-            </div>
+            
 
             <div [class.hidden]="!Detalles">
                 <form [formGroup]="DetalleForm"  (ngSubmit)="subir()"> 
-                <p-table [value]="staticData" >
+                    <div class="formGroup">
+                        <div [class.hidden]="!Detalles">
+                            <button pButton icon="pi pi-plus" type="button"  (click)="Onjoya()" label="Agregar Joya" class="p-button-outlined"></button>
+                            <button pButton icon="pi pi-plus" type="button"  (click)="Onmaquillaje()" label="Agregar Maquillaje" class="p-button-outlined"></button>
+        
+                        </div>
+                        <div [class.hidden]="!FormularioJoya">
+                            <button pButton icon="pi pi-times" type="button" (click)="cancelarJM()" label="Cancelar" class="p-button-outlined"></button>
+        
+                        </div>
+                        <div [class.hidden]="!FormularioMaquillaje">
+                            <button pButton icon="pi pi-times" type="button" (click)="cancelarMQ()" label="Cancelar" class="p-button-outlined"></button>
+        
+                        </div>
+                        
+                    </div>
+                    <div >
+                        <label>
+                            <input type="radio" name="j-m-radio" value="1" (change)="onRadioChange($event)" formControlName="radio" />
+                            Joya
+                        </label>
+                        <label>
+                            <input type="radio" name="j-m-radio" value="0" (change)="onRadioChange($event)" formControlName="radio" />
+                            Maquillaje
+                        </label>
+                    </div>
+                    <div class="p-fluid p-formgrid grid">
+                       
+                        <div class="field col-12 md:col-6">
+                            <label >Id Producto</label>
+                            <input pInputText id="Prod_Id" formControlName="Prod_Id" type="text" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && DetalleForm.get('Prod_Id').invalid}"/>
+                        </div>
+                        <div class="field col-12 md:col-6">
+                            <label for="">Nombre Producto</label>
+                            <p-autoComplete  [(ngModel)]="selectedCountryAdvanced" [suggestions]="filteredCountries" (completeMethod)="filterCountry($event)" (onSelect)="onSelectProduct($event)" field="text" formControlName="Prod_Producto" [dropdown]="true" appendTo="body"></p-autoComplete>
+                        </div>
+                    </div>
+                    <div class="p-fluid p-formgrid grid">
+                        
+                        <div class="field col-12 md:col-6">
+                            <label for="">Cantidad</label>
+                            <input pInputText id="FaCD_Cantidad" formControlName="FaCD_Cantidad" type="text" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && DetalleForm.get('FaCD_Cantidad').invalid}" (keydown)="validarTexto($event)" />
+                        </div>
+                        <div class="field col-12 md:col-6">
+                            <label for="">Precio Compra</label>
+                            <input pInputText id="FaCD_Cantidad" formControlName="FaCD_Cantidad" type="text" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && DetalleForm.get('FaCD_Cantidad').invalid}" (keydown)="validarTexto($event)" />
+                        </div>
+                    </div>
+                    <div class="p-fluid p-formgrid grid">
+                        
+                        <div class="field col-12 md:col-6">
+                            <label for="">Precio Venta</label>
+                            <input pInputText id="FaCD_Cantidad" formControlName="FaCD_Cantidad" type="text" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && DetalleForm.get('FaCD_Cantidad').invalid}" (keydown)="validarTexto($event)" />
+                        </div>
+                        <div class="field col-12 md:col-6">
+                            <label for="">Precio Mayorista</label>
+                            <input pInputText id="FaCD_Cantidad" formControlName="FaCD_Cantidad" type="text" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && DetalleForm.get('FaCD_Cantidad').invalid}" (keydown)="validarTexto($event)" />
+                        </div>
+                    </div>
+                    <p-table [value]="staticData" >
                     <ng-template pTemplate="header">
                         <tr>
                             <!-- Ajusta los porcentajes según sea necesario  -->
@@ -61,43 +106,33 @@
                             <td style="width:40%;">Diamante</td>
                             <td style="width:20%;">3</td>
                             <td style="width:20%;">300</td>
+                            <td style="width:20%;">
+                                <button pButton  type="button" label="Eliminar" class="p-button-outlined"></button>
+                            </td>
                         </tr>
                         <tr>
                             <td style="width:20%;">Joya</td>
                             <td style="width:35%;">Oro</td>
                             <td style="width:20%;">1</td>
                             <td style="width:20%;">200</td>
+                            <td style="width:20%;">
+                                <button pButton  type="button" label="Eliminar" class="p-button-outlined"></button>
+                            </td>
                         </tr>               
                         <tr>
                             <td style="width:20%;">
-                                <label>
-                                    <input type="radio" name="j-m-radio" value="1" (change)="onRadioChange($event)" formControlName="radio" />
-                                    J
-                                </label>
-                                <label>
-                                    <input type="radio" name="j-m-radio" value="0" (change)="onRadioChange($event)" formControlName="radio" />
-                                    M
-                                </label>
+                              
 
                             </td>
                             
                             <td style="width:35%;">
-                                <p-autoComplete [(ngModel)]="selectedCountryAdvanced" [suggestions]="filteredCountries" (completeMethod)="filterCountry($event)" (onSelect)="onSelectProduct($event)" field="text" formControlName="Prod_Producto" [dropdown]="true" appendTo="body">
-                                </p-autoComplete>
                             </td>
                             <td style="width:5%;">
         
-                                <input pInputText id="Prod_Id" formControlName="Prod_Id" type="text" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && DetalleForm.get('Prod_Id').invalid}"/>
                 
                         
                         </td>
-                            <td style="width:20%;">
-                                <input pInputText id="FaCD_Cantidad" formControlName="FaCD_Cantidad" type="text" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && DetalleForm.get('FaCD_Cantidad').invalid}" (keydown)="validarTexto($event)" />
-                            </td>
-                            <td style="width:20%;">
-                                <button pButton  type="button" label="Eliminar" class="p-button-outlined"></button>
-
-                            </td>
+                            
                         </tr>
                     </ng-template>
                 </p-table>
@@ -217,7 +252,7 @@
 
         <div style="display: flex; justify-content: flex-end; margin-top: 1rem; grid-gap: 5px;">
             <button pButton icon="pi pi-check" type="button"  (click)="onSubmitMaquillaje()" label="Maquillaje" class="p-button-outlined"></button>
-        <button pButton icon="pi pi-sort-up" type="button" (click)="cancelarMQ()" label="Cancelar" class="p-button-outlined"></button>
+            <button pButton icon="pi pi-sort-up" type="button" (click)="cancelarMQ()" label="Cancelar" class="p-button-outlined"></button>
         </div>
 
     </form>
