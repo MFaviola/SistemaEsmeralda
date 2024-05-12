@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs';
 import { FacturaCompraEncabezado, FacturaCompraDetalle } from '../Models/FacturaCompraViewModel';
 import { dropJoya } from '../Models/JoyaViewModel';
-import { dropMaqui } from '../Models/MaquillajeViewModel';
+import { Maquillaje, dropMaqui } from '../Models/MaquillajeViewModel';
 import { Metodo } from '../Models/MetodoPagoViewModel';
 import { dropProveedor } from '../Models/ProveedorViewModel';
 @Injectable({
@@ -19,23 +19,23 @@ export class FacturaCompraService {
 
   
   urlAuto = BASE_URL + 'API/Joyas/AutoCompletado'
-
   getAutoCompletadoJoya(){
     return this.http.get<dropJoya[]>(this.urlAuto)
   }
 
   urlCProvee = BASE_URL + 'API/Proveedor/List'
-
   getAutoCompletadoProveedor(){
     return this.http.get<dropProveedor[]>(this.urlCProvee)
   }
-  urlMetodo = BASE_URL + 'API/MetodoPago/List'
 
+
+  urlMetodo = BASE_URL + 'API/MetodoPago/List'
   getMetodo(){
     return this.http.get<Metodo[]>(this.urlMetodo)
   }
-  urlAutoMaqui = BASE_URL + 'API/Maquillaje/AutoCompletado'
 
+
+  urlAutoMaqui = BASE_URL + 'API/Maquillaje/Autocompletado'
   getAutoCompletadoMaquillaje(){
     return this.http.get<dropMaqui[]>(this.urlAutoMaqui)
   }
@@ -43,6 +43,10 @@ export class FacturaCompraService {
 
   getFacturaCompra(){
     return this.http.get<FacturaCompraEncabezado[]>(`${this.url}listado`);
+  }
+
+  getDatosPorCodigo(codigo){
+    return this.http.get<Maquillaje[]>(BASE_URL + 'API/Joyas/FiltroCodigo/' + codigo)
   }
 
   insertarFacturaCom(facturaEnca: FacturaCompraEncabezado ): Observable<any>{

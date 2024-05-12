@@ -105,9 +105,9 @@ export class ListFacturacompraComponent {
     
     this.FacturaForm = new FormGroup({
       Mepa_Metodo: new FormControl("", Validators.required),
-      Mepa_Id: new FormControl('0', Validators.required),
+      Mepa_Id: new FormControl('7', Validators.required),
       Prov_Id: new FormControl('0', Validators.required),
-      Prov_Proveedor: new FormControl("", [Validators.required]),
+      prov_Proveedor: new FormControl("", [Validators.required]),
     });
 
     this.DetalleForm = new FormGroup({
@@ -115,8 +115,13 @@ export class ListFacturacompraComponent {
       radio: new FormControl("1",Validators.required),
       FaCD_Dif: new FormControl("1",Validators.required),
       Prod_Producto: new FormControl("", Validators.required),
+      Prod_Nombre: new FormControl("", Validators.required),
       Prod_Id: new FormControl("", Validators.required),
       FaCD_Cantidad: new FormControl("", [Validators.required]),
+      PrecioCompra: new FormControl("", [Validators.required]),
+      PrecioVenta: new FormControl("", [Validators.required]),
+      PrecioMayor: new FormControl("", [Validators.required]),
+
     });
 
     this.MaquillajeForm = new FormGroup({
@@ -126,7 +131,7 @@ export class ListFacturacompraComponent {
       Maqu_PrecioMayor: new FormControl(null, [Validators.required]),
       Maqu_Stock: new FormControl("", [Validators.required]),
       Maqu_Imagen: new FormControl("", [Validators.required]),
-      Prov_Id: new FormControl('11', [Validators.required]),
+      Prov_Id: new FormControl('0', [Validators.required]),
       Marc_Id: new FormControl('0', [Validators.required]),
     });
 
@@ -137,7 +142,7 @@ export class ListFacturacompraComponent {
       Joya_PrecioMayor: new FormControl(null, [Validators.required]),
       Joya_Stock: new FormControl("", [Validators.required]),
       Joya_Imagen: new FormControl("", [Validators.required]),
-      Prov_Id: new FormControl('11', [Validators.required]),
+      Prov_Id: new FormControl('0', [Validators.required]),
       Mate_Id: new FormControl('0', [Validators.required]),
       Cate_Id: new FormControl('0', [Validators.required]),
     });
@@ -170,7 +175,7 @@ export class ListFacturacompraComponent {
     });
 
     this.service.getAutoCompletadoJoya().subscribe(joya => {
-      this.joyas = joya;
+      this.countries = joya;
     });
 
     this.service.getAutoCompletadoMaquillaje().subscribe(maqu => {
@@ -187,24 +192,18 @@ export class ListFacturacompraComponent {
     if (value === "1") {
       this.service.getAutoCompletadoJoya().subscribe(countries => {
         this.countries = countries;
-        this.DetalleForm = new FormGroup({
-          FaCD_Dif: new FormControl(value,Validators.required),
-          Prod_Producto: new FormControl("", Validators.required),
-          Prod_Id: new FormControl("", Validators.required),
-          FaCD_Cantidad: new FormControl("", [Validators.required]),
-          FaCE_Id: new FormControl("",Validators.required),
-        });
-      });
-    } else {
+        this.FacturaForm.get('FaCD_Dif').setValue(value); 
+        this.FacturaForm.get('Prod_Nombre').setValue(""); 
+        this.FacturaForm.get('Prod_Id').setValue(""); 
+        this.FacturaForm.get('Prod_Producto').setValue(""); 
+    });
+  } else {
       this.service.getAutoCompletadoMaquillaje().subscribe(countries => {
         this.countries = countries;
-        this.DetalleForm = new FormGroup({
-          FaCD_Dif: new FormControl(value,Validators.required),
-          Prod_Producto: new FormControl("", Validators.required),
-          Prod_Id: new FormControl("", Validators.required),
-          FaCD_Cantidad: new FormControl("", [Validators.required]),
-          FaCE_Id: new FormControl("",Validators.required),
-        });
+        this.FacturaForm.get('FaCD_Dif').setValue(value); 
+        this.FacturaForm.get('Prod_Nombre').setValue(""); 
+        this.FacturaForm.get('Prod_Id').setValue(""); 
+        this.FacturaForm.get('Prod_Producto').setValue(""); 
       });
     }
   }
@@ -247,8 +246,8 @@ export class ListFacturacompraComponent {
             filtered.push(country);
         }
     }
+   
   
-    this.DetalleForm.get('Faxd_Cantidad').setValue(1); 
     this.filteredCountries = filtered;
   }
 
@@ -273,7 +272,6 @@ export class ListFacturacompraComponent {
     const query = event.query;
     for (let i = 0; i < this.proveedor.length; i++) {
         const proveedor = this.proveedor[i];
-        console.log(proveedor);
         
         if (proveedor.prov_Proveedor.toLowerCase().indexOf(query.toLowerCase()) == 0) {
             filtered.push(proveedor);
@@ -283,18 +281,31 @@ export class ListFacturacompraComponent {
     this.filteredProveedores = filtered;
   }
 
+  producto(event: any){
+    console.log(event.key)
+    console.log()
+    this.service.getDatosPorCodigo(this.FacturaForm.get('prod_Id').value).subscribe(countries => {
+      this.FacturaForm.get('prod_Nombre').setValue(countries[0].maqu_Nombre); 
+      this.FacturaForm.get('prod_Id').setValue(countries[0].maqu_Id); 
+      this.FacturaForm.get('prod_Producto').setValue(countries[0].maqu_Nombre); 
+    });
+  
+  }
   //#endregion
   
   //#region  selects
+  
   onSelectProduct(event) {
-
     this.DetalleForm.get('Prod_Id').setValue(event.value.value); 
+    this.DetalleForm.get('Prod_Nombre').setValue(event.value.text); 
 
   }
 
   onSelectProveedor(event) {
 
-    this.FacturaForm.get('prov_Id').setValue(event.value.prov_Id); 
+    this.FacturaForm.get('Prov_Id').setValue(event.value.prov_Id);
+    this.JoyaForm.get('Prov_Id').setValue(event.value.prov_Id);
+    this.MaquillajeForm.get('Prov_Id').setValue(event.value.prov_Id);
 
   }
   onSelectMetodo(event) {

@@ -13,7 +13,17 @@
 
                     <div class="field col-12 md:col-6">
                     <label for="">Proveedor</label>
-                    <p-autoComplete [(ngModel)]="selectedProveedoresAdvanced" [suggestions]="filteredProveedores" (completeMethod)="filterProveedor($event)" (onSelect)="onSelectProveedor($event)" required autofocus  [ngClass]="{'ng-invalid ng-dirty': submitted && FacturaForm.get('prov_Proveedor').value === ''}" field="prov_Proveedor" formControlName="prov_Proveedor" [dropdown]="true" appendTo="body"></p-autoComplete>
+                    <p-autoComplete 
+                    [(ngModel)]="selectedProveedoresAdvanced" 
+                    [suggestions]="filteredProveedores" 
+                    (completeMethod)="filterProveedor($event)" 
+                    (onSelect)="onSelectProveedor($event)" 
+                    required autofocus  
+                    [ngClass]="{'ng-invalid ng-dirty': submitted && FacturaForm.get('prov_Proveedor').value === ''}" 
+                    field="prov_Proveedor" 
+                    formControlName="prov_Proveedor" 
+                    appendTo="body" [dropdown]="true"></p-autoComplete>
+                    <!-- <p-autoComplete [(ngModel)]="selectedMetodoPagoAdvanced" [suggestions]="filteredMetodoPago" (completeMethod)="filterMetodo($event)" (onSelect)="onSelectMetodo($event)" required autofocus  [ngClass]="{'ng-invalid ng-dirty': submitted && FacturaForm.get('Mepa_Metodo').value === ''}" field="mepa_Metodo" formControlName="Mepa_Metodo" [dropdown]="true" appendTo="body"></p-autoComplete> -->
 
                     <small class="ng-dirty ng-invalid" *ngIf="submitted && FacturaForm.controls['Prov_Proveedor'].invalid" style="color: red !important;">Proveedor Requerido</small>
                 </div>
@@ -60,33 +70,45 @@
                        
                         <div class="field col-12 md:col-6">
                             <label >Id Producto</label>
-                            <input pInputText id="Prod_Id" formControlName="Prod_Id" type="text" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && DetalleForm.get('Prod_Id').invalid}"/>
+                            <input pInputText id="Prod_Id" formControlName="Prod_Id" type="text" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && DetalleForm.get('Prod_Id').invalid}"
+                            (keydown)="producto($event)"/>
+                            
                         </div>
                         <div class="field col-12 md:col-6">
                             <label for="">Nombre Producto</label>
-                            <p-autoComplete  [(ngModel)]="selectedCountryAdvanced" [suggestions]="filteredCountries" (completeMethod)="filterCountry($event)" (onSelect)="onSelectProduct($event)" field="text" formControlName="Prod_Producto" [dropdown]="true" appendTo="body"></p-autoComplete>
+                            <p-autoComplete 
+                            [(ngModel)]="selectedCountryAdvanced"
+                            [suggestions]="filteredCountries"
+                            (completeMethod)="filterCountry($event)"
+                            (onSelect)="onSelectProduct($event)"
+                            field="text"
+                            formControlName="Prod_Producto"
+                            appendTo="body"
+                            [dropdown]="true"></p-autoComplete>
                         </div>
                     </div>
                     <div class="p-fluid p-formgrid grid">
                         
                         <div class="field col-12 md:col-6">
                             <label for="">Cantidad</label>
-                            <input pInputText id="FaCD_Cantidad" formControlName="FaCD_Cantidad" type="text" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && DetalleForm.get('FaCD_Cantidad').invalid}" (keydown)="validarTexto($event)" />
+                            <input pInputText id="FaCD_Cantidad" formControlName="FaCD_Cantidad" type="text" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && JoyaForm.controls['FaCD_Cantidad'].value === ''}" />
+                            
                         </div>
                         <div class="field col-12 md:col-6">
                             <label for="">Precio Compra</label>
-                            <input pInputText id="FaCD_Cantidad" formControlName="FaCD_Cantidad" type="text" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && DetalleForm.get('FaCD_Cantidad').invalid}" (keydown)="validarTexto($event)" />
+                            <input pInputText id="PrecioCompra" formControlName="PrecioCompra" type="text" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && DetalleForm.get('PrecioCompra').value === ''}" (keydown)="ValidarNumeros($event)" />
                         </div>
                     </div>
                     <div class="p-fluid p-formgrid grid">
                         
                         <div class="field col-12 md:col-6">
                             <label for="">Precio Venta</label>
-                            <input pInputText id="FaCD_Cantidad" formControlName="FaCD_Cantidad" type="text" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && DetalleForm.get('FaCD_Cantidad').invalid}" (keydown)="validarTexto($event)" />
+                            <p-inputNumber  id="PrecioVenta" formControlName="PrecioVenta" type="text" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && DetalleForm.get('PrecioVenta').value === ''}" (keydown)="ValidarNumeros($event)" />
+                            <!-- <p-inputNumber id="PrecioVenta" formControlName="PrecioVenta" mode="currency" currency="USD" locale="en-US" [ngClass]="{'ng-invalid ng-dirty': submitted && DetalleForm.controls['PrecioVenta'].invalid}"></p-inputNumber> -->
                         </div>
                         <div class="field col-12 md:col-6">
                             <label for="">Precio Mayorista</label>
-                            <input pInputText id="FaCD_Cantidad" formControlName="FaCD_Cantidad" type="text" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && DetalleForm.get('FaCD_Cantidad').invalid}" (keydown)="validarTexto($event)" />
+                            <input pInputText id="PrecioMayor" formControlName="PrecioMayor" type="text" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && DetalleForm.get('PrecioMayor').value === ''}" (keydown)="ValidarNumeros($event)" />
                         </div>
                     </div>
                     <p-table [value]="staticData" >

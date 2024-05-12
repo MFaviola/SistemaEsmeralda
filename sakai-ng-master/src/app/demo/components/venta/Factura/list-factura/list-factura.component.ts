@@ -14,7 +14,7 @@ import { CountryService } from 'src/app/demo/service/country.service';
 
 @Component({
   templateUrl: './list-factura.component.html',
-  styleUrl: '/list-factura.component.css',
+  styleUrl: './list-factura.component.css',
   providers: [ConfirmationService, MessageService]
 })
 export class ListFacturaComponent {

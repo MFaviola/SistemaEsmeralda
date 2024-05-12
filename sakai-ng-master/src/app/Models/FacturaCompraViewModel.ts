@@ -19,5 +19,10 @@ export class FacturaCompraDetalle{
     faCD_Dif !: Boolean;
     prod_Id !: Number;
     nombreProducto !: String;
-    faCD_Cantidad !: Number;
+    faCD_Cantidad !: String;
+    prod_Producto ?: String;
+    prod_Nombre ?: String;
+    precioVenta ?: String;
+    precioMayor ?: String;
+    precioCompra ?: String;
 }
