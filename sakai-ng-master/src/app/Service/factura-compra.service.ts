@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BASE_URL } from './ulrsettings';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs';
-import { FacturaCompraEncabezado, FacturaCompraDetalle } from '../Models/FacturaCompraViewModel';
+import { FacturaCompraEncabezado, CrearFacturaCompraEncabezado } from '../Models/FacturaCompraViewModel';
 import { dropJoya } from '../Models/JoyaViewModel';
 import { Maquillaje, dropMaqui } from '../Models/MaquillajeViewModel';
 import { Metodo } from '../Models/MetodoPagoViewModel';
@@ -49,11 +49,11 @@ export class FacturaCompraService {
     return this.http.get<Maquillaje[]>(BASE_URL + 'API/Joyas/FiltroCodigo/' + codigo)
   }
 
-  insertarFacturaCom(facturaEnca: FacturaCompraEncabezado ): Observable<any>{
+  insertarFacturaCom(facturaEnca: CrearFacturaCompraEncabezado ): Observable<any>{
     return this.http.post<any>(`${this.url}Crear`,facturaEnca);
   }
 
-  editarFacturaEnca(facturaencaupdate: FacturaCompraEncabezado):Observable<any>{
+  editarFacturaEnca(facturaencaupdate: CrearFacturaCompraEncabezado):Observable<any>{
     return this.http.put<any>(`${this.url}Editar`,facturaencaupdate);
   }
 
@@ -65,7 +65,4 @@ export class FacturaCompraService {
     return this.http.get<any>(`${this.url}Buscar/${id}`);
   }
 
-  insertarFacturaDeta(facturaDeta: FacturaCompraEncabezado ): Observable<any>{
-    return this.http.post<any>(`${this.url}CrearDetalle`,facturaDeta);
-  }
 }

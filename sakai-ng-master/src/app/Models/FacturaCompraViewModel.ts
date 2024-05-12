@@ -1,5 +1,5 @@
 export class FacturaCompraEncabezado{
-    faCE_Id !: String;
+    faCE_Id ?: String;
     prov_Id !: Number;
     mepa_Id !: Number;
     faCE_fechafinalizacion !: String;
@@ -14,16 +14,24 @@ export class FacturaCompraEncabezado{
     precioVenta ?: String;
     precioMayor ?: String;
     precioCompra ?: String;
-
+    prod_Producto ?: String;
+    nombreProducto ?: String;
 }
 export class CrearFacturaCompraEncabezado{
-    prov_Id !: Number;
     mepa_Id !: Number;
+    prov_Id !: Number;
+    faCE_Id ?: String;
+    faCD_Dif ?: String;
+    nombreProducto ?: String;
+    prod_Id !: Number;
+    faCD_Cantidad !: String;
+    precioCompra ?: String;
+    precioMayor ?: String;
 }
 export class FacturaCompraDetalle{
     faCD_Id !: Number;
     faCE_Id !: Number;
-    faCD_Dif !: Boolean;
+    faCD_Dif !: String;
     prod_Id !: Number;
     nombreProducto !: String;
     faCD_Cantidad !: String;

@@ -49,7 +49,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
             }
         }
 
-        public (RequestStatus, int, int) Insert1(tbFacturaCompraEncabezado item)
+        public (RequestStatus, int) Insert1(tbFacturaCompraEncabezado item)
         {
             string sql = ScriptsBaseDeDatos.FacturaCompraInsertar;
 
@@ -58,17 +58,15 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 var parametro = new DynamicParameters();
                 parametro.Add("@Prov_Id", item.Prov_Id);
                 parametro.Add("@Mepa_Id", item.Mepa_Id);
-                parametro.Add("@FaCE_fechafinalizacion", item.FaCE_fechafinalizacion);
                 parametro.Add("@FeCE_UsuarioCreacion", 1);
+                parametro.Add("@FaCE_FechaCreacion", DateTime.Now);
                 parametro.Add("@ID", dbType: DbType.Int32, direction: ParameterDirection.Output);
-                parametro.Add("@proveedor", dbType: DbType.Int32, direction: ParameterDirection.Output);
                 var result = db.Execute(sql, parametro, commandType: System.Data.CommandType.StoredProcedure);
 
                 int FaCE_Id = parametro.Get<int>("@ID");
-                int Prov_Id = parametro.Get<int>("@proveedor");
                 string mensaje = (result == 1) ? "Exito" : "Error";
 
-                return (new RequestStatus { CodeStatus = result, MessageStatus = mensaje },FaCE_Id, Prov_Id);
+                return (new RequestStatus { CodeStatus = result, MessageStatus = mensaje },FaCE_Id);
             }
         }
 
@@ -144,13 +142,13 @@ namespace SistemaEsmeralda.DataAccess.Repository
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
             {
                 var parametro = new DynamicParameters();
-                parametro.Add("@FaCE_Id", item.FaCE_Id);
-                parametro.Add("@FaCD_Dif", item.FaCD_Dif);
-                parametro.Add("@NombreProducto", item.NombreProducto);
-                parametro.Add("@FaCD_Cantidad", item.FaCD_Cantidad);
-                parametro.Add("@PrecioCompra", item.PrecioCompra);
-                parametro.Add("@Precio_Venta", item.PrecioVenta);
-                parametro.Add("@Precio_Mayor", item.PrecioMayorista);
+                parametro.Add("@FaCE_Id", item.faCE_Id);
+                parametro.Add("@FaCD_Dif", item.faCD_Dif);
+                parametro.Add("@NombreProducto", item.nombreProducto);
+                parametro.Add("@FaCD_Cantidad", item.faCD_Cantidad);
+                parametro.Add("@PrecioCompra", item.precioCompra);
+                parametro.Add("@PrecioVenta", item.precioVenta);
+                parametro.Add("@PrecioMayor", item.precioMayorista);
                 var result = db.Execute(sql, parametro, commandType: System.Data.CommandType.StoredProcedure);
 
 

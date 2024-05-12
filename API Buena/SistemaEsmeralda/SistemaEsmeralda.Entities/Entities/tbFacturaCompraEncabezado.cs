@@ -17,35 +17,42 @@ namespace SistemaEsmeralda.Entities.Entities
         public int FaCE_Id { get; set; }
         public int? Prov_Id { get; set; }
         public int? Mepa_Id { get; set; }
+        
         public DateTime? FaCE_fechafinalizacion { get; set; }
         public int? FeCE_UsuarioCreacion { get; set; }
         public DateTime? FaCE_FechaCreacion { get; set; }
         public int? FaCE_UsuarioModificacion { get; set; }
         public DateTime? FaCE_FechaModificacion { get; set; }
         [NotMapped]
-        public string Prov_Proveedor { get; set; }
+        public int faCE_Id { get; set; }
         [NotMapped]
-        public string Mepa_Metodo { get; set; }
+        public int? prov_Id { get; set; }
+        [NotMapped]
+        public int? mepa_Id { get; set; }
+        [NotMapped]
+        public string prov_Proveedor { get; set; }
+        [NotMapped]
+        public string mepa_Metodo { get; set; }
         [NotMapped]
         public string UsuarioCreacion { get; set; }
         [NotMapped]
         public string UsuarioModificacion { get; set; }
         [NotMapped]
-        public int FaCD_Id { get; set; }
+        public int faCD_Id { get; set; }
         [NotMapped]
-        public bool? FaCD_Dif { get; set; }
+        public string? faCD_Dif { get; set; }
         [NotMapped]
-        public int? Prod_Id { get; set; }
+        public int? prod_Id { get; set; }
         [NotMapped]
-        public string NombreProducto { get; set; }
+        public string nombreProducto { get; set; }
         [NotMapped]
-        public int? FaCD_Cantidad { get; set; }
+        public int? faCD_Cantidad { get; set; }
         [NotMapped]
-        public decimal PrecioCompra { get; set; }
+        public string precioCompra { get; set; }
         [NotMapped]
-        public decimal PrecioVenta { get; set; }
+        public string precioVenta { get; set; }
         [NotMapped]
-        public decimal PrecioMayorista { get; set; }
+        public string precioMayorista { get; set; }
         public virtual tbMetodosPago Mepa { get; set; }
         public virtual tbProveedores Prov { get; set; }
         public virtual ICollection<tbFacturaCompraDetalle> tbFacturaCompraDetalle { get; set; }

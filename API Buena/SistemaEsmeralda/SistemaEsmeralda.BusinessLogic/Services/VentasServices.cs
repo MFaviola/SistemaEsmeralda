@@ -496,14 +496,13 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             }
         }
 
-        public ServiceResult InsertarFacturaCompra(tbFacturaCompraEncabezado item, out int fac, out int provee)
+        public ServiceResult InsertarFacturaCompra(tbFacturaCompraEncabezado item, out int fac)
         {
             var result = new ServiceResult();
             try
             {
-                var (list, scope1, scope2) = _facturaCompraRepository.Insert1(item);
+                var (list, scope1) = _facturaCompraRepository.Insert1(item);
                 fac = scope1;
-                provee = scope2;
                 if (list.CodeStatus >0 )
                 {
                     return result.Ok(list);
@@ -517,7 +516,6 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             catch (Exception ex)
             {
                 fac = 0;
-                provee = 0;
                 return result.Error(ex.Message);
             }
         }
