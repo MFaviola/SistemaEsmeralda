@@ -68,15 +68,15 @@ namespace SistemaEsmeralda.DataAccess.Repository
             }
         }
 
-        public IEnumerable<tbMaquillajes> ListaPorCodigo(string codigo)
+        public IEnumerable<tbMaquillajes> ListaPorCodigo()
         {
             const string sql = "[Vent].[sp_FiltroMaquillajeCodigo]";
 
-            var parameters = new { Maqu_Id = codigo };
+      
 
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
             {
-                return db.Query<tbMaquillajes>(sql, parameters, commandType: CommandType.StoredProcedure).ToList();
+                return db.Query<tbMaquillajes>(sql, commandType: CommandType.StoredProcedure).ToList();
             }
         }
         public tbMaquillajes Fill(int id)

@@ -5,7 +5,7 @@ import autoTable from 'jspdf-autotable'
   providedIn: 'root'
 })
 export class YService {
-
+    private pageCount = 1;
   constructor() { }
    Reporte1PDF(cuerpo, logoURL, Cliente,DNI,Muni,Depa,Numero,Fecha,Pedido,Imouesto,Metodo,Subtotal,Total): Blob {
     const doc = new jsPDF({
@@ -100,61 +100,49 @@ export class YService {
 }
   
 
-Reporte2PDF(cuerpo: any[], logoURL): Blob {
-  const doc = new jsPDF({
+Reporte2PDF(cuerpo: any[], logoURL: string): Blob {
+    const doc = new jsPDF({
       orientation: 'portrait',
       unit: 'px',
       format: 'letter'
-  });
+    });
 
-  // Logo
-  const imgWidth = 120;
-  const imgHeight = 20;
-  doc.addImage(logoURL, 'JPEG', 10, 20, imgWidth, imgHeight);
-
-  // Título del Documento - ACOSA Honduras
-  doc.setFontSize(12);
-  doc.setFont(undefined, 'bold');
-  doc.text('Esmeraldas HN', 140*2 , 30);
-
-  // Información de la empresa - Direcciones
-  doc.setFontSize(12);
-  doc.setFont(undefined, 'normal');
-  doc.text('Direccion:', 140*2 , 40);
-  doc.setFontSize(12);
-  doc.setFont(undefined, 'normal');
-  doc.text("San Pedro Sula: Barrio San Fernando,", 140*2 , 50);
-  doc.setFontSize(12);
-  doc.setFont(undefined, 'normal');
-  doc.text("Salida Vieja a La Lima, SPS", 140*2 , 60);
-  doc.setFontSize(20);
-  doc.setFont(undefined, 'bold');
-  doc.text("Control de Stock Joyas", 70*2 , 100);
- 
-  // Mostrar PDF
-  autoTable(doc, {
-    head: [['Codigo','Producto', 'Stock', 'Pedir']],
-    body: cuerpo,
-    startY: 130, // Inicio de la tabla
-    styles: {
-        font: 'helvetica',
+    autoTable(doc, {
+      head: [['Codigo', 'Producto', 'Stock', 'Pedir']],
+      body: cuerpo,
+      startY: 130,
+      styles: {
         fontSize: 10,
-    },
-    headStyles: {
-        fillColor: [0, 0, 0], // Fondo negro
-        textColor: [255, 255, 255], // Texto blanco
+      },
+      headStyles: {
+        fillColor: [0, 0, 0],
+        textColor: [255, 255, 255],
         halign: 'center',
         valign: 'middle',
         fontStyle: 'bold',
-    },
-    theme: 'grid',
+      },
+      theme: 'grid',
+      didDrawPage: (data) => {
+        // Encabezado
+        doc.setFontSize(12);
+        doc.setFont(undefined, 'bold');
+        const imgWidth = 120;
+        const imgHeight = 20;
+        doc.addImage(logoURL, 'JPEG', 10, 20, imgWidth, imgHeight);
+        doc.text('Esmeraldas HN', 280, 30);
+        doc.text('Direccion:', 280, 40);
+        doc.text("San Pedro Sula: Barrio San Fernando,", 280, 50);
+        doc.text("Salida Vieja a La Lima, SPS", 280, 60);
 
-});
-// Aquí puedes continuar con la sección de detalles del cliente y de la factura
+        // Pie de página
+        doc.setFontSize(10);
+        doc.setFont(undefined, 'normal');
+        doc.text('Página ' + String(data.pageNumber) + ' de ' + String(this.pageCount++), 510, 780, { align: 'right' });
+      }
+    });
 
-return doc.output('blob');
-
-}
-
+    this.pageCount = 1;  // Restablecer el contador de páginas para futuras impresiones
+    return doc.output('blob');
+  }
   
 }

@@ -19,6 +19,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AutoCompleteModule } from "primeng/autocomplete";
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputGroupModule } from 'primeng/inputgroup';
+
 @NgModule({
 	imports: [
 		CommonModule,

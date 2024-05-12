@@ -41,12 +41,12 @@ namespace SistemaEsmeralda.BusinessLogic.Services
         }
 
 
-        public ServiceResult ListadoJoyaPorCodigo(string codigo)
+        public ServiceResult ListadoJoyaPorCodigo()
         {
             var result = new ServiceResult();
             try
             {
-                var list = _joyaRepository.ListaPorCodigo(codigo);
+                var list = _joyaRepository.ListaPorCodigo();
                 return result.Ok(list);
             }
 
@@ -114,12 +114,33 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             }
         }
 
-        public ServiceResult ElimnarFacturaDetalle(string Fact_Id,string prod_nombre)
+        public ServiceResult ElimnarFacturaDetalle(string Fact_Id,string prod_nombre,int dif)
         {
             var result = new ServiceResult();
             try
             {
-                var list = _facturaRepository.Delete(Fact_Id,prod_nombre);
+                var list = _facturaRepository.Delete(Fact_Id,prod_nombre,dif);
+                if (list.CodeStatus > 0)
+                {
+                    return result.Ok($"La accion ha sido existosa", list);
+                }
+                else
+                {
+                    return result.Error("No se pudo realizar la accion");
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
+        public ServiceResult ConfirmarFactura(string Fact_Id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _facturaRepository.ConfirmarFactura(Fact_Id);
                 if (list.CodeStatus > 0)
                 {
                     return result.Ok($"La accion ha sido existosa", list);
@@ -206,12 +227,12 @@ namespace SistemaEsmeralda.BusinessLogic.Services
                 return result.Error(ex.Message);
             }
         }
-        public ServiceResult ListaPorCodigoMaqui(string codigo)
+        public ServiceResult ListaPorCodigoMaqui()
         {
             var result = new ServiceResult();
             try
             {
-                var list = _maquillajeRepository.ListaPorCodigo(codigo);
+                var list = _maquillajeRepository.ListaPorCodigo();
                 return result.Ok(list);
             }
 
@@ -412,12 +433,13 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             }
         }
 
-        public ServiceResult InsertarDetalle(tbFacturaDetalles item)
+        public ServiceResult InsertarDetalle(tbFacturaDetalles item, out int stock)
         {
             var result = new ServiceResult();
             try
             {
-                var list = _facturaRepository.InsertarDetalle(item);
+                var (list, scope) = _facturaRepository.InsertarDetalle(item);
+                stock = scope;
                 if (list.CodeStatus > 0)
                 {
                     return result.Ok(list);
@@ -429,6 +451,7 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             }
             catch (Exception ex)
             {
+                stock = 0;
                 return result.Error(ex.Message);
             }
         }

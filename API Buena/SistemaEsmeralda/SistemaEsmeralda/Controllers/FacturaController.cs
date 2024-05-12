@@ -56,17 +56,20 @@ namespace SistemaEsmeralda.API.Controllers
 
         public IActionResult Insert(FacturaViewModel item)
         {
-            if(item.Fact_Id == 0 )
+            var modele = _mapper.Map<tbFactura>(item);
+            var modeloFactura = new tbFactura()
             {
-                var modele = _mapper.Map<tbFactura>(item);
-                var modeloFactura = new tbFactura()
-                {
-                    Empl_Id = item.Empl_Id,
-                    Clie_Id = item.Clie_Id,
-                    Mepa_Id = item.Mepa_Id,
-                    Fact_UsuarioCreacion = item.Fact_UsuarioCreacion
+                Empl_Id = item.Empl_Id,
+                Clie_Id = item.Clie_Id,
+                Mepa_Id = item.Mepa_Id,
+                Fact_UsuarioCreacion = item.Fact_UsuarioCreacion,
+                Fact_Id = item.Fact_Id
+               
 
-                };
+            };
+            if (item.Fact_Id == 0 )
+            {
+               
                 var IdFactura = _ventasServices.CrearFactura(modeloFactura, out int id);
                 IdFactura.Message = id.ToString();
                 
@@ -78,11 +81,13 @@ namespace SistemaEsmeralda.API.Controllers
                     FaxD_Cantidad = item.Faxd_Cantidad,
                     Fact_Id =Convert.ToInt32(IdFactura.Message),
                 };
-                var list = _ventasServices.InsertarDetalle(modelo);
-                return Ok(new { success = true, message = list.Message, id = IdFactura.Message });
+                var list = _ventasServices.InsertarDetalle(modelo, out int stock);
+                return Ok(new { success = true, message = list.Message, id = IdFactura.Message, stock = stock });
             }
             else
             {
+                var IdFactura = _ventasServices.CrearFactura(modeloFactura, out int id);
+                IdFactura.Message = id.ToString();
                 var model = _mapper.Map<tbFacturaDetalles>(item);
                 var modelo = new tbFacturaDetalles()
                 {
@@ -91,20 +96,38 @@ namespace SistemaEsmeralda.API.Controllers
                     FaxD_Cantidad = item.Faxd_Cantidad,
                     Fact_Id = item.Fact_Id,
                 };
-                var list = _ventasServices.InsertarDetalle(modelo);
-                return Ok(new { success = true, message = list.Message, id = item.Fact_Id });
+                var list = _ventasServices.InsertarDetalle(modelo, out int stock);
+                return Ok(new { success = true, message = list.Message, id = item.Fact_Id, stock = stock });
             }
         
 
 
     }
 
-        [HttpDelete("DeleteFactura/{id},{nombre}")]
-        public IActionResult DeleteFactura(string id,string nombre)
+        [HttpPut("DeleteFactura/{id},{nombre},{dif}")]
+        public IActionResult DeleteFactura(string id,string nombre, string dif)
         {
-            var list = _ventasServices.ElimnarFacturaDetalle(id, nombre);
+            int difEnd = 0;
+            if (dif == "Maquillajes")
+            {
+               difEnd = 1;
+            }
+            else
+            {
+                difEnd = 0;
+            }
+            var list = _ventasServices.ElimnarFacturaDetalle(id, nombre, difEnd);
             return Ok(new { success = true, message = list.Message });
         }
+
+        [HttpPut("ConfirmarFactura/{id}")]
+        public IActionResult ConfirmarFactura(int id)
+        {
+
+            var list = _ventasServices.ConfirmarFactura(id.ToString());
+            return Ok(new { success = true, message = list.Message });
+        }
+
 
     }
 }

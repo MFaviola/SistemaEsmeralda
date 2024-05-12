@@ -94,30 +94,20 @@ namespace SistemaEsmeralda.API.Controllers
         public IActionResult AutoCompletado()
         {
             var list = _ventasServices.ListaAutoCompletadoMaqui();
-            var drop = list.Data as List<tbMaquillajes>;
-            var rol = drop.Select(x => new SelectListItem
-            {
-                Text = x.Maqu_Nombre,
-                Value = x.Maqu_Id.ToString()
-            }).ToList();
+  
 
-            return Ok(rol.ToList());
+            return Ok(list.Data);
         }
 
 
 
-        [HttpGet("FiltroCodigo/{id}")]
-        public IActionResult FiltroCodigo(string id)
+        [HttpGet("FiltroCodigo")]
+        public IActionResult FiltroCodigo()
         {
-            var list = _ventasServices.ListaPorCodigoMaqui(id);
-            var drop = list.Data as List<tbMaquillajes>;
-            var rol = drop.Select(x => new SelectListItem
-            {
-                Text = x.Maqu_Nombre,
-                Value = x.Maqu_Id.ToString()
-            }).ToList();
+            var list = _ventasServices.ListaPorCodigoMaqui();
+ 
 
-            return Ok(rol.ToList());
+            return Ok(list.Data);
         }
 
 
