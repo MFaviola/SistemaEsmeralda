@@ -12,7 +12,7 @@ import { MegaMenuItem, MenuItem } from 'primeng/api';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { FormGroup, FormControl,  Validators, FormBuilder  } from '@angular/forms';
 import { CountryService } from 'src/app/demo/service/country.service';
-import { an } from '@fullcalendar/core/internal-common';
+import { an, el } from '@fullcalendar/core/internal-common';
 
 @Component({
   templateUrl: './list-factura.component.html',
@@ -159,7 +159,7 @@ export class ListFacturaComponent {
       this.submitted = false;
       this.FacturaForm.get('Prod_Producto').setValue(""); 
       this.FacturaForm.get('Faxd_Cantidad').setValue(""); 
-     
+      this.MayorOVenta = "";
     });
 
     } else {
@@ -175,7 +175,7 @@ export class ListFacturaComponent {
       this.FacturaForm.get('Prod_Id').setValue("", {emitEvent: false}); 
      
       this.FacturaForm.get('Faxd_Cantidad').setValue(""); 
-    
+      this.MayorOVenta = "0";
     });
     
     }
@@ -352,16 +352,71 @@ ConfirmFactura() {
 }
 
 
-detalles(){
-  const cuerpo = [
-    ['1', 'Diamante', '12', 'No'],
-    ['2', 'Joya', '8', 'Sí'],['2', 'Joya', '8', 'Sí'],['2', 'Joya', '8', 'Sí'],['2', 'Joya', '8', 'Sí'],['2', 'Joya', '8', 'Sí'],['2', 'Joya', '8', 'Sí'],['2', 'Joya', '8', 'Sí'],['2', 'Joya', '8', 'Sí'],['2', 'Joya', '8', 'Sí'],['2', 'Joya', '8', 'Sí'],['2', 'Joya', '8', 'Sí'],['2', 'Joya', '8', 'Sí'],['2', 'Joya', '8', 'Sí'],['2', 'Joya', '8', 'Sí'],['2', 'Joya', '8', 'Sí'],['2', 'Joya', '8', 'Sí'],['2', 'Joya', '8', 'Sí'],['2', 'Joya', '8', 'Sí'],['2', 'Joya', '8', 'Sí'],['2', 'Joya', '8', 'Sí'],['2', 'Joya', '8', 'Sí'],['2', 'Joya', '8', 'Sí'],['2', 'Joya', '8', 'Sí'],['2', 'Joya', '8', 'Sí'],['2', 'Joya', '8', 'Sí'],['2', 'Joya', '8', 'Sí'],
-  ];
+detalles(codigo){
+  let Subtotal = "";
+  let Total = "";
+  let cuerpo = [];
+  this.service.getFacturasDetalle(codigo).subscribe((data: any)=>{
+    this.FacturaDetalle = data;
+   console.log("La factura es" + this.FacturaDetalle)
+    cuerpo = this.FacturaDetalle.map(item => [
+      item.categoria, // Asumiendo que estos campos existen en tus objetos
+      item.producto,
+      item.cantidad,
+      item.precio_Unitario,
+      item.total
+    ]);
+     
+    const total = data.reduce((sum, item) => {
+      const itemTotal = parseFloat(item.total) || 0; 
+      return sum + itemTotal;
+  }, 0);
+  console.log("El cuerpo es" +cuerpo)
+  const impuestoString = "15%";
+  const impuesto = parseFloat(impuestoString) / 100 || 0;
+  const TotalFinal = (total + (total * impuesto))
+  Subtotal = total.toFixed(2);
+  Total = TotalFinal.toFixed(2);
+  });
+  console.log("El total eeees" + Total)
+  this.service.getFill(codigo).subscribe({
 
-  const img = "assets/demo/images/galleria/Esmeraldas.png"
-  const blob = this.yService.Reporte2PDF(cuerpo,img);
-  const url = URL.createObjectURL(blob);
-  this.pdfSrc = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    next: (data: Fill) => {
+  
+  
+    const cliente = data[0].clie_Nombre
+    let DNI =  "";
+    if (data[0].clie_Id == "1") {
+      DNI =  "Usuario Final";
+    }else{
+       DNI =data[0].clie_DNI
+    }
+
+
+    
+    const Municipi =data[0].muni_Municipio
+    const Depa = data[0].depa_Departamento
+
+    const Fecha = data[0].fechaCreacion
+    const Factura = data[0].fact_Id
+    const Metodo = data[0].mepa_Metodo
+    const Impuesto = "15%"
+  
+  
+
+
+    const img = "assets/demo/images/galleria/Esmeraldas.png"
+    const blob = this.yService.Reporte2PDF(cuerpo,img,cliente,DNI,Municipi,Depa,Fecha,Factura,Impuesto,Metodo,Subtotal,Total)
+    const url = URL.createObjectURL(blob);
+    this.pdfSrc = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    }
+    
+
+
+
+    
+  });
+ 
   this.Reporte_2 = true
   this.Collapse= false;
   this.DataTable = false;

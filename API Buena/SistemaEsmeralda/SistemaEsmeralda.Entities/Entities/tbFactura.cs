@@ -34,8 +34,16 @@ namespace SistemaEsmeralda.Entities.Entities
         [NotMapped]
 
         public string Clie_DNI { get; set; }
+
+        [NotMapped]
+        public string Muni_Municipio { get; set; }
+        [NotMapped]
+
+        public string Depa_Departamento { get; set; }
         [NotMapped]
         public string Empl_Nombre { get; set; }
+
+
         [NotMapped]
         public string Clie_Nombre { get; set; }
         public int Fact_Id { get; set; }
