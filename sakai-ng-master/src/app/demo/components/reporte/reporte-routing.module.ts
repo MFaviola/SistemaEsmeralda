@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { reportepormesComponent } from './ReporteTop10/reporteporteportop10.component';
 import { reporteVentasAnual } from './ReporteVentasAnual/reporteporteporventasanual.component';
 import { reporteMayorista } from './ReporteVentasMayoristas/reportepormayorista.component';
-
+import {CookieService} from 'ngx-cookie-service';
 
 @NgModule({
     imports: [RouterModule.forChild([

@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ServiceService } from '../../../../Service/Login.Service';
 import { Login } from '../../../../Models/ValidarViewModel';
-
+import {CookieService} from 'ngx-cookie-service';
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
@@ -16,7 +16,8 @@ import { Login } from '../../../../Models/ValidarViewModel';
             margin-right: 1rem;
             color: var(--primary-color) !important;
         }
-    `]
+    `],  providers:
+    [CookieService]
 })
 export class LoginComponent {
 
@@ -26,8 +27,8 @@ export class LoginComponent {
 
     loginForm: FormGroup;
 
-    constructor(public layoutService: LayoutService, private formBuilder: FormBuilder, private service: ServiceService,private router: Router) {
-
+    constructor(public layoutService: LayoutService, private formBuilder: FormBuilder, private service: ServiceService,private router: Router,private cookie: CookieService) {
+        
         this.loginForm = this.formBuilder.group({
             usuario: ['', [Validators.required]],
             contra: ['', [Validators.required]],
@@ -42,11 +43,14 @@ export class LoginComponent {
           const loginData: Login = this.loginForm.value;
           this.service.login(loginData).subscribe(
             response => {
-
+              
               console.log('Respuesta del servidor:', response);
               if (response!="Error"){
-             
-              this.router.navigate(['/dash']);
+                this.cookie.set('Empleado', response[0].empl_Nombre);
+                this.cookie.set('empl_Id', response[0].empl_Id);
+                this.cookie.set('Usuario', response[0].usua_Usuario);
+                this.cookie.set('ID_Usuario', response[0].usua_Id);
+                this.router.navigate(['/dash']);
               }
 
             },

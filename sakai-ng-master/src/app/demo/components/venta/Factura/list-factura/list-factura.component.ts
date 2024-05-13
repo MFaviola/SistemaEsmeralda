@@ -14,11 +14,12 @@ import { FormGroup, FormControl,  Validators, FormBuilder  } from '@angular/form
 import { CountryService } from 'src/app/demo/service/country.service';
 import { C, an, el } from '@fullcalendar/core/internal-common';
 import { forkJoin } from 'rxjs';
+import {CookieService} from 'ngx-cookie-service';
 @Component({
   templateUrl: './list-factura.component.html',
   styleUrl: '/list-factura.component.css',
   encapsulation: ViewEncapsulation.None,
-  providers: [ConfirmationService, MessageService]
+  providers: [ConfirmationService, MessageService,CookieService]
 })
 export class ListFacturaComponent {
   pdfSrc: SafeResourceUrl | null = null;
@@ -65,7 +66,9 @@ export class ListFacturaComponent {
   selectedMetodo: string = '1';
   TotalTabla: any = 0;
   
-
+//USUARIO
+Usuario: string = "";
+Usua_Id: string = "";
   //SUBTOTAL
   Subtotal: string = "0";
   Total: string = "0";
@@ -85,11 +88,14 @@ export class ListFacturaComponent {
   filteredClientes: any[] = [];
   constructor(private service: ServiceService, private router: Router, private srvImprecion : YService,
     private messageService: MessageService,private countryService: CountryService,private fb: FormBuilder,
-    private yService: YService, private sanitizer: DomSanitizer
+    private yService: YService, private sanitizer: DomSanitizer,private cookie: CookieService
   ) { }
 
 
   ngOnInit(): void {
+    this.Usuario = this.cookie.get("Usuario");
+    this.Usua_Id = this.cookie.get("ID_Usuario");
+    console.log(this.Usuario)
       this.service.getFacturas().subscribe((data: any)=>{
           console.log(data);
           this.Factura = data;
