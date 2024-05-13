@@ -4,6 +4,7 @@ export class Factura{
     empl_Nombre?:String;
     clie_Nombre?:String;
     fact_Id?:String;
+    fact_Finalizado?:String;
 }
 
 export class FacturaEnviar {
@@ -46,6 +47,9 @@ export class Fill {
     empl_Id?:String;
     clie_Id?:String;
     fact_Id?:String;
+    depa_Departamento?:String;
+    mepa_Metodo?:String;
+    muni_Municipio?:String;
     usuarioCreacion: string;
     usuarioModificacion: string;
     fechaCreacion : string;

@@ -112,7 +112,7 @@
                             <td style="width:5%;">{{detalle.precio_Unitario}}</td>
                             <td style="width:5%;">{{detalle.total}}</td>
                             <td style="width:5%;">
-                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="confirmDelete(detalle.producto)"></button>
+                                <span pRipple class="pi pi-trash p-button-rounded p-button-warning" style="cursor: pointer; padding: 5px; border: none; background-color: transparent;" (click)="confirmDelete(detalle.producto,detalle.categoria)"></span>
                             </td>
                         </tr>
                     </ng-template>
@@ -131,29 +131,49 @@
                             </div>
                             </td>
                             <td style="width:5%;">
-                                <input pInputText id="Prod_Id" formControlName="Prod_Id" type="text" required autofocus
-                                    [ngClass]="{'ng-invalid ng-dirty': submitted && FacturaForm.get('Prod_Id').invalid}"
-                                    (keydown)="cantidad($event)" style="width: 80px !important;"/>
+                                <p-autoComplete [(ngModel)]="selectedListJoya"
+                                [suggestions]="filteredListJoya"
+                                (completeMethod)="filterJoyaList($event)"
+                                (onSelect)="onSelectJoyaList($event)"
+                                field="id"
+                                formControlName="Prod_Id"
+                                appendTo="body"
+                                                >
+                                </p-autoComplete>
+                                <small *ngIf="submitted && FacturaForm.get('Prod_Id').errors?.required" style="color: red;">
+                                    Código vacio.
+                                </small>
                             </td>
+                            
                             <td style="width:70%;">
                                 <p-autoComplete [(ngModel)]="selectedCountryAdvanced"
-                                    [suggestions]="filteredCountries"
-                                    (completeMethod)="filterCountry($event)"
-                                    (onSelect)="onSelectProduct($event)"
-                                    field="text"
-                                    formControlName="Prod_Producto"
-                                    appendTo="body">
-                                </p-autoComplete>
+                                [suggestions]="filteredCountries"
+                                (completeMethod)="filterCountry($event)"
+                                (onSelect)="onSelectProduct($event)"
+                                field="nombre"
+                                formControlName="Prod_Producto"
+                                appendTo="body"
+                               >
+                </p-autoComplete>
+                                <small *ngIf="submitted && FacturaForm.get('Prod_Producto').errors?.required" style="color: red;">
+                                    Producto vacío.
+                                </small>
                             </td>
+                            
                             <td style="width:5%;">
-                                <input pInputText id="Faxd_Cantidad" formControlName="Faxd_Cantidad" type="text" required autofocus
-                                    [ngClass]="{'ng-invalid ng-dirty': submitted && FacturaForm.get('Faxd_Cantidad').value === '0' || FacturaForm.get('Faxd_Cantidad').value === ''}" />
-                                <small *ngIf="submitted && FacturaForm.get('Faxd_Cantidad').value === '0'" style="color: red;">Cantidad es 0</small>
+                                <input pInputText id="Faxd_Cantidad" formControlName="Faxd_Cantidad" (ngModelChange)="onCantidadChange()" type="text" required autofocus
+            />
+                                <small *ngIf="submitted && FacturaForm.get('Faxd_Cantidad').errors?.required" style="color: red;">
+                                    Cantidad vacía.
+                                </small>
+                                <small *ngIf="submitted && FacturaForm.get('Faxd_Cantidad').errors?.min" style="color: red;">
+                                    Cantidad debe ser mayor que 0.
+                                </small>
                             </td>
-                            <td style="width:5%;">0</td>
-                            <td style="width:5%;">0</td>
+                            <td style="width:5%;">{{MayorOVenta}}</td>
+                            <td style="width:5%;">{{TotalTabla}}</td>
                             <td style="width:5%;">
-                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"></button>
+                               
                             </td>
                         </tr>
                     </ng-template>
@@ -172,7 +192,7 @@
             </div>
         </div>
         <div style="display: flex; justify-content: flex-end; margin-top: 1rem; grid-gap: 5px;">
-            <button pButton icon="pi pi-stop" type="button" (click)="cancelar()" label="Cancelar" class="p-button-outlined"></button>
+            <button pButton icon="pi pi-check-circle" type="button" (click)="cancelar()" label="Guardar" class="p-button-outlined"></button>
         </div>
         </form>
     </div>
@@ -208,12 +228,6 @@
                     </th>
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
-                            Impuesto
-                            <p-columnFilter type="text" field="impu_Impuesto" display="menu" placeholder="Search by country"></p-columnFilter>
-                        </div>
-                    </th>
-                    <th style="min-width: 12rem">
-                        <div class="flex justify-content-between align-items-center">
                             Metodo Pago
                             <p-columnFilter type="text" field="mepa_Metodo" display="menu" placeholder="Search by country"></p-columnFilter>
                         </div>
@@ -235,15 +249,12 @@
                         {{fact.empl_Nombre}}
                     </td>
                     <td>
-                        {{fact.impu_Impuesto}}
-                    </td>
-                    <td>
                         {{fact.mepa_Metodo}}
                     </td>
-                    <td style="display: flex; justify-content: space-around;">
-                        <button pButton pRipple type="button" label="Editar" class="p-button-raised p-button-success" (click)="Fill(fact.fact_Id)"></button>
-                        <button pButton pRipple type="button" label="Detalles" class="p-button-raised p-button-secondary" (click)="Imprimir()"></button>
-                        <button pButton pRipple type="button" label="Eliminar" class="p-button-raised p-button-danger"></button>
+                    <td style="display: flex; justify-content: space-around; grid-gap: 5px;">
+                        <p-button *ngIf="fact.fact_Finalizado == 'True'" label="Editar" icon="pi pi-user-edit" size="small" (click)="Fill(fact.fact_Id)" severity="primary" [raised]="true" [plain]="true"></p-button>
+                        <p-button  label="Imprimir"   icon="pi pi-book" size="small" (click)="Imprimir()" severity="secondary" (click)="detalles(fact.fact_Id)" [raised]="true" [plain]="true"></p-button>
+                        <p-button  *ngIf="fact.fact_Finalizado == 'True'" label="Confirmar" icon="pi pi-check" size="small" (click)="deleteSelectedProducts(fact.fact_Id)" severity="success" [raised]="true" [plain]="true"></p-button>
                     </td>
                 </tr>
             </ng-template>
@@ -258,11 +269,23 @@
                 </tr>
             </ng-template>
         </p-table>
+        <p-dialog [(visible)]="deleteProductDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span>Esta seguro de eliminarlo?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteProductDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="ConfirmFactura()"></button>
+            </ng-template>
+        </p-dialog>
     </div>
 </div>
-<object type="application/pdf">
-    {{facura_impresa}}
-</object>
+<div class="card-body" [class.hidden]="!Reporte_2">
+    <iframe *ngIf="pdfSrc" [src]="pdfSrc" type="application/pdf" width="100%" height="600px">
+        PDF Preview
+      </iframe>
+</div>
 
 
 

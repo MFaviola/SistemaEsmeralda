@@ -29,6 +29,12 @@ export class ServiceService {
     return this.http.get<dropJoya[]>(this.urlAuto)
   }
 
+  urlAutoLista = BASE_URL + 'API/Joyas/FiltroCodigo'
+
+  getAutoCompletadoJoyaLista(){
+    return this.http.get<dropJoya[]>(this.urlAutoLista)
+  }
+
   urlMetodo = BASE_URL + 'API/MetodoPago/List'
 
   getMetodo(){
@@ -39,6 +45,10 @@ export class ServiceService {
   getAutoCompletadoMaquillaje(){
     return this.http.get<dropMaqui[]>(this.urlAutoMaqui)
   }
+  urlAutoMaquiLista = BASE_URL + 'API/Maquillaje/FiltroCodigo'
+  getAutoCompletadoListaMaquillaje(){
+    return this.http.get<dropMaqui[]>(this.urlAutoMaquiLista)
+  }
   url = BASE_URL + 'API/Factura/List'
 
   getFacturas(){
@@ -48,10 +58,6 @@ export class ServiceService {
 
   getFacturasDetalle(id){
     return this.http.get<FacturaDetalle[]>(BASE_URL + 'API/Factura/ListaDetalles/' + id)
-  }
-
-  getDatosPorCodigo(codigo){
-    return this.http.get<Maquillaje[]>(BASE_URL + 'API/Joyas/FiltroCodigo/' + codigo)
   }
 
 
@@ -65,11 +71,12 @@ export class ServiceService {
   getFill(codigo: string): Observable<Fill> {
     return this.http.get<Fill>(`${BASE_URL + 'API/Factura/Fill/' + codigo}`);
   }
-  EliminarFactura(ID): Observable<any>{
-    return this.http.delete<any>(`${BASE_URL + 'API/Factura/Delete/' + ID}`)
+
+  ConfirmarFactura(id: any): Observable<any> {
+    return this.http.put<any>(`${BASE_URL}API/Factura/ConfirmarFactura/${id}`, {});
   }
-  EliminarDetalles(ID,Prod_Nombre): Observable<any>{
-    return this.http.delete<any>(`${BASE_URL + 'API/Factura/DeleteFactura/' + ID + ',' +  Prod_Nombre}`)
+  EliminarDetalles(ID,Prod_Nombre,Dif): Observable<any>{
+    return this.http.put<any>(`${BASE_URL + 'API/Factura/DeleteFactura/' + ID + ',' +  Prod_Nombre  + ',' +  Dif}`, {})
   }
   ActualizarFactura(formData){
     return this.http.put(BASE_URL + 'API/Factura/Edit/', formData)
