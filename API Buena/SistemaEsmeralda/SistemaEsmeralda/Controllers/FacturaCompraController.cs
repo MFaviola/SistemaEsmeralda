@@ -62,7 +62,7 @@ namespace SistemaEsmeralda.API.Controllers
                         var lista = _ventasServices.InsertarFacturaCompraDetalle(modelo);
                         if (lista.Success == true)
                         {
-                            return Ok(new { success = true, message = lista.Message });
+                            return Ok(new { success = true, message = lista.Message, id = fac});
                         }
                         else
                         {
@@ -76,11 +76,21 @@ namespace SistemaEsmeralda.API.Controllers
                 }
                 else
                 {
-                    var modelo = _mapper.Map<tbFacturaCompraEncabezado>(item);
+                    //var modelo = _mapper.Map<tbFacturaCompraEncabezado>(item);
+                    var modelo = new tbFacturaCompraEncabezado()
+                    {
+                        faCE_Id = item.faCE_Id,
+                        faCD_Dif = item.faCD_Dif,
+                        nombreProducto = item.nombreProducto,
+                        faCD_Cantidad = item.faCD_Cantidad,
+                        precioCompra = item.precioCompra,
+                        precioVenta = item.precioVenta,
+                        precioMayorista = item.precioMayor
+                    };
                     var lista = _ventasServices.InsertarFacturaCompraDetalle(modelo);
                     if (lista.Success == true)
                     {
-                        return Ok(new { success = true, message = lista.Message });
+                        return Ok(new { success = true, message = lista.Message, id = item.faCE_Id });
                     }
                     else
                     {
@@ -93,10 +103,28 @@ namespace SistemaEsmeralda.API.Controllers
             public IActionResult Update(FacturaCompraViewModel item)
             {
                 var model = _mapper.Map<tbFacturaCompraEncabezado>(item);
-                var list = _ventasServices.ActualizarFacturaCompra(model, out int provee);
+                var list = _ventasServices.ActualizarFacturaCompra(model);
                 if(list.Success == true)
                 {
-                    return Ok(new { success = true, message = list.Message, prov = provee.ToString() });
+                    var modelo = new tbFacturaCompraEncabezado()
+                    {
+                        faCE_Id = item.faCE_Id,
+                        faCD_Dif = item.faCD_Dif,
+                        nombreProducto = item.nombreProducto,
+                        faCD_Cantidad = item.faCD_Cantidad,
+                        precioCompra = item.precioCompra,
+                        precioVenta = item.precioVenta,
+                        precioMayorista = item.precioMayor
+                    };
+                    var lista = _ventasServices.InsertarFacturaCompraDetalle(modelo);
+                    if (lista.Success == true)
+                    {
+                        return Ok(new { success = true, message = lista.Message});
+                    }
+                    else
+                    {
+                        return Problem();
+                    }
                 }
                 else
                 {
@@ -134,21 +162,19 @@ namespace SistemaEsmeralda.API.Controllers
         #endregion
 
         #region Detalle
-            //[HttpPost("CrearDetalle")]
-            //public IActionResult Create(FacturaCompraDetalleViewModel item)
-            //{
-            //    var model = _mapper.Map<tbFacturaCompraDetalle>(item);
-
-            //    var list = _ventasServices.InsertarFacturaCompraDetalle(model);
-            //    if (list.Success == true)
-            //    {
-            //        return Ok(new { success = true, message = list.Message});
-            //    }
-            //    else
-            //    {
-            //        return Problem();
-            //    }
-            //}
+        [HttpGet("ListadoDetalle/{id}")]
+        public IActionResult Index1(int id)
+        {
+            var list = _ventasServices.ListadoFacturaCompraDetalle(id);
+            if (list.Success == true)
+            {
+                return Ok(list.Data);
+            }
+            else
+            {
+                return Problem();
+            }
+        }
 
         #endregion
     }

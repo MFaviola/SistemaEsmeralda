@@ -24,7 +24,7 @@ namespace SistemaEsmeralda.Entities.Entities
         public int? FaCE_UsuarioModificacion { get; set; }
         public DateTime? FaCE_FechaModificacion { get; set; }
         [NotMapped]
-        public int faCE_Id { get; set; }
+        public int? faCE_Id { get; set; }
         [NotMapped]
         public int? prov_Id { get; set; }
         [NotMapped]

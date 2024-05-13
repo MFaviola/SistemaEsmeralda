@@ -13,9 +13,11 @@ namespace SistemaEsmeralda.Common.Models
         public int? FaCE_Id { get; set; }
         public bool? FaCD_Dif { get; set; }
         public int? Prod_Id { get; set; }
-        [NotMapped]
         public string NombreProducto { get; set; }
         public int? FaCD_Cantidad { get; set; }
-       
+
+        public string NombreProveedor { get; set; }
+
+        public string mepa_Metodo {get; set;}
     }
 }

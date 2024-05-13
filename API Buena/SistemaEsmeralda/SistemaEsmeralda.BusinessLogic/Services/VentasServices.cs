@@ -520,13 +520,12 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             }
         }
 
-        public ServiceResult ActualizarFacturaCompra(tbFacturaCompraEncabezado item, out int provee)
+        public ServiceResult ActualizarFacturaCompra(tbFacturaCompraEncabezado item)
         {
             var result = new ServiceResult();
             try
             {
-                var (list, scope2) = _facturaCompraRepository.Update1(item);
-                provee = scope2;
+                var list = _facturaCompraRepository.Update1(item);
                 if (list.CodeStatus > 0 )
                 {
                     return result.Ok(list);
@@ -539,7 +538,6 @@ namespace SistemaEsmeralda.BusinessLogic.Services
 
             catch (Exception ex)
             {
-                provee = 0;
                 return result.Error(ex.Message);
             }
         }
@@ -590,6 +588,29 @@ namespace SistemaEsmeralda.BusinessLogic.Services
         #endregion
 
         #region Factura compra detalle
+        public ServiceResult ListadoFacturaCompraDetalle(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _facturaCompraRepository.Listao(id);
+                if (list.Count() > 0)
+                {
+                    return result.Ok(list);
+                }
+                else
+                {
+                    return result.Error();
+                }
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
         public ServiceResult InsertarFacturaCompraDetalle(tbFacturaCompraEncabezado item)
         {
             var result = new ServiceResult();

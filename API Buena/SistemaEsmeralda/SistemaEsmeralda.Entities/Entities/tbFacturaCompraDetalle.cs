@@ -14,9 +14,30 @@ namespace SistemaEsmeralda.Entities.Entities
         public bool? FaCD_Dif { get; set; }
         public int? Prod_Id { get; set; }
         [NotMapped]
-        public string NombreProducto { get; set; }
+        public string Producto { get; set; }
+        [NotMapped]
+        public string Cantidad { get; set; }
+        [NotMapped]
+        public string Categoria { get; set; }
+        [NotMapped]
+        public string Precio_Venta { get; set; }
+        [NotMapped]
+        public string PrecioVenta { get; set; }
+        [NotMapped]
+        public string PrecioMayorista { get; set; }
+        [NotMapped]
+        public string Total { get; set; }
+
+        [NotMapped]
+        public string mepa_Id { get; set; }
+
         public int? FaCD_Cantidad { get; set; }
-       
+        [NotMapped]
+        public string NombreProveedor { get; set; }
+        [NotMapped]
+        public string mepa_Metodo { get; set; }
+        [NotMapped]
+        public string faCE_fechafinalizacion { get; set; }
         public virtual tbFacturaCompraEncabezado FaCE { get; set; }
     }
 }

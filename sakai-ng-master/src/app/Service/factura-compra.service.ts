@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BASE_URL } from './ulrsettings';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs';
-import { FacturaCompraEncabezado, CrearFacturaCompraEncabezado } from '../Models/FacturaCompraViewModel';
+import { FacturaCompraEncabezado, CrearFacturaCompraEncabezado, FacturaCompraDetalleTabla } from '../Models/FacturaCompraViewModel';
 import { dropJoya } from '../Models/JoyaViewModel';
 import { Maquillaje, dropMaqui } from '../Models/MaquillajeViewModel';
 import { Metodo } from '../Models/MetodoPagoViewModel';
@@ -65,4 +65,7 @@ export class FacturaCompraService {
     return this.http.get<any>(`${this.url}Buscar/${id}`);
   }
 
+  tabladetalle(id){
+    return this.http.get<FacturaCompraDetalleTabla[]>(`${this.url}ListadoDetalle/${id}`);
+  }
 }

@@ -3,7 +3,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { Product } from 'src/app/demo/api/product';
 import {Router} from '@angular/router';
 import { Table } from 'primeng/table';
-import { FacturaCompraEncabezado, CrearFacturaCompraEncabezado } from 'src/app/Models/FacturaCompraViewModel';
+import { Fill, FacturaCompraEncabezado, CrearFacturaCompraEncabezado, FacturaCompraDetalleTabla } from 'src/app/Models/FacturaCompraViewModel';
 import { FacturaCompraService } from 'src/app/Service/factura-compra.service'; 
 import { YService } from '../../Impresion/impresion.service';
 import { MensajeViewModel } from 'src/app/Models/MensajeViewModel';
@@ -12,7 +12,7 @@ import { FormGroup, FormControl,  Validators, FormBuilder  } from '@angular/form
 import { ServiceService } from 'src/app/Service/Joya.service';
 import { dropMaterial } from 'src/app/Models/MaterialViewModel';
 import { dropCategoria } from 'src/app/Models/CategoriaViewModel';
-import { Fill, Joya, JoyaEnviar } from 'src/app/Models/JoyaViewModel';
+import { Joya, JoyaEnviar } from 'src/app/Models/JoyaViewModel';
 import { MaquillajeService } from 'src/app/Service/Maquillaje.service';
 import { FileUpload } from 'primeng/fileupload';
 import { Maquillaje, MaquillajeEnviar } from 'src/app/Models/MaquillajeViewModel';
@@ -29,6 +29,7 @@ export class ListFacturacompraComponent {
  
  //#region variables
   Factura!:FacturaCompraEncabezado[];
+  FacturaDetalle?: FacturaCompraDetalleTabla[];
   @ViewChild('fileUpload') fileUpload: FileUpload;
   viewModel: FacturaCompraEncabezado = new FacturaCompraEncabezado();
   viewModelenviar: CrearFacturaCompraEncabezado = new CrearFacturaCompraEncabezado();
@@ -106,13 +107,13 @@ export class ListFacturacompraComponent {
       console.log(error);
     });
     
+
     this.FacturaForm = new FormGroup({
       mepa_Id: new FormControl('7', Validators.required),
       prov_Id: new FormControl('0', Validators.required),
       prov_Proveedor: new FormControl("", [Validators.required]),
 
       //detalle
-      faCE_Id: new FormControl("0",Validators.required),
       radio: new FormControl("1",Validators.required),
       faCD_Dif: new FormControl("1",Validators.required),
       // prod_Producto: new FormControl("", Validators.required),
@@ -407,15 +408,14 @@ export class ListFacturacompraComponent {
      if (this.Valor == "Agregar") {
       this.service.insertarFacturaCom(this.viewModelenviar).subscribe((data: MensajeViewModel[]) => {
           if(data["message"] == "Operación completada exitosamente."){
-          this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Insertado con Exito', life: 3000 });
-          console.log("Ingresado con exito")
-          this.Collapse= false;
-          this.DataTable = true;
-          this.submitted = false;
-          this.Detalles = false;
-          this.Agregar = true;
-          this.ngOnInit();
-  
+          this.faCE_Id = data["id"];
+
+              this.service.tabladetalle(this.faCE_Id).subscribe((data: any)=>{
+                this.FacturaDetalle = data;
+                console.log(this.FacturaDetalle);
+              },error=>{
+                console.log(error);
+              });
           }else{
           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro insertar', life: 3000 });
           console.log("error1")
@@ -553,4 +553,20 @@ export class ListFacturacompraComponent {
   }
 
   //#endregion
+
+  Fill(codigo) {
+    this.service.fillenca(codigo).subscribe({
+        next: (data: Fill) => {
+          this.JoyaForm = new FormGroup({
+            mepa_Id: new FormControl(data.mepa_Id,Validators.required),
+            prov_Id: new FormControl(data.prov_Id, [Validators.required]),
+            nombreProveedor: new FormControl(data.nombreProveedor, [Validators.required])
+          });
+        }
+      });
+
+}
+
+
+
 }
