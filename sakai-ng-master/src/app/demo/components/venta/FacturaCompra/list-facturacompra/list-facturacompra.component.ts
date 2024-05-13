@@ -208,7 +208,6 @@ export class ListFacturacompraComponent {
         this.FacturaForm.get('faCD_Dif').setValue(value); 
         this.FacturaForm.get('nombreProducto').setValue(""); 
         this.FacturaForm.get('prod_Id').setValue(""); 
-        this.FacturaForm.get('Prod_Producto').setValue(""); 
     });
   } else {
       this.service.getAutoCompletadoMaquillaje().subscribe(countries => {
@@ -216,7 +215,6 @@ export class ListFacturacompraComponent {
         this.FacturaForm.get('faCD_Dif').setValue(value); 
         this.FacturaForm.get('nombreProducto').setValue(""); 
         this.FacturaForm.get('prod_Id').setValue(""); 
-        this.FacturaForm.get('Prod_Producto').setValue(""); 
       });
     }
   }
