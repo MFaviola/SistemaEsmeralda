@@ -20,7 +20,8 @@ import { AppLayoutComponent } from "./layout/app.layout.component";
                     { path: 'generales', loadChildren: () => import('./demo/components/generales/generales.module').then(m => m.GeneraleModule) },
                     { path: 'acceso', loadChildren: () => import('./demo/components/acceso/acesso.module').then(m => m.AccesoModule) },
                     { path: 'venta', loadChildren: () => import('./demo/components/venta/venta.module').then(m => m.VentaModule) },
-                    { path: 'pages', loadChildren: () => import('./demo/components/pages/pages.module').then(m => m.PagesModule) }
+                    { path: 'pages', loadChildren: () => import('./demo/components/pages/pages.module').then(m => m.PagesModule) },
+                    { path: 'reportes', loadChildren: () => import('./demo/components/reporte/reporte.module').then(m => m.ReporteModule) }
                 ]
             },
             { path: '**', redirectTo: '/notfound' },

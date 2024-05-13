@@ -181,6 +181,67 @@ export class AppMenuComponent implements OnInit {
 
 
 
+            },   {
+                items: [
+                    {
+                        label: 'Reportes',
+                        icon: 'pi pi-fw pi-chart-bar',
+                        items: [
+                            {
+                                label: 'Control de stock',
+                                icon: 'pi pi-fw pi-dollar',
+                                routerLink: ['/reportes/stock']
+                            },
+                            {
+                                label: 'Ventas por empleado',
+                                icon: 'pi pi-fw pi-pencil',
+                                routerLink: ['/reportes/empleado']
+                            },
+                            {
+                                label: 'Ventas por mes',
+                                icon: 'pi pi-fw pi-cart-plus',
+                                routerLink: ['/reportes/mes']
+                            },
+                            {
+                                label: 'Top 10 productos',
+                                icon: 'pi pi-fw pi-download',
+                                routerLink: ['/reportes/top']
+                            },
+                            {
+                                label: 'Ventas Anuales',
+                                icon: 'pi pi-fw pi-download',
+                                routerLink: ['/reportes/anual']
+                            },
+                            {
+                                label: 'Ventas mayoristas',
+                                icon: 'pi pi-fw pi-download',
+                                routerLink: ['/reportes/mayorista']
+                            },
+                        ]
+                    },
+                ]
+
+
+                
+
+
+
+
+                
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             },
             // {
             //     items: [

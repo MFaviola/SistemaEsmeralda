@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef,ViewEncapsulation  } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Product } from 'src/app/demo/api/product';
 import {Router} from '@angular/router';
@@ -9,15 +9,21 @@ import { YService } from '../../Impresion/impresion.service';
 import { Cliente } from 'src/app/Models/ClienteViewModel';
 import { MensajeViewModel } from 'src/app/Models/MensajeViewModel';
 import { MegaMenuItem, MenuItem } from 'primeng/api';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { FormGroup, FormControl,  Validators, FormBuilder  } from '@angular/forms';
 import { CountryService } from 'src/app/demo/service/country.service';
-
+import { C, an, el } from '@fullcalendar/core/internal-common';
+import { forkJoin } from 'rxjs';
 @Component({
   templateUrl: './list-factura.component.html',
   styleUrl: '/list-factura.component.css',
+  encapsulation: ViewEncapsulation.None,
   providers: [ConfirmationService, MessageService]
 })
 export class ListFacturaComponent {
+  pdfSrc: SafeResourceUrl | null = null;
+  Reporte_1: boolean = false;
+  Reporte_2: boolean = false;
   Factura!:Factura[];
   FacturaDetalle!:FacturaDetalle[];
   routeItems: MenuItem[] = [];
@@ -52,12 +58,13 @@ export class ListFacturaComponent {
   facura_impresa: any = null;
 
   selectedRadio: string = '1'; 
-
-
+  Venta: string = '0';
+  Mayor: any = 0;
+  MayorOVenta: String = '0'
   Fact_ID: string = "0";
-  selectedMetodo: string = '4';
+  selectedMetodo: string = '1';
+  TotalTabla: any = 0;
   
-
 
   //SUBTOTAL
   Subtotal: string = "0";
@@ -67,15 +74,18 @@ export class ListFacturaComponent {
   metodos: any[] = [];
   clientes: any[] = [];
   countries: any[] = [];
+  listJoyas: any[] = [];
   selectedCountryAdvanced: any[] = [];
+  selectedListJoya: any[] = [];
   selectedClientesAdvanced: any[] = [];
   selectedMetodoPagoAdvanced: any[] = [];
+  filteredListJoya: any[] = [];
   filteredMetodoPago: any[] = [];
   filteredCountries: any[] = [];
   filteredClientes: any[] = [];
   constructor(private service: ServiceService, private router: Router, private srvImprecion : YService,
-    private messageService: MessageService,private countryService: CountryService,private fb: FormBuilder
-  
+    private messageService: MessageService,private countryService: CountryService,private fb: FormBuilder,
+    private yService: YService, private sanitizer: DomSanitizer
   ) { }
 
 
@@ -102,18 +112,21 @@ export class ListFacturaComponent {
         Impu_Impuesto: new FormControl("15%",Validators.required),
         Clie_Nombre: new FormControl("Usuario Final", [Validators.required]),
         Empl_Nombre: new FormControl("Eduardo Varela", [Validators.required]),
-        Prod_Producto: new FormControl(""),
+        Prod_Producto: new FormControl("", [Validators.required]),
         //Detalle
         Faxd_Dif: new FormControl("1",Validators.required),
         Prod_Nombre: new FormControl("", Validators.required),
         Prod_Id: new FormControl("", Validators.required),
-        Faxd_Cantidad: new FormControl("", [Validators.required]),
+        Faxd_Cantidad: new FormControl('', [Validators.required, Validators.min(1)]),
     });  
 
 
       //AUTOCOMPLETADO
       this.service.getAutoCompletadoJoya().subscribe(countries => {
         this.countries = countries;
+    });
+    this.service.getAutoCompletadoJoyaLista().subscribe(countries => {
+      this.listJoyas = countries;
     });
     this.service.getMetodo().subscribe(meto => {
       this.metodos = meto;
@@ -127,40 +140,54 @@ export class ListFacturaComponent {
 
 
     this.FacturaForm.controls['Mepa_Id'].setValue(metodo);
+    console.log(metodo);
 }
    onRadioChange(event: Event) {
     const target = event.target as HTMLInputElement;
     const value = target.value;
     this.selectedRadio = target.value;
-
+    this.submitted = false;
     if (value === "1") {
+      this.service.getAutoCompletadoJoyaLista().subscribe(countries => {
+        this.listJoyas = countries;
+      });
       this.service.getAutoCompletadoJoya().subscribe(countries => {
       this.countries = countries;
       this.FacturaForm.get('Faxd_Dif').setValue(value); 
       this.FacturaForm.get('Prod_Nombre').setValue(""); 
-      this.FacturaForm.get('Prod_Id').setValue(""); 
+      this.FacturaForm.get('Prod_Id').setValue("", {emitEvent: false}); 
+      this.submitted = false;
       this.FacturaForm.get('Prod_Producto').setValue(""); 
       this.FacturaForm.get('Faxd_Cantidad').setValue(""); 
+      this.MayorOVenta = "";
     });
+
     } else {
+      this.service.getAutoCompletadoListaMaquillaje().subscribe(countries => {
+        this.listJoyas = countries;
+      });
       this.service.getAutoCompletadoMaquillaje().subscribe(countries => {
-        this.countries = countries;
+      this.countries = countries;
+      
       this.FacturaForm.get('Faxd_Dif').setValue(value); 
       this.FacturaForm.get('Prod_Nombre').setValue(""); 
       this.FacturaForm.get('Prod_Producto').setValue(""); 
-      this.FacturaForm.get('Prod_Id').setValue(""); 
+      this.FacturaForm.get('Prod_Id').setValue("", {emitEvent: false}); 
+     
       this.FacturaForm.get('Faxd_Cantidad').setValue(""); 
+      this.MayorOVenta = "0";
     });
+    
     }
   }
 
-   filterCountry(event: any) {
+filterCountry(event: any) {
     const filtered: any[] = [];
     const query = event.query;
     for (let i = 0; i < this.countries.length; i++) {
         const country = this.countries[i];
         
-        if (country.text.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+        if (country.nombre.toLowerCase().indexOf(query.toLowerCase()) == 0) {
 
             filtered.push(country);
         }
@@ -168,6 +195,22 @@ export class ListFacturaComponent {
    
   
     this.filteredCountries = filtered;
+}
+
+filterJoyaList(event: any) {
+  const filtered: any[] = [];
+  const query = event.query;
+  for (let i = 0; i < this.listJoyas.length; i++) {
+      const country = this.listJoyas[i];
+      
+      if (country.id.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+
+          filtered.push(country);
+      }
+  }
+ 
+
+  this.filteredListJoya = filtered;
 }
 
 handleKeyDown(event: KeyboardEvent) {
@@ -178,17 +221,7 @@ handleKeyDown(event: KeyboardEvent) {
   }
 }
 
-cantidad(event: any){
-  console.log(event.key)
-  console.log()
-  this.service.getDatosPorCodigo(this.FacturaForm.get('Prod_Id').value).subscribe(countries => {
-    this.FacturaForm.get('Prod_Nombre').setValue(countries[0].maqu_Nombre); 
-    this.FacturaForm.get('Prod_Id').setValue(countries[0].maqu_Id); 
-    this.FacturaForm.get('Prod_Producto').setValue(countries[0].maqu_Nombre); 
-    this.FacturaForm.get('Faxd_Cantidad').setValue(1); 
-  });
 
-}
 filterMetodo(event: any) {
   const filtered: any[] = [];
   const query = event.query;
@@ -220,15 +253,45 @@ filterCliente(event: any) {
 }
 onSelectProduct(event) {
   this.FacturaForm.get('Faxd_Cantidad').setValue(1); 
-  this.FacturaForm.get('Prod_Id').setValue(event.value.value); 
-  this.FacturaForm.get('Prod_Nombre').setValue(event.value.text); 
+  this.FacturaForm.get('Prod_Id').setValue(event.value.id); 
+  this.FacturaForm.get('Prod_Nombre').setValue(event.value.nombre); 
+  this.Venta = event.value.venta;
+  this.Mayor = event.value.mayor;
+  this.MayorOVenta = event.value.venta;
+  this.TotalTabla = event.value.venta;
+}
+onCantidadChange() {
+  console.log(this.FacturaForm.get('Faxd_Cantidad').value );
+  if (parseFloat(this.FacturaForm.get('Faxd_Cantidad').value) > 5) {
+    this.MayorOVenta = this.Mayor;
+    const total = parseFloat(this.Mayor) * parseFloat(this.FacturaForm.get('Faxd_Cantidad').value);
+    this.TotalTabla = total.toFixed(2);
+  }else{
+    this.MayorOVenta = this.Venta;
+    const total = parseFloat(this.Venta) * parseFloat(this.FacturaForm.get('Faxd_Cantidad').value);
+    this.TotalTabla = total.toFixed(2);
+    if (this.FacturaForm.get('Faxd_Cantidad').value == 0 || this.FacturaForm.get('Faxd_Cantidad').value == null) {
+      this.TotalTabla = "0";
+    }
+  }
+}
+onSelectJoyaList(event) {
+  console.log(event);
+  this.FacturaForm.get('Faxd_Cantidad').setValue(1); 
+  this.FacturaForm.get('Prod_Id').setValue(event.value.id); 
+  this.FacturaForm.get('Prod_Nombre').setValue(event.value.nombre); 
+  this.FacturaForm.get('Prod_Producto').setValue(event.value.nombre); 
+  this.MayorOVenta = event.value.venta;
+  this.TotalTabla = event.value.venta;
+  this.Venta = event.value.venta;
+  this.Mayor = event.value.mayor;
 }
 
 onSelectCliente(event) {
 
   this.FacturaForm.get('Clie_Nombre').setValue(event.value.clie_Nombre); 
   this.FacturaForm.get('Clie_Id').setValue(event.value.clie_Id); 
-  console.log(event.value.clie_Id)
+
 }
 onSelectMetodo(event) {
 
@@ -236,19 +299,17 @@ onSelectMetodo(event) {
 
 }
 
-confirmDelete(id) {
-  this.submitted = false;
-  this.service.EliminarDetalles(this.Fact_ID,id).subscribe({
-    
+confirmDelete(id,dif) {
+  this.service.EliminarDetalles(this.Fact_ID,id,dif).subscribe({
     next: (response) => {
       this.submitted = false;
         if(response.message == "La accion ha sido existosa"){
-          this.service.getFacturasDetalle(this.Fact_ID).subscribe((data: any)=>{
+            this.service.getFacturasDetalle(this.Fact_ID).subscribe((data: any)=>{
             this.FacturaDetalle = data;
             console.log(this.Fact_ID);
             console.log(data);
             const total = data.reduce((sum, item) => {
-            const itemTotal = parseFloat(item.total) || 0; // Si no es un número válido, usa 0
+            const itemTotal = parseFloat(item.total) || 0; 
             return sum + itemTotal;
                 }, 0);
                       const impuestoString = this.FacturaForm.get('Impu_Impuesto').value.replace('%', '');
@@ -269,14 +330,77 @@ confirmDelete(id) {
 
 }
 
+deleteSelectedProducts(codigo) {
+  this.deleteProductDialog = true;
+  this.ID = codigo;
+  console.log("El codigo es" + codigo);
+}
+
+ConfirmFactura() {
+  console.log(this.ID)
+  this.service.ConfirmarFactura(this.ID).subscribe((data: MensajeViewModel[]) => {
+    if(data["message"] == "La accion ha sido existosa"){
+    this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Confirmado con Exito', life: 3000 });
+     this.ngOnInit();
+     this.deleteProductDialog = false;
+    }else{
+     this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro actualizar', life: 3000 });
+    }
+  })
 
 
+}
 
-detalles(codigo){
-  this.Collapse= false;
-  this.DataTable = false;
-  this.Agregar= false;
-  this.Detalles = true;
+
+detalles(codigo) {
+  const detalles$ = this.service.getFacturasDetalle(codigo);
+  const fill$ = this.service.getFill(codigo);
+
+  forkJoin([detalles$, fill$]).subscribe({
+    next: ([detallesData, fillData]) => {
+      // Procesar detalles de factura
+      const cuerpo = detallesData.map(item => [
+        item.categoria.toString(),
+        item.producto.toString(),
+        item.cantidad.toString(),
+        item.precio_Unitario.toString(),
+        item.total.toString()
+      ]);
+
+      console.log(cuerpo);
+      const total = detallesData.reduce((sum, item) => sum + (parseFloat(item.total) || 0), 0);
+      const impuestoString = "15%";
+      const impuesto = parseFloat(impuestoString) / 100;
+      const TotalFinal = total + (total * impuesto);
+      const Subtotal = total.toFixed(2);
+      const Total = TotalFinal.toFixed(2);
+
+      // Procesar datos de cliente
+      const cliente = fillData[0].clie_Nombre;
+      const DNI = fillData[0].clie_Id === "1" ? "Usuario Final" : fillData[0].clie_DNI;
+      const Municipio = fillData[0].muni_Municipio;
+      const Departamento = fillData[0].depa_Departamento;
+      const Fecha = fillData[0].fechaCreacion;
+      const Factura = fillData[0].fact_Id;
+      const Metodo = fillData[0].mepa_Metodo;
+      const Impuesto = "15%";
+
+      // Preparar para generar PDF
+      const img = "assets/demo/images/galleria/Esmeraldas.png";
+      const blob = this.yService.Reporte2PDF(cuerpo, img, cliente, DNI, Municipio, Departamento, Fecha, Factura, Impuesto, Metodo, Subtotal, Total);
+      const url = URL.createObjectURL(blob);
+      this.pdfSrc = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+      
+      // Actualización del estado de la interfaz de usuario
+      this.Reporte_2 = true;
+      this.Collapse = false;
+      this.DataTable = false;
+      this.Agregar = false;
+    },
+    error: err => {
+      console.error('Error al cargar los datos', err);
+    }
+  });
 }
 
 Fill(codigo) {
@@ -286,12 +410,11 @@ Fill(codigo) {
       console.log(data);
       this.submitted = false;
       this.FacturaForm = new FormGroup({
-        
         //FACTUR      this.submitted = false;
         Mepa_Id: new FormControl(data[0].mepa_Id, Validators.required),
         Empl_Id: new FormControl(data[0].empl_Id, [Validators.required]),
         Clie_Id: new FormControl(data[0].clie_Id, [Validators.required]),
-        Clie_DNI: new FormControl(""),
+        Clie_DNI: new FormControl("ss"),
         Impu_Impuesto: new FormControl("15%",Validators.required),
         Clie_Nombre: new FormControl(data[0].clie_Nombre, [Validators.required]),
         Empl_Nombre: new FormControl(data[0].empl_Nombre, [Validators.required]),
@@ -300,12 +423,14 @@ Fill(codigo) {
         Faxd_Dif: new FormControl("1",Validators.required),
         Prod_Nombre: new FormControl("", Validators.required),
         Prod_Id: new FormControl("", Validators.required),
-        Faxd_Cantidad: new FormControl("", [Validators.required]),
+        Faxd_Cantidad: new FormControl('', [Validators.required, Validators.min(1)]),
     });  
-    this.selectMetodoPago = data[0].mepa_Id;
- 
+    this.MayorOVenta = "0";
+    this.TotalTabla = "0";
     this.submitted = false;
-    if (data.clie_Id == "1") {
+    this.selectMetodoPago(data[0].mepa_Id.toString());
+
+    if (data[0].clie_Id == "1") {
       this.FacturaForm.get('Clie_DNI').setValue(""); 
     }else{
       this.FacturaForm.get('Clie_DNI').setValue(data[0].clie_DNI); 
@@ -364,6 +489,8 @@ Fill(codigo) {
   this.MunCodigo=true;
   this.Fact_ID = "0";
   this.Valor = "";
+  this.MayorOVenta = "0";
+  this.TotalTabla = "0";
 }
 validarTexto(event: KeyboardEvent) {
 
@@ -396,7 +523,9 @@ onSubmit() {
         this.Total = TotalFinal.toFixed(2);
           });
           }else{
-           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No hay stock de este producto', life: 3000 });
+          this.Fact_ID = data["id"];
+          const stock = data["stock"];
+           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Stock disponible:' + stock, life: 3000 });
           }
           
        })
@@ -425,12 +554,16 @@ onSubmit() {
       }
   }
   collapse(){
+    this.submitted = false;
     this.Collapse= true;
     this.DataTable = false;
     this.Valor = "Agregar";
     this.Agregar= false;
     this.Detalles = false;
     this.Tabla = false;
+    this.Subtotal = "0";
+    this.Total = "0";
+    this.selectedMetodo = "1";
     this.service.getFacturasDetalle(0).subscribe((data: any)=>{
       console.log(data);
       this.FacturaDetalle = data;

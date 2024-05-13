@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ListFacturaComponent } from './list-factura.component';
-import { FacturaDemoRoutingModule } from './Facturademo-routing.module';
+import { reportepormesComponent } from './reportepormayorista.component';
+import { ReportePorStockDemoRoutingModule } from './reportepormayoristademo-routing.module';
 import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
@@ -15,15 +15,10 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { TooltipModule } from 'primeng/tooltip';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from "primeng/dropdown";
-import { ReactiveFormsModule } from '@angular/forms';
-import { AutoCompleteModule } from "primeng/autocomplete";
-import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
-import { InputGroupModule } from 'primeng/inputgroup';
-
 @NgModule({
 	imports: [
 		CommonModule,
-		FacturaDemoRoutingModule,
+		ReportePorStockDemoRoutingModule,
 		ToastModule,
 		DialogModule,
 		FormsModule,
@@ -36,12 +31,8 @@ import { InputGroupModule } from 'primeng/inputgroup';
 		ConfirmDialogModule,
 		SidebarModule,
 		RippleModule,
-		ConfirmPopupModule,
-		ReactiveFormsModule,
-		AutoCompleteModule,
-		InputGroupAddonModule,
-		InputGroupModule
+		ConfirmPopupModule
 	],
-	declarations: [ListFacturaComponent]
+	declarations: [reportepormesComponent]
 })
-export class FacturaDemoModule { }
+export class ReportePorMesDemoModule { }

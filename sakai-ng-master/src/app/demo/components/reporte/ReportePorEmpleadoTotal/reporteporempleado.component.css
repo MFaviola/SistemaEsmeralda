@@ -1,0 +1,27 @@
+.styled-input-group {
+    display: flex;
+    align-items: center;
+}
+
+.styled-addon {
+    padding: 10px; /* Ajusta según sea necesario */
+    background-color: #f3f4f6; /* Mismo fondo */
+    border-top: 1px solid #d1d5db;
+    border-left: 1px solid #d1d5db;
+    border-bottom: 1px solid #d1d5db;
+    height: 39px !important;
+    width: 42px !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.p-inputtext{
+    border-radius: 0 px !important;  /* Bordes redondeados */
+}
+.autocomplete-input {
+    width: 100%;
+    border: none; /* Elimina borde del input */
+    outline: none;
+    box-sizing: border-box;
+    background-color: transparent; /* Fondo del grupo de entrada */
+}

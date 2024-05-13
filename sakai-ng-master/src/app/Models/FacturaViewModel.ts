@@ -4,6 +4,7 @@ export class Factura{
     empl_Nombre?:String;
     clie_Nombre?:String;
     fact_Id?:String;
+    fact_Finalizado?:String;
 }
 
 export class FacturaEnviar {
@@ -23,9 +24,25 @@ export class FacturaDetalle {
     producto?:String;
     cantidad?:String;
     precio_Unitario?:String;
-    total?:String;
+    total?:string;
     categoria?:String;
 }
+
+export class Stock {
+    producto?:String;
+    stock?:String;
+    categoria?:String;
+}
+
+
+export class EmpleadoRe {
+    empl_Id?:String;
+    empl_Nombre?:String;
+    factura?:string;
+    total?:String;
+    fact_FechaFinalizado?:string;
+}
+
 
 
 export class FacturaDetallesEnviar {
@@ -46,6 +63,9 @@ export class Fill {
     empl_Id?:String;
     clie_Id?:String;
     fact_Id?:String;
+    depa_Departamento?:String;
+    mepa_Metodo?:String;
+    muni_Municipio?:String;
     usuarioCreacion: string;
     usuarioModificacion: string;
     fechaCreacion : string;

@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ListFacturaComponent } from './list-factura.component';
-import { FacturaDemoRoutingModule } from './Facturademo-routing.module';
+import { reporteporempleadoComponent } from './reporteporempleado.component';
+import { ReportePorStockDemoRoutingModule } from './reporteporempleadodemo-routing.module';
 import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
@@ -14,34 +14,32 @@ import { RippleModule } from 'primeng/ripple';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { TooltipModule } from 'primeng/tooltip';
 import { InputTextModule } from 'primeng/inputtext';
-import { DropdownModule } from "primeng/dropdown";
+
 import { ReactiveFormsModule } from '@angular/forms';
 import { AutoCompleteModule } from "primeng/autocomplete";
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputGroupModule } from 'primeng/inputgroup';
-
 @NgModule({
 	imports: [
+		ReactiveFormsModule,
+		AutoCompleteModule,
+		InputGroupAddonModule,
+		InputGroupModule,
 		CommonModule,
-		FacturaDemoRoutingModule,
+		ReportePorStockDemoRoutingModule,
 		ToastModule,
 		DialogModule,
 		FormsModule,
 		TooltipModule,
 		InputTextModule,
-		DropdownModule,
 		ButtonModule,
 		OverlayPanelModule,
 		TableModule,
 		ConfirmDialogModule,
 		SidebarModule,
 		RippleModule,
-		ConfirmPopupModule,
-		ReactiveFormsModule,
-		AutoCompleteModule,
-		InputGroupAddonModule,
-		InputGroupModule
+		ConfirmPopupModule
 	],
-	declarations: [ListFacturaComponent]
+	declarations: [reporteporempleadoComponent]
 })
-export class FacturaDemoModule { }
+export class ReportePorEmpleadoDemoModule { }

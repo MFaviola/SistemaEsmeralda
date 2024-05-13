@@ -10,8 +10,15 @@ export class Joya{
     cate_Categoria?:String;
 }
 export class dropJoya{
-    value?:String;
-    text?:String;
+    id?:String;
+    nombre?:String;
+    venta?:String;
+    mayor?:String;
+}
+
+export class dropEmpleado{
+    empl_Id?:String;
+    Empl_Nombre?:String;
 }
 export class JoyaEnviar {
     Joya_Stock?:String;

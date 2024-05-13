@@ -50,9 +50,6 @@ export class reporteComponent implements OnInit  {
     ];
 
     const img = "assets/demo/images/galleria/Esmeraldas.png"
-    const blob = this.yService.Reporte2PDF(cuerpo,img);
-    const url = URL.createObjectURL(blob);
-    this.pdfSrc = this.sanitizer.bypassSecurityTrustResourceUrl(url);
     this.Reporte_1 = false
     this.Reporte_2 = true
   }

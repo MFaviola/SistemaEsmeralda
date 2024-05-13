@@ -85,5 +85,17 @@
 }
 
 .total-value {
-    color: #e2c8c8; /* O elige el color que prefieras */
+    color: #7c7c7c; 
+}
+
+.error-field {
+    border: 1px solid red !important; 
+    border-bottom:  solid 10px;
+    position: relative;
+    z-index: 2000;
+  }
+
+
+  .error-field .p-element.p-autocomplete {
+    border: 2px solid red !important;
 }
