@@ -48,7 +48,7 @@ export class reporteporempleadoComponent implements OnInit  {
 
       const empleado = data[0].empl_Nombre
       const img = "assets/demo/images/galleria/Esmeraldas.png";
-      const blob = this.yService.ReporteEmpleado(cuerpoSinPrimerElemento, img,empleado,totales);
+      const blob = this.yService.ReporteEmpleado(cuerpo, img,empleado,totales);
       const url = URL.createObjectURL(blob);
       this.pdfSrc = this.sanitizer.bypassSecurityTrustResourceUrl(url);
       console.log("Se muestra xd");
@@ -96,7 +96,7 @@ export class reporteporempleadoComponent implements OnInit  {
 
       const empleado = data[0].empl_Nombre
       const img = "assets/demo/images/galleria/Esmeraldas.png";
-      const blob = this.yService.ReporteEmpleado(cuerpoSinPrimerElemento, img,empleado,totales);
+      const blob = this.yService.ReporteEmpleado(cuerpo, img,empleado,totales);
       const url = URL.createObjectURL(blob);
       this.pdfSrc = this.sanitizer.bypassSecurityTrustResourceUrl(url);
       console.log("Se muestra xd");
