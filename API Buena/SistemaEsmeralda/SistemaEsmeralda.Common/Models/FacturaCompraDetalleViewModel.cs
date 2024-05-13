@@ -18,6 +18,9 @@ namespace SistemaEsmeralda.Common.Models
 
         public string NombreProveedor { get; set; }
 
+        public string Prov_Id { get; set; }
         public string mepa_Metodo {get; set;}
+
+        public string faCE_Finalizada { get; set; }
     }
 }

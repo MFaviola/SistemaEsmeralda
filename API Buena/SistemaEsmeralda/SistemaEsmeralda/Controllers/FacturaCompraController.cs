@@ -146,13 +146,27 @@ namespace SistemaEsmeralda.API.Controllers
                 }
             }
 
+            [HttpPut("Finalizar/{id}")]
+            public IActionResult Finaliazr(int id)
+            {
+                var list = _ventasServices.FinalizarFacturaCompra(id);
+                if (list.Success == true)
+                {
+                    return Ok(new { success = true, message = list.Message });
+                }
+                else
+                {
+                    return Problem();
+                }
+            }
+
             [HttpGet("Buscar/{id}")]
             public IActionResult Find(int id)
             {
                 var list = _ventasServices.BuscarFacturaCompra(id);
                 if (list.Success == true)
                 {
-                    return Ok(list.Data);
+                    return Json(list.Data);
                 }
                 else
                 {
@@ -176,6 +190,19 @@ namespace SistemaEsmeralda.API.Controllers
             }
         }
 
+        [HttpDelete("EliminarD/{id}")]
+        public IActionResult Deleted(int id)
+        {
+            var list = _ventasServices.EliminarFacturaCompraDetalle(id);
+            if (list.Success == true)
+            {
+                return Ok(list);
+            }
+            else
+            {
+                return Problem();
+            }
+        }
         #endregion
     }
 }

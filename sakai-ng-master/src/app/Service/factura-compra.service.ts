@@ -61,10 +61,21 @@ export class FacturaCompraService {
     return this.http.delete<any>(`${this.url}Eliminar/${id}`);
   }
 
+  eliminarFacturaDetalle(id) : Observable<any>{
+    return this.http.delete<any>(`${this.url}EliminarD/${id}`);
+  }
+
+  ConfirmarFactura(id: any): Observable<any> {
+    console.log("Aquitoy");
+    return this.http.put<any>(`${this.url}Finalizar/${id}`, {});
+  }
+
   fillenca(id) : Observable<any>{
     return this.http.get<any>(`${this.url}Buscar/${id}`);
   }
-
+  fillenca1(id) : Observable<any>{
+    return this.http.get<any>(`${this.url}Buscar/${id}`);
+  }
   tabladetalle(id){
     return this.http.get<FacturaCompraDetalleTabla[]>(`${this.url}ListadoDetalle/${id}`);
   }

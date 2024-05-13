@@ -65,15 +65,14 @@ namespace SistemaEsmeralda.DataAccess.Repository
             }
         }
 
-        public IEnumerable<tbJoyas> ListaPorCodigo(string codigo)
+        public IEnumerable<tbJoyas> ListaPorCodigo()
         {
             const string sql = "[Vent].[sp_FiltroJoyaCodigo]";
 
-            var parameters = new { Joya_Id = codigo };
 
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
             {
-                return db.Query<tbJoyas>(sql, parameters, commandType: CommandType.StoredProcedure).ToList();
+                return db.Query<tbJoyas>(sql,  commandType: CommandType.StoredProcedure).ToList();
             }
         }
 

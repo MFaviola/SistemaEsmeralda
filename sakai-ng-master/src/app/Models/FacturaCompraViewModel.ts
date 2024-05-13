@@ -17,6 +17,7 @@ export class FacturaCompraEncabezado{
     nombreProducto ?: String;
     nombreProveedor ?: String;
     mepa_Metodo ?: String;
+    faCE_Finalizada ?: String;
 }
 export class CrearFacturaCompraEncabezado{
     mepa_Id !: Number;

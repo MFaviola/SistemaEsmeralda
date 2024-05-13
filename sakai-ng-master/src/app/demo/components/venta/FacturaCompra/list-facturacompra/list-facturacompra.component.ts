@@ -18,6 +18,8 @@ import { FileUpload } from 'primeng/fileupload';
 import { Maquillaje, MaquillajeEnviar } from 'src/app/Models/MaquillajeViewModel';
 import { dropMarca } from 'src/app/Models/MarcaViewModel';
 import { JoyaService } from 'src/app/Service/Joya.service';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-list-facturacompra',
@@ -48,7 +50,9 @@ export class ListFacturacompraComponent {
   MaquillajeForm: FormGroup;
   @ViewChild('filter') filter!: ElementRef;
 
+  pdfSrc: SafeResourceUrl | null = null;
   Collapse: boolean = false;
+  Reporte_2 : boolean = false;
   CollapseMaquillaje: boolean = false;
   CollapseJoyas: boolean = false;
   DataTable: boolean = true;
@@ -95,7 +99,7 @@ export class ListFacturacompraComponent {
   filteredProveedores: any[] = [];
   //#endregion
  
-  constructor(private service: FacturaCompraService, private router: Router, private srvImprecion : YService, private messageService: MessageService,private fb: FormBuilder, private sservice: ServiceService, private maquillajeservice: MaquillajeService, private joyaService : JoyaService) { }
+  constructor(private service: FacturaCompraService, private router: Router, private srvImprecion : YService, private messageService: MessageService,private fb: FormBuilder, private sservice: ServiceService, private maquillajeservice: MaquillajeService, private joyaService : JoyaService, private yService: YService, private sanitizer: DomSanitizer) { }
 
 
   ngOnInit(): void {
@@ -107,11 +111,12 @@ export class ListFacturacompraComponent {
       console.log(error);
     });
     
+    
 
     this.FacturaForm = new FormGroup({
       mepa_Id: new FormControl('7', Validators.required),
       prov_Id: new FormControl('0', Validators.required),
-      prov_Proveedor: new FormControl("", [Validators.required]),
+      nombreProveedor: new FormControl("", [Validators.required]),
 
       //detalle
       radio: new FormControl("1",Validators.required),
@@ -371,6 +376,7 @@ export class ListFacturacompraComponent {
     this.Agregar= true;
     this.MunCodigo=true;
     this.Valor = "";
+    this.faCE_Id = "0";
   }
   cancelarJM(){
     this.FormularioJoya = false;
@@ -418,8 +424,8 @@ export class ListFacturacompraComponent {
               });
           }else{
           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro insertar', life: 3000 });
+          this.faCE_Id = data["id"];
           console.log("error1")
-          console.log(this.messageService);
           }
           
       })
@@ -428,7 +434,10 @@ export class ListFacturacompraComponent {
           if(data["message"] == "Operación completada exitosamente."){
           this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Actualizado con Exito', life: 3000 });
           this.Agregar = true;
+          
           this.ngOnInit();
+
+         
   
           }else{
           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro actualizar', life: 3000 });
@@ -556,17 +565,124 @@ export class ListFacturacompraComponent {
 
   Fill(codigo) {
     this.service.fillenca(codigo).subscribe({
-        next: (data: Fill) => {
-          this.JoyaForm = new FormGroup({
-            mepa_Id: new FormControl(data.mepa_Id,Validators.required),
-            prov_Id: new FormControl(data.prov_Id, [Validators.required]),
-            nombreProveedor: new FormControl(data.nombreProveedor, [Validators.required])
-          });
-        }
-      });
+      next: (data: Fill) => {
+        console.log(codigo);
+      this.submitted = false;
+      this.FacturaForm = new FormGroup({
+          mepa_Id: new FormControl(data[0].mepa_Id,Validators.required),
+          prov_Id: new FormControl(data[0].prov_Id, [Validators.required]),
+          nombreProveedor: new FormControl(data[0].nombreProveedor, [Validators.required]),
+          radio: new FormControl("0", [Validators.required]),
+          faCD_Dif: new FormControl("", [Validators.required]),
+          nombreProducto: new FormControl("", [Validators.required]),
+          prod_Id: new FormControl("", [Validators.required]),
+          faCD_Cantidad: new FormControl("", [Validators.required]),
+          precioCompra: new FormControl("", [Validators.required]),
+          precioVenta: new FormControl("", [Validators.required]),
+          precioMayor: new FormControl("", [Validators.required]),
+        });
+        console.log(this.FacturaForm);
+      }
+    });
 
+    this.service.tabladetalle(codigo).subscribe((data: any)=>{
+      this.FacturaDetalle = data;
+      console.log(this.FacturaDetalle);
+    },error=>{
+      console.log(error);
+    });
+
+  this.DataTable = false;
+  this.Collapse = true;
+  this.Agregar = false;
+  this.faCE_Id = codigo;
+  this.submitted = false;
+  this.Valor = "Agregar";
+  this.Detalles = true;
+
+  }
+
+  deleteSelectedProducts(codigo) {
+    this.deleteProductDialog = true;
+    this.ID = codigo;
+    console.log("El codigo es" + codigo);
+  }
+
+  ConfirmFactura() {
+    console.log(this.ID)
+    this.service.ConfirmarFactura(this.ID).subscribe((data: MensajeViewModel[]) => {
+      if(data["message"] == "La accion ha sido existosa"){
+      this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Confirmado con Exito', life: 3000 });
+       this.ngOnInit();
+       this.deleteProductDialog = false;
+      }else{
+       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro actualizar', life: 3000 });
+      }
+    })
+  
+  
+  }
+
+  confirmDelete(id) {
+    this.service.eliminarFacturaDetalle(id).subscribe({
+      next: (response) => {
+        console.log(response.code);
+        if(response.code == 200){
+                this.service.tabladetalle(this.faCE_Id).subscribe((data: any)=>{
+                  this.FacturaDetalle = data;
+                  console.log("Elimina");
+                },error=>{
+                  console.log(error);
+                });  
+             }else{
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro eliminar', life: 3000 });
+             }
+          this.submitted = false;
+      },
+  });
+  }
+  
+  detalles(codigo) {
+  const detalles$ = this.service.tabladetalle(codigo);
+  const fill$ = this.service.fillenca1(codigo);
+
+  forkJoin([detalles$, fill$]).subscribe({
+    next: ([detallesData, fillData]) => {
+      // Procesar detalles de factura
+      const cuerpo = detallesData.map(item => [
+        item.faCD_Id.toString(),
+        item.producto.toString(),
+        item.cantidad.toString(),
+        item.categoria.toString(),
+        item.precio_Venta.toString(),
+        item.precioVenta.toString(),
+        item.precioMayorista.toString(),
+        item.total.toString()
+      ]);
+
+
+      // Procesar datos de cliente
+      const Fecha = fillData[0].faCE_fechafinalizacion;
+      const Factura = fillData[0].faCE_Id;
+      const Metodo = fillData[0].mepa_Metodo;
+      const Proveedor = fillData[0].nombreProveedor;
+
+      // Preparar para generar PDF
+      const img = "assets/demo/images/galleria/Esmeraldas.png";
+      const blob = this.yService.ReporteFacturaCompraPDF(cuerpo, img,Fecha, Factura, Proveedor, Metodo);
+      const url = URL.createObjectURL(blob);
+      this.pdfSrc = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+      
+      // Actualización del estado de la interfaz de usuario
+      this.Reporte_2 = true;
+      this.Collapse = false;
+      this.DataTable = false;
+      this.Agregar = false;
+    },
+    error: err => {
+      console.error('Error al cargar los datos', err);
+    }
+  });
 }
-
-
 
 }

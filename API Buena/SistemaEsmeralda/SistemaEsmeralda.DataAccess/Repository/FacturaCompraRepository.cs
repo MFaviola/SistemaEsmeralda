@@ -28,6 +28,21 @@ namespace SistemaEsmeralda.DataAccess.Repository
 
             }
         }
+        public RequestStatus Deleted(int? id)
+        {
+            string sql = ScriptsBaseDeDatos.FacturaCompraDetalleEliminar;
+
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+                var parametro = new DynamicParameters();
+                parametro.Add("@ID", id);
+                var result = db.Execute(sql, parametro, commandType: CommandType.StoredProcedure);
+
+                return new RequestStatus { CodeStatus = result, MessageStatus = "" };
+
+            }
+        }
+
 
         public tbFacturaCompraEncabezado Details(int? id)
         {
@@ -94,6 +109,23 @@ namespace SistemaEsmeralda.DataAccess.Repository
             {
                 var par = new DynamicParameters();
                 par.Add("@FaCE_Id", id);
+                result = db.Query<tbFacturaCompraDetalle>(sql, par, commandType: System.Data.CommandType.StoredProcedure).ToList();
+                return result;
+            }
+
+        }
+
+        public IEnumerable<tbFacturaCompraDetalle> Finalizar(int id)
+        {
+            string sql = ScriptsBaseDeDatos.FacturaCompraFinalizar;
+
+            List<tbFacturaCompraDetalle> result = new List<tbFacturaCompraDetalle>();
+
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+                var par = new DynamicParameters();
+                par.Add("@FaCE_Id", id);
+                par.Add("@FaCE_FechaFinal", DateTime.Now);
                 result = db.Query<tbFacturaCompraDetalle>(sql, par, commandType: System.Data.CommandType.StoredProcedure).ToList();
                 return result;
             }

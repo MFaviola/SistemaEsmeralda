@@ -19,11 +19,11 @@
                     (completeMethod)="filterProveedor($event)" 
                     (onSelect)="onSelectProveedor($event)" 
                     required autofocus  
-                    [ngClass]="{'ng-invalid ng-dirty': submitted && FacturaForm.get('prov_Proveedor').value === ''}" 
-                    field="prov_Proveedor" 
-                    formControlName="prov_Proveedor" 
+                    [ngClass]="{'ng-invalid ng-dirty': submitted && FacturaForm.get('nombreProveedor').value === ''}" 
+                    field="nombreProveedor" 
+                    formControlName="nombreProveedor" 
                     appendTo="body" [dropdown]="true"></p-autoComplete>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && FacturaForm.controls['prov_Proveedor'].invalid" style="color: red !important;">Proveedor Requerido</small>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && FacturaForm.controls['nombreProveedor'].invalid" style="color: red !important;">Proveedor Requerido</small>
                 </div>
                     
                     <div class="field col-12 md:col-12">
@@ -122,30 +122,30 @@
             </div>
 
             <div [class.hidden]="!Detalles">
-                    <p-table [value]="FacturaDetalle"[loading]="loading" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" responsiveLayout="scroll">
+                <p-table [value]="FacturaDetalle">
                     <ng-template pTemplate="header">
                         <tr>
-                            <th style="width:35%;">Producto</th>
-                            <th style="width:20%;">Cantidad</th>
-                            <th style="width:20%;">Precio Compra</th>
-                            <th style="width:20%;">Precio Venta</th>
-                            <th style="width:20%;">Precio Mayorista</th>
-                            <th style="width:20%;">Eliminar</th>
+                            <th>Categoria</th>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Precio Compra</th>
+                            <th>Precio Venta</th>
+                            <th>Precio Mayorista</th>
+                            <th>Eliminar</th>
                         </tr>
                     </ng-template>
-                    <ng-template pTemplate="body" let-facd>
+                    <ng-template pTemplate="body" let-detalle>
                         <tr>
-                            <td style="width:40%;">{{facd.producto}}</td>
-                            <td style="width:20%;">{{facd.cantidad}}</td>
-                            <td style="width:20%;">{{facd.precio_Venta}}</td>
-                            <td style="width:20%;">{{facd.precioVenta}}</td>
-                            <td style="width:20%;">{{facd.precioMayorista}}</td>
-                            <td style="width:20%;">
-                                <button pButton  type="button" label="Eliminar" class="p-button-outlined"></button>
-                            </td>
+                            <td style="width:10%;">{{detalle.categoria}}</td>
+                            <td style="width:10%;">{{detalle.producto}}</td>
+                            <td style="width:10%;">{{detalle.cantidad}}</td>
+                            <td style="width:10%;">{{detalle.precio_Venta}}</td>
+                            <td style="width:10%;">{{detalle.precioVenta}}</td>
+                            <td style="width:10%;">{{detalle.precioMayorista}}</td>
+                            <td style="width:10%;"><span pRipple class="pi pi-trash p-button-rounded p-button-warning" style="cursor: pointer; padding: 5px; border: none; background-color: transparent;" (click)="confirmDelete(detalle.faCD_Id)"></span></td>
                         </tr>
-                       
                     </ng-template>
+             
                 </p-table>
 
                 <div style="display: flex; justify-content: flex-end; margin-top: 1rem; grid-gap: 5px;" [class.hidden]="!Tabla">
@@ -295,12 +295,6 @@
                             <p-columnFilter type="text" field="mepa_Metodo" display="menu" placeholder="Search by country"></p-columnFilter>
                         </div>
                     </th>
-                    <th style="min-width: 12rem">
-                        <div class="flex justify-content-between align-items-center">
-                            fecha finalizacion
-                            <p-columnFilter type="text" field="mepa_Metodo" display="menu" placeholder="Search by country"></p-columnFilter>
-                        </div>
-                    </th>
                     <th style="min-width: 14rem">
                             Acciones
                     </th>
@@ -315,14 +309,12 @@
                     <td>
                         {{fact.mepa_Metodo}}
                     </td>
-                    <td>
-                        {{fact.faCE_fechafinalizacion}}
-                    </td>
                     <td style="display: flex; justify-content: space-around;">
-                        <button pButton pRipple type="button" label="Editar" class="p-button-raised p-button-success"  (click)="Fill(fact.faCE_Id)"></button>
+                       <p-button *ngIf="fact.faCE_Finalizada == 'True'" label="Editar" icon="pi pi-user-edit" size="small" (click)="Fill(fact.faCE_Id)" severity="primary" [raised]="true" [plain]="true"></p-button>
 
-                        <button pButton pRipple type="button" label="Detalles" class="p-button-raised p-button-secondary" (click)="Imprimir()"></button>
-                        <button pButton pRipple type="button" label="Eliminar" class="p-button-raised p-button-danger"></button>
+                        <p-button *ngIf="fact.faCE_Finalizada == 'False'"  label="Imprimir"   icon="pi pi-book" size="small" (click)="Imprimir()" severity="secondary" (click)="detalles(fact.faCE_Id)" [raised]="true" [plain]="true"></p-button>
+                       
+                        <p-button  *ngIf="fact.faCE_Finalizada == 'True'" label="Finalizar" icon="pi pi-check" size="small" (click)="deleteSelectedProducts(fact.faCE_Id)" severity="success" [raised]="true" [plain]="true"></p-button>
                     </td>
                 </tr>
             </ng-template>
@@ -343,3 +335,19 @@
     {{facura_impresa}}
 </object>
 
+<p-dialog [(visible)]="deleteProductDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+    <div class="flex align-items-center justify-content-center">
+        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+        <span>Esta seguro de Finalizar la factura??</span>
+    </div>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteProductDialog = false"></button>
+        <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="ConfirmFactura()"></button>
+    </ng-template>
+</p-dialog>
+
+<div class="card-body" [class.hidden]="!Reporte_2">
+    <iframe *ngIf="pdfSrc" [src]="pdfSrc" type="application/pdf" width="100%" height="600px">
+        PDF Preview
+      </iframe>
+</div>

@@ -53,7 +53,19 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 return result;
             }
         }
+        public IEnumerable<tbProveedores> List1()
+        {
+            const string sql = "Gral.sp_Proveedores_listar1";
 
+            List<tbProveedores> result = new List<tbProveedores>();
+
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+                result = db.Query<tbProveedores>(sql, commandType: CommandType.Text).ToList();
+
+                return result;
+            }
+        }
         public tbProveedores Fill(int id)
         {
 

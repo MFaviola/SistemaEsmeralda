@@ -608,6 +608,28 @@ namespace SistemaEsmeralda.BusinessLogic.Services
                 return result.Error(ex.Message);
             }
         }
+
+        public ServiceResult FinalizarFacturaCompra(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _facturaCompraRepository.Finalizar(id);
+                if (list.Count() > 0)
+                {
+                    return result.Ok($"La accion ha sido existosa", list);
+                }
+                else
+                {
+                    return result.Error();
+                }
+            }
+
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
         #endregion
 
         #region Factura compra detalle
@@ -617,7 +639,7 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             try
             {
                 var list = _facturaCompraRepository.Listao(id);
-                if (list.Count() > 0)
+                if (list.Count() >= 0)
                 {
                     return result.Ok(list);
                 }
@@ -641,6 +663,28 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             {
                 var list = _facturaCompraRepository.Insert(item);
               
+                if (list.CodeStatus > 0)
+                {
+                    return result.Ok(list);
+                }
+                else
+                {
+                    return result.Error();
+                }
+            }
+
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult EliminarFacturaCompraDetalle(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _facturaCompraRepository.Deleted(id);
                 if (list.CodeStatus > 0)
                 {
                     return result.Ok(list);

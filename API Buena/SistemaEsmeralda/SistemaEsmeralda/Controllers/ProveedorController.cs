@@ -77,11 +77,11 @@ namespace SistemaEsmeralda.API.Controllers
         [HttpGet("AutoCompletado")]
         public IActionResult AutoCompletado()
         {
-            var list = _generalServices.ListadoProveedor();
+            var list = _generalServices.ListadoProveedor1();
             var drop = list.Data as List<tbProveedores>;
             var rol = drop.Select(x => new SelectListItem
             {
-                Text = x.Prov_Proveedor,
+                Text = x.nombreProveedor,
                 Value = x.Prov_Id.ToString()
             }).ToList();
 

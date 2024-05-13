@@ -30,6 +30,8 @@ namespace SistemaEsmeralda.Entities.Entities
 
         [NotMapped]
         public string mepa_Id { get; set; }
+        [NotMapped]
+        public string Prov_Id { get; set; }
 
         public int? FaCD_Cantidad { get; set; }
         [NotMapped]
@@ -38,6 +40,10 @@ namespace SistemaEsmeralda.Entities.Entities
         public string mepa_Metodo { get; set; }
         [NotMapped]
         public string faCE_fechafinalizacion { get; set; }
+
+        [NotMapped]
+        public string faCE_Finalizada { get; set; }
+
         public virtual tbFacturaCompraEncabezado FaCE { get; set; }
     }
 }
