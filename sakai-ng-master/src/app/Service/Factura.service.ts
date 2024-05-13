@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BASE_URL } from './ulrsettings';
-import { Factura,FacturaDetalle,Fill } from '../Models/FacturaViewModel';
+import { EmpleadoRe, Factura,FacturaDetalle,Fill, Stock } from '../Models/FacturaViewModel';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs';
 import { dropJoya } from '../Models/JoyaViewModel';
 import { Maquillaje, dropMaqui } from '../Models/MaquillajeViewModel';
 import { Metodo } from '../Models/MetodoPagoViewModel';
 import { Cliente } from '../Models/ClienteViewModel';
+import { Empleado, dropEmpleado } from '../Models/EmpleadoViewModel';
 
 
 
@@ -35,6 +36,12 @@ export class ServiceService {
     return this.http.get<dropJoya[]>(this.urlAutoLista)
   }
 
+  urlAutoEmpleado = BASE_URL + 'API/Empleado/List'
+
+  getAutoCompletadoEmpleadoLista(){
+    return this.http.get<Empleado[]>(this.urlAutoEmpleado)
+  }
+
   urlMetodo = BASE_URL + 'API/MetodoPago/List'
 
   getMetodo(){
@@ -60,7 +67,29 @@ export class ServiceService {
     return this.http.get<FacturaDetalle[]>(BASE_URL + 'API/Factura/ListaDetalles/' + id)
   }
 
+  getControlStock(id){
+    return this.http.get<Stock[]>(BASE_URL + 'API/Factura/ReportePorStock/' + id)
+  }
 
+  GetReportePorEmpleado(empleado){
+    return this.http.get<EmpleadoRe[]>(BASE_URL + 'API/Factura/ReportePorEmpleado/' + empleado)
+  }
+
+  GetReportePorMes(año,mes){
+    return this.http.get<FacturaDetalle[]>(BASE_URL + 'API/Factura/ReportePorMes/' + año +',' + mes)
+  }
+
+  GetReporteTop10(fechaInicio,fechaFinal){
+    return this.http.get<FacturaDetalle[]>(BASE_URL + 'API/Factura/ReporteTop10/' + fechaInicio +',' + fechaFinal)
+  }
+
+  GetReporteVentasAnual(año){
+    return this.http.get<FacturaDetalle[]>(BASE_URL + 'API/Factura/ReporteVentasAnual/' + año )
+  }
+
+  GetReporteVentasMayoristas(año,mes){
+    return this.http.get<FacturaDetalle[]>(BASE_URL + 'API/Factura/ReporteVentasMayoristas/' + año +',' + mes )
+  }
   EnviarFactura(formData: any): Observable<any> {
     return this.http.post<any>(BASE_URL + 'API/Factura/Create/', formData).pipe(
       map(response => {

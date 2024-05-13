@@ -1,0 +1,40 @@
+<div class="main-card mb-3 card"> 
+    <div class="card-header">
+        <h3 class="card-title">Reporte</h3>
+
+            <div class="p-fluid p-formgrid grid">
+   
+                <div class="field col-12 md:col-12">
+                    <div class="payment-method-icons" >
+                       
+                        <button type="button" (click)="selectMetodoPago('2')" [class.selected]="selectedMetodo === '2'">
+                            <i class="pi pi-code"></i> Ambos
+                        </button>
+                
+                     
+                        <button type="button" (click)="selectMetodoPago('1')" [class.selected]="selectedMetodo === '1'">
+                            <i class="pi pi-star-fill"></i> Joyas
+                        </button>
+                
+               
+                        <button type="button" (click)="selectMetodoPago('0')" [class.selected]="selectedMetodo === '0'">
+                            <i class="pi pi-pencil"></i> Maquillajes
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+    </div>
+
+</div>
+
+<div class="card-body" >
+    <iframe  [src]="pdfSrc" type="application/pdf" width="100%" height="600px">
+        PDF Preview
+      </iframe>
+</div>
+
+
+
+
+

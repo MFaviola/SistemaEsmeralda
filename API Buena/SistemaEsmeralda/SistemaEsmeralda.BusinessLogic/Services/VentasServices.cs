@@ -384,8 +384,102 @@ namespace SistemaEsmeralda.BusinessLogic.Services
                 return result.Error(ex.Message);
             }
         }
+        public ServiceResult ReportePorMes(string año, string mes)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _facturaRepository.ReportePorMes(año,mes);
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult ReportePorStock(int valor)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _facturaRepository.ReportePorStock(valor);
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
 
 
+        public ServiceResult ReportePorEmpleado(int empleado)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _facturaRepository.ReportePorEmpleado(empleado);
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult ReporteTop10(string FechaInicio, string FechaFinal)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _facturaRepository.ReporteTop10(FechaInicio,FechaFinal);
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult ReporteVentasAnual(int año)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _facturaRepository.ReporteVentasAnual(año);
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult ReporteVentasMayoristas(int año, int mes)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _facturaRepository.ReporteVentasMayoristas(año,mes);
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
 
         public ServiceResult BuscarFactura(string id)
         {

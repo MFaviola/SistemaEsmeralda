@@ -24,9 +24,25 @@ export class FacturaDetalle {
     producto?:String;
     cantidad?:String;
     precio_Unitario?:String;
-    total?:String;
+    total?:string;
     categoria?:String;
 }
+
+export class Stock {
+    producto?:String;
+    stock?:String;
+    categoria?:String;
+}
+
+
+export class EmpleadoRe {
+    empl_Id?:String;
+    empl_Nombre?:String;
+    factura?:string;
+    total?:String;
+    fact_FechaFinalizado?:string;
+}
+
 
 
 export class FacturaDetallesEnviar {

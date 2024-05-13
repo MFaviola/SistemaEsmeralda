@@ -44,6 +44,49 @@ namespace SistemaEsmeralda.API.Controllers
         }
 
 
+        [HttpGet("ReportePorMes/{ano},{mes}")]
+        public IActionResult ReportePorMes(string año,string mes)
+        {
+            var list = _ventasServices.ReportePorMes(año,mes);
+            return Ok(list.Data);
+        }
+
+
+        [HttpGet("ReportePorStock/{valor}")]
+        public IActionResult ReportePorStock(int valor)
+        {
+            var list = _ventasServices.ReportePorStock(valor);
+            return Ok(list.Data);
+        }
+
+
+        [HttpGet("ReportePorEmpleado/{empleado}")]
+        public IActionResult ReportePorEmpleado(int empleado)
+        {
+            var list = _ventasServices.ReportePorEmpleado(empleado);
+            return Ok(list.Data);
+        }
+
+        [HttpGet("ReporteTop10/{FechaInicio},{FechaFinal}")]
+        public IActionResult ReporteTop10(string FechaInicio, string FechaFinal)
+        {
+            var list = _ventasServices.ReporteTop10(FechaInicio, FechaFinal);
+            return Ok(list.Data);
+        }
+
+        [HttpGet("ReporteVentasAnual/{año}")]
+        public IActionResult ReporteVentasAnual(int año)
+        {
+            var list = _ventasServices.ReporteVentasAnual(año);
+            return Ok(list.Data);
+        }
+
+        [HttpGet("ReporteVentasMayoristas/{año},{mes}")]
+        public IActionResult ReporteVentasMayoristas(int año,int mes)
+        {
+            var list = _ventasServices.ReporteVentasMayoristas(año,mes);
+            return Ok(list.Data);
+        }
         [HttpGet("Fill/{id}")]
         public IActionResult LLenar(string id)
         {

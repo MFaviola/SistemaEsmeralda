@@ -15,6 +15,11 @@ export class dropJoya{
     venta?:String;
     mayor?:String;
 }
+
+export class dropEmpleado{
+    empl_Id?:String;
+    Empl_Nombre?:String;
+}
 export class JoyaEnviar {
     Joya_Stock?:String;
     Joya_Id?:String;

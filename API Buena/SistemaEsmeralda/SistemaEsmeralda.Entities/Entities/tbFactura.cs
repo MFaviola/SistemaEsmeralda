@@ -22,6 +22,8 @@ namespace SistemaEsmeralda.Entities.Entities
         [NotMapped]
         public string Cantidad { get; set; }
         [NotMapped]
+        public string  Stock { get; set; }
+        [NotMapped]
         public string Precio_Unitario { get; set; }
         [NotMapped]
         public string Total { get; set; }
@@ -40,6 +42,7 @@ namespace SistemaEsmeralda.Entities.Entities
         [NotMapped]
 
         public string Depa_Departamento { get; set; }
+
         [NotMapped]
         public string Empl_Nombre { get; set; }
 
@@ -70,7 +73,10 @@ namespace SistemaEsmeralda.Entities.Entities
         public virtual ICollection<tbFacturaDetalles> tbFacturaDetalles { get; set; }
         [NotMapped]
         public string Fact_Finalizado { get; set; }
-
+        [NotMapped]
+        public string Factura { get; set; }
+        [NotMapped]
+        public string Fact_FechaFinalizado { get; set; }
         [NotMapped]
         public string UsuarioCreacion { get; set; }
 

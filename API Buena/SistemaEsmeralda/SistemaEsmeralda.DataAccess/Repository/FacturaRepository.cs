@@ -109,6 +109,79 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 return db.Query<tbFactura>(sql, parameters, commandType: CommandType.StoredProcedure).ToList();
             }
         }
+
+        public IEnumerable<tbFactura> ReportePorMes(string año,string mes)
+        {
+            const string sql = "[Vent].[sp_ProductosVendidosEnMes]";
+
+            var parameters = new { Año = año,Mes = mes };
+     
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+                return db.Query<tbFactura>(sql, parameters, commandType: CommandType.StoredProcedure).ToList();
+            }
+        }
+
+        public IEnumerable<tbFactura> ReportePorStock(int valor)
+        {
+            const string sql = "[Vent].[sp_Reporte_ControlStock]";
+
+            var parameters = new { TipoProducto = valor };
+
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+                return db.Query<tbFactura>(sql, parameters, commandType: CommandType.StoredProcedure).ToList();
+            }
+        }
+
+        public IEnumerable<tbFactura> ReportePorEmpleado(int empleado)
+        {
+            const string sql = "[Vent].[SP_Reporte_FacturaEmpleadoTotal]";
+
+            var parameters = new {EmplId = empleado };
+
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+                return db.Query<tbFactura>(sql, parameters, commandType: CommandType.StoredProcedure).ToList();
+            }
+        }
+
+        public IEnumerable<tbFactura> ReporteTop10(string FechaInicio,string FechaFinal)
+        {
+            const string sql = "[Vent].[sp_ReporteTop10]";
+
+            var parameters = new { FechaInicio = FechaInicio, FechaFin = FechaFinal };
+
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+                return db.Query<tbFactura>(sql, parameters, commandType: CommandType.StoredProcedure).ToList();
+            }
+        }
+
+        public IEnumerable<tbFactura> ReporteVentasAnual(int año)
+        {
+            const string sql = "[Vent].[sp_ReporteVentasAnual]";
+
+            var parameters = new { Año = año};
+
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+                return db.Query<tbFactura>(sql, parameters, commandType: CommandType.StoredProcedure).ToList();
+            }
+        }
+
+        public IEnumerable<tbFactura> ReporteVentasMayoristas(int año, int mes)
+        {
+            const string sql = "[Vent].[sp_ReporteVentasMayoristas]";
+
+            var parameters = new { Año = año, Mes = mes };
+
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+                return db.Query<tbFactura>(sql, parameters, commandType: CommandType.StoredProcedure).ToList();
+            }
+        }
+
         public IEnumerable<tbFactura> List()
         {
             const string sql = "Vent.sp_Factura_listar";
@@ -145,7 +218,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
             {
                 var parameter = new DynamicParameters();
                 parameter.Add("Fact_Id", Fact_Id);
-
+                parameter.Add("Fact_FechaFinalizado", DateTime.Now);
                 var result = db.QueryFirst(ScriptsBaseDeDatos.ConfirmarFactura, parameter, commandType: CommandType.StoredProcedure);
                 return new RequestStatus { CodeStatus = result.Resultado, MessageStatus = (result.Resultado == 1) ? "Exito" : "Error" };
             }

@@ -100,20 +100,20 @@ export class YService {
 }
   
 
-Reporte2PDF(cuerpo: any[], logoURL: string, Cliente,DNI,Muni,Depa,Fecha,Pedido,Imouesto,Metodo,Subtotal,Total): Blob {
+Reporte2PDF(cuerpo, logoURL: string, Cliente,DNI,Muni,Depa,Fecha,Pedido,Imouesto,Metodo,Subtotal,Total): Blob {
   const doc = new jsPDF({
     orientation: 'portrait',
     unit: 'px',
     format: 'letter'
   });
 
-  let pageNumber = 1;  // Inicializar el contador de páginas
 
+  let pageNumber = 1;  // Inicializar el contador de página
   const imgWidth = 200;
   const imgHeight = 50;
   doc.addImage(logoURL, 'JPEG', 10, 10, imgWidth, imgHeight);
 
-  // Título del Documento - ACOSA Honduras
+
   
   doc.setFontSize(10);
   doc.setFont(undefined, 'bold');
@@ -126,6 +126,12 @@ Reporte2PDF(cuerpo: any[], logoURL: string, Cliente,DNI,Muni,Depa,Fecha,Pedido,I
   doc.setFontSize(10);
   doc.setFont(undefined, 'normal');
   doc.text("Tegucigalpa: Los dolores, calle buenos aires", 140*2 , 50);
+
+
+
+
+
+
 
   doc.setFontSize(16);
   doc.setFont(undefined, 'bold');
@@ -169,6 +175,7 @@ Reporte2PDF(cuerpo: any[], logoURL: string, Cliente,DNI,Muni,Depa,Fecha,Pedido,I
     doc.setFont(undefined, 'normal');
     doc.text( String(pageNumber), 444, 580, { align: 'right' });
   };
+
   autoTable(doc, {
     
     head: [['Categoria', 'Producto', 'Cantidad', 'Precio', 'Subtotal']],
@@ -203,4 +210,162 @@ Reporte2PDF(cuerpo: any[], logoURL: string, Cliente,DNI,Muni,Depa,Fecha,Pedido,I
 }
   
   
+ReporteStock(cuerpo, logoURL: string,): Blob {
+  const doc = new jsPDF({
+    orientation: 'portrait',
+    unit: 'px',
+    format: 'letter'
+  });
+
+
+  let pageNumber = 1;  // Inicializar el contador de página
+  const imgWidth = 200;
+  const imgHeight = 50;
+  doc.addImage(logoURL, 'JPEG', 10, 10, imgWidth, imgHeight);
+
+
+  
+  doc.setFontSize(10);
+  doc.setFont(undefined, 'bold');
+  doc.text('Esmeraldas HN', 140*2 , 30);
+
+  // Información de la empresa - Direcciones
+  doc.setFontSize(10);
+  doc.setFont(undefined, 'normal');
+  doc.text('Dirección :', 140*2 , 40);
+  doc.setFontSize(10);
+  doc.setFont(undefined, 'normal');
+  doc.text("Tegucigalpa: Los dolores, calle buenos aires", 140*2 , 50);
+
+  doc.setFontSize(28);
+  doc.setFont(undefined, 'bold');
+  doc.text('Stock', 212 , 80);
+
+
+
+
+
+
+  
+  // Mostrar PDF
+  // Función para dibujar el pie de página
+  const footer = () => {
+    doc.setFontSize(10);
+    doc.setFont(undefined, 'normal');
+    doc.text( String(pageNumber), 444, 580, { align: 'right' });
+  };
+
+  autoTable(doc, {
+    
+    head: [['Categoria', 'Producto', 'Stock']],
+    body: cuerpo,
+    startY: pageNumber === 1 ? 100 : 90,
+    styles: {
+      fontSize: 10,
+    },
+    headStyles: {
+      fillColor: [0, 0, 0],
+      textColor: [255, 255, 255],
+      halign: 'center',
+      valign: 'middle',
+      fontStyle: 'bold',
+    }, columnStyles: {
+      0: { halign: 'center' },  
+      1: { halign: 'center' }, 
+      2: { halign: 'center' }, 
+      3: { halign: 'center' },  
+      4: { halign: 'center' }  
+    },
+    theme: 'grid',
+    didDrawPage: (data) => {
+ 
+  
+      footer();
+      pageNumber++;
+    }
+  });
+
+  return doc.output('blob');
+}
+
+
+ReporteEmpleado(cuerpo, logoURL: string,Empleado,Total): Blob {
+  const doc = new jsPDF({
+    orientation: 'portrait',
+    unit: 'px',
+    format: 'letter'
+  });
+
+
+  let pageNumber = 1;  // Inicializar el contador de página
+  const imgWidth = 200;
+  const imgHeight = 50;
+  doc.addImage(logoURL, 'JPEG', 10, 10, imgWidth, imgHeight);
+
+
+  
+  doc.setFontSize(10);
+  doc.setFont(undefined, 'bold');
+  doc.text('Esmeraldas HN', 140*2 , 30);
+
+  // Información de la empresa - Direcciones
+  doc.setFontSize(10);
+  doc.setFont(undefined, 'normal');
+  doc.text('Dirección :', 140*2 , 40);
+  doc.setFontSize(10);
+  doc.setFont(undefined, 'normal');
+  doc.text("Tegucigalpa: Los dolores, calle buenos aires", 140*2 , 50);
+
+  doc.setFontSize(10);
+  doc.setFont(undefined, 'bold');
+  doc.text('Empleado:' + Empleado , 30 , 80);
+
+  doc.setFontSize(10);
+  doc.setFont(undefined, 'bold');
+  doc.text('Total:' + Total , 380 , 80);
+
+
+
+
+  
+  // Mostrar PDF
+  // Función para dibujar el pie de página
+  const footer = () => {
+    doc.setFontSize(10);
+    doc.setFont(undefined, 'normal');
+    doc.text( String(pageNumber), 444, 580, { align: 'right' });
+  };
+
+  autoTable(doc, {
+    
+    head: [['Factura', 'Fecha', 'Total']],
+    body: cuerpo,
+    startY: pageNumber === 1 ? 100 : 90,
+    styles: {
+      fontSize: 10,
+    },
+    headStyles: {
+      fillColor: [0, 0, 0],
+      textColor: [255, 255, 255],
+      halign: 'center',
+      valign: 'middle',
+      fontStyle: 'bold',
+    }, columnStyles: {
+      0: { halign: 'center' },  
+      1: { halign: 'center' }, 
+      2: { halign: 'center' }, 
+      3: { halign: 'center' },  
+      4: { halign: 'center' }  
+    },
+    theme: 'grid',
+    didDrawPage: (data) => {
+ 
+  
+      footer();
+      pageNumber++;
+    }
+  });
+
+  return doc.output('blob');
+}
 }
