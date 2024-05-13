@@ -45,9 +45,9 @@ namespace SistemaEsmeralda.API.Controllers
 
 
         [HttpGet("ReportePorMes/{ano},{mes}")]
-        public IActionResult ReportePorMes(string año,string mes)
+        public IActionResult ReportePorMes(string ano,string mes)
         {
-            var list = _ventasServices.ReportePorMes(año,mes);
+            var list = _ventasServices.ReportePorMes(ano, mes);
             return Ok(list.Data);
         }
 

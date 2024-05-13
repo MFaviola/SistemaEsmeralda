@@ -12,6 +12,7 @@ import { Stock } from 'src/app/Models/FacturaViewModel';
 })
 
 export class reporteComponent implements OnInit  {
+  
   pdfSrc: SafeResourceUrl | null = null;
   Reporte_1: boolean = false;
   Reporte_2: boolean = false;

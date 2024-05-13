@@ -28,6 +28,11 @@ export class FacturaDetalle {
     categoria?:String;
 }
 
+export class Years {
+   id?:number;
+   name?:string;
+}
+
 export class Stock {
     producto?:String;
     stock?:String;

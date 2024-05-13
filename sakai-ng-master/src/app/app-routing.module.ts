@@ -1,8 +1,9 @@
 import { RouterModule } from '@angular/router';
-import { NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { NotfoundComponent } from './demo/components/notfound/notfound.component';
 import { AppLayoutComponent } from "./layout/app.layout.component";
 
+import { ReportesPormesComponent } from './demo/components/reporte/ReportePorMes/reporteportemes.component';
 @NgModule({
     imports: [
         RouterModule.forRoot([
@@ -21,7 +22,8 @@ import { AppLayoutComponent } from "./layout/app.layout.component";
                     { path: 'acceso', loadChildren: () => import('./demo/components/acceso/acesso.module').then(m => m.AccesoModule) },
                     { path: 'venta', loadChildren: () => import('./demo/components/venta/venta.module').then(m => m.VentaModule) },
                     { path: 'pages', loadChildren: () => import('./demo/components/pages/pages.module').then(m => m.PagesModule) },
-                    { path: 'reportes', loadChildren: () => import('./demo/components/reporte/reporte.module').then(m => m.ReporteModule) }
+                    { path: 'reportes', loadChildren: () => import('./demo/components/reporte/reporte.module').then(m => m.ReporteModule) },
+                    { path: 'mes', component : ReportesPormesComponent}
                 ]
             },
             { path: '**', redirectTo: '/notfound' },
