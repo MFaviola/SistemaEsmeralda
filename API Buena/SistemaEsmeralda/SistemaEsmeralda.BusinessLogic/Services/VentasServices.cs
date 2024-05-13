@@ -75,6 +75,22 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             }
         }
 
+        public ServiceResult ListadoAutoCompletado1()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _joyaRepository.ListaAutoCompletado1();
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
         public ServiceResult EditarJoyas(tbJoyas item)
         {
             var result = new ServiceResult();
@@ -259,6 +275,23 @@ namespace SistemaEsmeralda.BusinessLogic.Services
                 return result.Error(ex.Message);
             }
         }
+
+        public ServiceResult ListaAutoCompletadoMaqui1()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _maquillajeRepository.ListaAutocompletado1();
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
         public ServiceResult EditarMaquillaje(tbMaquillajes item)
         {
             var result = new ServiceResult();
@@ -580,14 +613,13 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             }
         }
 
-        public ServiceResult InsertarFacturaCompra(tbFacturaCompraEncabezado item, out int fac, out int provee)
+        public ServiceResult InsertarFacturaCompra(tbFacturaCompraEncabezado item, out int fac)
         {
             var result = new ServiceResult();
             try
             {
-                var (list, scope1, scope2) = _facturaCompraRepository.Insert1(item);
+                var (list, scope1) = _facturaCompraRepository.Insert1(item);
                 fac = scope1;
-                provee = scope2;
                 if (list.CodeStatus >0 )
                 {
                     return result.Ok(list);
@@ -601,18 +633,16 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             catch (Exception ex)
             {
                 fac = 0;
-                provee = 0;
                 return result.Error(ex.Message);
             }
         }
 
-        public ServiceResult ActualizarFacturaCompra(tbFacturaCompraEncabezado item, out int provee)
+        public ServiceResult ActualizarFacturaCompra(tbFacturaCompraEncabezado item)
         {
             var result = new ServiceResult();
             try
             {
-                var (list, scope2) = _facturaCompraRepository.Update1(item);
-                provee = scope2;
+                var list = _facturaCompraRepository.Update1(item);
                 if (list.CodeStatus > 0 )
                 {
                     return result.Ok(list);
@@ -625,7 +655,6 @@ namespace SistemaEsmeralda.BusinessLogic.Services
 
             catch (Exception ex)
             {
-                provee = 0;
                 return result.Error(ex.Message);
             }
         }
@@ -673,16 +702,83 @@ namespace SistemaEsmeralda.BusinessLogic.Services
                 return result.Error(ex.Message);
             }
         }
+
+        public ServiceResult FinalizarFacturaCompra(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _facturaCompraRepository.Finalizar(id);
+                if (list.Count() > 0)
+                {
+                    return result.Ok($"La accion ha sido existosa", list);
+                }
+                else
+                {
+                    return result.Error();
+                }
+            }
+
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
         #endregion
 
         #region Factura compra detalle
-        public ServiceResult InsertarFacturaCompraDetalle(tbFacturaCompraDetalle item)
+        public ServiceResult ListadoFacturaCompraDetalle(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _facturaCompraRepository.Listao(id);
+                if (list.Count() >= 0)
+                {
+                    return result.Ok(list);
+                }
+                else
+                {
+                    return result.Error();
+                }
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult InsertarFacturaCompraDetalle(tbFacturaCompraEncabezado item)
         {
             var result = new ServiceResult();
             try
             {
                 var list = _facturaCompraRepository.Insert(item);
               
+                if (list.CodeStatus > 0)
+                {
+                    return result.Ok(list);
+                }
+                else
+                {
+                    return result.Error();
+                }
+            }
+
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult EliminarFacturaCompraDetalle(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _facturaCompraRepository.Deleted(id);
                 if (list.CodeStatus > 0)
                 {
                     return result.Ok(list);

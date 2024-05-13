@@ -141,6 +141,7 @@ validarTexto(event: KeyboardEvent) {
              this.DataTable = true;
              this.submitted = false;
              this.Detalles = false;
+             this.Agregar = true;
 
              this.materialForm = new FormGroup({
               mate_Material: new FormControl("", Validators.required),

@@ -22,6 +22,8 @@ namespace SistemaEsmeralda.Entities.Entities
         public string Muni_Municipio { get; set; }
         public int Prov_Id { get; set; }
         public string Prov_Proveedor { get; set; }
+        [NotMapped]
+        public string nombreProveedor { get; set; }
         public string Prov_Telefono { get; set; }
         public string Muni_Codigo { get; set; }
         public int Prov_UsuarioCreacion { get; set; }

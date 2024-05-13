@@ -1361,7 +1361,21 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             }
         }
 
+        public ServiceResult ListadoProveedor1()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _proveedorRepository.List1();
+                return result.Ok(list);
+            }
 
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
 
 
 

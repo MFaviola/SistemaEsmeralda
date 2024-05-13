@@ -39,18 +39,30 @@ namespace SistemaEsmeralda.API.Controllers
             [HttpPost("Crear")]
             public IActionResult Insert(FacturaCompraViewModel item)
             {
-                if (item.FaCE_Id == 0)
+                if (item.faCE_Id == 0)
                 {
 
                     var model = _mapper.Map<tbFacturaCompraEncabezado>(item);
-                    var list = _ventasServices.InsertarFacturaCompra(model, out int fac, out int provee);
+                    var list = _ventasServices.InsertarFacturaCompra(model, out int fac);
                     if (list.Success == true)
                     {
-                        var modelo = _mapper.Map<tbFacturaCompraDetalle>(item);
+                        list.Message = fac.ToString();
+
+                        //var modelo = _mapper.Map<tbFacturaCompraEncabezado>(item);
+                        var modelo = new tbFacturaCompraEncabezado()
+                        {
+                            faCE_Id = Convert.ToInt32(list.Message),
+                            faCD_Dif = item.faCD_Dif,
+                            nombreProducto = item.nombreProducto,
+                            faCD_Cantidad = item.faCD_Cantidad,
+                            precioCompra = item.precioCompra,
+                            precioVenta = item.precioVenta,
+                            precioMayorista = item.precioMayor
+                        };
                         var lista = _ventasServices.InsertarFacturaCompraDetalle(modelo);
                         if (lista.Success == true)
                         {
-                            return Ok(new { success = true, message = lista.Message });
+                            return Ok(new { success = true, message = lista.Message, id = fac});
                         }
                         else
                         {
@@ -64,11 +76,21 @@ namespace SistemaEsmeralda.API.Controllers
                 }
                 else
                 {
-                    var modelo = _mapper.Map<tbFacturaCompraDetalle>(item);
+                    //var modelo = _mapper.Map<tbFacturaCompraEncabezado>(item);
+                    var modelo = new tbFacturaCompraEncabezado()
+                    {
+                        faCE_Id = item.faCE_Id,
+                        faCD_Dif = item.faCD_Dif,
+                        nombreProducto = item.nombreProducto,
+                        faCD_Cantidad = item.faCD_Cantidad,
+                        precioCompra = item.precioCompra,
+                        precioVenta = item.precioVenta,
+                        precioMayorista = item.precioMayor
+                    };
                     var lista = _ventasServices.InsertarFacturaCompraDetalle(modelo);
                     if (lista.Success == true)
                     {
-                        return Ok(new { success = true, message = lista.Message });
+                        return Ok(new { success = true, message = lista.Message, id = item.faCE_Id });
                     }
                     else
                     {
@@ -81,10 +103,28 @@ namespace SistemaEsmeralda.API.Controllers
             public IActionResult Update(FacturaCompraViewModel item)
             {
                 var model = _mapper.Map<tbFacturaCompraEncabezado>(item);
-                var list = _ventasServices.ActualizarFacturaCompra(model, out int provee);
+                var list = _ventasServices.ActualizarFacturaCompra(model);
                 if(list.Success == true)
                 {
-                    return Ok(new { success = true, message = list.Message, prov = provee.ToString() });
+                    var modelo = new tbFacturaCompraEncabezado()
+                    {
+                        faCE_Id = item.faCE_Id,
+                        faCD_Dif = item.faCD_Dif,
+                        nombreProducto = item.nombreProducto,
+                        faCD_Cantidad = item.faCD_Cantidad,
+                        precioCompra = item.precioCompra,
+                        precioVenta = item.precioVenta,
+                        precioMayorista = item.precioMayor
+                    };
+                    var lista = _ventasServices.InsertarFacturaCompraDetalle(modelo);
+                    if (lista.Success == true)
+                    {
+                        return Ok(new { success = true, message = lista.Message});
+                    }
+                    else
+                    {
+                        return Problem();
+                    }
                 }
                 else
                 {
@@ -106,13 +146,27 @@ namespace SistemaEsmeralda.API.Controllers
                 }
             }
 
+            [HttpPut("Finalizar/{id}")]
+            public IActionResult Finaliazr(int id)
+            {
+                var list = _ventasServices.FinalizarFacturaCompra(id);
+                if (list.Success == true)
+                {
+                    return Ok(new { success = true, message = list.Message });
+                }
+                else
+                {
+                    return Problem();
+                }
+            }
+
             [HttpGet("Buscar/{id}")]
             public IActionResult Find(int id)
             {
                 var list = _ventasServices.BuscarFacturaCompra(id);
                 if (list.Success == true)
                 {
-                    return Ok(list.Data);
+                    return Json(list.Data);
                 }
                 else
                 {
@@ -122,22 +176,33 @@ namespace SistemaEsmeralda.API.Controllers
         #endregion
 
         #region Detalle
-            [HttpPost("CrearDetalle")]
-            public IActionResult Create(FacturaCompraDetalleViewModel item)
+        [HttpGet("ListadoDetalle/{id}")]
+        public IActionResult Index1(int id)
+        {
+            var list = _ventasServices.ListadoFacturaCompraDetalle(id);
+            if (list.Success == true)
             {
-                var model = _mapper.Map<tbFacturaCompraDetalle>(item);
-
-                var list = _ventasServices.InsertarFacturaCompraDetalle(model);
-                if (list.Success == true)
-                {
-                    return Ok(new { success = true, message = list.Message});
-                }
-                else
-                {
-                    return Problem();
-                }
+                return Ok(list.Data);
             }
+            else
+            {
+                return Problem();
+            }
+        }
 
+        [HttpDelete("EliminarD/{id}")]
+        public IActionResult Deleted(int id)
+        {
+            var list = _ventasServices.EliminarFacturaCompraDetalle(id);
+            if (list.Success == true)
+            {
+                return Ok(list);
+            }
+            else
+            {
+                return Problem();
+            }
+        }
         #endregion
     }
 }

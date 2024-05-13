@@ -20,6 +20,9 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { AutoCompleteModule } from "primeng/autocomplete";
 import { InputNumberModule } from 'primeng/inputnumber';
 import { SelectButtonModule } from 'primeng/selectbutton';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { InputGroupModule } from 'primeng/inputgroup';
+
 @NgModule({
 	imports: [
 		CommonModule,
@@ -32,6 +35,8 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 		InputTextModule,
 		DropdownModule,
 		ButtonModule,
+		InputGroupAddonModule,
+		InputGroupModule,
 		OverlayPanelModule,
 		SelectButtonModule,
 		TableModule,

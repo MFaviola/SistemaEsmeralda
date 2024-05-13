@@ -3,7 +3,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { Product } from 'src/app/demo/api/product';
 import {Router} from '@angular/router';
 import { Table } from 'primeng/table';
-import { FacturaCompraEncabezado, FacturaCompraDetalle } from 'src/app/Models/FacturaCompraViewModel';
+import { Fill, FacturaCompraEncabezado, CrearFacturaCompraEncabezado, FacturaCompraDetalleTabla } from 'src/app/Models/FacturaCompraViewModel';
 import { FacturaCompraService } from 'src/app/Service/factura-compra.service'; 
 import { YService } from '../../Impresion/impresion.service';
 import { MensajeViewModel } from 'src/app/Models/MensajeViewModel';
@@ -12,28 +12,33 @@ import { FormGroup, FormControl,  Validators, FormBuilder  } from '@angular/form
 import { ServiceService } from 'src/app/Service/Joya.service';
 import { dropMaterial } from 'src/app/Models/MaterialViewModel';
 import { dropCategoria } from 'src/app/Models/CategoriaViewModel';
-import { Fill, Joya, JoyaEnviar } from 'src/app/Models/JoyaViewModel';
+import { Joya, JoyaEnviar } from 'src/app/Models/JoyaViewModel';
 import { MaquillajeService } from 'src/app/Service/Maquillaje.service';
 import { FileUpload } from 'primeng/fileupload';
 import { Maquillaje, MaquillajeEnviar } from 'src/app/Models/MaquillajeViewModel';
 import { dropMarca } from 'src/app/Models/MarcaViewModel';
 import { JoyaService } from 'src/app/Service/Joya.service';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-list-facturacompra',
   templateUrl: './list-facturacompra.component.html',
-  styleUrl: './list-facturacompra.component.scss',
+  styleUrl: './list-facturacompra.component.css',
   providers: [ConfirmationService, MessageService]
 })
 export class ListFacturacompraComponent {
  
  //#region variables
   Factura!:FacturaCompraEncabezado[];
+  FacturaDetalle?: FacturaCompraDetalleTabla[];
   @ViewChild('fileUpload') fileUpload: FileUpload;
   viewModel: FacturaCompraEncabezado = new FacturaCompraEncabezado();
+  viewModelenviar: CrearFacturaCompraEncabezado = new CrearFacturaCompraEncabezado();
   viewModelMaquillaje: MaquillajeEnviar = new MaquillajeEnviar();
   MensajeViewModel!: MensajeViewModel[];
   viewModelJoya: JoyaEnviar = new JoyaEnviar();
+  selectedMetodo: string = '4';
 
   routeItems: MenuItem[] = [];
   submitted: boolean = false;
@@ -41,11 +46,13 @@ export class ListFacturacompraComponent {
   departamentos: any[] = [];
   fill: any[] = [];
   FacturaForm: FormGroup;
-  DetalleForm: FormGroup;
+  // DetalleForm: FormGroup;
   MaquillajeForm: FormGroup;
   @ViewChild('filter') filter!: ElementRef;
 
+  pdfSrc: SafeResourceUrl | null = null;
   Collapse: boolean = false;
+  Reporte_2 : boolean = false;
   CollapseMaquillaje: boolean = false;
   CollapseJoyas: boolean = false;
   DataTable: boolean = true;
@@ -74,13 +81,17 @@ export class ListFacturacompraComponent {
   selectedRadio: string = '1'; 
 
   JoyaForm: FormGroup;
+  faCE_Id: string = "0";
 
 
   //AUTOCOMPLETADO
   detalleForm: FormGroup;
   metodos: any[] = [];
+  joyas: any[] = [];
+  maquillajes: any[] = [];
   countries: any[] = [];
   selectedCountryAdvanced: any[] = [];
+  selectedProductosAdvanced: any[] = [];
   selectedProveedoresAdvanced: any[] = [];
   selectedMetodoPagoAdvanced: any[] = [];
   filteredMetodoPago: any[] = [];
@@ -88,7 +99,7 @@ export class ListFacturacompraComponent {
   filteredProveedores: any[] = [];
   //#endregion
  
-  constructor(private service: FacturaCompraService, private router: Router, private srvImprecion : YService, private messageService: MessageService,private fb: FormBuilder, private sservice: ServiceService, private maquillajeservice: MaquillajeService, private joyaService : JoyaService) { }
+  constructor(private service: FacturaCompraService, private router: Router, private srvImprecion : YService, private messageService: MessageService,private fb: FormBuilder, private sservice: ServiceService, private maquillajeservice: MaquillajeService, private joyaService : JoyaService, private yService: YService, private sanitizer: DomSanitizer) { }
 
 
   ngOnInit(): void {
@@ -100,20 +111,24 @@ export class ListFacturacompraComponent {
       console.log(error);
     });
     
-    this.FacturaForm = new FormGroup({
-      Mepa_Metodo: new FormControl("", Validators.required),
-      Mepa_Id: new FormControl('0', Validators.required),
-      Prov_Id: new FormControl('0', Validators.required),
-      Prov_Proveedor: new FormControl("", [Validators.required]),
-    });
+    
 
-    this.DetalleForm = new FormGroup({
-      FaCE_Id: new FormControl("",Validators.required),
+    this.FacturaForm = new FormGroup({
+      mepa_Id: new FormControl('7', Validators.required),
+      prov_Id: new FormControl('0', Validators.required),
+      nombreProveedor: new FormControl("", [Validators.required]),
+
+      //detalle
       radio: new FormControl("1",Validators.required),
-      FaCD_Dif: new FormControl("1",Validators.required),
-      Prod_Producto: new FormControl("", Validators.required),
-      Prod_Id: new FormControl("", Validators.required),
-      FaCD_Cantidad: new FormControl("", [Validators.required]),
+      faCD_Dif: new FormControl("1",Validators.required),
+      // prod_Producto: new FormControl("", Validators.required),
+      nombreProducto: new FormControl("", Validators.required),
+      prod_Id: new FormControl("", Validators.required),
+      faCD_Cantidad: new FormControl("", [Validators.required]),
+      precioCompra: new FormControl("", [Validators.required]),
+      precioVenta: new FormControl("", [Validators.required]),
+      precioMayor: new FormControl("", [Validators.required]),
+
     });
 
     this.MaquillajeForm = new FormGroup({
@@ -123,7 +138,7 @@ export class ListFacturacompraComponent {
       Maqu_PrecioMayor: new FormControl(null, [Validators.required]),
       Maqu_Stock: new FormControl("", [Validators.required]),
       Maqu_Imagen: new FormControl("", [Validators.required]),
-      Prov_Id: new FormControl('11', [Validators.required]),
+      Prov_Id: new FormControl('0', [Validators.required]),
       Marc_Id: new FormControl('0', [Validators.required]),
     });
 
@@ -134,11 +149,12 @@ export class ListFacturacompraComponent {
       Joya_PrecioMayor: new FormControl(null, [Validators.required]),
       Joya_Stock: new FormControl("", [Validators.required]),
       Joya_Imagen: new FormControl("", [Validators.required]),
-      Prov_Id: new FormControl('11', [Validators.required]),
+      Prov_Id: new FormControl('0', [Validators.required]),
       Mate_Id: new FormControl('0', [Validators.required]),
       Cate_Id: new FormControl('0', [Validators.required]),
     });
 
+    
     //#region ddls
     this.sservice.getDropDownMaterial().subscribe((data: dropMaterial[]) => {
       this.material = data;
@@ -165,9 +181,22 @@ export class ListFacturacompraComponent {
     this.service.getMetodo().subscribe(meto => {
       this.metodos = meto;
     });
+
+    this.service.getAutoCompletadoJoya().subscribe(joya => {
+      this.countries = joya;
+    });
+
+    this.service.getAutoCompletadoMaquillaje().subscribe(maqu => {
+      this.maquillajes = maqu;
+    });
     //#endregion
  } 
+ selectMetodoPago(metodo: string) {
+  this.selectedMetodo = metodo;
 
+
+  this.FacturaForm.controls['mepa_Id'].setValue(metodo);
+}
   onRadioChange(event: Event) {
     const target = event.target as HTMLInputElement;
     const value = target.value;
@@ -176,24 +205,18 @@ export class ListFacturacompraComponent {
     if (value === "1") {
       this.service.getAutoCompletadoJoya().subscribe(countries => {
         this.countries = countries;
-        this.DetalleForm = new FormGroup({
-          FaCD_Dif: new FormControl(value,Validators.required),
-          Prod_Producto: new FormControl("", Validators.required),
-          Prod_Id: new FormControl("", Validators.required),
-          FaCD_Cantidad: new FormControl("", [Validators.required]),
-          FaCE_Id: new FormControl("",Validators.required),
-        });
-      });
-    } else {
+        this.FacturaForm.get('faCD_Dif').setValue(value); 
+        this.FacturaForm.get('nombreProducto').setValue(""); 
+        this.FacturaForm.get('prod_Id').setValue(""); 
+        this.FacturaForm.get('Prod_Producto').setValue(""); 
+    });
+  } else {
       this.service.getAutoCompletadoMaquillaje().subscribe(countries => {
         this.countries = countries;
-        this.DetalleForm = new FormGroup({
-          FaCD_Dif: new FormControl(value,Validators.required),
-          Prod_Producto: new FormControl("", Validators.required),
-          Prod_Id: new FormControl("", Validators.required),
-          FaCD_Cantidad: new FormControl("", [Validators.required]),
-          FaCE_Id: new FormControl("",Validators.required),
-        });
+        this.FacturaForm.get('faCD_Dif').setValue(value); 
+        this.FacturaForm.get('nombreProducto').setValue(""); 
+        this.FacturaForm.get('prod_Id').setValue(""); 
+        this.FacturaForm.get('Prod_Producto').setValue(""); 
       });
     }
   }
@@ -236,11 +259,10 @@ export class ListFacturacompraComponent {
             filtered.push(country);
         }
     }
+   
   
-    this.DetalleForm.get('Faxd_Cantidad').setValue(1); 
     this.filteredCountries = filtered;
   }
-
 
   filterMetodo(event: any) {
     const filtered: any[] = [];
@@ -262,7 +284,6 @@ export class ListFacturacompraComponent {
     const query = event.query;
     for (let i = 0; i < this.proveedor.length; i++) {
         const proveedor = this.proveedor[i];
-        console.log(proveedor);
         
         if (proveedor.prov_Proveedor.toLowerCase().indexOf(query.toLowerCase()) == 0) {
             filtered.push(proveedor);
@@ -272,31 +293,55 @@ export class ListFacturacompraComponent {
     this.filteredProveedores = filtered;
   }
 
+  producto(event: any){
+    console.log(event.key)
+    console.log()
+    this.service.getDatosPorCodigo(this.FacturaForm.get('prod_Id').value).subscribe(countries => {
+      this.FacturaForm.get('nombreProducto').setValue(countries[0].maqu_Nombre); 
+      this.FacturaForm.get('prod_Id').setValue(countries[0].maqu_Id); 
+      this.FacturaForm.get('Prod_Producto').setValue(countries[0].maqu_Nombre); 
+    
+    });
+  
+  }
   //#endregion
   
   //#region  selects
+  
   onSelectProduct(event) {
+    this.FacturaForm.get('prod_Id').setValue(event.value.value); 
+    this.FacturaForm.get('nombreProducto').setValue(event.value.text); 
+   
 
-    this.DetalleForm.get('Prod_Id').setValue(event.value.value); 
+  }
 
+  handleKeyDown(event: KeyboardEvent) {
+    if (event.key === "Enter" || event.key === "Tab") {
+        event.preventDefault();
+        console.log("entra");
+        this.onSubmit(); 
+    
+    }
   }
 
   onSelectProveedor(event) {
 
-    this.FacturaForm.get('prov_Id').setValue(event.value.prov_Id); 
+    this.FacturaForm.get('prov_Id').setValue(event.value.prov_Id);
+    this.JoyaForm.get('Prov_Id').setValue(event.value.prov_Id);
+    this.MaquillajeForm.get('Prov_Id').setValue(event.value.prov_Id);
 
   }
   onSelectMetodo(event) {
 
-    this.FacturaForm.get('Mepa_Id').setValue(event.value.mepa_Id); 
+    this.FacturaForm.get('mepa_Id').setValue(event.value.mepa_Id); 
 
   }
   //#endregion
 
   subir() {
-    if (this.DetalleForm.valid) {
+    if (this.FacturaForm.valid) {
       // Procesa los datos del formulario aquí
-      console.log('Formulario enviado:', this.DetalleForm.value);
+      console.log('Formulario enviado:', this.FacturaForm.value);
     } else {
       console.log('Formulario no válido');
     }
@@ -331,6 +376,7 @@ export class ListFacturacompraComponent {
     this.Agregar= true;
     this.MunCodigo=true;
     this.Valor = "";
+    this.faCE_Id = "0";
   }
   cancelarJM(){
     this.FormularioJoya = false;
@@ -347,7 +393,7 @@ export class ListFacturacompraComponent {
 
   //#region validaciones inputs
   validarTexto(event: KeyboardEvent) {
-    if (!/^[a-zA-Z\s]+$/.test(event.key) && event.key !== 'Backspace' && event.key !== 'Tab' && event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {
+    if (!/^[a-zñA-ZÑ\s]+$/.test(event.key) && event.key !== 'Backspace' && event.key !== 'Tab' && event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {
         event.preventDefault();
     }
   }
@@ -361,37 +407,42 @@ export class ListFacturacompraComponent {
 
   //FacturaEncabezado
   onSubmit() {
+    console.log("Esto es el OnSubmit")
     if (this.FacturaForm.valid) {
-    this.viewModel = this.FacturaForm.value;
-    if (this.Valor == "Agregar") {
-      this.service.insertarFacturaCom(this.viewModel).subscribe((data: MensajeViewModel[]) => {
+    this.viewModelenviar = this.FacturaForm.value;
+     this.viewModelenviar.faCE_Id = this.faCE_Id;
+     if (this.Valor == "Agregar") {
+      this.service.insertarFacturaCom(this.viewModelenviar).subscribe((data: MensajeViewModel[]) => {
           if(data["message"] == "Operación completada exitosamente."){
-          this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Insertado con Exito', life: 3000 });
-          this.Collapse= false;
-          this.DataTable = true;
-          this.submitted = false;
-          this.Detalles = false;
-          this.Agregar = true;
-          this.ngOnInit();
-  
+          this.faCE_Id = data["id"];
+
+              this.service.tabladetalle(this.faCE_Id).subscribe((data: any)=>{
+                this.FacturaDetalle = data;
+                console.log(this.FacturaDetalle);
+              },error=>{
+                console.log(error);
+              });
           }else{
           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro insertar', life: 3000 });
+          this.faCE_Id = data["id"];
+          console.log("error1")
           }
           
       })
     } else {
-          this.service.editarFacturaEnca(this.viewModel).subscribe((data: MensajeViewModel[]) => {
+          this.service.editarFacturaEnca(this.viewModelenviar).subscribe((data: MensajeViewModel[]) => {
           if(data["message"] == "Operación completada exitosamente."){
           this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Actualizado con Exito', life: 3000 });
-          this.Collapse= false;
-          this.DataTable = true;
-          this.Detalles = false;
-          this.submitted = false;
           this.Agregar = true;
+          
           this.ngOnInit();
+
+         
   
           }else{
           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro actualizar', life: 3000 });
+          console.log("error2")
+          console.log(this.messageService);
           }
           
       })
@@ -400,6 +451,8 @@ export class ListFacturacompraComponent {
     }   
     else 
     {
+      console.log("Error en el porque el formgroup no es valido");
+      console.log(this.FacturaForm);
       this.submitted = true;
     }
   }
@@ -509,4 +562,127 @@ export class ListFacturacompraComponent {
   }
 
   //#endregion
+
+  Fill(codigo) {
+    this.service.fillenca(codigo).subscribe({
+      next: (data: Fill) => {
+        console.log(codigo);
+      this.submitted = false;
+      this.FacturaForm = new FormGroup({
+          mepa_Id: new FormControl(data[0].mepa_Id,Validators.required),
+          prov_Id: new FormControl(data[0].prov_Id, [Validators.required]),
+          nombreProveedor: new FormControl(data[0].nombreProveedor, [Validators.required]),
+          radio: new FormControl("0", [Validators.required]),
+          faCD_Dif: new FormControl("", [Validators.required]),
+          nombreProducto: new FormControl("", [Validators.required]),
+          prod_Id: new FormControl("", [Validators.required]),
+          faCD_Cantidad: new FormControl("", [Validators.required]),
+          precioCompra: new FormControl("", [Validators.required]),
+          precioVenta: new FormControl("", [Validators.required]),
+          precioMayor: new FormControl("", [Validators.required]),
+        });
+        console.log(this.FacturaForm);
+      }
+    });
+
+    this.service.tabladetalle(codigo).subscribe((data: any)=>{
+      this.FacturaDetalle = data;
+      console.log(this.FacturaDetalle);
+    },error=>{
+      console.log(error);
+    });
+
+  this.DataTable = false;
+  this.Collapse = true;
+  this.Agregar = false;
+  this.faCE_Id = codigo;
+  this.submitted = false;
+  this.Valor = "Agregar";
+  this.Detalles = true;
+
+  }
+
+  deleteSelectedProducts(codigo) {
+    this.deleteProductDialog = true;
+    this.ID = codigo;
+    console.log("El codigo es" + codigo);
+  }
+
+  ConfirmFactura() {
+    console.log(this.ID)
+    this.service.ConfirmarFactura(this.ID).subscribe((data: MensajeViewModel[]) => {
+      if(data["message"] == "La accion ha sido existosa"){
+      this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Confirmado con Exito', life: 3000 });
+       this.ngOnInit();
+       this.deleteProductDialog = false;
+      }else{
+       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro actualizar', life: 3000 });
+      }
+    })
+  
+  
+  }
+
+  confirmDelete(id) {
+    this.service.eliminarFacturaDetalle(id).subscribe({
+      next: (response) => {
+        console.log(response.code);
+        if(response.code == 200){
+                this.service.tabladetalle(this.faCE_Id).subscribe((data: any)=>{
+                  this.FacturaDetalle = data;
+                  console.log("Elimina");
+                },error=>{
+                  console.log(error);
+                });  
+             }else{
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro eliminar', life: 3000 });
+             }
+          this.submitted = false;
+      },
+  });
+  }
+  
+  detalles(codigo) {
+  const detalles$ = this.service.tabladetalle(codigo);
+  const fill$ = this.service.fillenca1(codigo);
+
+  forkJoin([detalles$, fill$]).subscribe({
+    next: ([detallesData, fillData]) => {
+      // Procesar detalles de factura
+      const cuerpo = detallesData.map(item => [
+        item.faCD_Id.toString(),
+        item.producto.toString(),
+        item.cantidad.toString(),
+        item.categoria.toString(),
+        item.precio_Venta.toString(),
+        item.precioVenta.toString(),
+        item.precioMayorista.toString(),
+        item.total.toString()
+      ]);
+
+
+      // Procesar datos de cliente
+      const Fecha = fillData[0].faCE_fechafinalizacion;
+      const Factura = fillData[0].faCE_Id;
+      const Metodo = fillData[0].mepa_Metodo;
+      const Proveedor = fillData[0].nombreProveedor;
+
+      // Preparar para generar PDF
+      const img = "assets/demo/images/galleria/Esmeraldas.png";
+      const blob = this.yService.ReporteFacturaCompraPDF(cuerpo, img,Fecha, Factura, Proveedor, Metodo);
+      const url = URL.createObjectURL(blob);
+      this.pdfSrc = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+      
+      // Actualización del estado de la interfaz de usuario
+      this.Reporte_2 = true;
+      this.Collapse = false;
+      this.DataTable = false;
+      this.Agregar = false;
+    },
+    error: err => {
+      console.error('Error al cargar los datos', err);
+    }
+  });
+}
+
 }
