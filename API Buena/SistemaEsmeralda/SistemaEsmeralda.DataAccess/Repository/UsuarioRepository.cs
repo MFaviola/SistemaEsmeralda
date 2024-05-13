@@ -133,7 +133,8 @@ namespace SistemaEsmeralda.DataAccess.Repository
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
             {
                 var parameter = new DynamicParameters();
-                parameter.Add("Usuario", usua);
+                parameter.Add("@usua_Id", usua);
+                parameter.Add("@codigo", codigo);
 
                 result = db.Query<tbUsuarios>(sql, parameter, commandType: CommandType.StoredProcedure).ToList();
                 return result;
