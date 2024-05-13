@@ -469,6 +469,8 @@ export class ListFacturacompraComponent {
              this.FormularioJoya = false;
              this.Detalles = true;
              this.fileUpload.clear();
+              this.submitted = false;
+
             }else{
              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro insertar', life: 3000 });
             }
@@ -503,13 +505,14 @@ export class ListFacturacompraComponent {
        console.log("entra aqui");
        if (this.Valor == "Agregar") {
         this.maquillajeservice.EnviarMaquillaje(this.viewModelMaquillaje).subscribe((data: MensajeViewModel[]) => {
-       console.log("no entra aqui");
        if(data["message"] == "Operación completada exitosamente."){
-            this.ngOnInit();
+       console.log("no entra aqui");
+       this.ngOnInit();
              this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Insertado con Exito', life: 3000 });
              this.FormularioMaquillaje = false;
              this.Detalles = true;
-             this.fileUpload.clear();
+              this.submitted = false;
+              this.fileUpload.clear();
             }else{
              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro insertar', life: 3000 });
             }
