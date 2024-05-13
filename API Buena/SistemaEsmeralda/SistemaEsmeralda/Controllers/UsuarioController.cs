@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using SistemaEsmeralda.API.Services;
 using SistemaEsmeralda.BusinessLogic.Services;
 using SistemaEsmeralda.Common.Models;
 using SistemaEsmeralda.Entities.Entities;
-using SistemaRestaurante.API.Herramientas;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,18 +15,18 @@ namespace SistemaEsmeralda.API.Controllers
     [Route("API/[controller]")]
     public class UsuarioController : Controller
     {   
-        //private readonly IMailService _mailService;
         private readonly AccesoServices _accesoServices;
         private readonly IMapper _mapper;
+        private readonly IMailService _mailService;
 
-        public UsuarioController(AccesoServices accesoServices, IMapper mapper/*, IMailService _MailService*/)
+        public UsuarioController(AccesoServices accesoServices, IMapper mapper, IMailService mailService)
         {
             _mapper = mapper;
             _accesoServices = accesoServices;
-            //_mailService = _MailService;
+            _mailService = mailService;
 
         }
-        [HttpGet("ValidarReestablecer/{usuario}")]
+        [HttpGet("EnviarCodigo/{usuario}")]
         public IActionResult ValidarReestablecer(string usuario)
         {
 
@@ -36,26 +36,19 @@ namespace SistemaEsmeralda.API.Controllers
             var lista = estado.Data;
             if (lista.Count > 0)
             {
-                //var datos = estado.Data as List<tbUsuarios>;
-                //var first = datos.FirstOrDefault();
-                //_serviciosAcceso.ImplementarCodigo(randomNumber.ToString(), first.Usua_Id);
-                //MailData mailData = new MailData();
-                //mailData.EmailToId = first.Empl_Correo;
-                //mailData.EmailToName = "El Rincon 0511";
-                //mailData.EmailSubject = "Codigo de Reestablecimiento de Contraseña";
-                //mailData.EmailBody = "Su codigo es:" + randomNumber.ToString();
-                //_mailService.SendGmail(mailData);
+                var datos = estado.Data as List<tbUsuarios>;
+                var first = datos.FirstOrDefault();
+                _accesoServices.EnviarCodigo(randomNumber.ToString(), first.Usua_Id);
+                MailData mailData = new MailData();
+                mailData.EmailToId = first.empl_Correo;
+                mailData.EmailToName = "Tienda Esmeralda";
+                mailData.EmailSubject = "Codigo de Reestablecimiento de Contraseña";
+                mailData.EmailBody = "Su codigo es:" + randomNumber.ToString();
+                _mailService.SendGmail(mailData);
             }
-            return Ok(estado);
+            return Ok(lista);
 
         }
-
-
-
-
-
-
-
 
         [HttpGet("List")]
         public IActionResult Index()
@@ -63,12 +56,6 @@ namespace SistemaEsmeralda.API.Controllers
             var list = _accesoServices.ListadoUsuario();
             return Ok(list.Data);
         }
-
-
-
-
-
-
 
         [HttpPost("Create")]
         public IActionResult Insert(UsuariosViewModel item)
@@ -88,9 +75,6 @@ namespace SistemaEsmeralda.API.Controllers
             return Ok(new { success = true, message = list.Message });
         }
 
-
-
-
         [HttpGet("Fill/{id}")]
 
         public IActionResult Llenar(int id)
@@ -99,12 +83,6 @@ namespace SistemaEsmeralda.API.Controllers
             var list = _accesoServices.obterUsuario(id);
             return Json(list.Data);
         }
-
-
-
-
-
-
 
 
         [HttpGet("Validar/{usuario},{contra}")]
@@ -151,6 +129,7 @@ namespace SistemaEsmeralda.API.Controllers
             var list = _accesoServices.EditarUsuario(modelo);
             return Ok(new { success = true, message = list.Message });
         }
+
 
         [HttpDelete("Delete/{id}")]
         public IActionResult Delete(int id)

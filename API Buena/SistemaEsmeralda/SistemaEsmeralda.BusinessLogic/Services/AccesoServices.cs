@@ -171,14 +171,6 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             }
         }
 
-
-
-
-
-
-
-
-
         public ServiceResult ListadoUsuario()
         {
             var result = new ServiceResult();
@@ -194,9 +186,6 @@ namespace SistemaEsmeralda.BusinessLogic.Services
                 return result.Error(ex.Message);
             }
         }
-
-
-
 
         public ServiceResult EditarUsuario(tbUsuarios item)
         {
@@ -239,13 +228,6 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             }
         }
 
-
-
-
-
-
-
-
         public ServiceResult InsertarUsuario(tbUsuarios item)
         {
             var result = new ServiceResult();
@@ -285,7 +267,20 @@ namespace SistemaEsmeralda.BusinessLogic.Services
         }
 
 
+        public ServiceResult EnviarCodigo (string codigo, int usuario)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _usuarioRepository.ValidarUsuario(codigo, usuario);
 
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
 
 
 

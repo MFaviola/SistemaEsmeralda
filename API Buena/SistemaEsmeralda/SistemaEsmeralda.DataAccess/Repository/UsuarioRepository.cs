@@ -125,17 +125,33 @@ namespace SistemaEsmeralda.DataAccess.Repository
 
 
 
+        public IEnumerable<tbUsuarios> ValidarUsuario(string codigo, int usua)
+        {
+            var sql = ScriptsBaseDeDatos.Usuariollenarcodigo;
+
+            List<tbUsuarios> result = new List<tbUsuarios>();
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+                var parameter = new DynamicParameters();
+                parameter.Add("Usuario", usua);
+
+                result = db.Query<tbUsuarios>(sql, parameter, commandType: CommandType.StoredProcedure).ToList();
+                return result;
+            }
+
+        }
+
 
 
         public IEnumerable<tbUsuarios> ValidarReestablecer(string usuario)
         {
 
-
+            var sql = ScriptsBaseDeDatos.Usuarios_ValidarReestablecer;
             List<tbUsuarios> result = new List<tbUsuarios>();
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
             {
                 var parameters = new { Usua_Usuario = usuario };
-                result = db.Query<tbUsuarios>(ScriptsBaseDeDatos.Usuarios_ValidarReestablecer, parameters, commandType: CommandType.StoredProcedure).ToList();
+                result = db.Query<tbUsuarios>(sql, parameters, commandType: CommandType.StoredProcedure).ToList();
                 return result;
             }
         }

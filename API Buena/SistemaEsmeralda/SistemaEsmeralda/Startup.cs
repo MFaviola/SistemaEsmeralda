@@ -7,7 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using SistemaEsmeralda.API.Services;
 using SistemaEsmeralda.BusinessLogic.Services;
 using System;
 using System.Collections.Generic;
@@ -15,9 +14,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using SistemaEsmeralda.API.Extensions;
 using SistemaEsmeralda.API;
-using SistemaRestaurante.API.Herramientas;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
+using SistemaEsmeralda.API.Services;
 
 namespace SistemaEsmeralda
 {
@@ -35,14 +34,13 @@ namespace SistemaEsmeralda
         {
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
 
-            //services.AddTransient<IMailService, MailService>();
+            services.AddTransient<IMailService, MailService>();
 
             // Configurar la inyección de dependencias para DataAccess y BusinessLogic
             services.DataAccess(Configuration.GetConnectionString("SistemaEsmeralda"));
             services.BusinessLogic();
-
-            // Configurar AutoMapper
             services.AddAutoMapper(x => x.AddProfile<MappingProfileExtensions>(), AppDomain.CurrentDomain.GetAssemblies());
+            services.AddHttpContextAccessor();
 
             // Configurar CORS
             services.AddCors(options =>

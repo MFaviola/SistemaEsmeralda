@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SistemaRestaurante.API.Herramientas
+namespace SistemaEsmeralda.API
 {
     public class MailData
     {
