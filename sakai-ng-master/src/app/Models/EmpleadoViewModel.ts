@@ -22,6 +22,7 @@ export class dropEmpleado{
 export class EmpleadoEnviar {
     
 
+    Usua_Id?: Number;
     Empl_DNI?:String;
     Empl_Id:string;
     Empl_Nombre: string;

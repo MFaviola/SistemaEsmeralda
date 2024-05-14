@@ -88,8 +88,6 @@ namespace SistemaEsmeralda.DataAccess.Repository
             }
         }
 
-
-
         public RequestStatus Delete(int Usua_Id)
         {
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
@@ -101,11 +99,6 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 return new RequestStatus { CodeStatus = result.Resultado, MessageStatus = (result.Resultado == 1) ? "Exito" : "Error" };
             }
         }
-
-
-
-
-
 
         public IEnumerable<tbUsuarios> Validar(string usua, string contra)
         {
@@ -157,17 +150,17 @@ namespace SistemaEsmeralda.DataAccess.Repository
             }
         }
 
-        public IEnumerable<tbUsuarios> ValidarCodigo(string codigo)
+        public RequestStatus ValidarCodigo(string codigo)
         {
 
             var sql = ScriptsBaseDeDatos.Usuarios_ValidarCodigo;
-            List<tbUsuarios> result = new List<tbUsuarios>();
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
             {
                 var parameters = new DynamicParameters();
                 parameters.Add("@Codigo", codigo);
-                result = db.Execute(sql, parameters, commandType: CommandType.StoredProcedure);
-                return result;
+                var result = db.Execute(sql, parameters, commandType: CommandType.StoredProcedure);
+                string mensaje = (result == 1) ? "exito" : "error";
+                return new RequestStatus { CodeStatus = result, MessageStatus = mensaje };
             }
         }
 

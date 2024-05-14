@@ -4,6 +4,7 @@ export class Marca{
 }
 
 export class MarcaEnviar {
+    Usua_Id?: Number;
     Marc_Id: string;
     Marc_Marca: string;
 }

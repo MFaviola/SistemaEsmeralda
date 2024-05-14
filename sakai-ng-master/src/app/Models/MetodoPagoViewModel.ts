@@ -3,6 +3,7 @@ export class Metodo{
     mepa_Metodo?:String;
 }
 export class MetodoPagoEnviar {
+    Usua_Id?: Number;
     Mepa_Id:String;
     Mepa_Metodo: string;
 }

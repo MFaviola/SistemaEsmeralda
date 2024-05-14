@@ -5,6 +5,7 @@ export class Cargo{
 
 
 export class CargoEnviar {
+    Usua_Id?: Number;
     Carg_Id: string;
 
     Carg_Cargo: string;

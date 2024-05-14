@@ -192,7 +192,7 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             try
             {
                 var lost = _usuarioRepository.ValidarCodigo(codigo);
-                if (lost.Count() > 0)
+                if (lost.CodeStatus == 1)
                 {
                     return result.Ok(lost);
 

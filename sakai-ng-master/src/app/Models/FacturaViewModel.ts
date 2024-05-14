@@ -8,6 +8,7 @@ export class Factura{
 }
 
 export class FacturaEnviar {
+    Usua_Id?: Number;
     Mepa_Id?:String;
     Empl_Id?:String;
     Clie_Id?:String;

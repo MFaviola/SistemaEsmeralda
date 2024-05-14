@@ -4,6 +4,7 @@ export class Sucursal{
     muni_Municipio?:String;
 }
 export class SucursalEnviar {
+    Usua_Id?: Number;
     Sucu_Nombre: string;
-    Muni_Codigo: string;  
+    Muni_Codigo: string; 
 }

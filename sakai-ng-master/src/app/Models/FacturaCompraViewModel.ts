@@ -20,6 +20,7 @@ export class FacturaCompraEncabezado{
     faCE_Finalizada ?: String;
 }
 export class CrearFacturaCompraEncabezado{
+    Usua_Id?: Number;
     mepa_Id !: Number;
     prov_Id !: Number;
     faCE_Id ?: String;

@@ -12,6 +12,7 @@ export class Cliente{
 }
 
 export class ClienteEnviar {
+    Usua_Id?: Number;
     Clie_Id: string;
     Clie_DNI?:String;
     Clie_Nombre: string;

@@ -16,6 +16,7 @@ export class dropMaqui{
     mayor?:String;
 }
 export class MaquillajeEnviar {
+    Usua_Id?: Number;
     Maqu_Id?:String;
     Maqu_Nombre: string;
     Maqu_PrecioCompra: string;
