@@ -33,6 +33,13 @@ namespace SistemaEsmeralda.API.Controllers
             return Ok(list.Data);
         }
 
+        [HttpGet("PantallasRol/{id}")]
+        public IActionResult PantallasRol(int id)
+        {
+            var list = _accesoServices.ListadoPantallas(id);
+            return Ok(list.Data);
+        }
+
         [HttpGet("DropDown")]
         public IActionResult List()
         {

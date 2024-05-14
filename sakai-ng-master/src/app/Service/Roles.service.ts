@@ -7,7 +7,9 @@ import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs';
 
 
-
+interface Pantalla {
+  pant_Descripcion: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +32,9 @@ export class ServiceService {
         return response;
       }),
     );
+  }
+  getPantallasDeRol(idRoll: Number) {
+    return this.http.get<Pantalla[]>(`${BASE_URL + 'API/Rol/PantallasRol/' + idRoll}`);
   }
   getFill(codigo: string): Observable<Fill> {
     return this.http.get<Fill>(`${BASE_URL + 'API/Rol/Fill/' + codigo}`);

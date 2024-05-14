@@ -81,10 +81,10 @@ namespace SistemaEsmeralda.API.Controllers
             return Ok(list.Data);
         }
 
-        [HttpGet("ReporteVentasMayoristas/{año},{mes}")]
-        public IActionResult ReporteVentasMayoristas(int año,int mes)
+        [HttpGet("ReporteVentasMayoristas/{incio},{final}")]
+        public IActionResult ReporteVentasMayoristas(string incio, string final)
         {
-            var list = _ventasServices.ReporteVentasMayoristas(año,mes);
+            var list = _ventasServices.ReporteVentasMayoristas(incio, final);
             return Ok(list.Data);
         }
         [HttpGet("Fill/{id}")]

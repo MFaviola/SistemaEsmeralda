@@ -40,6 +40,21 @@ namespace SistemaEsmeralda.BusinessLogic.Services
         }
 
 
+        public ServiceResult ListadoPantallas(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _rolRepository.ListaPantallas(id);
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
 
 
         public ServiceResult EditarRol(tbRoles item)

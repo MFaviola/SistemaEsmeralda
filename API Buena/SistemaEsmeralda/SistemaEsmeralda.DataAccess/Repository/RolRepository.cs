@@ -50,6 +50,22 @@ namespace SistemaEsmeralda.DataAccess.Repository
             }
         }
 
+        public IEnumerable<tbRoles> ListaPantallas(int id)
+        {
+            const string sql = "Acce.sp_PantallasPorRol_Pantallas";
+
+            List<tbRoles> result = new List<tbRoles>();
+
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+                var parameter = new DynamicParameters();
+                parameter.Add("Role_Id", id);
+                result = db.Query<tbRoles>(sql,parameter, commandType: CommandType.StoredProcedure).ToList();
+
+                return result;
+            }
+        }
+
         public tbRoles Fill(int id)
         {
 

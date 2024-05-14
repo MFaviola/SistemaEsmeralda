@@ -36,14 +36,16 @@ namespace SistemaEsmeralda.Entities.Entities
         public string UsuarioModificacion { get; set; }
 
 
-
-
+        [NotMapped]
+        public string Pant_Descripcion { get; set; }
 
         [NotMapped]
         public List<tbPantallas> pantallas { get; set; }
 
         [NotMapped]
         public List<int> PantallasID { get; set; }
+
+     
 
     }
 }

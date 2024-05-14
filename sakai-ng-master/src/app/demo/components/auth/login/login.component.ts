@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ServiceService } from '../../../../Service/Login.Service';
 import { Login } from '../../../../Models/ValidarViewModel';
 import {CookieService} from 'ngx-cookie-service';
+import { AuthService } from 'src/app/Service/authGuard.service';
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
@@ -27,7 +28,7 @@ export class LoginComponent {
 
     loginForm: FormGroup;
 
-    constructor(public layoutService: LayoutService, private formBuilder: FormBuilder, private service: ServiceService,private router: Router,private cookie: CookieService) {
+    constructor(public layoutService: LayoutService, private formBuilder: FormBuilder, private service: ServiceService,private router: Router,private cookie: CookieService,private authService:AuthService) {
         
         this.loginForm = this.formBuilder.group({
             usuario: ['', [Validators.required]],
@@ -50,6 +51,10 @@ export class LoginComponent {
                 this.cookie.set('empl_Id', response[0].empl_Id);
                 this.cookie.set('Usuario', response[0].usua_Usuario);
                 this.cookie.set('ID_Usuario', response[0].usua_Id);
+                this.cookie.set('esAdmin',response[0].usua_Administrador);
+                this.cookie.set('roleID',response[0].role_Id);
+                this.authService.loadPermissions();
+                console.log(this.cookie.get('esAdmin'));
                 this.router.navigate(['/dash']);
               }
 

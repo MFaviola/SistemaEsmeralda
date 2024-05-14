@@ -83,7 +83,7 @@ export class ListRolComponent implements OnInit{
   }
 
   updateSelectedKeys() {
-    const excludedKeys = ['0', '100', '101', '102']; 
+    const excludedKeys = ['0', '100', '101', '102','103','104']; 
     this.selectedKeys = this.selectedFiles1
       .map(node => node.key) 
       .filter(key => !excludedKeys.includes(key)); 

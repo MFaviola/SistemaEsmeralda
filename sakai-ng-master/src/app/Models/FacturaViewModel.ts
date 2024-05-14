@@ -44,7 +44,7 @@ export class EmpleadoRe {
     empl_Id?:String;
     empl_Nombre?:String;
     factura?:string;
-    total?:String;
+    total?:string;
     fact_FechaFinalizado?:string;
 }
 
