@@ -171,6 +171,28 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             }
         }
 
+        public ServiceResult ValidarCodigo(string codigo)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var lost = _usuarioRepository.ValidarCodigo(codigo);
+                if (lost.Count() > 0)
+                {
+                    return result.Ok(lost);
+
+                }
+                else
+                {
+                    return result.Error();
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
         public ServiceResult ListadoUsuario()
         {
             var result = new ServiceResult();

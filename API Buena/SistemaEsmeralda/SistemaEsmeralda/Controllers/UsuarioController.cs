@@ -50,6 +50,20 @@ namespace SistemaEsmeralda.API.Controllers
 
         }
 
+        [HttpPut("ValidarCodigo")]
+        public IActionResult ValidarCodigo(string Codigo)
+        {
+            var list = _accesoServices.ValidarCodigo(Codigo);
+            if(list.Success == true)
+            {
+                return Ok(list.Message);
+            }
+            else
+            {
+                return Problem(list.Message);
+            }
+        }
+
         [HttpGet("List")]
         public IActionResult Index()
         {

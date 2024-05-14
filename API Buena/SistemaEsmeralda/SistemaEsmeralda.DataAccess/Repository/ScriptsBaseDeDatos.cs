@@ -37,11 +37,6 @@ namespace SistemaEsmeralda.DataAccess.Repository
 
         #endregion
 
-        #region Usuarios
-        public static string Usuarios_ValidarReestablecer = "[Acce].[sp_validarCorreo]";
-
-
-        #endregion
 
 
 
@@ -248,6 +243,8 @@ namespace SistemaEsmeralda.DataAccess.Repository
         public static string UsuariosActualizar = "Acce.sp_Usuarios_actualizar";
         public static string UsuariosEliminar = "Acce.sp_Usuarios_eliminar";
         public static string InicioSesion = "Acce.sp_Usuarios_inicioSesion";
+        public static string Usuarios_ValidarReestablecer = "[Acce].[sp_validarCorreo]";
+        public static string Usuarios_ValidarCodigo = "Acce.sp_ValidarCodigo";
 
 
         public static string Usuariollenarcodigo = "[Acce].[sp_LlenarCodigo]";

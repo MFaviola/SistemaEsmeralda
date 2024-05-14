@@ -157,7 +157,19 @@ namespace SistemaEsmeralda.DataAccess.Repository
             }
         }
 
+        public IEnumerable<tbUsuarios> ValidarCodigo(string codigo)
+        {
 
+            var sql = ScriptsBaseDeDatos.Usuarios_ValidarCodigo;
+            List<tbUsuarios> result = new List<tbUsuarios>();
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@Codigo", codigo);
+                result = db.Execute(sql, parameters, commandType: CommandType.StoredProcedure);
+                return result;
+            }
+        }
 
         public RequestStatus Delete(string id)
         {
