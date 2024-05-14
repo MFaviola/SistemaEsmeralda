@@ -63,6 +63,7 @@ export class ListFacturacompraComponent {
   Valor: string = "";
   staticData = [{}];
   FormularioJoya: boolean = false;
+  MaquiJoyabtn: boolean = false;
   FormularioMaquillaje: boolean = false;
   deleteProductDialog: boolean = false;
   //Detalle
@@ -208,6 +209,7 @@ export class ListFacturacompraComponent {
         this.FacturaForm.get('faCD_Dif').setValue(value); 
         this.FacturaForm.get('nombreProducto').setValue(""); 
         this.FacturaForm.get('prod_Id').setValue(""); 
+        this.MaquiJoyabtn = false;
     });
   } else {
       this.service.getAutoCompletadoMaquillaje().subscribe(countries => {
@@ -215,6 +217,7 @@ export class ListFacturacompraComponent {
         this.FacturaForm.get('faCD_Dif').setValue(value); 
         this.FacturaForm.get('nombreProducto').setValue(""); 
         this.FacturaForm.get('prod_Id').setValue(""); 
+        this.MaquiJoyabtn = true;
       });
     }
   }

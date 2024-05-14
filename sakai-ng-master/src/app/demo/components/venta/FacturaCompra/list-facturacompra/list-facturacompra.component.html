@@ -48,11 +48,12 @@
                     </div>
                 </div>
 </div>
+
                 <div [class.hidden]="!Detalles">
                 <div >
                     <label>
                         <input type="radio" name="j-m-radio" value="1" (change)="onRadioChange($event)" formControlName="radio" />
-                        Joya
+                        J
                     </label>
                     <label>
                         <input type="radio" name="j-m-radio" value="0" (change)="onRadioChange($event)" formControlName="radio" />
@@ -67,7 +68,7 @@
                         (keydown)="producto($event)"/>
                         
                     </div>
-                    <div class="field col-12 md:col-6">
+                    <div class="field col-12 md:col-4">
                         <label for="">Nombre Producto</label>
                         <p-autoComplete 
                         [(ngModel)]="selectedCountryAdvanced"
@@ -78,6 +79,15 @@
                         formControlName="prod_Producto"
                         appendTo="body"
                         [dropdown]="true"></p-autoComplete>
+                    </div>
+                    <div class="field col-12 md:col-2">
+                        <label for="">Nuevo Producto</label>
+                        <div [class.hidden]="MaquiJoyabtn">
+                            <button pButton icon="pi pi-plus" type="button"  (click)="Onjoya()" label="Joya" class="p-button-outlined"></button>
+                        </div>
+                        <div [class.hidden]="!MaquiJoyabtn">
+                            <button pButton icon="pi pi-plus" type="button"  (click)="Onmaquillaje()" label="Maquillaje " class="p-button-outlined"></button>
+                        </div>
                     </div>
                 </div>
                 <div class="p-fluid p-formgrid grid">
@@ -109,10 +119,10 @@
             </form>
 
             <div class="formGroup">
-                <div [class.hidden]="!Detalles">
-                    <button pButton icon="pi pi-plus" type="button"  (click)="Onjoya()" label="Agregar Joya" class="p-button-outlined"></button>
-                    <button pButton icon="pi pi-plus" type="button"  (click)="Onmaquillaje()" label="Agregar Maquillaje" class="p-button-outlined"></button>
-
+                
+                <div style="display: flex; justify-content: flex-end; margin-top: 1rem; grid-gap: 5px;" [class.hidden]="!Detalles">
+                    <button pButton icon="pi pi-check" type="button"  (click)="onSubmit()" label="Agregar" class="p-button-outlined"></button>
+                    <button pButton icon="pi pi-times" type="button" (click)="cancelar()" label="Cancelar" class="p-button-outlined"></button>
                 </div>
                 <div [class.hidden]="!FormularioJoya">
                     <button pButton icon="pi pi-times" type="button" (click)="cancelarJM()" label="Cancelar" class="p-button-outlined"></button>
@@ -158,10 +168,7 @@
                 <div style="display: flex; justify-content: flex-end; margin-top: 1rem; grid-gap: 5px;" [class.hidden]="!Tabla">
                     <h1>Total:575lps</h1>
                 </div>
-                <div style="display: flex; justify-content: flex-end; margin-top: 1rem; grid-gap: 5px;">
-                    <button pButton icon="pi pi-check" type="button"  (click)="onSubmit()" label="Agregar" class="p-button-outlined"></button>
-                    <button pButton icon="pi pi-times" type="button" (click)="cancelar()" label="Cancelar" class="p-button-outlined"></button>
-                </div>
+              
             </div>
         </div>  
 
@@ -265,7 +272,7 @@
         </div>
         </div>
 
-        <div style="display: flex; justify-content: flex-end; margin-top: 1rem; grid-gap: 5px;">
+        <div >
             <button pButton icon="pi pi-check" type="button"  (click)="onSubmitMaquillaje()" label="Maquillaje" class="p-button-outlined"></button>
             <button pButton icon="pi pi-sort-up" type="button" (click)="cancelarMQ()" label="Cancelar" class="p-button-outlined"></button>
         </div>
