@@ -41,7 +41,7 @@ export class reporteVentasAnual implements OnInit  {
   pdfSrc: SafeResourceUrl | null = null;
   Reporte_1: boolean = false;
   Reporte_2: boolean = false;
-  selectedDrop:any = 2024;
+  selectedDrop:any;
   cities: SelectItem[] = [];
   Factura!:FacturaDetalle[];
   constructor(private service: ServiceService,private yService: YService, private sanitizer: DomSanitizer) { }
@@ -55,7 +55,12 @@ export class reporteVentasAnual implements OnInit  {
 		{ label: '2020', value: 2020 }
 	];
 
-	this.service.GetReporteVentasAnual(2024).subscribe((data: any)=>{
+
+  }
+
+  onselectAno(event){
+
+	this.service.GetReporteVentasAnual(event.value).subscribe((data: any)=>{
 
 		this.Factura = data;
 		console.log(data);
@@ -77,7 +82,7 @@ export class reporteVentasAnual implements OnInit  {
 	
 			   const totales = total.toFixed(2);
 	
-		const Año = 2024
+		const Año = event.value
 		const img = "assets/demo/images/galleria/Esmeraldas.png";
 		const blob = this.yService.ReportesVentaAnual(cuerpo, img,Año,totales);
 		const url = URL.createObjectURL(blob);
@@ -86,11 +91,6 @@ export class reporteVentasAnual implements OnInit  {
 	},error=>{
 	  console.log(error);
 	});
-  }
-
-  onselectAno(event){
-	console.log(event.value);
-
   }
 
   

@@ -170,11 +170,11 @@ namespace SistemaEsmeralda.DataAccess.Repository
             }
         }
 
-        public IEnumerable<tbFactura> ReporteVentasMayoristas(int año, int mes)
+        public IEnumerable<tbFactura> ReporteVentasMayoristas(string año, string mes)
         {
             const string sql = "[Vent].[sp_ReporteVentasMayoristas]";
 
-            var parameters = new { Año = año, Mes = mes };
+            var parameters = new { FechaInicio = año, FechaFinal = mes };
 
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
             {

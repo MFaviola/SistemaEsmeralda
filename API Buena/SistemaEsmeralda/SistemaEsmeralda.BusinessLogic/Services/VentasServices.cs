@@ -500,7 +500,7 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             }
         }
 
-        public ServiceResult ReporteVentasMayoristas(int año, int mes)
+        public ServiceResult ReporteVentasMayoristas(string año, string mes)
         {
             var result = new ServiceResult();
             try
