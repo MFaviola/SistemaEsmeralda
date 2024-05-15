@@ -20,9 +20,9 @@ import { AuthService } from './Service/authGuard.service';
       ): Observable<boolean> | Promise<boolean> | boolean {
         const url: string = state.url;
         const isAdmin = this.cookieService.get('esAdmin') == 'true';
-
+        console.log(isAdmin);
         if (isAdmin || this.authService.isUrlAllowedLogin(url)) {
-            console.log("authh")
+          
           return true;
         }
 

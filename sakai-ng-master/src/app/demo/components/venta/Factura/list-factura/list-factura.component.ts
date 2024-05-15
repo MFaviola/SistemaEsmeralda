@@ -15,11 +15,12 @@ import { CountryService } from 'src/app/demo/service/country.service';
 import { C, an, el } from '@fullcalendar/core/internal-common';
 import { forkJoin } from 'rxjs';
 import {CookieService} from 'ngx-cookie-service';
+import { DatePipe } from '@angular/common';
 @Component({
   templateUrl: './list-factura.component.html',
   styleUrl: '/list-factura.component.css',
   encapsulation: ViewEncapsulation.None,
-  providers: [ConfirmationService, MessageService,CookieService]
+  providers: [ConfirmationService, MessageService,CookieService,DatePipe]
 })
 export class ListFacturaComponent {
   pdfSrc: SafeResourceUrl | null = null;
@@ -65,7 +66,8 @@ export class ListFacturaComponent {
   Fact_ID: string = "0";
   selectedMetodo: string = '1';
   TotalTabla: any = 0;
-  
+  dateDay = new Date();
+  conversion: string;
 //USUARIO
 Usuario: string = "";
 Usua_Id: string = "";
@@ -88,7 +90,7 @@ Usua_Id: string = "";
   filteredClientes: any[] = [];
   constructor(private service: ServiceService, private router: Router, private srvImprecion : YService,
     private messageService: MessageService,private countryService: CountryService,private fb: FormBuilder,
-    private yService: YService, private sanitizer: DomSanitizer,private cookie: CookieService
+    private yService: YService, private sanitizer: DomSanitizer,private cookie: CookieService, private datePipe: DatePipe
   ) { }
 
 
@@ -366,7 +368,6 @@ detalles(codigo) {
     next: ([detallesData, fillData]) => {
       // Procesar detalles de factura
       const cuerpo = detallesData.map(item => [
-        item.categoria.toString(),
         item.producto.toString(),
         item.cantidad.toString(),
         item.precio_Unitario.toString(),
@@ -383,7 +384,8 @@ detalles(codigo) {
 
       // Procesar datos de cliente
       const cliente = fillData[0].clie_Nombre;
-      const DNI = fillData[0].clie_Id === "1" ? "Usuario Final" : fillData[0].clie_DNI;
+      console.log("SU ID" + fillData[0].clie_Id);
+      const DNI = fillData[0].clie_Id == "1" ? "" : fillData[0].clie_DNI;
       const Municipio = fillData[0].muni_Municipio;
       const Departamento = fillData[0].depa_Departamento;
       const Fecha = fillData[0].fechaCreacion;
@@ -391,9 +393,10 @@ detalles(codigo) {
       const Metodo = fillData[0].mepa_Metodo;
       const Impuesto = "15%";
 
-      // Preparar para generar PDF
+      const usuario = this.cookie.get('Empleado');
       const img = "assets/demo/images/galleria/Esmeraldas.png";
-      const blob = this.yService.Reporte2PDF(cuerpo, img, cliente, DNI, Municipio, Departamento, Fecha, Factura, Impuesto, Metodo, Subtotal, Total);
+      const fechaC = this.datePipe.transform(this.dateDay, 'yyyy-MM-dd')
+      const blob = this.yService.Reporte2PDF(cuerpo, img, cliente, DNI, Municipio, Departamento, Fecha, Factura, Impuesto, Metodo, Subtotal, Total,fechaC,usuario);
       const url = URL.createObjectURL(blob);
       this.pdfSrc = this.sanitizer.bypassSecurityTrustResourceUrl(url);
       

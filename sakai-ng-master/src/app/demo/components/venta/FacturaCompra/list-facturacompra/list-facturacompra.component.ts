@@ -197,6 +197,16 @@ export class ListFacturacompraComponent {
 
   this.FacturaForm.controls['mepa_Id'].setValue(metodo);
 }
+
+SeleccionAgregar(){
+  if (this.selectedRadio == "1") {
+    this.Onjoya();
+  }else{
+    this.Onmaquillaje();
+  }
+ 
+}
+
   onRadioChange(event: Event) {
     const target = event.target as HTMLInputElement;
     const value = target.value;
@@ -555,8 +565,11 @@ export class ListFacturacompraComponent {
   Onjoya(){
     this.Detalles = false;
     this.FormularioJoya = true;
+    this.FormularioMaquillaje = false;
   }
   Onmaquillaje(){
+
+    this.FormularioJoya = false;
     this.Detalles = false;
     this.FormularioMaquillaje = true;
   }

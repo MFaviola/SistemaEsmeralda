@@ -51,6 +51,8 @@ interface Pantalla {
           }
         });
       }   
+
+
        isUrlAllowedAccess(url: string): boolean {
         this.loadPermissions();
         const admin = this.cookieService.get('esAdmin').toString()
@@ -62,7 +64,7 @@ interface Pantalla {
         }
   
         const urlSegments = url.split('/').filter(segment => segment.trim() !== '');
-        console.log("DXDDD")
+
         console.log(urlSegments)
         const screenNameIndex = urlSegments.indexOf('') + 2;
         if (screenNameIndex > 0 && screenNameIndex < urlSegments.length) {
@@ -77,13 +79,14 @@ interface Pantalla {
   
       return false;
     }
-    isUrlAllowedLogin(url: string): boolean {
 
+
+    isUrlAllowedLogin(url: string): boolean {
+      this.loadPermissions();
       const admin = this.cookieService.get('esAdmin').toString()
 
       if (admin == "true" ){
-          console.log("authh")
-
+        
           return true;
       }
 
@@ -106,7 +109,7 @@ interface Pantalla {
     return false;
   }
     isUrlAllowedVenta(url: string): boolean {
-
+      this.loadPermissions();
       const admin = this.cookieService.get('esAdmin').toString()
 
       if (admin == "true" ){
@@ -130,9 +133,9 @@ interface Pantalla {
   }
 
       isUrlAllowed(url: string): boolean {
-
+        this.loadPermissions();
         const admin = this.cookieService.get('esAdmin').toString()
-
+       
         if (admin == "true" ){
             console.log("authh")
 
@@ -140,8 +143,7 @@ interface Pantalla {
         }
 
         const urlSegments = url.split('/').filter(segment => segment.trim() !== '');
-        console.log(`Sxdd`);
-        const screenNameIndex = urlSegments.indexOf('generales') + 1;
+        const screenNameIndex = urlSegments.indexOf('') + 2;
         if (screenNameIndex > 0 && screenNameIndex < urlSegments.length) {
             const screenName = urlSegments[screenNameIndex].toLowerCase().trim();
             console.log(`Screen name extracted: ${screenName}`);
