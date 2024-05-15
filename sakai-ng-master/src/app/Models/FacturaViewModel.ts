@@ -15,6 +15,8 @@ export class FacturaEnviar {
     Faxd_Dif?:String;
     Prod_Nombre?:String;
     Faxd_Cantidad?:String;
+    Actualizar?:String;
+    Usua_Id?:String;
 }
 
 

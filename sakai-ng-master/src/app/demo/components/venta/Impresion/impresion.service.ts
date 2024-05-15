@@ -90,11 +90,11 @@ export class YService {
           fontSize: 10,
       },
       headStyles: {
-          fillColor: [0, 0, 0],
+          fillColor: [100, 100, 100],
           textColor: [255, 255, 255], 
           halign: 'center',
           valign: 'middle',
-          fontStyle: 'bold',
+          fontStyle: 'normal',
       },
       theme: 'grid',
 
@@ -148,45 +148,63 @@ Reporte2PDF(cuerpo, logoURL, Cliente, DNI, Muni, Depa, Fecha, Pedido, Imouesto, 
   doc.text("Codigo Pedido: " + Pedido, 270, 110);
   doc.text("Impuesto: " + Imouesto, 270, 120);
   doc.text("Metodo Pago: " + Metodo, 270, 130);
-  doc.text("Subtotal: " + Subtotal, 270, 140);
-  doc.setFont(undefined, 'bold');
-  doc.text("Total: " + Total, 270, 150);
 
-  doc.setFontSize(10);
-  doc.setFont(undefined, 'bold');
-  doc.text("Producto ", 32, 180);
-  doc.text("Cantidad ", 268, 180);
-  doc.text("Precio", 328, 180);
-  doc.text("Subtotal", 388, 180);
 
-  let startY = 200;
-  cuerpo.forEach(row => {
-    doc.setFont(undefined, 'normal');
-    doc.text(row[0], 32, startY);
-    doc.text(row[1], 280, startY);
-    doc.text(row[2], 340, startY);
-    doc.text(row[3], 400, startY);
-    startY += 20;
 
-    if (startY > 750) {  
-      footer();
-      doc.addPage();
-      pageNumber++;
-      startY = 40;  
-    }
+  
+  const yPosition = 200
+  autoTable(doc, {
+    
+    head: [['Producto', 'Cantidad', 'Precio', 'Subtotal']],
+    body: cuerpo,
+    startY:  yPosition + 20,
+    styles: {
+      fontSize: 8,
+    },
+    headStyles: {
+      fillColor: [180, 180, 180],
+      textColor: [0, 0, 0],
+      halign: 'center',
+      valign: 'middle',
+      fontStyle: 'normal',
+    }, columnStyles: {
+      0: { halign: 'center' },  
+      1: { halign: 'center' }, 
+      2: { halign: 'center' }, 
+      3: { halign: 'center' },  
+      4: { halign: 'center' }  
+    },
+    theme: 'grid',
+   
+ 
+      
+      didDrawPage: (data) => {
+        this.footer(doc, pageNumber);
+        pageNumber++;
+      }
+      
+
   });
 
-  footer();
+    doc.setFontSize(10);
+      doc.setFont(undefined, 'normal');
+      doc.text("Subtotal: " + Subtotal,  doc.internal.pageSize.getWidth() - 60, (doc as any).previousAutoTable.finalY + 15, { align: 'right' });
+      doc.setFont(undefined, 'bold');
+      doc.text("Total: " + Total,  doc.internal.pageSize.getWidth() - 60, (doc as any).previousAutoTable.finalY + 25, { align: 'right' });
 
-  doc.setFontSize(10);
-  doc.setFont(undefined, 'normal');
-  doc.text("Subtotal: " + Subtotal, 370, startY + 20);
-  doc.setFont(undefined, 'bold');
-  doc.text("Total: " + Total, 370, startY + 40);
+
+  if ((doc as any).previousAutoTable.finalY + 30 > doc.internal.pageSize.getHeight()) {
+    doc.addPage();
+    pageNumber++;
+  }
 
   return doc.output('blob');
 }
-
+footer(doc: jsPDF, pageNumber: number) {
+  doc.setFontSize(10);
+  doc.setFont(undefined, 'normal');
+  doc.text(String(pageNumber), 444, 580, { align: 'right' });
+}
 ReporteStock(cuerpo, logoURL: string,): Blob {
   const doc = new jsPDF({
     orientation: 'portrait',
