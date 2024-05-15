@@ -171,7 +171,7 @@ namespace SistemaEsmeralda.BusinessLogic.Services
 
 
         #region Usuario
-        public ServiceResult ValidarReestablecer(string usuario)
+        public ServiceResult ValidarReestablecer(tbUsuarios usuario)
         {
             var result = new ServiceResult();
             try
@@ -265,6 +265,26 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             }
         }
 
+        public ServiceResult Restablecer (tbUsuarios item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _usuarioRepository.Restablecer(item);
+                if (list.CodeStatus > 0)
+                {
+                    return result.Ok(list);
+                }
+                else
+                {
+                    return result.Error("Y existe un registro con ese nombre");
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
         public ServiceResult InsertarUsuario(tbUsuarios item)
         {
             var result = new ServiceResult();

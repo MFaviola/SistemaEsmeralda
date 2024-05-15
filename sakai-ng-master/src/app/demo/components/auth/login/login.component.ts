@@ -3,9 +3,10 @@ import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ServiceService } from '../../../../Service/Login.Service';
-import { Login } from '../../../../Models/ValidarViewModel';
+import { Login, validar } from '../../../../Models/ValidarViewModel';
 import {CookieService} from 'ngx-cookie-service';
 import { AuthService } from 'src/app/Service/authGuard.service';
+import { Usuario } from 'src/app/Models/UsuarioVIewModel';
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
@@ -21,12 +22,14 @@ import { AuthService } from 'src/app/Service/authGuard.service';
     [CookieService]
 })
 export class LoginComponent {
+  Collapse: boolean = false;
 
     // valCheck: string[] = ['remember'];
 
     // password!: string;
 
     loginForm: FormGroup;
+    validar: FormGroup;
 
     constructor(public layoutService: LayoutService, private formBuilder: FormBuilder, private service: ServiceService,private router: Router,private cookie: CookieService,private authService:AuthService) {
         
@@ -36,7 +39,7 @@ export class LoginComponent {
             rememberMe: [false]
           });
 
-     }
+    }
 
 
      onSubmit(): void {
@@ -67,5 +70,35 @@ export class LoginComponent {
         } else {
           console.log('Formulario inválido');
         }
+      }
+
+      
+     onValidar(): void {
+      if (this.validar.valid) {
+        const loginData: validar = this.validar.value;
+        this.service.enviarcodigo(loginData).subscribe(
+          response => {
+            
+            console.log('Respuesta del servidor:', response);
+            if (response!="Error"){
+              this.cookie.set('ID_Usuario', response[0].usua_Id);
+              this.authService.loadPermissions();
+              this.router.navigate(['/dash']);
+            }
+
+          },
+          error => {
+            console.error('Nombre de usuario incorrecto:', error);
+
+          }
+        );
+      } else {
+        console.log('Formulario inválido');
+      }
+    }
+
+
+      collapse(){
+        this.Collapse=true;
       }
 }

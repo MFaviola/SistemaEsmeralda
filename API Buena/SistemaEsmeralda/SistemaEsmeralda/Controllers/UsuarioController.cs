@@ -26,13 +26,13 @@ namespace SistemaEsmeralda.API.Controllers
             _mailService = mailService;
 
         }
-        [HttpGet("EnviarCodigo/{usuario}")]
-        public IActionResult ValidarReestablecer(string usuario)
+        [HttpGet("EnviarCodigo")]
+        public IActionResult ValidarReestablecer(UsuariosViewModel item)
         {
-
+            var model = _mapper.Map<tbUsuarios>(item);
             Random random = new Random();
             int randomNumber = random.Next(100000, 1000000);
-            var estado = _accesoServices.ValidarReestablecer(usuario);
+            var estado = _accesoServices.ValidarReestablecer(model);
             var lista = estado.Data;
             if (lista.Count > 0)
             {
@@ -152,6 +152,20 @@ namespace SistemaEsmeralda.API.Controllers
             return Ok(new { success = true, message = list.Message });
         }
 
+        [HttpPut("Restablecer")]
+        public IActionResult Restablecer (UsuariosViewModel item)
+        {
+            var modelo = _mapper.Map<tbUsuarios>(item);
+            var list = _accesoServices.Restablecer(modelo);
+            if (list.Success == true)
+            {
+                return Ok(list);
+            }
+            else
+            {
+                return Problem();
+            }
+        }
 
 
 

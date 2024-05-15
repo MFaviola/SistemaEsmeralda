@@ -3,3 +3,7 @@ export class Login {
     contra!:String;
 
   }
+  export class validar {
+    usuario!:String;
+
+  }
