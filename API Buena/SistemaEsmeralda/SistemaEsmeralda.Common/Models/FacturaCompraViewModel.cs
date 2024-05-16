@@ -9,8 +9,9 @@ namespace SistemaEsmeralda.Common.Models
 {
     public class FacturaCompraViewModel
     {
-        public string Usua_ID { get; set; }
        public string mepa_Id { get; set; }
+
+        public int sucu_Id { get; set; }
 
         public int? prov_Id { get; set; }
 

@@ -9,3 +9,8 @@ export class SucursalEnviar {
     Sucu_Nombre: string;
     Muni_Codigo: string; 
 }
+
+export class DropSucursal{
+    sucu_Id?:String;
+    sucu_Nombre?:String;
+}

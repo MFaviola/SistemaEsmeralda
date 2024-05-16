@@ -56,6 +56,8 @@ namespace SistemaEsmeralda.Entities.Entities
         public string precioVenta { get; set; }
         [NotMapped]
         public string precioMayorista { get; set; }
+        [NotMapped]
+        public int sucu_Id { get; set; }
         public virtual tbMetodosPago Mepa { get; set; }
         public virtual tbProveedores Prov { get; set; }
         public virtual ICollection<tbFacturaCompraDetalle> tbFacturaCompraDetalle { get; set; }

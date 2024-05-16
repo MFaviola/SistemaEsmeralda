@@ -8,6 +8,7 @@ import { dropJoya } from '../Models/JoyaViewModel';
 import { Maquillaje, dropMaqui } from '../Models/MaquillajeViewModel';
 import { Metodo } from '../Models/MetodoPagoViewModel';
 import { dropProveedor } from '../Models/ProveedorViewModel';
+import { DropSucursal } from '../Models/SucursalViewModel';
 @Injectable({
   providedIn: 'root'
 })
@@ -28,6 +29,10 @@ export class FacturaCompraService {
     return this.http.get<dropProveedor[]>(this.urlCProvee)
   }
 
+  urlCSucur = BASE_URL + 'API/Sucursal/List'
+  getAutoCompletadoSucursal(){
+    return this.http.get<DropSucursal[]>(this.urlCSucur)
+  }
 
   urlMetodo = BASE_URL + 'API/MetodoPago/List'
   getMetodo(){

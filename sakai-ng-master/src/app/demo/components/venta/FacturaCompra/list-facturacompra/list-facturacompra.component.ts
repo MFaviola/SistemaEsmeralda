@@ -339,8 +339,6 @@ SeleccionAgregar(){
   onSelectProduct(event) {
     this.FacturaForm.get('prod_Id').setValue(event.value.value); 
     this.FacturaForm.get('nombreProducto').setValue(event.value.text); 
-   
-
   }
 
   handleKeyDown(event: KeyboardEvent) {
