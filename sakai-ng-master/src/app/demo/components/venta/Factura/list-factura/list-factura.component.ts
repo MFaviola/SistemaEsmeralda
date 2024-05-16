@@ -395,7 +395,7 @@ onSubmit() {
            this.service.getFacturasDetalle(this.Fact_ID).subscribe((data: any)=>{
           this.FacturaDetalle = data;
           const total = data.reduce((sum, item) => {
-            const itemTotal = parseFloat(item.total) || 0; // Si no es un número válido, usa 0
+            const itemTotal = parseFloat(item.total) || 0; 
             return sum + itemTotal;
         }, 0);
         const impuestoString = this.FacturaForm.get('Impu_Impuesto').value.replace('%', '');
@@ -478,7 +478,6 @@ detalles(codigo) {
 
   forkJoin([detalles$, fill$]).subscribe({
     next: ([detallesData, fillData]) => {
-      // Procesar detalles de factura
       const cuerpo = detallesData.map(item => [
         item.codigoRow.toString(),
         item.producto.toString(),
@@ -494,8 +493,6 @@ detalles(codigo) {
       const TotalFinal = total + (total * impuesto);
       const Subtotal = total.toFixed(2);
       const Total = TotalFinal.toFixed(2);
-
-      // Procesar datos de cliente
       const cliente = fillData[0].clie_Nombre;
       console.log("SU ID" + fillData[0].clie_Id);
       const DNI = fillData[0].clie_Id == "1" ? "" : fillData[0].clie_DNI;
@@ -514,7 +511,7 @@ detalles(codigo) {
       const url = URL.createObjectURL(blob);
       this.pdfSrc = this.sanitizer.bypassSecurityTrustResourceUrl(url);
       
-      // Actualización del estado de la interfaz de usuario
+     
       this.Reporte_2 = true;
       this.Collapse = false;
       this.DataTable = false;
@@ -533,7 +530,6 @@ Fill(codigo) {
       console.log(data);
       this.submitted = false;
       this.FacturaForm = new FormGroup({
-        //FACTUR      this.submitted = false;
         Mepa_Id: new FormControl(data[0].mepa_Id, Validators.required),
         Empl_Id: new FormControl(data[0].empl_Id, [Validators.required]),
         Clie_Id: new FormControl(data[0].clie_Id, [Validators.required]),

@@ -254,7 +254,7 @@
                     </td>
                     <td style="display: flex; justify-content: space-around; grid-gap: 5px;">
                         <p-button *ngIf="fact.fact_Finalizado == 'True'" label="Editar" icon="pi pi-user-edit" size="small" (click)="Fill(fact.fact_Id)" severity="primary" [raised]="true" [plain]="true"></p-button>
-                        <p-button *ngIf="fact.fact_Finalizado == 'False'" label="Imprimir"   icon="pi pi-book" size="small" (click)="Imprimir()" severity="secondary" (click)="detalles(fact.fact_Id)" [raised]="true" [plain]="true"></p-button>
+                        <p-button *ngIf="fact.fact_Finalizado == 'False'" label="Imprimir"   icon="pi pi-book" size="small"  severity="secondary" (click)="detalles(fact.fact_Id)" [raised]="true" [plain]="true"></p-button>
                         <p-button  *ngIf="fact.fact_Finalizado == 'True'" label="Confirmar" icon="pi pi-check" size="small" (click)="deleteSelectedProducts(fact.fact_Id)" severity="success" [raised]="true" [plain]="true"></p-button>
                     </td>
                 </tr>

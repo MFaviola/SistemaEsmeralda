@@ -20,12 +20,12 @@ export class YService {
         format: 'letter'
     });
 
-    // Logo
+
     const imgWidth = 200;
     const imgHeight = 50;
     doc.addImage(logoURL, 'JPEG', 10, 10, imgWidth, imgHeight);
 
-    // Título del Documento - ACOSA Honduras
+
     doc.setFontSize(12);
     doc.setFont(undefined, 'bold');
     doc.text('Esmeraldas HN', 140*2 , 30);
@@ -77,7 +77,6 @@ export class YService {
     doc.setFontSize(14);
     doc.setFont(undefined, 'bold');
     doc.text("Total: " + Total, 140*2, 160);
-    // Mostrar PDF
     autoTable(doc, {
       head: [['Producto', 'Cantidad', 'Sin ISV','Total']],
       body: [
@@ -379,7 +378,7 @@ ReporteEmpleado(cuerpo, logoURL: string,Empleado,Total): Blob {
   doc.setFont(undefined, 'bold');
   doc.text('Esmeraldas HN', 140*2 , 30);
 
-  // Información de la empresa - Direcciones
+
   doc.setFontSize(10);
   doc.setFont(undefined, 'normal');
   doc.text('Dirección :', 140*2 , 40);
@@ -399,8 +398,7 @@ ReporteEmpleado(cuerpo, logoURL: string,Empleado,Total): Blob {
 
 
   
-  // Mostrar PDF
-  // Función para dibujar el pie de página
+
   const footer = () => {
     doc.setFontSize(10);
     doc.setFont(undefined, 'normal');
@@ -447,7 +445,7 @@ ReporteEmpleadoTodo(cuerpo, logoURL: string,Empleado,Total): Blob {
   });
 
 
-  let pageNumber = 1;  // Inicializar el contador de página
+  let pageNumber = 1;  
   const imgWidth = 200;
   const imgHeight = 50;
   doc.addImage(logoURL, 'JPEG', 10, 10, imgWidth, imgHeight);
@@ -458,7 +456,7 @@ ReporteEmpleadoTodo(cuerpo, logoURL: string,Empleado,Total): Blob {
   doc.setFont(undefined, 'bold');
   doc.text('Esmeraldas HN', 140*2 , 30);
 
-  // Información de la empresa - Direcciones
+ 
   doc.setFontSize(10);
   doc.setFont(undefined, 'normal');
   doc.text('Dirección :', 140*2 , 40);
@@ -477,9 +475,7 @@ ReporteEmpleadoTodo(cuerpo, logoURL: string,Empleado,Total): Blob {
 
 
 
-  
-  // Mostrar PDF
-  // Función para dibujar el pie de página
+
   const footer = () => {
     doc.setFontSize(10);
     doc.setFont(undefined, 'normal');
@@ -526,7 +522,7 @@ ReportePorMes(cuerpo, logoURL: string,Mes,Year,Total): Blob {
   });
 
 
-  let pageNumber = 1;  // Inicializar el contador de página
+  let pageNumber = 1;  
   const imgWidth = 200;
   const imgHeight = 50;
   doc.addImage(logoURL, 'JPEG', 10, 10, imgWidth, imgHeight);
@@ -537,7 +533,7 @@ ReportePorMes(cuerpo, logoURL: string,Mes,Year,Total): Blob {
   doc.setFont(undefined, 'bold');
   doc.text('Esmeraldas HN', 140*2 , 30);
 
-  // Información de la empresa - Direcciones
+
   doc.setFontSize(10);
   doc.setFont(undefined, 'normal');
   doc.text('Dirección :', 140*2 , 40);
@@ -560,8 +556,7 @@ ReportePorMes(cuerpo, logoURL: string,Mes,Year,Total): Blob {
 
 
   
-  // Mostrar PDF
-  // Función para dibujar el pie de página
+
   const footer = () => {
     doc.setFontSize(10);
     doc.setFont(undefined, 'normal');
@@ -608,7 +603,7 @@ ReportesTop10(cuerpo, logoURL: string,Inicio,Final,Total): Blob {
   });
 
 
-  let pageNumber = 1;  // Inicializar el contador de página
+  let pageNumber = 1;  
   const imgWidth = 200;
   const imgHeight = 50;
   doc.addImage(logoURL, 'JPEG', 10, 10, imgWidth, imgHeight);
@@ -641,9 +636,7 @@ ReportesTop10(cuerpo, logoURL: string,Inicio,Final,Total): Blob {
 
 
 
-  
-  // Mostrar PDF
-  // Función para dibujar el pie de página
+
   const footer = () => {
     doc.setFontSize(10);
     doc.setFont(undefined, 'normal');
@@ -692,7 +685,7 @@ ReportesVentaAnual(cuerpo, logoURL: string,Ano,Total): Blob {
   });
 
 
-  let pageNumber = 1;  // Inicializar el contador de página
+  let pageNumber = 1;  
   const imgWidth = 200;
   const imgHeight = 50;
   doc.addImage(logoURL, 'JPEG', 10, 10, imgWidth, imgHeight);
@@ -703,7 +696,7 @@ ReportesVentaAnual(cuerpo, logoURL: string,Ano,Total): Blob {
   doc.setFont(undefined, 'bold');
   doc.text('Esmeraldas HN', 140*2 , 30);
 
-  // Información de la empresa - Direcciones
+
   doc.setFontSize(10);
   doc.setFont(undefined, 'normal');
   doc.text('Dirección :', 140*2 , 40);
@@ -724,8 +717,7 @@ ReportesVentaAnual(cuerpo, logoURL: string,Ano,Total): Blob {
 
 
   
-  // Mostrar PDF
-  // Función para dibujar el pie de página
+
   const footer = () => {
     doc.setFontSize(10);
     doc.setFont(undefined, 'normal');
