@@ -70,7 +70,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 }
                 else
                 {
-                    parametro.Add("Fact_UsuarioModificacion", item.UsuarioModificacion);
+                    parametro.Add("Fact_UsuarioModificacion", item.Fact_UsuarioModificacion);
                     parametro.Add("Fact_FechaModifcacion", DateTime.Now);
                 }
                 parametro.Add("Fact_FechaCreacion", DateTime.Now);

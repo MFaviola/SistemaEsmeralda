@@ -1,14 +1,14 @@
 <p-toast></p-toast>
 <div class="main-card mb-3 card"> 
     <div class="card-header">
-        <h3 class="card-title">Factura de Compra</h3>
+        <div style="width: 100%; height: 150px; background-image: url(./../../../../../../assets/demo/images/galleria/factu.png); background-repeat: no-repeat; background-size: cover; background-position: center -60px; border-radius: 10px;"></div>
     </div>
     <div class="card-body">
-         <button (click)="collapse()" pButton icon="pi pi-plus" style="margin-bottom: 10px ;" [class.hidden]="!Agregar">Agregar</button>
+         <button (click)="collapse()" pButton icon="pi pi-plus" style="margin-bottom: 10px ;  margin-top: 10px;" [class.hidden]="!Agregar">Agregar</button>
           
-        <div [class.hidden]="!Collapse" (keydown)="handleKeyDown($event)" style="margin-top: 20px;">
+        <div [class.hidden]="!Collapse" style="margin-top: 20px;">
 
-            <form [formGroup]="FacturaForm" (ngSubmit)="onSubmit()">
+            <form [formGroup]="FacturaForm" (ngSubmit)="onSubmit()" (keydown)="handleKeyDown($event)"> 
                 <div class="p-fluid p-formgrid grid">
 
                     <div class="field col-12 md:col-6">
@@ -47,129 +47,130 @@
                         </div>
                     </div>
                 </div>
-</div>
-
+   
                 <div [class.hidden]="!Detalles">
-                <div >
-                    <label>
-                        <input type="radio" name="j-m-radio" value="1" (change)="onRadioChange($event)" formControlName="radio" />
-                        J
-                    </label>
-                    <label>
-                        <input type="radio" name="j-m-radio" value="0" (change)="onRadioChange($event)" formControlName="radio" />
-                        Maquillaje
-                    </label>
-                </div>
-                <div class="p-fluid p-formgrid grid">
-                   
-                    <div class="field col-12 md:col-6">
-                        <label >Id Producto</label>
-                        <input pInputText id="prod_Id" formControlName="prod_Id" type="text" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && FacturaForm.get('prod_Id').invalid}"
-                        (keydown)="producto($event)"/>
+                    <p-table [value]="FacturaDetalle">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="width: 10%;">Categoria</th>
                         
-                    </div>
-                    <div class="field col-12 md:col-4">
-                        <label for="">Nombre Producto</label>
-                        <p-autoComplete 
-                        [(ngModel)]="selectedCountryAdvanced"
-                        [suggestions]="filteredCountries"
-                        (completeMethod)="filterCountry($event)"
-                        (onSelect)="onSelectProduct($event)"
-                        field="text"
-                        formControlName="prod_Producto"
-                        appendTo="body"
-                        [dropdown]="true"></p-autoComplete>
-                    </div>
-                    <div class="field col-12 md:col-2">
-                        <label for="">Nuevo Producto</label>
-                        <div [class.hidden]="MaquiJoyabtn">
-                            <button pButton icon="pi pi-plus" type="button"  (click)="Onjoya()" label="Joya" class="p-button-outlined"></button>
-                        </div>
-                        <div [class.hidden]="!MaquiJoyabtn">
-                            <button pButton icon="pi pi-plus" type="button"  (click)="Onmaquillaje()" label="Maquillaje " class="p-button-outlined"></button>
-                        </div>
-                    </div>
-                </div>
-                <div class="p-fluid p-formgrid grid">
+                                <th style="width: 45%;">Producto</th>
+                                <th style="width: 10%;">Cantidad</th>
+                                <th style="width: 15%;">Precio Compra</th>
+                                <th style="width: 15%;">Precio Venta</th>
+                                <th style="width: 15%;">Precio Mayorista</th>
+                                <th style="width: 10%;">Eliminar</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-detalle>
+                            <tr>
+                                <td>{{detalle.categoria}}</td>
+                            
+                                <td >{{detalle.producto}}</td>
+                                <td>{{detalle.cantidad}}</td>
+                                <td>{{detalle.precio_Venta}}</td>
+                                <td>{{detalle.precioVenta}}</td>
+                                <td>{{detalle.precioMayorista}}</td>
+                                <td>
+                                    <span pRipple class="pi pi-trash p-button-rounded p-button-warning" 
+                                          style="cursor: pointer; padding: 5px; border: none; background-color: transparent;" 
+                                          (click)="confirmDelete(detalle.faCD_Id)">
+                                    </span>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="footer">
+                            <tr>
+                                <td style="width: 10%;">
+                                    <div style="width: 100px;">
+                                        <label>
+                                            <input type="radio" name="j-m-radio" value="1" (change)="onRadioChange($event)" formControlName="radio" />
+                                            J
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="j-m-radio" value="0" (change)="onRadioChange($event)" formControlName="radio" />
+                                            M
+                                        </label>
+                                    </div>
+                                </td>
+                                <td style="width: 45%;">
+                                 
+                                    
                     
-                    <div class="field col-12 md:col-6">
-                        <label for="">Cantidad</label>
-                        <input pInputText id="faCD_Cantidad" formControlName="faCD_Cantidad" type="text" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && FacturaForm.controls['faCD_Cantidad'].value === ''}" />
-                        
-                    </div>
-                    <div class="field col-12 md:col-6">
-                        <label for="">Precio Compra</label>
-                        <input pInputText id="precioCompra" formControlName="precioCompra" type="text" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && FacturaForm.get('precioCompra').value === ''}" (keydown)="ValidarNumeros($event)" />
-                    </div>
-                </div>
-                <div class="p-fluid p-formgrid grid">
+                                       
+                                   
+                                        <p-autoComplete 
+                                        [(ngModel)]="selectedCountryAdvanced"
+                                        [suggestions]="filteredCountries"
+                                        (completeMethod)="filterCountry($event)"
+                                        (onSelect)="onSelectProduct($event)"
+                                        field="text"
+                                        formControlName="prod_Producto"
+                                        appendTo="body"
+                                        [style]="{'width': '220px'}">
+                                        >
+                                    </p-autoComplete>
+                                    <button type="button" pButton class="pi pi-plus" (click)="SeleccionAgregar()" style="margin: 0px 20px;"></button>
+                                 
+                                </td>
+                                <td style="width: 10%;">
+                                    <input pInputText id="faCD_Cantidad" formControlName="faCD_Cantidad" type="text" required autofocus 
+                                           [ngClass]="{'ng-invalid ng-dirty': submitted && FacturaForm.controls['faCD_Cantidad'].value === ''}" style="width: 70px;" />
+                                </td>
+                                <td style="width: 15%;">
+                                    <input pInputText id="precioCompra" formControlName="precioCompra" type="text" required autofocus 
+                                           [ngClass]="{'ng-invalid ng-dirty': submitted && FacturaForm.get('precioCompra').value === ''}" 
+                                           (keydown)="ValidarNumeros($event)" style="width: 120px;" />
+                                </td>
+                                <td style="width: 15%;">
+                                    <input pInputText id="precioVenta" formControlName="precioVenta" type="text" required autofocus 
+                                           [ngClass]="{'ng-invalid ng-dirty': submitted && FacturaForm.get('precioVenta').value === ''}" 
+                                           (keydown)="ValidarNumeros($event)"  style="width: 120px;"/>
+                                </td>
+                                <td style="width: 15%;">
+                                    <input pInputText id="precioMayor" formControlName="precioMayor" type="text" required autofocus 
+                                           [ngClass]="{'ng-invalid ng-dirty': submitted && FacturaForm.get('precioMayor').value === ''}" 
+                                           (keydown)="ValidarNumeros($event)" style="width: 120px;"  />
+                                </td>
+                                <td style="width: 10%;">
+                                    <!-- Dejar vacío si no se necesita -->
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
                     
-                    <div class="field col-12 md:col-6">
-                        <label for="">Precio Venta</label>
+                    <div class="formGroup">
+                        <div [class.hidden]="!Detalles">
+                          
+        
+                        </div>
+                        <div [class.hidden]="!FormularioJoya" style="margin-top: 5px; margin-bottom: 5px;">
+                            <button pButton icon="pi pi-times" type="button" (click)="cancelarJM()" label="Cancelar" class="p-button-outlined"></button>
+        
+                        </div>
+                        <div [class.hidden]="!FormularioMaquillaje" style="margin-top: 5px; margin-bottom: 5px;">
+                            <button pButton icon="pi pi-times" type="button" (click)="cancelarMQ()" label="Cancelar" class="p-button-outlined"></button>
+        
+                        </div>
                         
-                        <input pInputText id="precioVenta" formControlName="precioVenta" type="text" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && FacturaForm.get('precioVenta').value === ''}" (keydown)="ValidarNumeros($event)" />
-                       
                     </div>
-                    <div class="field col-12 md:col-6">
-                        <label for="">Precio Mayorista</label>
-                        <input pInputText id="precioMayor" formControlName="precioMayor" type="text" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && FacturaForm.get('precioMayor').value === ''}" (keydown)="ValidarNumeros($event)" />
+                    <div style="display: flex; justify-content: flex-end; margin-top: 1rem; grid-gap: 5px;" [class.hidden]="!Tabla">
+                    <h1>SubTotal:500lps</h1>
+                    </div>
+                    <div style="display: flex; justify-content: flex-end; margin-top: 1rem; grid-gap: 5px;" [class.hidden]="!Tabla">
+                        <h1>Total:575lps</h1>
+                    </div>
+                    <div style="display: flex; justify-content: flex-end; margin-top: 1rem; grid-gap: 5px;">
+                        <button pButton icon="pi pi-check-circle" type="button" (click)="Confirmar()" label="Confirmar" class="p-button-outlined"></button>
+                        <button pButton icon="pi pi-reply" type="button" (click)="cancelar()" label="Volver" class="p-button-outlined"></button>
                     </div>
                 </div>
             </div>
             </form>
 
-            <div class="formGroup">
-                
-                <div style="display: flex; justify-content: flex-end; margin-top: 1rem; grid-gap: 5px;" [class.hidden]="!Detalles">
-                    <button pButton icon="pi pi-check" type="button"  (click)="onSubmit()" label="Agregar" class="p-button-outlined"></button>
-                    <button pButton icon="pi pi-times" type="button" (click)="cancelar()" label="Cancelar" class="p-button-outlined"></button>
-                </div>
-                <div [class.hidden]="!FormularioJoya">
-                    <button pButton icon="pi pi-times" type="button" (click)="cancelarJM()" label="Cancelar" class="p-button-outlined"></button>
+        
 
-                </div>
-                <div [class.hidden]="!FormularioMaquillaje">
-                    <button pButton icon="pi pi-times" type="button" (click)="cancelarMQ()" label="Cancelar" class="p-button-outlined"></button>
-
-                </div>
-                
-            </div>
-
-            <div [class.hidden]="!Detalles">
-                <p-table [value]="FacturaDetalle">
-                    <ng-template pTemplate="header">
-                        <tr>
-                            <th>Categoria</th>
-                            <th>Producto</th>
-                            <th>Cantidad</th>
-                            <th>Precio Compra</th>
-                            <th>Precio Venta</th>
-                            <th>Precio Mayorista</th>
-                            <th>Eliminar</th>
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-detalle>
-                        <tr>
-                            <td style="width:10%;">{{detalle.categoria}}</td>
-                            <td style="width:10%;">{{detalle.producto}}</td>
-                            <td style="width:10%;">{{detalle.cantidad}}</td>
-                            <td style="width:10%;">{{detalle.precio_Venta}}</td>
-                            <td style="width:10%;">{{detalle.precioVenta}}</td>
-                            <td style="width:10%;">{{detalle.precioMayorista}}</td>
-                            <td style="width:10%;"><span pRipple class="pi pi-trash p-button-rounded p-button-warning" style="cursor: pointer; padding: 5px; border: none; background-color: transparent;" (click)="confirmDelete(detalle.faCD_Id)"></span></td>
-                        </tr>
-                    </ng-template>
-             
-                </p-table>
-
-                <div style="display: flex; justify-content: flex-end; margin-top: 1rem; grid-gap: 5px;" [class.hidden]="!Tabla">
-                <h1>SubTotal:500lps</h1>
-                </div>
-                <div style="display: flex; justify-content: flex-end; margin-top: 1rem; grid-gap: 5px;" [class.hidden]="!Tabla">
-                    <h1>Total:575lps</h1>
-                </div>
-              
-            </div>
+         
         </div>  
 
 

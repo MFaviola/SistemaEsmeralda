@@ -20,12 +20,13 @@ import { dropMarca } from 'src/app/Models/MarcaViewModel';
 import { JoyaService } from 'src/app/Service/Joya.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { forkJoin } from 'rxjs';
-
+import {CookieService} from 'ngx-cookie-service';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-list-facturacompra',
   templateUrl: './list-facturacompra.component.html',
   styleUrl: './list-facturacompra.component.css',
-  providers: [ConfirmationService, MessageService]
+  providers: [ConfirmationService,CookieService,DatePipe, MessageService]
 })
 export class ListFacturacompraComponent {
  
@@ -48,6 +49,22 @@ export class ListFacturacompraComponent {
   FacturaForm: FormGroup;
   // DetalleForm: FormGroup;
   MaquillajeForm: FormGroup;
+
+
+  //Region Fecha
+  dateDay = new Date();
+  conversion: string;
+
+
+  //Variable para manejar el estado de Actualizar
+  Actualizar: string = "";
+
+
+  //Almacenado del usuario
+  Usuario: string = this.cookie.get('Usuario');
+  Usua_Id: string = this.cookie.get('ID_Usuario');
+
+
   @ViewChild('filter') filter!: ElementRef;
 
   pdfSrc: SafeResourceUrl | null = null;
@@ -100,7 +117,7 @@ export class ListFacturacompraComponent {
   filteredProveedores: any[] = [];
   //#endregion
  
-  constructor(private service: FacturaCompraService, private router: Router, private srvImprecion : YService, private messageService: MessageService,private fb: FormBuilder, private sservice: ServiceService, private maquillajeservice: MaquillajeService, private joyaService : JoyaService, private yService: YService, private sanitizer: DomSanitizer) { }
+  constructor(private service: FacturaCompraService, private router: Router, private srvImprecion : YService, private messageService: MessageService,private fb: FormBuilder, private sservice: ServiceService, private maquillajeservice: MaquillajeService, private joyaService : JoyaService, private yService: YService, private sanitizer: DomSanitizer,private cookie: CookieService, private datePipe: DatePipe) { }
 
 
   ngOnInit(): void {
@@ -198,6 +215,16 @@ export class ListFacturacompraComponent {
 
   this.FacturaForm.controls['mepa_Id'].setValue(metodo);
 }
+
+SeleccionAgregar(){
+  if (this.selectedRadio == "1") {
+    this.Onjoya();
+  }else{
+    this.Onmaquillaje();
+  }
+ 
+}
+
   onRadioChange(event: Event) {
     const target = event.target as HTMLInputElement;
     const value = target.value;
@@ -369,6 +396,16 @@ export class ListFacturacompraComponent {
 
   //#region Acciones de cancelar
   cancelar(){
+    this.Actualizar = "Actualizar"
+    this.FacturaForm.get('precioMayor').setValue("1")
+    this.FacturaForm.get('faCD_Dif').setValue("1")
+    this.FacturaForm.get('precioVenta').setValue("1")
+    this.FacturaForm.get('precioCompra').setValue("1")
+    this.FacturaForm.get('faCD_Cantidad').setValue("1")
+    this.FacturaForm.get('prod_Id').setValue("1")
+    this.FacturaForm.get('nombreProducto').setValue("xD")
+    this.FacturaForm.get('radio').setValue("1")
+    this.onSubmit();
     this.Collapse= false;
     this.DataTable = true;
     this.Detalles = false;
@@ -378,6 +415,22 @@ export class ListFacturacompraComponent {
     this.MunCodigo=true;
     this.Valor = "";
     this.faCE_Id = "0";
+    this.Actualizar = "";
+    console.log("El actualizar es" + this.Actualizar );
+  }
+
+  Confirmar(){
+    this.Actualizar = "Confirmar"
+    this.FacturaForm.get('precioMayor').setValue("1")
+    this.FacturaForm.get('faCD_Dif').setValue("1")
+    this.FacturaForm.get('precioVenta').setValue("1")
+    this.FacturaForm.get('precioCompra').setValue("1")
+    this.FacturaForm.get('faCD_Cantidad').setValue("1")
+    this.FacturaForm.get('prod_Id').setValue("1")
+    this.FacturaForm.get('nombreProducto').setValue("xD")
+    this.FacturaForm.get('radio').setValue("1")
+    this.onSubmit();
+
   }
   cancelarJM(){
     this.FormularioJoya = false;
@@ -409,10 +462,37 @@ export class ListFacturacompraComponent {
   //FacturaEncabezado
   onSubmit() {
     console.log("Esto es el OnSubmit")
+
+    console.log(this.FacturaForm.valid)
     if (this.FacturaForm.valid) {
     this.viewModelenviar = this.FacturaForm.value;
      this.viewModelenviar.faCE_Id = this.faCE_Id;
+     this.viewModelenviar.Actualizar = this.Actualizar;
+     this.viewModelenviar.Usua_Id = this.Usua_Id;
      if (this.Valor == "Agregar") {
+      if (this.Actualizar == "Actualizar") {
+        console.log("Entra aqui")
+        this.service.insertarFacturaCom(this.viewModelenviar).subscribe((data: MensajeViewModel[]) => {
+       
+      })
+      }else if(this.Actualizar == "Confirmar"){
+        this.service.insertarFacturaCom(this.viewModelenviar).subscribe((data: MensajeViewModel[]) => {
+          if(data["message"] == "La accion ha sido existosa"){
+            this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Confirmado con Exito', life: 3000 });
+            this.Collapse= false;
+            this.DataTable = true;
+            this.Detalles = false;
+            this.Valor = "";
+            this.faCE_Id = "0";
+            this.Actualizar = "";
+            this.ngOnInit();
+            this.submitted = false;
+            this.Agregar= true;
+            this.MunCodigo=true;
+            console.log("El actualizar es" + this.Actualizar );
+          }
+        })
+      }else{
       this.service.insertarFacturaCom(this.viewModelenviar).subscribe((data: MensajeViewModel[]) => {
           if(data["message"] == "Operación completada exitosamente."){
           this.faCE_Id = data["id"];
@@ -430,25 +510,8 @@ export class ListFacturacompraComponent {
           }
           
       })
-    } else {
-          this.service.editarFacturaEnca(this.viewModelenviar).subscribe((data: MensajeViewModel[]) => {
-          if(data["message"] == "Operación completada exitosamente."){
-          this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Actualizado con Exito', life: 3000 });
-          this.Agregar = true;
-          
-          this.ngOnInit();
-
-         
-  
-          }else{
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro actualizar', life: 3000 });
-          console.log("error2")
-          console.log(this.messageService);
-          }
-          
-      })
-    }  
-    
+    }
+    } 
     }   
     else 
     {
@@ -551,6 +614,13 @@ export class ListFacturacompraComponent {
     this.FormularioMaquillaje=false;
     this.Collapse= true;
     this.DataTable = false;
+    this.faCE_Id = "0"
+    this.service.tabladetalle(this.faCE_Id).subscribe((data: any)=>{
+      this.FacturaDetalle = data;
+      console.log(this.FacturaDetalle);
+    },error=>{
+      console.log(error);
+    })
     this.Valor = "Agregar";
     this.Agregar= false;
     this.Detalles = true;
@@ -559,8 +629,11 @@ export class ListFacturacompraComponent {
   Onjoya(){
     this.Detalles = false;
     this.FormularioJoya = true;
+    this.FormularioMaquillaje = false;
   }
   Onmaquillaje(){
+
+    this.FormularioJoya = false;
     this.Detalles = false;
     this.FormularioMaquillaje = true;
   }

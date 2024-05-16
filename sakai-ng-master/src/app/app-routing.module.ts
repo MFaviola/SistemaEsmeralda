@@ -4,6 +4,8 @@ import { NotfoundComponent } from './demo/components/notfound/notfound.component
 import { AppLayoutComponent } from "./layout/app.layout.component";
 
 import { ReportesPormesComponent } from './demo/components/reporte/ReportePorMes/reporteportemes.component';
+import { AuthGuard } from './auth.guard';
+import { AuthGuardLogin } from './authLogin.guard';
 @NgModule({
     imports: [
         RouterModule.forRoot([
@@ -13,7 +15,7 @@ import { ReportesPormesComponent } from './demo/components/reporte/ReportePorMes
             {
                 path: '', component: AppLayoutComponent,
                 children: [
-                    { path: 'dash', loadChildren: () => import('./demo/components/dashboard/dashboard.module').then(m => m.DashboardModule) },
+                    { path: 'dash', loadChildren: () => import('./demo/components/dashboard/dashboard.module').then(m => m.DashboardModule), canActivate: [AuthGuardLogin]},
                     { path: 'uikit', loadChildren: () => import('./demo/components/uikit/uikit.module').then(m => m.UIkitModule) },
                     { path: 'utilities', loadChildren: () => import('./demo/components/utilities/utilities.module').then(m => m.UtilitiesModule) },
                     { path: 'documentation', loadChildren: () => import('./demo/components/documentation/documentation.module').then(m => m.DocumentationModule) },
@@ -23,10 +25,10 @@ import { ReportesPormesComponent } from './demo/components/reporte/ReportePorMes
                     { path: 'venta', loadChildren: () => import('./demo/components/venta/venta.module').then(m => m.VentaModule) },
                     { path: 'pages', loadChildren: () => import('./demo/components/pages/pages.module').then(m => m.PagesModule) },
                     { path: 'reportes', loadChildren: () => import('./demo/components/reporte/reporte.module').then(m => m.ReporteModule) },
-                    { path: 'mes', component : ReportesPormesComponent}
+                  
                 ]
             },
-            { path: '**', redirectTo: '/notfound' },
+            { path: '**', redirectTo: '/dash' },
         ], { scrollPositionRestoration: 'enabled', anchorScrolling: 'enabled', onSameUrlNavigation: 'reload' })
     ],
     exports: [RouterModule]

@@ -13,7 +13,10 @@ namespace SistemaEsmeralda.Entities.Entities
         {
             tbFacturaCompraDetalle = new HashSet<tbFacturaCompraDetalle>();
         }
-
+        [NotMapped]
+        public int? Usua_Id { get; set; }
+        [NotMapped]
+        public string? Actualizar { get; set; }
         public int FaCE_Id { get; set; }
         public int? Prov_Id { get; set; }
         public int? Mepa_Id { get; set; }

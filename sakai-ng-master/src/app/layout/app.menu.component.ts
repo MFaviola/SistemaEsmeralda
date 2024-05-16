@@ -26,12 +26,12 @@ export class AppMenuComponent implements OnInit {
                             {
                                 label: 'Usuarios',
                                 icon: 'pi pi-fw pi-sign-in',
-                                routerLink: ['/acceso/usuario']
+                                routerLink: ['/acceso/usuarios']
                             },
                             {
                                 label: 'Roles',
                                 icon: 'pi pi-fw pi-times-circle',
-                                routerLink: ['/acceso/rol']
+                                routerLink: ['/acceso/roles']
                             },
                         ]
                     },
@@ -51,7 +51,7 @@ export class AppMenuComponent implements OnInit {
                             
                                 label: 'Departamentos',
                                 icon: 'pi pi-fw pi-building',
-                                routerLink: ['/generales/departamento'],
+                                routerLink: ['/generales/departamentos'],
                              
                             },
                             {
@@ -66,58 +66,47 @@ export class AppMenuComponent implements OnInit {
 
                             },
                             {
-                                label: 'Estado Civil',
+                                label: 'Estados Civiles',
                                 icon: 'pi pi-fw pi-heart',
-                                routerLink: ['/generales/estado']
+                                routerLink: ['/generales/estadosciviles']
                             },
                             {
-                                label: 'Impuesto',
-                                icon: 'pi pi-fw pi-money-bill',
-                                routerLink: ['/generales/impuesto']
-                            },
-                            {
-                                label: 'Cliente',
+                                label: 'Clientes',
                                 icon: 'pi pi-fw pi-users',
-                                routerLink: ['/generales/cliente']
+                                routerLink: ['/generales/clientes']
 
                             },
                             {
 
-                                label: 'Cargo',
+                                label: 'Cargos',
                                 icon: 'pi pi-fw pi-key',
-                                routerLink: ['/generales/cargo']
+                                routerLink: ['/generales/cargos']
 
                             },
                             {
-                                label: 'Marca',
+                                label: 'Marcas',
                                 icon: 'pi pi-fw pi-truck',
-                                routerLink: ['/generales/marca']
+                                routerLink: ['/generales/marcas']
 
                             },
 
                             {
-                                label: 'Material',
+                                label: 'Materiales',
                                 icon: 'pi pi-fw pi-inbox',
-                                routerLink: ['/generales/material']
-
-                            },
-                            {
-                                label: 'Metodo Pago',
-                                icon: 'pi pi-fw pi-wallet',
-                                routerLink: ['/generales/metodo']
+                                routerLink: ['/generales/materiales']
 
                             },
 
                             {
-                                label: 'Proveedor',
+                                label: 'Proveedores',
                                 icon: 'pi pi-fw pi-truck',
-                                routerLink: ['/generales/proveedor']
+                                routerLink: ['/generales/proveedores']
 
                             },
                             {
-                                label: 'Empleado',
+                                label: 'Empleados',
                                 icon: 'pi pi-fw pi-user',
-                                routerLink: ['/generales/empleado']
+                                routerLink: ['/generales/empleados']
 
                             },
 
@@ -325,12 +314,12 @@ export class AppMenuComponent implements OnInit {
                             {
                                 label: 'Usuarios',
                                 icon: 'pi pi-fw pi-sign-in',
-                                routerLink: ['/acceso/usuario']
+                                routerLink: ['/acceso/usuarios']
                             },
                             {
                                 label: 'Roles',
                                 icon: 'pi pi-fw pi-times-circle',
-                                routerLink: ['/acceso/rol']
+                                routerLink: ['/acceso/roles']
                             },
                         ]
                     },
@@ -356,56 +345,56 @@ export class AppMenuComponent implements OnInit {
                             {
                                 label: 'Municipios',
                                 icon: 'pi pi-fw pi-directions',
-                                routerLink: ['/generales/municipio']
+                                routerLink: ['/generales/municipios']
                             },
                             {
                                 label: 'Categorias',
                                 icon: 'pi pi-fw pi-list',
-                                routerLink: ['/generales/categoria']
+                                routerLink: ['/generales/categorias']
 
                             },
                             {
                                 label: 'Estados Civiles',
                                 icon: 'pi pi-fw pi-heart',
-                                routerLink: ['/generales/estado']
+                                routerLink: ['/generales/estadosciviles']
                             },
                             {
                                 label: 'Clientes',
                                 icon: 'pi pi-fw pi-users',
-                                routerLink: ['/generales/cliente']
+                                routerLink: ['/generales/clientes']
 
                             },
                             {
 
                                 label: 'Cargos',
                                 icon: 'pi pi-fw pi-key',
-                                routerLink: ['/generales/cargo']
+                                routerLink: ['/generales/cargos']
 
                             },
                             {
                                 label: 'Marcas',
                                 icon: 'pi pi-fw pi-truck',
-                                routerLink: ['/generales/marca']
+                                routerLink: ['/generales/marcas']
 
                             },
 
                             {
                                 label: 'Materiales',
                                 icon: 'pi pi-fw pi-inbox',
-                                routerLink: ['/generales/material']
+                                routerLink: ['/generales/materiales']
 
                             },
 
                             {
                                 label: 'Proveedores',
                                 icon: 'pi pi-fw pi-truck',
-                                routerLink: ['/generales/proveedor']
+                                routerLink: ['/generales/proveedores']
 
                             },
                             {
                                 label: 'Empleados',
                                 icon: 'pi pi-fw pi-user',
-                                routerLink: ['/generales/empleado']
+                                routerLink: ['/generales/empleados']
 
                             },
 
@@ -425,22 +414,22 @@ export class AppMenuComponent implements OnInit {
                             {
                                 label: 'Joyas',
                                 icon: 'pi pi-fw pi-dollar',
-                                routerLink: ['/venta/joya']
+                                routerLink: ['/venta/joyas']
                             },
                             {
                                 label: 'Maquillajes',
                                 icon: 'pi pi-fw pi-pencil',
-                                routerLink: ['/venta/maquillaje']
+                                routerLink: ['/venta/maquillajes']
                             },
                             {
                                 label: 'Facturas',
                                 icon: 'pi pi-fw pi-cart-plus',
-                                routerLink: ['/venta/factura']
+                                routerLink: ['/venta/facturas']
                             },
                             {
                                 label: 'Facturas de Compra',
                                 icon: 'pi pi-fw pi-cart-plus',
-                                routerLink: ['/venta/facturacompra']
+                                routerLink: ['/venta/facturasdecompra']
                             },
                         ]
                     },
@@ -455,32 +444,32 @@ export class AppMenuComponent implements OnInit {
                             {
                                 label: 'Control de stock',
                                 icon: 'pi pi-fw pi-dollar',
-                                routerLink: ['/reportes/stock']
+                                routerLink: ['/reportes/controldestock']
                             },
                             {
                                 label: 'Ventas por empleado',
                                 icon: 'pi pi-fw pi-pencil',
-                                routerLink: ['/reportes/empleado']
+                                routerLink: ['/reportes/ventasporempleado']
                             },
                             {
                                 label: 'Ventas por mes',
                                 icon: 'pi pi-fw pi-cart-plus',
-                                routerLink: ['/mes']
+                                routerLink: ['/reportes/ventaspormes']
                             },
                             {
                                 label: 'Productos vendidos',
                                 icon: 'pi pi-fw pi-download',
-                                routerLink: ['/reportes/top']
+                                routerLink: ['/reportes/productosvendidos']
                             },
                             {
                                 label: 'Ventas Anuales',
                                 icon: 'pi pi-fw pi-download',
-                                routerLink: ['/reportes/anual']
+                                routerLink: ['/reportes/ventasanuales']
                             },
                             {
                                 label: 'Ventas mayoristas',
                                 icon: 'pi pi-fw pi-download',
-                                routerLink: ['/reportes/mayorista']
+                                routerLink: ['/reportes/ventasmayoristas']
                             },
                         ]
                     },

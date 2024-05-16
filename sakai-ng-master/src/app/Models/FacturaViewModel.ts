@@ -17,6 +17,8 @@ export class FacturaEnviar {
     Faxd_Dif?:String;
     Prod_Nombre?:String;
     Faxd_Cantidad?:String;
+    Actualizar?:String;
+    Usua_Id?:String;
 }
 
 
@@ -28,6 +30,7 @@ export class FacturaDetalle {
     precio_Unitario?:String;
     total?:string;
     categoria?:String;
+    codigoRow?:String;
 }
 
 export class Years {

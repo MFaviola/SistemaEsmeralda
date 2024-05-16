@@ -40,6 +40,8 @@ export class LoginComponent {
 
 
      onSubmit(): void {
+      window.location.hash="no-back-button";
+      window.location.hash="Again-No-back-button"
         if (this.loginForm.valid) {
           const loginData: Login = this.loginForm.value;
           this.service.login(loginData).subscribe(

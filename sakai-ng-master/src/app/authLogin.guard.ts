@@ -11,7 +11,7 @@ import { AuthService } from './Service/authGuard.service';
 @Injectable({
     providedIn: 'root'
   })
-  export class AuthGuard implements CanActivate {
+  export class AuthGuardLogin implements CanActivate {
     constructor(private authService: AuthService, private router: Router,  private cookieService: CookieService) {}
 
     canActivate(
@@ -20,31 +20,17 @@ import { AuthService } from './Service/authGuard.service';
       ): Observable<boolean> | Promise<boolean> | boolean {
         const url: string = state.url;
         const isAdmin = this.cookieService.get('esAdmin') == 'true';
-
-        if (isAdmin || this.authService.isUrlAllowed(url) || this.authService.isUrlAllowedAccess(url)) {
-            console.log("authh")
-          return true;
-        }
-
-        this.router.navigate(['/login']);
-        return false;
-      }
-
-      canActivateAccess(
-        next: ActivatedRouteSnapshot,
-        state: RouterStateSnapshot
-      ): Observable<boolean> | Promise<boolean> | boolean {
-        const url: string = state.url;
-        const isAdmin = this.cookieService.get('esAdmin') == 'true';
-
-        if (isAdmin  || this.authService.isUrlAllowedAccess(url)) {
-            console.log("authh")
+        console.log(isAdmin);
+        if (isAdmin || this.authService.isUrlAllowedLogin(url)) {
+          
           return true;
         }
 
         this.router.navigate(['/']);
         return false;
       }
+
+   
    
 
     // canActivate(

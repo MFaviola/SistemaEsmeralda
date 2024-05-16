@@ -105,11 +105,23 @@ namespace SistemaEsmeralda.API.Controllers
                 Empl_Id = item.Empl_Id,
                 Clie_Id = item.Clie_Id,
                 Mepa_Id = item.Mepa_Id,
-                Fact_UsuarioCreacion = item.Usua_ID,
-                Fact_Id = item.Fact_Id
+                Fact_UsuarioCreacion = item.Usua_Id,
+                Fact_Id = item.Fact_Id,
+                Fact_UsuarioModificacion = item.Usua_Id
                
 
             };
+            if (item.Actualizar == "Actualizar")
+            {
+                var IdFactura = _ventasServices.CrearFactura(modeloFactura, out int id);
+                return Ok(new { success = true, message = IdFactura.Message });
+            }
+            else if(item.Actualizar == "Confirmar")
+            {
+                var IdFactura = _ventasServices.CrearFactura(modeloFactura, out int id);
+                var list = _ventasServices.ConfirmarFactura(item.Fact_Id.ToString());
+                return Ok(new { success = true, message = list.Message });
+            }
             if (item.Fact_Id == 0 )
             {
                
