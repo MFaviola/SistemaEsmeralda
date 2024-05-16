@@ -88,6 +88,22 @@ namespace SistemaEsmeralda.DataAccess.Repository
             }
         }
 
+        public RequestStatus Restablecer(tbUsuarios item)
+        {
+            string sql = ScriptsBaseDeDatos.Usuarios_Reestablecer;
+
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+                var parameter = new DynamicParameters();
+                parameter.Add("@Usua_Id", item.Usua_Id);
+                parameter.Add("@contra", item.Usua_Contraseña);
+                var result = db.Execute(sql, parameter, commandType: CommandType.StoredProcedure);
+                string mensaje = (result == 1) ? "exito" : "error";
+                return new RequestStatus { CodeStatus = result, MessageStatus = mensaje };
+
+            }
+        }
+
         public RequestStatus Delete(int Usua_Id)
         {
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
@@ -144,7 +160,8 @@ namespace SistemaEsmeralda.DataAccess.Repository
             List<tbUsuarios> result = new List<tbUsuarios>();
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
             {
-                var parameters = new { Usua_Usuario = usuario };
+                var parameters = new DynamicParameters();
+                parameters.Add( "Usua_Usuario" , usuario);
                 result = db.Query<tbUsuarios>(sql, parameters, commandType: CommandType.StoredProcedure).ToList();
                 return result;
             }

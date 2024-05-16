@@ -177,8 +177,13 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             try
             {
                 var lost = _usuarioRepository.ValidarReestablecer(usuario);
-
-                return result.Ok(lost);
+                if (lost.Count() > 0) {
+                    return result.Ok(lost);
+                }
+                else
+                {
+                    return result.Error();
+                }
             }
             catch (Exception ex)
             {
@@ -265,6 +270,26 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             }
         }
 
+        public ServiceResult Restablecer (tbUsuarios item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _usuarioRepository.Restablecer(item);
+                if (list.CodeStatus > 0)
+                {
+                    return result.Ok(list);
+                }
+                else
+                {
+                    return result.Error("Y existe un registro con ese nombre");
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
         public ServiceResult InsertarUsuario(tbUsuarios item)
         {
             var result = new ServiceResult();
