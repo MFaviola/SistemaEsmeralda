@@ -111,7 +111,6 @@ Usua_Id = '0';
       const loginData: validar = this.validarForm.value;
       this.service.enviarcodigo(loginData).subscribe(
         response => {
-          console.log('Respuesta del servidor:', response);
           if (response!="Error"){
             this.cookie.set('ID_Usuario', response[0].usua_Id);
             this.Collapse = true;
@@ -119,11 +118,9 @@ Usua_Id = '0';
           }
         },
         error => {
-          console.error('Nombre de usuario incorrecto:', error);
         }
       );
     } else {
-      console.log('Formulario inválido');
     }
   }
 
@@ -135,17 +132,14 @@ Usua_Id = '0';
         response => {
           console.log('Respuesta del servidor:', response);
           if (response!="Error"){
-            console.log("el codigo es correcto");
             this.Codigo = true;
             this.Contra = false;
           }
         },
         error => {
-          console.error('codigo incorrecto:', error);
         }
       );
     } else {
-      console.log('Formulario inválido');
     }
   }
 
@@ -153,22 +147,18 @@ Usua_Id = '0';
   oncontra():void{
     if (this.enviarcodigoForm.valid) {
       const codigoData: clave = this.enviarcontraForm.value;
-      console.log(codigoData);
       this.service.cambiarclave(codigoData).subscribe(
         response => {
           console.log('Respuesta del servidor:', response);
           if (response!="Error"){
-            console.log("Contraseña establecida");
             this.Login = false;
             this.Contra = true;
           }
         },
         error => {
-          console.error('codigo incorrecto:', error);
         }
       );
     } else {
-      console.log('Formulario inválido');
     }
   }
 }
