@@ -12,6 +12,7 @@ export class dropDepartamento{
 
 
 export class DepartamentoEnviar {
+    Usua_ID?: String;
     Usua_Id?: Number;
     Depa_Codigo: string;
     Depa_Departamento: string;

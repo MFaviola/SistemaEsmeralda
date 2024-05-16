@@ -4,6 +4,7 @@ export class Estado{
 }
 
 export class EstadoCivilEnviar {
+    Usua_ID?: String;
     Usua_Id?: Number;
     Esta_Id:string;
     Esta_EstadoCivil: string;

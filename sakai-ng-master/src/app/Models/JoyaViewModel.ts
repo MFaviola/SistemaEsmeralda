@@ -21,6 +21,7 @@ export class dropEmpleado{
     Empl_Nombre?:String;
 }
 export class JoyaEnviar {
+    Usua_ID?: String;
     Usua_Id?: Number;
     Joya_Stock?:String;
     Joya_Id?:String;

@@ -6,6 +6,7 @@ export class Rol{
 }
 
 export class RolEnviar {
+    Usua_ID?: String;
     Usua_Id?: Number;
     Rol_Id?:String;
     txtRol: string;
