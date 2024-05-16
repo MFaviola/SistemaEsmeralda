@@ -17,14 +17,14 @@
                 "label": "Generales",
                 "data": "Work Folder",
                 "icon": "pi pi-fw pi-cog",
-                "children": [{ "key": "28", "label": "Empleados", "icon": "pi pi-fw pi-file" },{ "key": "3", "label": "Cargos", "icon": "pi pi-fw pi-file" }, { "key": "4", "label": "Categorias", "icon": "pi pi-fw pi-file" },{ "key": "5", "label": "Cliente", "icon": "pi pi-fw pi-file" },{ "key": "6", "label": "Departamentos", "icon": "pi pi-fw pi-file" },{ "key": "7", "label": "Estados Civiles", "icon": "pi pi-fw pi-file" },{ "key": "9", "label": "Marcas", "icon": "pi pi-fw pi-file" },{ "key": "10", "label": "Materiales", "icon": "pi pi-fw pi-file" },{ "key": "12", "label": "Municipios", "icon": "pi pi-fw pi-file" },{ "key": "13", "label": "Proveedores", "icon": "pi pi-fw pi-file" }]
+                "children": [{ "key": "28", "label": "Empleados", "icon": "pi pi-fw pi-file" },{ "key": "14", "label": "Sucursales", "icon": "pi pi-fw pi-file" },{ "key": "3", "label": "Cargos", "icon": "pi pi-fw pi-file" }, { "key": "4", "label": "Categorias", "icon": "pi pi-fw pi-file" },{ "key": "5", "label": "Cliente", "icon": "pi pi-fw pi-file" },{ "key": "6", "label": "Departamentos", "icon": "pi pi-fw pi-file" },{ "key": "7", "label": "Estados Civiles", "icon": "pi pi-fw pi-file" },{ "key": "9", "label": "Marcas", "icon": "pi pi-fw pi-file" },{ "key": "10", "label": "Materiales", "icon": "pi pi-fw pi-file" },{ "key": "12", "label": "Municipios", "icon": "pi pi-fw pi-file" },{ "key": "13", "label": "Proveedores", "icon": "pi pi-fw pi-file" }]
             },
             {
                 "key": "100",
                 "label": "Ventas",
                 "data": "Work Folder",
                 "icon": "pi pi-fw pi-cog",
-                "children": [{ "key": "16", "label": "Joyas", "icon": "pi pi-fw pi-file" },{ "key": "15", "label": "Factura", "icon": "pi pi-fw pi-file" }, { "key": "17", "label": "Maquillajes", "icon": "pi pi-fw pi-file" },{ "key": "18", "label": "Facturas de Compra", "icon": "pi pi-fw pi-file" }]
+                "children": [{ "key": "16", "label": "Joyas", "icon": "pi pi-fw pi-file" },{ "key": "31", "label": "Transferencias", "icon": "pi pi-fw pi-file" },{ "key": "31", "label": "Caja", "icon": "pi pi-fw pi-file" },{ "key": "15", "label": "Factura", "icon": "pi pi-fw pi-file" }, { "key": "17", "label": "Maquillajes", "icon": "pi pi-fw pi-file" },{ "key": "18", "label": "Facturas de Compra", "icon": "pi pi-fw pi-file" }]
             },
             {
                 "key": "103",

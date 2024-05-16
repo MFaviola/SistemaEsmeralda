@@ -7,7 +7,7 @@ import { AuthGuard } from 'src/app/auth.guard';
         { path: 'departamentos', data: { breadcrumb: 'Departamentos' }, loadChildren: () => import('./Departamento/list-departamento/Departamentodemo.module').then(m => m.DepartamentoDemoModule),canActivate: [AuthGuard]  },
         { path: 'municipios', data: { breadcrumb: 'Municipio' }, loadChildren: () => import('./Municipio/list-municipio/Municipiodemo.module').then(m => m.MunicipioDemoModule),canActivate: [AuthGuard] },
 
-       
+        { path: 'sucursales', data: { breadcrumb: 'Sucursal' }, loadChildren: () => import('./Sucursales/list-sucursal/Sucursaldemo.module').then(m => m.SucursalDemoModule),canActivate: [AuthGuard] },
         { path: 'categorias', data: { breadcrumb: 'Categoria' }, loadChildren: () => import('./Categoria/list-categoria/Categoriademo.module').then(m => m.CategoriaDemoModule),canActivate: [AuthGuard] },
         { path: 'cargos', data: { breadcrumb: 'Cargo' }, loadChildren: () => import('./Cargo/list-cargo/Cargodemo.module').then(m => m.CargoDemoModule),canActivate: [AuthGuard] },
         { path: 'materiales', data: { breadcrumb: 'Material' }, loadChildren: () => import('./Materiales/list-material/Materialdemo.module').then(m => m.MaterialDemoModule),canActivate: [AuthGuard] },

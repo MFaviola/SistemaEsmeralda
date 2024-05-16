@@ -397,6 +397,12 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['/generales/empleados']
 
                             },
+                            {
+                                label: 'Sucursales',
+                                icon: 'pi pi-fw pi-user',
+                                routerLink: ['/generales/sucursales']
+
+                            },
 
                         ]
                     },
@@ -431,6 +437,14 @@ export class AppMenuComponent implements OnInit {
                                 icon: 'pi pi-fw pi-cart-plus',
                                 routerLink: ['/venta/facturasdecompra']
                             },
+                            {
+                                label: 'Caja',
+                                icon: 'pi pi-fw pi-user',
+                                routerLink: ['/generales/caja']
+
+                            },
+
+
                         ]
                     },
                 ]

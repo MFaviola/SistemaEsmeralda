@@ -221,7 +221,7 @@ findNodesByKey(nodes: TreeNode[], keys: string[], parent: TreeNode | null = null
 
     const expectedCount = nodes.reduce((count, node) => count + 1 + (node.children ? node.children.length : 0), 0);
 
-    if (keys.length == 24) {
+    if (keys.length == 27 || keys.length == 26) {
       nodes.forEach((node) => {
         node.partialSelected = false;
         if (!selected.includes(node)) {

@@ -42,11 +42,11 @@ namespace SistemaEsmeralda.API.Controllers
 
                 Muni_Codigo = item.Muni_Codigo,
 
-                Sucu_UsuarioCreacion = item.Usua_ID,
+                Sucu_UsuarioCreacion = item.Usua_Id,
                 Sucu_FechaCreacion = item.Sucu_FechaCreacion,
             };
             var list = _generalServices.InsertarSucursal(modelo);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
 
@@ -72,18 +72,18 @@ namespace SistemaEsmeralda.API.Controllers
                 Sucu_Nombre = item.Sucu_Nombre,
                 Muni_Codigo = item.Muni_Codigo,
 
-                Sucu_UsuarioModificacion = 1,
+                Sucu_UsuarioModificacion = item.Usua_Id,
                 Sucu_FechaModificacion = DateTime.Now
             };
             var list = _generalServices.EditarSucursal(modelo);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
         [HttpDelete("Delete")]
         public IActionResult Delete(string Sucu_Id)
         {
             var list = _generalServices.EliminarSucursal(Sucu_Id);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
     }

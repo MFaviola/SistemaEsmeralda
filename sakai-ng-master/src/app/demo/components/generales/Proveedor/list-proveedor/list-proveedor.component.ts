@@ -66,7 +66,7 @@ export class ListProveedorComponent implements OnInit{
       Muni_Codigo: new FormControl("0", [Validators.required]),
     });
     this.service.getDropDownsDepartamentos().subscribe((data: dropDepartamento[]) => {
-    console.log(data);
+
     this.departamentos = data;
     });
     this.service.getProveedor().subscribe((data: any)=>{
