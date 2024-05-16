@@ -58,8 +58,8 @@ namespace SistemaEsmeralda.API.Controllers
             {
                 Mate_Material = item.Mate_Material
 ,
-                Mate_UsuarioCreacion = 1,
-                Mate_FechaCreacion = item.Mate_FechaCreacion,
+                Mate_UsuarioCreacion = item.Usua_ID,
+                Mate_FechaCreacion = DateTime.Now,
             };
             var list = _generalServices.InsertarMateriales(modelo);
             return Ok(new { success = true, message = list.Message });

@@ -9,6 +9,7 @@ namespace SistemaEsmeralda.Common.Models
 {
    public class SucursalViewModel
     {
+        public int Usua_ID { get; set; }
         public int Sucu_Id { get; set; }
         public string Sucu_Nombre { get; set; }
         public string Muni_Codigo { get; set; }

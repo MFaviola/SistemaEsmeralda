@@ -66,7 +66,7 @@ namespace SistemaEsmeralda.API.Controllers
             {
                 Carg_Cargo = item.Carg_Cargo 
 ,
-                Carg_UsuarioCreacion = 1,
+                Carg_UsuarioCreacion = item.Usua_ID,
                 Carg_FechaCreacion = DateTime.Now,
             };
             var list = _generalServices.InsertarCargos(modelo);

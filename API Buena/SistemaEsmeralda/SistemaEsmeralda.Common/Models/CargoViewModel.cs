@@ -9,7 +9,7 @@ namespace SistemaEsmeralda.Common.Models
 {
    public class CargoViewModel
     {
-
+        public int Usua_ID { get; set; }
         public int Carg_Id { get; set; }
         public string Carg_Cargo { get; set; }
         public int Carg_UsuarioCreacion { get; set; }

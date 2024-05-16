@@ -137,7 +137,7 @@ namespace SistemaEsmeralda.API.Controllers
                 Maqu_Stock = item.Maqu_Stock,
                 Prov_Id = item.Prov_Id,
                 Marc_Id = item.Marc_Id,
-                Maqu_UsuarioCreacion = 1,
+                Maqu_UsuarioCreacion = item.Usua_ID,
                 Maqu_FechaCreacion = DateTime.Now
 
             };

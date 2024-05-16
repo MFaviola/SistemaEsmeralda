@@ -9,6 +9,7 @@ namespace SistemaEsmeralda.Common.Models
 {
    public  class PantallaRolViewModel
     {
+        public int Usua_ID { get; set; }
         public int Paxr_Id { get; set; }
         public int? Role_Id { get; set; }
         public int? Pant_Id { get; set; }

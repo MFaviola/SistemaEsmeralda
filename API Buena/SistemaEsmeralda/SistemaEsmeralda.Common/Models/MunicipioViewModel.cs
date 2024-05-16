@@ -9,6 +9,7 @@ namespace SistemaEsmeralda.Common.Models
 {
    public class MunicipioViewModel
     {
+        public int Usua_ID { get; set; }
         public string Muni_Codigo { get; set; }
         public string Muni_Municipio { get; set; }
         public string Depa_Codigo { get; set; }

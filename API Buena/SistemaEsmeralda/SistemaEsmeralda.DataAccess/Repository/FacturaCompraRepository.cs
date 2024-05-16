@@ -73,7 +73,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 var parametro = new DynamicParameters();
                 parametro.Add("@Prov_Id", item.Prov_Id);
                 parametro.Add("@Mepa_Id", item.Mepa_Id);
-                parametro.Add("@FeCE_UsuarioCreacion", 1);
+                parametro.Add("@FeCE_UsuarioCreacion", item.UsuarioCreacion);
                 parametro.Add("@FaCE_FechaCreacion", DateTime.Now);
                 parametro.Add("@ID", dbType: DbType.Int32, direction: ParameterDirection.Output);
                 var result = db.Execute(sql, parametro, commandType: System.Data.CommandType.StoredProcedure);

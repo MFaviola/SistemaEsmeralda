@@ -9,6 +9,7 @@ namespace SistemaEsmeralda.Common.Models
 {
    public class MarcaViewModel
     {
+        public int Usua_ID { get; set; }
         public int Marc_Id { get; set; }
         public string Marc_Marca { get; set; }
         public int? Marc_UsuarioCreacion { get; set; }

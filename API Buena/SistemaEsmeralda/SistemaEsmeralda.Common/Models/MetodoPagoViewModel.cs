@@ -10,6 +10,7 @@ namespace SistemaEsmeralda.Common.Models
   public  class MetodoPagoViewModel
     {
 
+        public int Usua_ID { get; set; }
         public int Mepa_Id { get; set; }
         public string Mepa_Metodo { get; set; }
         public int? Mepa_UsuarioCreacion { get; set; }

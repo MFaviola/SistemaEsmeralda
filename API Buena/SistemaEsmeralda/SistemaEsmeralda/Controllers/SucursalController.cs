@@ -42,7 +42,7 @@ namespace SistemaEsmeralda.API.Controllers
 
                 Muni_Codigo = item.Muni_Codigo,
 
-                Sucu_UsuarioCreacion = 1,
+                Sucu_UsuarioCreacion = item.Usua_ID,
                 Sucu_FechaCreacion = item.Sucu_FechaCreacion,
             };
             var list = _generalServices.InsertarSucursal(modelo);

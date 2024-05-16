@@ -9,6 +9,7 @@ namespace SistemaEsmeralda.Common.Models
 {
   public  class DepartamentoViewModel
     {
+        public int Usua_ID { get; set; }
         public string Depa_Codigo { get; set; }
         public string Depa_Departamento { get; set; }
         public int Depa_UsuarioCreacion { get; set; }

@@ -10,6 +10,7 @@ namespace SistemaEsmeralda.Common.Models
     public class ClienteViewModel
     {
         [NotMapped]
+        public int Usua_ID { get; set; }
         public string Clie_DNI { get; set; }
         public int Clie_Id { get; set; }
         public string Clie_Nombre { get; set; }

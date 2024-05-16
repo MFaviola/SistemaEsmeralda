@@ -11,6 +11,7 @@ namespace SistemaEsmeralda.Common.Models
    public class RolViewModel
     {
 
+        public int Usua_ID { get; set; }
         public int Role_Id { get; set; }
         public string Role_Rol { get; set; }
         public int? Role_UsuarioCreacion { get; set; }

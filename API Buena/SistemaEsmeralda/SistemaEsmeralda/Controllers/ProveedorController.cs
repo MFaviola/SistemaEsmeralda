@@ -53,7 +53,7 @@ namespace SistemaEsmeralda.API.Controllers
                 Prov_Proveedor = item.Prov_Proveedor,
                 Prov_Telefono = item.Prov_Telefono,
                 Muni_Codigo = item.Muni_Codigo,
-                Prov_UsuarioCreacion = 1,
+                Prov_UsuarioCreacion = item.Usua_ID,
                 Prov_FechaCreacion = DateTime.Now
 
             };

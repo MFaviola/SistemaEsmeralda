@@ -10,6 +10,7 @@ namespace SistemaEsmeralda.Common.Models
     {
         public int Faxd_Cantidad { get; set; }
         public string? Faxd_Dif { get; set; }
+        public int Usua_ID { get; set; }
 
         public string? Prod_Nombre { get; set; }
         public int Fact_Id { get; set; }

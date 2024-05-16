@@ -9,6 +9,7 @@ namespace SistemaEsmeralda.Common.Models
 {
    public class CategoriaViewModel
     {
+        public int Usua_ID { get; set; }
         public int Cate_Id { get; set; }
         public string Cate_Categoria { get; set; }
         public int? Cate_UsuarioCreacion { get; set; }

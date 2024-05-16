@@ -9,6 +9,7 @@ namespace SistemaEsmeralda.Common.Models
 {
     public class MaquillajeViewModel
     {
+        public int Usua_ID { get; set; }
         public int Maqu_Stock { get; set; }
         public int Maqu_Id { get; set; }
         public string Maqu_Nombre { get; set; }
