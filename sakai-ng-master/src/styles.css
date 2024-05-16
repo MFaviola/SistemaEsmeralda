@@ -218,7 +218,7 @@ a {
 }
 .layout-sidebar {
   position: fixed;
-  width: 235px;
+  width: 250px;
   height: calc(100vh - 9rem);
   z-index: 999;
   overflow-y: auto;
@@ -403,7 +403,7 @@ a {
     transform: translateX(0);
   }
   .layout-wrapper.layout-static .layout-main-container {
-    margin-left: 250px;
+    margin-left: 220px;
   }
   .layout-wrapper.layout-static.layout-static-inactive .layout-sidebar {
     transform: translateX(-100%);
