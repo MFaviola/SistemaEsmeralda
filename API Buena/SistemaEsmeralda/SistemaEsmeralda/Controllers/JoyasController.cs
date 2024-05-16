@@ -96,7 +96,7 @@ namespace SistemaEsmeralda.API.Controllers
                 Prov_Id = item.Prov_Id,
                 Mate_Id = item.Mate_Id,
                 Cate_Id = item.Cate_Id,
-                Joya_UsuarioCreacion = 1,
+                Joya_UsuarioCreacion = item.Usua_ID,
                 Joya_FechaCreacion = DateTime.Now
 
             };
