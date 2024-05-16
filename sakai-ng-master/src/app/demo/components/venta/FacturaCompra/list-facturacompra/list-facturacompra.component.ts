@@ -93,6 +93,7 @@ export class ListFacturacompraComponent {
   facura_impresa: any = null;
   Joya!:Joya[];
   proveedor: any[] = [];
+  sucursal: any[] = [];
   material: any[] = [];
   categoria: any[] = [];
   marca: any[] = [];
@@ -107,14 +108,17 @@ export class ListFacturacompraComponent {
   metodos: any[] = [];
   joyas: any[] = [];
   maquillajes: any[] = [];
+  sucursales: any[] = [];
   countries: any[] = [];
   selectedCountryAdvanced: any[] = [];
   selectedProductosAdvanced: any[] = [];
   selectedProveedoresAdvanced: any[] = [];
+  selectedSucursalesAdvanced: any[] = [];
   selectedMetodoPagoAdvanced: any[] = [];
   filteredMetodoPago: any[] = [];
   filteredCountries: any[] = [];
   filteredProveedores: any[] = [];
+  filteredSucursales: any[] = [];
   //#endregion
  
   constructor(private service: FacturaCompraService, private router: Router, private srvImprecion : YService, private messageService: MessageService,private fb: FormBuilder, private sservice: ServiceService, private maquillajeservice: MaquillajeService, private joyaService : JoyaService, private yService: YService, private sanitizer: DomSanitizer,private cookie: CookieService, private datePipe: DatePipe) { }
@@ -129,12 +133,12 @@ export class ListFacturacompraComponent {
       console.log(error);
     });
     
-    
-
     this.FacturaForm = new FormGroup({
       mepa_Id: new FormControl('7', Validators.required),
       prov_Id: new FormControl('0', Validators.required),
       nombreProveedor: new FormControl("", [Validators.required]),
+      sucu_Id: new FormControl('0', Validators.required),
+      sucu_Nombre: new FormControl('0', Validators.required),
 
       //detalle
       radio: new FormControl("1",Validators.required),
@@ -207,23 +211,12 @@ export class ListFacturacompraComponent {
     this.service.getAutoCompletadoMaquillaje().subscribe(maqu => {
       this.maquillajes = maqu;
     });
+
+    this.service.getAutoCompletadoSucursal().subscribe(sucu => {
+      this.sucursales = sucu;
+    });
     //#endregion
  } 
- selectMetodoPago(metodo: string) {
-  this.selectedMetodo = metodo;
-
-
-  this.FacturaForm.controls['mepa_Id'].setValue(metodo);
-}
-
-SeleccionAgregar(){
-  if (this.selectedRadio == "1") {
-    this.Onjoya();
-  }else{
-    this.Onmaquillaje();
-  }
- 
-}
 
   onRadioChange(event: Event) {
     const target = event.target as HTMLInputElement;
@@ -321,6 +314,20 @@ SeleccionAgregar(){
     this.filteredProveedores = filtered;
   }
 
+  filterSucursal(event: any) {
+    const filtered: any[] = [];
+    const query = event.query;
+    for (let i = 0; i < this.sucursal.length; i++) {
+        const sucursal = this.sucursal[i];
+        
+        if (sucursal.sucu_Nombre.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+            filtered.push(sucursal);
+        }
+    }
+
+    this.filteredSucursales = filtered;
+  }
+
   producto(event: any){
     console.log(event.key)
     console.log()
@@ -336,6 +343,22 @@ SeleccionAgregar(){
   
   //#region  selects
   
+  selectMetodoPago(metodo: string) {
+    this.selectedMetodo = metodo;
+  
+  
+    this.FacturaForm.controls['mepa_Id'].setValue(metodo);
+  }
+  
+  SeleccionAgregar(){
+    if (this.selectedRadio == "1") {
+      this.Onjoya();
+    }else{
+      this.Onmaquillaje();
+    }
+   
+  }
+
   onSelectProduct(event) {
     this.FacturaForm.get('prod_Id').setValue(event.value.value); 
     this.FacturaForm.get('nombreProducto').setValue(event.value.text); 
@@ -355,6 +378,12 @@ SeleccionAgregar(){
     this.FacturaForm.get('prov_Id').setValue(event.value.prov_Id);
     this.JoyaForm.get('Prov_Id').setValue(event.value.prov_Id);
     this.MaquillajeForm.get('Prov_Id').setValue(event.value.prov_Id);
+
+  }
+
+  onSelectSucursal(event) {
+
+    this.FacturaForm.get('sucu_Id').setValue(event.value.sucu_Id);
 
   }
   onSelectMetodo(event) {

@@ -12,19 +12,33 @@
                 <div class="p-fluid p-formgrid grid">
 
                     <div class="field col-12 md:col-6">
-                    <label for="">Proveedor</label>
-                    <p-autoComplete 
-                    [(ngModel)]="selectedProveedoresAdvanced" 
-                    [suggestions]="filteredProveedores" 
-                    (completeMethod)="filterProveedor($event)" 
-                    (onSelect)="onSelectProveedor($event)" 
-                    required autofocus  
-                    [ngClass]="{'ng-invalid ng-dirty': submitted && FacturaForm.get('nombreProveedor').value === ''}" 
-                    field="nombreProveedor" 
-                    formControlName="nombreProveedor" 
-                    appendTo="body" [dropdown]="true"></p-autoComplete>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && FacturaForm.controls['nombreProveedor'].invalid" style="color: red !important;">Proveedor Requerido</small>
-                </div>
+                        <label for="">Proveedor</label>
+                        <p-autoComplete 
+                        [(ngModel)]="selectedProveedoresAdvanced" 
+                        [suggestions]="filteredProveedores" 
+                        (completeMethod)="filterProveedor($event)" 
+                        (onSelect)="onSelectProveedor($event)" 
+                        required autofocus  
+                        [ngClass]="{'ng-invalid ng-dirty': submitted && FacturaForm.get('nombreProveedor').value === ''}" 
+                        field="nombreProveedor" 
+                        formControlName="nombreProveedor" 
+                        appendTo="body" [dropdown]="true"></p-autoComplete>
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && FacturaForm.controls['nombreProveedor'].invalid" style="color: red !important;">Proveedor Requerido</small>
+                    </div>
+                    <div class="field col-12 md:col-6">
+                        <label for="">Sucursal</label>
+                        <p-autoComplete 
+                        [(ngModel)]="selectedSucursalesAdvanced" 
+                        [suggestions]="filteredSucursales" 
+                        (completeMethod)="filterSucursal($event)" 
+                        (onSelect)="onSelectSucursal($event)" 
+                        required autofocus  
+                        [ngClass]="{'ng-invalid ng-dirty': submitted && FacturaForm.get('sucu_Nombre').value === ''}" 
+                        field="sucu_Nombre" 
+                        formControlName="sucu_Nombre" 
+                        appendTo="body" [dropdown]="true"></p-autoComplete>
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && FacturaForm.controls['sucu_Nombre'].invalid" style="color: red !important;">Sucursal Requerida</small>
+                    </div>
                 <div [class.hidden]="!Detalles">
                     
                     <div class="field col-12 md:col-12">
