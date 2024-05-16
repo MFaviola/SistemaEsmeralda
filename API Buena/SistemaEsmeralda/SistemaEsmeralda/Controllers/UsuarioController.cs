@@ -26,37 +26,46 @@ namespace SistemaEsmeralda.API.Controllers
             _mailService = mailService;
 
         }
-        [HttpGet("EnviarCodigo")]
-        public IActionResult ValidarReestablecer(UsuariosViewModel item)
+        [HttpGet("EnviarCodigo/{usuario}")]
+        public IActionResult ValidarReestablecer(string usuario)
         {
-            var model = _mapper.Map<tbUsuarios>(item);
             Random random = new Random();
-            int randomNumber = random.Next(100000, 1000000);
-            var estado = _accesoServices.ValidarReestablecer(model);
-            var lista = estado.Data;
-            if (lista.Count > 0)
+            int randomNumber = random.Next(100000, 999999);
+            var estado = _accesoServices.ValidarReestablecer(usuario);
+            if (estado.Success == true)
             {
                 var datos = estado.Data as List<tbUsuarios>;
                 var first = datos.FirstOrDefault();
-                _accesoServices.EnviarCodigo(randomNumber.ToString(), first.Usua_Id);
+                var res = _accesoServices.EnviarCodigo(randomNumber.ToString(), first.Usua_Id);
                 MailData mailData = new MailData();
                 mailData.EmailToId = first.empl_Correo;
                 mailData.EmailToName = "Tienda Esmeralda";
                 mailData.EmailSubject = "Codigo de Reestablecimiento de Contraseña";
                 mailData.EmailBody = "Su codigo es:" + randomNumber.ToString();
                 _mailService.SendGmail(mailData);
+                if (res.Success == true)
+                {
+                    return Ok(estado.Data);
+                }
+                else
+                {
+                    return Problem();
+                }
             }
-            return Ok(lista);
+            else
+            {
+                return Problem();
+            }
 
         }
 
-        [HttpPut("ValidarCodigo")]
+        [HttpGet("ValidarCodigo/{Codigo}")]
         public IActionResult ValidarCodigo(string Codigo)
         {
             var list = _accesoServices.ValidarCodigo(Codigo);
             if(list.Success == true)
             {
-                return Ok(list.Message);
+                return Ok(list);
             }
             else
             {
@@ -155,7 +164,12 @@ namespace SistemaEsmeralda.API.Controllers
         [HttpPut("Restablecer")]
         public IActionResult Restablecer (UsuariosViewModel item)
         {
-            var modelo = _mapper.Map<tbUsuarios>(item);
+            //var modelo = _mapper.Map<tbUsuarios>(item);
+            var modelo = new tbUsuarios()
+            {
+                Usua_Id = item.Usua_ID,
+                Usua_Contraseña = item.Usua_Contraseña
+            };
             var list = _accesoServices.Restablecer(modelo);
             if (list.Success == true)
             {

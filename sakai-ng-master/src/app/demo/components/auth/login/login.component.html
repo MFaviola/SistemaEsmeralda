@@ -1,65 +1,117 @@
 
 
 <div class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden" >
-    <div class="flex flex-column align-items-center justify-content-center">
-        <div style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);">
-            <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius:53px">
-                <div class="text-center mb-5">
-                  
-                    <div style="width: 100%; height: 100px" class="imagen"></div>
-                    <div class="text-900 text-3xl font-medium mb-3"></div>
-                    <span class="text-600 font-medium">INICIO DE SESION...</span>
-                </div>
-                
+    <div [class.hidden]="Login">
+        <div class="flex flex-column align-items-center justify-content-center">
+            <div style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);">
+                <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius:53px">
+                    <div class="text-center mb-5">
+                    
+                        <div style="width: 100%; height: 100px" class="imagen"></div>
+                        <div class="text-900 text-3xl font-medium mb-3"></div>
+                        <span class="text-600 font-medium">INICIO DE SESION...</span>
+                    </div>
+                    
 
-                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-                    <div>
-                        <label for="email1" class="block text-900 text-xl font-medium mb-2">Usuario</label>
-                        <input id="email1" type="text" placeholder="Dirección de Email" formControlName="usuario" class="w-full md:w-30rem mb-5 form-control" style="padding:1rem">
+                    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                        <div>
+                            <label for="email1" class="block text-900 text-xl font-medium mb-2">Usuario</label>
+                            <input id="email1" type="text" placeholder="Dirección de Email" formControlName="usuario" class="w-full md:w-30rem mb-5 form-control" style="padding:1rem">
 
 
-                        <label for="password1" class="block text-900 font-medium text-xl mb-2">Contraseña</label>
-                        <input id="password1" type="password" placeholder="Contraseña" formControlName="contra" class="w-full p-3 md:w-30rem mb-5 form-control">
+                            <label for="password1" class="block text-900 font-medium text-xl mb-2">Contraseña</label>
+                            <input id="password1" type="password" placeholder="Contraseña" formControlName="contra" class="w-full p-3 md:w-30rem mb-5 form-control">
 
-                        <div class="flex align-items-center justify-content-between mb-5 gap-5">
-                            <div class="flex align-items-center">
-                                <input type="checkbox" id="rememberme1" formControlName="rememberMe" class="mr-2">
-                                <label for="rememberme1">Recuérdame</label>
+                            <div class="flex align-items-center justify-content-between mb-5 gap-5">
+                                <div class="flex align-items-center">
+                                    <input type="checkbox" id="rememberme1" formControlName="rememberMe" class="mr-2">
+                                    <label for="rememberme1">Recuérdame</label>
+                                </div>
+                                <a class="font-medium no-underline ml-2 text-right cursor-pointer" style="color: var(--primary-color)" (click)="restablecer()">Olvidó su contraseña?</a>
                             </div>
-                            <a class="font-medium no-underline ml-2 text-right cursor-pointer" style="color: var(--primary-color)" (click)="collapse()">Olvidó su contraseña?</a>
+                            <button type="submit" pButton pRipple label="Iniciar Sesión" class="w-full p-3 text-xl"></button>
                         </div>
-                        <button type="submit" pButton pRipple label="Iniciar Sesión" class="w-full p-3 text-xl"></button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-<div class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden" [class.hidden]="!Collapse">
-    <div class="flex flex-column align-items-center justify-content-center">
-        <div style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);">
-            <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius:53px">
-                <div class="text-center mb-5">
-                  
-                    <div style="width: 100%; height: 100px" class="imagen"></div>
-                    <div class="text-900 text-3xl font-medium mb-3"></div>
-                    <span class="text-600 font-medium">Restablecer contraseña</span>
+                    </form>
                 </div>
-                
-
-                <form [formGroup]="loginForm" (ngSubmit)="onValidar()">
-                    <div>
-                        <label for="email1" class="block text-900 text-xl font-medium mb-2">Usuario</label>
-                        <input id="email1" type="text" placeholder="Nombre de Usuario" formControlName="usuario" class="w-full md:w-30rem mb-5 form-control" style="padding:1rem">
-
-                        <button type="submit" pButton pRipple label="Enviar Codigo" class="w-full p-3 text-xl"></button>
+            </div>
+        </div>
+    </div>
+    <div [class.hidden]="Collapse">
+        <div class="flex flex-column align-items-center justify-content-center">
+            <div style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);">
+                <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius:53px">
+                    <div class="text-center mb-5">
+                      
+                        <div style="width: 100%; height: 100px" class="imagen"></div>
+                        <div class="text-900 text-3xl font-medium mb-3"></div>
+                        <span class="text-600 font-medium">Restablecer contraseña</span>
                     </div>
-                </form>
+                    
+    
+                    <form [formGroup]="validarForm" (ngSubmit)="onValidar()">
+                        <div>
+                            <label for="usuario" class="block text-900 text-xl font-medium mb-2">Usuario</label>
+                            <input id="usuario" type="text" placeholder="Nombre de Usuario" formControlName="usuario" class="w-full md:w-30rem mb-5 form-control" style="padding:1rem">
+    
+                            <button type="submit" pButton pRipple label="Enviar Codigo" class="w-full p-3 text-xl"></button>
+                            <button pButton pRipple label="cancelar" class=" p-3 text-xl"></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div [class.hidden]="Codigo">
+        <div class="flex flex-column align-items-center justify-content-center">
+            <div style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);">
+                <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius:53px">
+                    <div class="text-center mb-5">
+                      
+                        <div style="width: 100%; height: 100px" class="imagen"></div>
+                        <div class="text-900 text-3xl font-medium mb-3"></div>
+                        <span class="text-600 font-medium">Validar codigo</span>
+                    </div>
+                    
+    
+                    <form [formGroup]="enviarcodigoForm" (ngSubmit)="oncodigo()">
+                        <div>
+                            <label for="codigo" class="block text-900 text-xl font-medium mb-2">Codigo</label>
+                            <input id="codigo" type="text" placeholder="codigo de 6 dijitos" formControlName="codigo" class="w-full md:w-30rem mb-5 form-control" style="padding:1rem">
+    
+                            <button type="submit" pButton pRipple label="Enviar Codigo" class="w-full p-3 text-xl"></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div [class.hidden]="Contra">
+        <div class="flex flex-column align-items-center justify-content-center">
+            <div style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);">
+                <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius:53px">
+                    <div class="text-center mb-5">
+                      
+                        <div style="width: 100%; height: 100px" class="imagen"></div>
+                        <div class="text-900 text-3xl font-medium mb-3"></div>
+                        <span class="text-600 font-medium">Nueva contraseña</span>
+                    </div>
+                    
+    
+                    <form [formGroup]="enviarcontraForm" (ngSubmit)="oncontra()">
+                        <div>
+                            <label for="Usua_Contraseña" class="block text-900 text-xl font-medium mb-2">Nueva Contraseña</label>
+                            <input id="Usua_Contraseña" type="text" placeholder="Nueva Contraseña" formControlName="Usua_Contraseña" class="w-full md:w-30rem mb-5 form-control" style="padding:1rem">
+    
+                            <button type="submit" pButton pRipple label="Enviar Codigo" class="w-full p-3 text-xl"></button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+
+
 

@@ -171,14 +171,19 @@ namespace SistemaEsmeralda.BusinessLogic.Services
 
 
         #region Usuario
-        public ServiceResult ValidarReestablecer(tbUsuarios usuario)
+        public ServiceResult ValidarReestablecer(string usuario)
         {
             var result = new ServiceResult();
             try
             {
                 var lost = _usuarioRepository.ValidarReestablecer(usuario);
-
-                return result.Ok(lost);
+                if (lost.Count() > 0) {
+                    return result.Ok(lost);
+                }
+                else
+                {
+                    return result.Error();
+                }
             }
             catch (Exception ex)
             {

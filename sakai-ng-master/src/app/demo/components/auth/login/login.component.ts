@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ServiceService } from '../../../../Service/Login.Service';
-import { Login, validar } from '../../../../Models/ValidarViewModel';
+import { Login, validar, codigo, clave } from '../../../../Models/ValidarViewModel';
 import {CookieService} from 'ngx-cookie-service';
 import { AuthService } from 'src/app/Service/authGuard.service';
 import { Usuario } from 'src/app/Models/UsuarioVIewModel';
@@ -22,83 +22,150 @@ import { Usuario } from 'src/app/Models/UsuarioVIewModel';
     [CookieService]
 })
 export class LoginComponent {
-  Collapse: boolean = false;
-
-    // valCheck: string[] = ['remember'];
-
-    // password!: string;
+  Collapse: boolean = true;
+  Login: boolean = false;
+  Codigo: boolean = true;
+  Contra: boolean = true;
 
     loginForm: FormGroup;
-    validar: FormGroup;
+    validarForm: FormGroup;
+    enviarcodigoForm: FormGroup;
+    enviarcontraForm: FormGroup;
 
-    constructor(public layoutService: LayoutService, private formBuilder: FormBuilder, private service: ServiceService,private router: Router,private cookie: CookieService,private authService:AuthService) {
-        
-        this.loginForm = this.formBuilder.group({
-            usuario: ['', [Validators.required]],
-            contra: ['', [Validators.required]],
-            rememberMe: [false]
-          });
+    constructor(public layoutService: LayoutService, private formBuilder: FormBuilder, private service: ServiceService,private router: Router,private cookie: CookieService,private authService:AuthService) {}
+
+  ngOnInit(): void {
+      //Inicializamos form,drops,lista
+    this.validarForm = this.formBuilder.group({
+      usuario: ['', Validators.required],
+    });
+    
+    this.loginForm = this.formBuilder.group({
+      usuario: ['', [Validators.required]],
+      contra: ['', [Validators.required]],
+      rememberMe: [false]
+    });
+
+    this.enviarcodigoForm = this.formBuilder.group({
+      codigo: ['', [Validators.required]],
+    });
+
+    this.enviarcontraForm = this.formBuilder.group({
+      Usua_ID: ['', [Validators.required]],
+      Usua_Contraseña: ['', [Validators.required]],
+    });
+  }
+    
+    collapse(){
+      this.Collapse = false;
+      this.Login = true;
+      this.Codigo = false;
+    }
+
+    restablecer(){
+      this.Login = true;
+      this.Collapse = false;
+      console.log("aja simon")
+    }
+
+    cancelar(){
+      this.Login = false;
+      this.Collapse = true;
 
     }
 
 
-     onSubmit(): void {
-        if (this.loginForm.valid) {
-          const loginData: Login = this.loginForm.value;
-          this.service.login(loginData).subscribe(
-            response => {
+  onSubmit(): void {
+    if (this.loginForm.valid) {
+        const loginData: Login = this.loginForm.value;
+      this.service.login(loginData).subscribe(
+        response => {
               
-              console.log('Respuesta del servidor:', response);
-              if (response!="Error"){
-                this.cookie.set('Empleado', response[0].empl_Nombre);
-                this.cookie.set('empl_Id', response[0].empl_Id);
-                this.cookie.set('Usuario', response[0].usua_Usuario);
-                this.cookie.set('ID_Usuario', response[0].usua_Id);
-                this.cookie.set('esAdmin',response[0].usua_Administrador);
-                this.cookie.set('roleID',response[0].role_Id);
-                this.authService.loadPermissions();
-                console.log(this.cookie.get('esAdmin'));
-                this.router.navigate(['/dash']);
-              }
-
-            },
-            error => {
-              console.error('Error al iniciar sesión:', error);
-
-            }
-          );
-        } else {
-          console.log('Formulario inválido');
+          console.log('Respuesta del servidor:', response);
+          if (response!="Error"){
+            this.cookie.set('Empleado', response[0].empl_Nombre);
+            this.cookie.set('empl_Id', response[0].empl_Id);
+            this.cookie.set('Usuario', response[0].usua_Usuario);
+            this.cookie.set('ID_Usuario', response[0].usua_Id);
+            this.cookie.set('esAdmin',response[0].usua_Administrador);
+            this.cookie.set('roleID',response[0].role_Id);
+            this.authService.loadPermissions();
+            console.log(this.cookie.get('esAdmin'));
+            this.router.navigate(['/dash']);
+          } 
+        },
+        error => {
+          console.error('Error al iniciar sesión:', error);
         }
-      }
+      );
+    } else {
+      console.log('Formulario inválido');
+    }
+  }
 
       
-     onValidar(): void {
-      if (this.validar.valid) {
-        const loginData: validar = this.validar.value;
-        this.service.enviarcodigo(loginData).subscribe(
-          response => {
-            
-            console.log('Respuesta del servidor:', response);
-            if (response!="Error"){
-              this.cookie.set('ID_Usuario', response[0].usua_Id);
-              this.authService.loadPermissions();
-              this.router.navigate(['/dash']);
-            }
-
-          },
-          error => {
-            console.error('Nombre de usuario incorrecto:', error);
-
+  onValidar(): void {
+    if (this.validarForm.valid) {
+      const loginData: validar = this.validarForm.value;
+      this.service.enviarcodigo(loginData).subscribe(
+        response => {
+          console.log('Respuesta del servidor:', response);
+          if (response!="Error"){
+            this.cookie.set('ID_Usuario', response[0].usua_Id);
+            this.Collapse = true;
+            this.Codigo = false;
           }
-        );
-      } else {
-        console.log('Formulario inválido');
-      }
+        },
+        error => {
+          console.error('Nombre de usuario incorrecto:', error);
+        }
+      );
+    } else {
+      console.log('Formulario inválido');
     }
+  }
 
 
-      collapse(){
-        this.Collapse=true;
-      }
+  oncodigo():void{
+    if (this.enviarcodigoForm.valid) {
+      const codigoData: codigo = this.enviarcodigoForm.value;
+      this.service.validarcodigo(codigoData).subscribe(
+        response => {
+          console.log('Respuesta del servidor:', response);
+          if (response!="Error"){
+            console.log("el codigo es correcto");
+            this.Codigo = true;
+            this.Contra = false;
+          }
+        },
+        error => {
+          console.error('codigo incorrecto:', error);
+        }
+      );
+    } else {
+      console.log('Formulario inválido');
+    }
+  }
+
+
+  oncontra():void{
+    if (this.enviarcodigoForm.valid) {
+      const codigoData: clave = this.enviarcontraForm.value;
+      console.log(codigoData);
+      this.service.cambiarclave(codigoData).subscribe(
+        response => {
+          console.log('Respuesta del servidor:', response);
+          if (response!="Error"){
+            console.log("Contraseña establecida");
+            this.Codigo = true;
+          }
+        },
+        error => {
+          console.error('codigo incorrecto:', error);
+        }
+      );
+    } else {
+      console.log('Formulario inválido');
+    }
+  }
 }
