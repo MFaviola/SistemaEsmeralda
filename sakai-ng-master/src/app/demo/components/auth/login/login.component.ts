@@ -27,6 +27,8 @@ export class LoginComponent {
   Codigo: boolean = true;
   Contra: boolean = true;
 
+Usua_Id = '0';
+
     loginForm: FormGroup;
     validarForm: FormGroup;
     enviarcodigoForm: FormGroup;
@@ -51,7 +53,7 @@ export class LoginComponent {
     });
 
     this.enviarcontraForm = this.formBuilder.group({
-      Usua_ID: ['', [Validators.required]],
+      Usua_Id: [this.cookie.get('ID_Usuario'), [Validators.required]],
       Usua_Contraseña: ['', [Validators.required]],
     });
   }
@@ -157,7 +159,8 @@ export class LoginComponent {
           console.log('Respuesta del servidor:', response);
           if (response!="Error"){
             console.log("Contraseña establecida");
-            this.Codigo = true;
+            this.Login = false;
+            this.Contra = true;
           }
         },
         error => {

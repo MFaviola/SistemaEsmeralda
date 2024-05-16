@@ -14,6 +14,6 @@ export class Login {
 
   export class clave {
     Usua_Contraseña!:String;
-    Usua_ID!:String;
+    Usua_Id!:String;
 
   }

@@ -164,10 +164,9 @@ namespace SistemaEsmeralda.API.Controllers
         [HttpPut("Restablecer")]
         public IActionResult Restablecer (UsuariosViewModel item)
         {
-            //var modelo = _mapper.Map<tbUsuarios>(item);
             var modelo = new tbUsuarios()
             {
-                Usua_Id = item.Usua_ID,
+                Usua_Id = item.Usua_Id,
                 Usua_Contraseña = item.Usua_Contraseña
             };
             var list = _accesoServices.Restablecer(modelo);
