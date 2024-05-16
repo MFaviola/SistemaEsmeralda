@@ -96,7 +96,7 @@ namespace SistemaEsmeralda.API.Controllers
                 Prov_Id = item.Prov_Id,
                 Mate_Id = item.Mate_Id,
                 Cate_Id = item.Cate_Id,
-                Joya_UsuarioCreacion = item.Usua_ID,
+                Joya_UsuarioCreacion = item.Usua_Id,
                 Joya_FechaCreacion = DateTime.Now
 
             };
@@ -174,7 +174,7 @@ namespace SistemaEsmeralda.API.Controllers
                 Prov_Id = item.Prov_Id,
                 Mate_Id = item.Mate_Id,
                 Cate_Id = item.Cate_Id,
-                Joya_UsuarioModificacion = 1,
+                Joya_UsuarioModificacion = item.Usua_Id,
                 Joya_FechaModificacion = DateTime.Now
             };
             var list = _ventasServices.EditarJoyas(modelo);

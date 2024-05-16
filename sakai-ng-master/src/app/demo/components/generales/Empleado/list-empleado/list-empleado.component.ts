@@ -11,10 +11,11 @@ import { dropMunicipio } from 'src/app/Models/MunicipioViewModel';
 import { dropCargo } from 'src/app/Models/CargoViewModel';
 import { dropEstadoCivil } from 'src/app/Models/EstadoCivilViewModel';
 import { MensajeViewModel } from 'src/app/Models/MensajeViewModel';
+import { CookieService } from 'ngx-cookie-service';
 @Component({
   templateUrl: './list-empleado.component.html',
   styleUrl: './list-empleado.component.scss',
-  providers: [ConfirmationService, MessageService]
+  providers: [ConfirmationService, MessageService,CookieService]
 })
 export class ListEmpleadoComponent {
   Empleado!:Empleado[];
@@ -52,9 +53,8 @@ export class ListEmpleadoComponent {
   Detalle_Apellido: String = "";
   Detalle_Sexo: String = "";
   Detalle_Estado: String = "";
-   Detalle_Cargo: String = "";
-   Detalle_Correo: String = "";
-
+  Detalle_Cargo: String = "";
+  Detalle_Correo: String = "";
   Detalle_FechaNac: String = "";
   Detalle_Departamento: String = "";
   Detalle_Municipio: String = "";
@@ -64,8 +64,8 @@ export class ListEmpleadoComponent {
   FechaModificacion: String = "";
   ID: string = "";
   MunicipioCodigo: String = "";
-
-  constructor(private service: ServiceService, private router: Router,   private messageService: MessageService
+  Usua_Id: any = this.cookie.get('ID_Usuario');
+  constructor(private service: ServiceService, private router: Router,   private messageService: MessageService,private cookie: CookieService
   
   ) { }
 
@@ -127,6 +127,15 @@ export class ListEmpleadoComponent {
       this.municipios = []; // Clear municipios if the department is invalid or reset
     }
   }
+  clear(table: Table, filter: ElementRef) {
+    table.clear();
+    filter.nativeElement.value = '';
+  }
+  onGlobalFilter(table: Table, event: Event) {
+    table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+  }
+
+
    collapse(){
     this.Collapse= true;
     this.DataTable = false;
@@ -193,6 +202,7 @@ ValidarNumero(event: KeyboardEvent) {
 onSubmit() {
   if (this.clienteForm.valid && this.clienteForm.get('Depa_Codigo').value !== '0' && this.clienteForm.get('Muni_Codigo').value !== '0'&& this.clienteForm.get('Esta_Id').value !== '0' ) {
      this.viewModel = this.clienteForm.value;
+     this.viewModel.Usua_Id = this.Usua_Id;
      if (this.Valor == "Agregar") {
       this.service.EnviarEmpleado(this.viewModel).subscribe((data: MensajeViewModel[]) => {
           if(data["message"] == "Operación completada exitosamente."){

@@ -9,7 +9,7 @@ namespace SistemaEsmeralda.Common.Models
 {
    public class JoyasViewModel
     {
-        public int Usua_ID { get; set; }
+        public int Usua_Id { get; set; }
         public int Joya_Stock { get; set; }
         public int Joya_Id { get; set; }
         public string Joya_Nombre { get; set; }

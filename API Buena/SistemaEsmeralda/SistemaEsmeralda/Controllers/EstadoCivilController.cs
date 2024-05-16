@@ -70,7 +70,7 @@ namespace SistemaEsmeralda.API.Controllers
             {
                 Esta_EstadoCivil = item.Esta_EstadoCivil
 ,
-                Esta_UsuarioCreacion = item.Usua_ID,
+                Esta_UsuarioCreacion = item.Usua_Id,
                 Esta_FechaCreacion = DateTime.Now,
             };
             var list = _generalServices.InsertarEstadoCiviles(modelo);
@@ -99,7 +99,7 @@ namespace SistemaEsmeralda.API.Controllers
             {
                 Esta_Id = item.Esta_Id,
                 Esta_EstadoCivil = item.Esta_EstadoCivil,
-                    Esta_UsuarioModificacion = 1,
+                    Esta_UsuarioModificacion = item.Usua_Id,
                 Esta_FechaModificacion = DateTime.Now
             };
             var list = _generalServices.EditarEstadosCiviles(modelo);

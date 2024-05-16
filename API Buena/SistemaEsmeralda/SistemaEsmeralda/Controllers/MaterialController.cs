@@ -58,7 +58,7 @@ namespace SistemaEsmeralda.API.Controllers
             {
                 Mate_Material = item.Mate_Material
 ,
-                Mate_UsuarioCreacion = item.Usua_ID,
+                Mate_UsuarioCreacion = item.Usua_Id,
                 Mate_FechaCreacion = DateTime.Now,
             };
             var list = _generalServices.InsertarMateriales(modelo);
@@ -86,7 +86,7 @@ namespace SistemaEsmeralda.API.Controllers
             {
                 Mate_Id = item.Mate_Id,
                 Mate_Material = item.Mate_Material,
-                Mate_UsuarioModificacion = 1,
+                Mate_UsuarioModificacion = item.Usua_Id,
                 Mate_FechaModificacion = DateTime.Now
             };
             var list = _generalServices.EditarMaterial(modelo);

@@ -84,8 +84,8 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 parameter.Add("@Muni_Codigo", item.Muni_Codigo);
                 parameter.Add("@Esta_Id", item.Esta_Id);
                 parameter.Add("@Clie_DNI", item.Clie_DNI);
-                parameter.Add("@Clie_UsuarioModificacion", 1);
-                parameter.Add("@Clie_FechaModificacion", item.Clie_FechaModificacion);
+                parameter.Add("@Clie_UsuarioModificacion", item.Clie_UsuarioCreacion);
+                parameter.Add("@Clie_FechaModificacion", item.Clie_FechaCreacion);
                 var result = db.Execute(sql, parameter, commandType: CommandType.StoredProcedure);
                 string mensaje = (result == 1) ? "exito" : "error";
                 return new RequestStatus { CodeStatus = result, MessageStatus = mensaje };

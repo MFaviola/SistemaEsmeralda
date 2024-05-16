@@ -7,16 +7,17 @@ import { ServiceService } from 'src/app/Service/Departamento.service';
 import { FormGroup, FormControl,  Validators  } from '@angular/forms';
 import { MensajeViewModel } from 'src/app/Models/MensajeViewModel';
 import { Fill,Departamento, DepartamentoEnviar } from 'src/app/Models/DepartamentoViewModel';
+import { CookieService } from 'ngx-cookie-service';
 
 
 @Component({
     templateUrl: './Departamentodemo.component.html',
     styleUrl: './list-departamento.component.css',
-    providers: [ConfirmationService, MessageService]
+    providers: [ConfirmationService, MessageService,CookieService]
 })
 export class DepartamentoDemoComponent implements OnInit {
     departamento!:Departamento[];
-   
+    Usua_Id: any = this.cookie.get('ID_Usuario');
     MensajeViewModel!: MensajeViewModel[];
     submitted: boolean = false;
     loading: boolean = false;
@@ -46,7 +47,8 @@ export class DepartamentoDemoComponent implements OnInit {
         private service: ServiceService, 
         private router: Router,
         private confirmationService: ConfirmationService, 
-        private messageService: MessageService
+        private messageService: MessageService,
+        private cookie: CookieService
     ) { 
        
     
@@ -71,7 +73,14 @@ export class DepartamentoDemoComponent implements OnInit {
         
      }
 
-
+     clear(table: Table, filter: ElementRef) {
+      table.clear();
+      filter.nativeElement.value = '';
+    }
+  
+    onGlobalFilter(table: Table, event: Event) {
+      table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+    }
 
  //Abrir collapse
  collapse(){
@@ -128,6 +137,7 @@ validarTexto(event: KeyboardEvent) {
      onSubmit() {
       if (this.departamentoForm.valid ) {
         this.viewModel = this.departamentoForm.value;
+        this.viewModel.Usua_Id = this.Usua_Id;
         if (this.Valor == "Agregar") {
          this.service.DepartamentoEnviar(this.viewModel).subscribe((data: MensajeViewModel[]) => {
              if(data["message"] == "Operación completada exitosamente."){

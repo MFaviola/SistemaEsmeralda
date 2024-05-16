@@ -57,7 +57,7 @@ namespace SistemaEsmeralda.API.Controllers
             {
                 Cate_Categoria = item.Cate_Categoria
 ,
-                Cate_UsuarioCreacion = item.Usua_ID,
+                Cate_UsuarioCreacion = item.Usua_Id,
                 Cate_FechaCreacion = DateTime.Now,
             };
             var list = _generalServices.InsertarCategorias(modelo);
@@ -85,7 +85,7 @@ namespace SistemaEsmeralda.API.Controllers
             {
                 Cate_Id = item.Cate_Id,
                 Cate_Categoria = item.Cate_Categoria,
-                Cate_UsuarioModificacion = 1,
+                Cate_UsuarioModificacion = item.Usua_Id,
                 Cate_FechaModificacion = DateTime.Now
             };
             var list = _generalServices.EditarCategoria(modelo);

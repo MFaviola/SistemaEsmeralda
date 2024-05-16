@@ -5,7 +5,7 @@ export class Proveedor{
     muni_Municipio?:String;
 }
 export class ProveedorEnviar {
-    Usua_ID?: String;
+    Usua_Id?: String;
     Prov_Id: String;
     Prov_Proveedor: string;
     Prov_Telefono: string;

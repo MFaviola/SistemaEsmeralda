@@ -10,10 +10,11 @@ import { MensajeViewModel } from 'src/app/Models/MensajeViewModel';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { dropProveedor } from 'src/app/Models/ProveedorViewModel';
 import { dropMarca } from 'src/app/Models/MarcaViewModel';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   templateUrl: './list-maquillaje.component.html',
-  providers: [ConfirmationService, MessageService]
+  providers: [ConfirmationService, MessageService,CookieService]
 })
 export class ListMaquillajeComponent implements OnInit{
   Maquillaje!:Maquillaje[];
@@ -29,7 +30,7 @@ export class ListMaquillajeComponent implements OnInit{
   fill: any[] = [];
   viewModel: MaquillajeEnviar = new MaquillajeEnviar();
   MaquillajeForm: FormGroup;
- 
+  Usua_Id: any = this.cookie.get('ID_Usuario');
   @ViewChild('filter') filter!: ElementRef;
 
   selectedState: any = null;
@@ -55,7 +56,7 @@ export class ListMaquillajeComponent implements OnInit{
   FechaModificacion: String = "";
   ID: String = "";
 
-  constructor(private service: ServiceService, private router: Router, private messageService: MessageService
+  constructor(private service: ServiceService, private router: Router, private messageService: MessageService,private cookie: CookieService
   
   ) { }
 
@@ -88,6 +89,14 @@ export class ListMaquillajeComponent implements OnInit{
         console.log(error);
       });
    }
+
+   clear(table: Table, filter: ElementRef) {
+    table.clear();
+    filter.nativeElement.value = '';
+  }
+  onGlobalFilter(table: Table, event: Event) {
+    table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+  }
 
    onUpload(event) {
     const file: File = event.files[0];
@@ -170,6 +179,7 @@ ValidarNumeros(event: KeyboardEvent) {
 onSubmit() {
   if (this.MaquillajeForm.valid && this.MaquillajeForm.get('Prov_Id').value !== '0' && this.MaquillajeForm.get('Marc_Id').value !== '0') {
      this.viewModel = this.MaquillajeForm.value;
+     this.viewModel.Usua_Id = this.Usua_Id
      if (this.Valor == "Agregar") {
       this.service.EnviarMaquillaje(this.viewModel).subscribe((data: MensajeViewModel[]) => {
           if(data["message"] == "Operación completada exitosamente."){

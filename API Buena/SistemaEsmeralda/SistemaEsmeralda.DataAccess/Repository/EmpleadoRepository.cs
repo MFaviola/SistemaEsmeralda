@@ -34,7 +34,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 parametro.Add("@Carg_Id", item.Carg_Id);
                 parametro.Add("@Empl_Correo", item.Empl_Correo);
 
-                parametro.Add("@Empl_UsuarioCreacion", 1);
+                parametro.Add("@Empl_UsuarioCreacion", item.Empl_UsuarioCreacion);
                 parametro.Add("@Empl_FechaCreacion", item.Empl_FechaCreacion);
 
                 var result = db.Execute(sql, parametro, commandType: CommandType.StoredProcedure);
@@ -91,7 +91,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 parameter.Add("@Empl_Correo", item.Empl_Correo);
 
                 
-                parameter.Add("@Empl_UsuarioModificacion", 1);
+                parameter.Add("@Empl_UsuarioModificacion", item.Empl_UsuarioCreacion);
                 parameter.Add("@Empl_FechaModificacion", DateTime.Now);
                 var result = db.Execute(sql, parameter, commandType: CommandType.StoredProcedure);
                 string mensaje = (result == 1) ? "exito" : "error";

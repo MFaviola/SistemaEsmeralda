@@ -103,7 +103,7 @@
 
 
 
-        <p-table #dt1 [value]="Cliente" dataKey="clie_Id" [rows]="10" [loading]="loading" [rowHover]="true"  styleClass="p-datatable-gridlines" [paginator]="true" [globalFilterFields]="['Clie_Id,Clie_Nombre,Clie_Apellido, Clie_Sexo,Clie_FechaNaciminto,Esta_Id,Muni_Municipio']" responsiveLayout="scroll" [class.hidden]="!DataTable">
+        <p-table #dt1 [value]="Cliente" dataKey="clie_Id" [rows]="10" [loading]="loading" [rowHover]="true"  styleClass="p-datatable-gridlines" [paginator]="true" [globalFilterFields]="['clie_Id','clie_Nombre','clie_Apellido', 'clie_Sexo','clie_FechaNaciminto','esta_Id','muni_Municipio']" responsiveLayout="scroll" [class.hidden]="!DataTable">
             <ng-template pTemplate="caption">
                 <div class="flex justify-content-between flex-column sm:flex-row">
                     <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clear(dt1)"></button>
@@ -188,8 +188,8 @@
                  
                     <td style="display: flex; justify-content: space-around; ;grid-gap: 5px;">
                         <p-button  label="Editar"   icon="pi pi-user-edit" size="small" (click)="Fill(clie.clie_Id)" severity="primary" [raised]="true" [plain]="true"></p-button>
-                        <p-button  label="Detalles"   icon="pi pi-book" size="small" (click)="Fill(clie.clie_Id)" severity="secondary" [raised]="true" [plain]="true"></p-button>
-                        <p-button  label="Eliminar" icon="pi pi-trash" size="small" (click)="Fill(clie.clie_Id)" severity="danger" [raised]="true" [plain]="true"></p-button>
+                        <p-button  label="Detalles"   icon="pi pi-book" size="small" (click)="detalles(clie.clie_Id)" severity="secondary" [raised]="true" [plain]="true"></p-button>
+                        <p-button  label="Eliminar" icon="pi pi-trash" size="small" (click)="deleteSelectedProducts(clie.clie_Id)" severity="danger" [raised]="true" [plain]="true"></p-button>
                     </td>
                 </tr>
             </ng-template>
@@ -302,14 +302,15 @@
               <button pButton icon="pi pi-stop" type="button" (click)="cancelar()" label="Volver" class="p-button-outlined"></button>
             </div>
         </div>
-        <p-dialog [(visible)]="deleteProductDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+        <p-dialog [(visible)]="deleteProductDialog" header="Confirmar" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
                 <span>Esta seguro de eliminarlo?</span>
             </div>
             <ng-template pTemplate="footer">
-                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteProductDialog = false"></button>
-                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDelete()"></button>
+                <button pButton pRipple icon="pi pi-times" class="p-button-outlined p-button-primary" label="No" (click)="deleteProductDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-outlined p-button-primary" label="Si" (click)="confirmDelete()"></button>
+
             </ng-template>
         </p-dialog>
     </div>

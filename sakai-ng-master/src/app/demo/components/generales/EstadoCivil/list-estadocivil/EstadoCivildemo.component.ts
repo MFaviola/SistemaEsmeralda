@@ -7,12 +7,13 @@ import { Estado, EstadoCivilEnviar,Fill } from 'src/app/Models/EstadoCivilViewMo
 import { ServiceService } from 'src/app/Service/EstadoCivil.service';
 import { FormGroup, FormControl,  Validators  } from '@angular/forms';
 import { MensajeViewModel } from 'src/app/Models/MensajeViewModel';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
     templateUrl: './EstadoCivildemo.component.html',
     styleUrl: './list-estadocivil.component.css',
 
-    providers: [ConfirmationService, MessageService]
+    providers: [ConfirmationService, MessageService,CookieService]
 })
 export class EstadoCivilDemoComponent implements OnInit {
     Estado!:Estado[];
@@ -33,7 +34,7 @@ export class EstadoCivilDemoComponent implements OnInit {
     Valor: string = "";
     staticData = [{}];
   
-  
+    Usua_Id: any = this.cookie.get('ID_Usuario');
     deleteProductDialog: boolean = false;
     //Detalle
     Esta: String = "";
@@ -48,7 +49,8 @@ export class EstadoCivilDemoComponent implements OnInit {
         private service: ServiceService, 
         private router: Router,
         private confirmationService: ConfirmationService, 
-        private messageService: MessageService
+        private messageService: MessageService,
+        private cookie: CookieService
     ) { 
        
     
@@ -72,7 +74,14 @@ export class EstadoCivilDemoComponent implements OnInit {
           console.log(error);
         });
      }
-    
+     clear(table: Table, filter: ElementRef) {
+        table.clear();
+        filter.nativeElement.value = '';
+      }
+      onGlobalFilter(table: Table, event: Event) {
+        table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+      }
+
     
   //Abrir collapse
   collapse(){
@@ -129,13 +138,13 @@ validarTexto(event: KeyboardEvent) {
      onSubmit() {
         if (this.estadocivilForm.valid ) {
            this.viewModel = this.estadocivilForm.value;
+           this.viewModel.Usua_Id = this.Usua_Id
            if (this.Valor == "Agregar") {
             this.service.EnviarEstadoCivil(this.viewModel).subscribe((data: MensajeViewModel[]) => {
                 if(data["message"] == "Operación completada exitosamente."){
                  this.service.getEstadosCivil().subscribe((data: Estado[]) => {
                      this.Estado = data;
                  });
-                 
            this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Insertado con Exito', life: 3000 });
            this.Collapse= false;
            this.DataTable = true;
@@ -145,11 +154,9 @@ validarTexto(event: KeyboardEvent) {
            this.estadocivilForm = new FormGroup({
             Esta_EstadoCivil: new FormControl("", Validators.required),
           });
-   
           }else{
            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro insertar', life: 3000 });
           }
-          
        })
      } else {
         this.viewModel.Esta_Id = this.id ;

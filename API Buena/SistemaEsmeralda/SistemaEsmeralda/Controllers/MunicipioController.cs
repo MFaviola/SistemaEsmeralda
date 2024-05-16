@@ -64,7 +64,7 @@ namespace SistemaEsmeralda.API.Controllers
                 Muni_Municipio = item.Muni_Municipio,
 
                 Depa_Codigo = item.Depa_Codigo,
-                Muni_UsuarioCreacion = item.Usua_ID,
+                Muni_UsuarioCreacion = item.Usua_Id,
                 Muni_FechaCreacion = DateTime.Now,
             };
             var list = _generalServices.InsertarMunicipio(modelo);
@@ -95,7 +95,7 @@ namespace SistemaEsmeralda.API.Controllers
                 Muni_Municipio = item.Muni_Municipio,
 
                 Depa_Codigo = item.Depa_Codigo,
-                Muni_UsuarioModificacion = 1,
+                Muni_UsuarioModificacion = item.Usua_Id,
                 Muni_FechaModificacion = DateTime.Now
             };
             var list = _generalServices.EditarMunicipio(modelo);

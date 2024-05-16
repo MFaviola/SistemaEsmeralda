@@ -32,7 +32,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 parametro.Add("@Maqu_Imagen", item.Maqu_Imagen);
                 parametro.Add("@Prov_Id", item.Prov_Id);
                 parametro.Add("@Marc_Id", item.Marc_Id);
-                parametro.Add("@Maqu_UsuarioCreacion", 1);
+                parametro.Add("@Maqu_UsuarioCreacion", item.Maqu_UsuarioCreacion);
                 parametro.Add("@Maqu_FechaCreacion", item.Maqu_FechaCreacion);
 
 

@@ -58,7 +58,7 @@ namespace SistemaEsmeralda.API.Controllers
             {
                 Depa_Codigo = item.Depa_Codigo,
                 Depa_Departamento = item.Depa_Departamento,
-                Depa_UsuarioCreacion = item.Usua_ID,
+                Depa_UsuarioCreacion = item.Usua_Id,
                 Depa_FechaCreacion = DateTime.Now,
             };
             var list = _generalServices.InsertarDepto(modelo);
@@ -86,7 +86,7 @@ namespace SistemaEsmeralda.API.Controllers
             {
                 Depa_Codigo = item.Depa_Codigo,
                 Depa_Departamento = item.Depa_Departamento,
-                Depa_UsuarioModificacion = 1,
+                Depa_UsuarioModificacion = item.Usua_Id,
                 Depa_FechaModificacion = DateTime.Now
             };
             var list = _generalServices.EditarDepto(modelo);

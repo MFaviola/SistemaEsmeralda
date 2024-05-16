@@ -11,11 +11,12 @@ import { dropDepartamento } from 'src/app/Models/DepartamentoViewModel';
 import { dropMunicipio } from 'src/app/Models/MunicipioViewModel';
 import { dropCargo } from 'src/app/Models/CargoViewModel';
 import { dropEstadoCivil } from 'src/app/Models/EstadoCivilViewModel';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   templateUrl: './list-cliente.component.html',
   styleUrl: './list-cliente.component.scss',
-  providers: [ConfirmationService, MessageService]
+  providers: [ConfirmationService, MessageService, CookieService]
 })
 export class ListClienteComponent implements OnInit{
   Cliente!:Cliente[];
@@ -62,9 +63,8 @@ export class ListClienteComponent implements OnInit{
   FechaModificacion: String = "";
   ID: string = "";
   MunicipioCodigo: String = "";
-
-  constructor(private service: ServiceService, private router: Router,   private messageService: MessageService
-  
+  Usua_Id: any = this.cookie.get('ID_Usuario');
+  constructor(private service: ServiceService, private router: Router,   private messageService: MessageService, private cookie: CookieService
   ) { }
 
 
@@ -103,6 +103,15 @@ export class ListClienteComponent implements OnInit{
         console.log(error);
       });
    }
+
+   clear(table: Table, filter: ElementRef) {
+    table.clear();
+    filter.nativeElement.value = '';
+  }
+
+  onGlobalFilter(table: Table, event: Event) {
+    table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+  }
    onDepartmentChange(departmentId) {
     if (departmentId !== '0') {
       this.service.getMunicipios(departmentId).subscribe(
@@ -180,6 +189,7 @@ ValidarNumero(event: KeyboardEvent) {
 onSubmit() {
   if (this.clienteForm.valid && this.clienteForm.get('Depa_Codigo').value !== '0' && this.clienteForm.get('Muni_Codigo').value !== '0'&& this.clienteForm.get('Esta_Id').value !== '0' ) {
      this.viewModel = this.clienteForm.value;
+     this.viewModel.Usua_Id = this.Usua_Id;
      if (this.Valor == "Agregar") {
       this.service.EnviarCliente(this.viewModel).subscribe((data: MensajeViewModel[]) => {
           if(data["message"] == "Operación completada exitosamente."){

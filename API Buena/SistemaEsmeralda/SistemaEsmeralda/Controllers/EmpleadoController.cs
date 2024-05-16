@@ -66,7 +66,7 @@ namespace SistemaEsmeralda.API.Controllers
                 Esta_Id = item.Esta_Id,
                 Carg_Id = item.Carg_Id,
                 Empl_Correo= item.Empl_Correo,
-                Empl_UsuarioCreacion = item.Usua_ID,
+                Empl_UsuarioCreacion = item.Usua_Id,
                 Empl_FechaCreacion = DateTime.Now
 
             };
@@ -104,7 +104,7 @@ namespace SistemaEsmeralda.API.Controllers
                 Carg_Id = item.Carg_Id,
 
                 Empl_Correo= item.Empl_Correo,
-                Empl_UsuarioCreacion = 1,
+                Empl_UsuarioCreacion = item.Usua_Id,
                 Empl_FechaCreacion = DateTime.Now
             };
             var list = _generalServices.EditarEmpleado(modelo);

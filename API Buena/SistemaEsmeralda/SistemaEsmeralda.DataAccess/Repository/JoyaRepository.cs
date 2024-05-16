@@ -33,7 +33,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 parametro.Add("@Prov_Id", item.Prov_Id);
                 parametro.Add("@Mate_Id", item.Mate_Id);
                 parametro.Add("@Cate_Id", item.Cate_Id);
-                parametro.Add("@Joya_UsuarioCreacion", 1);
+                parametro.Add("@Joya_UsuarioCreacion", item.Joya_UsuarioCreacion);
                 parametro.Add("@Joya_FechaCreacion", item.Joya_FechaCreacion);
 
 

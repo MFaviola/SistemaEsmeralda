@@ -12,6 +12,8 @@ namespace SistemaEsmeralda.API.Clases
         [Required(ErrorMessage = "El Campo {0} es requerido")]
 
         public string txtRol { get; set; }
+
+        public int Usua_Id { get; set; }
         public List<int> pantallasSeleccionadas { get; set; }
     }
 }

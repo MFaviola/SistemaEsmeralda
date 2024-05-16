@@ -57,7 +57,7 @@ namespace SistemaEsmeralda.API.Controllers
             {
                 Marc_Marca = item.Marc_Marca
 ,
-                Marc_UsuarioCreacion = item.Usua_ID,
+                Marc_UsuarioCreacion = item.Usua_Id,
                 Marc_FechaCreacion = DateTime.Now,
             };
             var list = _generalServices.InsertarMarcas(modelo);
@@ -85,7 +85,7 @@ namespace SistemaEsmeralda.API.Controllers
             {
                 Marc_Id = item.Marc_Id,
                 Marc_Marca = item.Marc_Marca,
-                Marc_UsuarioModificacion = 1,
+                Marc_UsuarioModificacion = item.Usua_Id,
                 Marc_FechaModificacion = DateTime.Now
             };
             var list = _generalServices.EditarMarca(modelo);

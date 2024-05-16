@@ -12,10 +12,11 @@ import { dropMaterial } from 'src/app/Models/MaterialViewModel';
 import { dropCategoria } from 'src/app/Models/CategoriaViewModel';
 import { FileUpload } from 'primeng/fileupload';
 import { BASE_URL } from 'src/app/Service/ulrsettings';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   templateUrl: './list-joya.component.html',
-  providers: [ConfirmationService, MessageService]
+  providers: [ConfirmationService,MessageService,CookieService]
 })
 export class ListJoyaComponent {
   @ViewChild('fileUpload') fileUpload: FileUpload;
@@ -40,6 +41,7 @@ export class ListJoyaComponent {
   Valor: string = "";
   staticData = [{}];
   deleteProductDialog: boolean = false;
+  Usua_Id: any = this.cookie.get('ID_Usuario');
   //Detalle
   Detalle_Joya: String = "";
   Detalle_Imagen: String = "";
@@ -55,7 +57,7 @@ export class ListJoyaComponent {
   FechaCreacion: String = "";
   FechaModificacion: String = "";
   ID: String = "";
-  constructor(private service: ServiceService, private router: Router, private messageService: MessageService
+  constructor(private service: ServiceService, private router: Router, private messageService: MessageService, private cookie: CookieService
   
   ) { }
 
@@ -85,6 +87,7 @@ export class ListJoyaComponent {
       this.categoria = data;
     });
 
+    
       this.service.getJoya().subscribe((data: any)=>{
           console.log(data);
           this.Joya = data;
@@ -92,6 +95,14 @@ export class ListJoyaComponent {
         console.log(error);
       });
    }
+
+   clear(table: Table, filter: ElementRef) {
+    table.clear();
+    filter.nativeElement.value = '';
+  }
+  onGlobalFilter(table: Table, event: Event) {
+    table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+  }
    onUpload(event) {
     const file: File = event.files[0];
     if (file) {
@@ -174,6 +185,7 @@ ValidarNumeros(event: KeyboardEvent) {
 onSubmit() {
   if (this.JoyaForm.valid && this.JoyaForm.get('Cate_Id').value !== '0' && this.JoyaForm.get('Mate_Id').value !== '0'&& this.JoyaForm.get('Prov_Id').value !== '0') {
      this.viewModel = this.JoyaForm.value;
+     this.viewModel.Usua_ID = this.Usua_Id
      if (this.Valor == "Agregar") {
       this.service.EnviarJoyas(this.viewModel).subscribe((data: MensajeViewModel[]) => {
           if(data["message"] == "Operación completada exitosamente."){

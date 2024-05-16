@@ -94,7 +94,7 @@ namespace SistemaEsmeralda.API.Controllers
             {
                 Carg_Id = item.Carg_Id,
                 Carg_Cargo = item.Carg_Cargo,
-                Carg_UsuarioModificacion = 1,
+                Carg_UsuarioModificacion = item.Usua_ID,
                 Carg_FechaModificacion = DateTime.Now
             };
             var list = _generalServices.EditarCargo(modelo);

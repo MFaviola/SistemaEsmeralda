@@ -25,8 +25,6 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 parametro.Add("@Esta_EstadoCivil", item.Esta_EstadoCivil);
                 parametro.Add("@Esta_UsuarioCreacion", item.Esta_UsuarioCreacion);
                 parametro.Add("@Esta_FechaCreacion", item.Esta_FechaCreacion);
-                parametro.Add("@Esta_FechaCreacion", item.Esta_FechaCreacion);
-
 
                 var result = db.Execute(sql, parametro, commandType: CommandType.StoredProcedure);
                 string mensaje = (result == 1) ? "Exito" : "Error";
