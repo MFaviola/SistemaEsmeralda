@@ -7,13 +7,19 @@ import { EmpleadoRe } from 'src/app/Models/FacturaViewModel';
 import { Injectable } from '@angular/core';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable'
+import { DatePipe } from '@angular/common';
+import { CookieService } from 'ngx-cookie-service';
 @Component({
   templateUrl: './reportepormpleado.component.html',
   styleUrl: './reporteporempleado.component.css',
-  providers: [YService]
+  providers: [YService,DatePipe,CookieService]
 })
 
 export class reporteporempleadoComponent implements OnInit  {
+    //Region Fecha
+    dateDay = new Date();
+    conversion: string;
+
   pdfSrc: SafeResourceUrl | null = null;
   Reporte_1: boolean = false;
   Reporte_2: boolean = false;
@@ -22,7 +28,7 @@ export class reporteporempleadoComponent implements OnInit  {
   filtredEmpleados: any[] = [];
   Empleado!:EmpleadoRe[];
   empl_nombre: string = ""
-  constructor(private service: ServiceService,private yService: YService, private sanitizer: DomSanitizer) { }
+  constructor(private service: ServiceService,private yService: YService, private sanitizer: DomSanitizer,private datePipe: DatePipe, private cookie: CookieService) { }
 
   ngOnInit(): void {
     this.service.getAutoCompletadoEmpleadoLista().subscribe(countries => {
@@ -43,7 +49,9 @@ export class reporteporempleadoComponent implements OnInit  {
 
       const imgWidth = 200;
       const imgHeight = 50;
+   
       const img = "assets/demo/images/galleria/Esmeraldas.png";
+
 
       doc.addImage(img, 'JPEG', 10, 10, imgWidth, imgHeight);
       doc.setFontSize(10);
@@ -133,6 +141,10 @@ export class reporteporempleadoComponent implements OnInit  {
     doc.setFontSize(10);
     doc.setFont(undefined, 'normal');
     doc.text(String(pageNumber), 444, 580, { align: 'right' });
+    const usuario = this.cookie.get('Empleado');
+    const fechaC = this.datePipe.transform(this.dateDay, 'yyyy-MM-dd')
+    doc.text('Usuario:' + usuario, 10,570);
+    doc.text('Fecha:' + fechaC, 10,580);
   }
 
   flitrerEmpleado(event: any) {
@@ -170,11 +182,13 @@ export class reporteporempleadoComponent implements OnInit  {
                
 
 
-             const totales = total.toFixed(2);
+      const totales = total.toFixed(2); 
 
       const empleado = data[0].empl_Nombre
       const img = "assets/demo/images/galleria/Esmeraldas.png";
-      const blob = this.yService.ReporteEmpleado(cuerpo, img,empleado,totales);
+      const usuario = this.cookie.get('Empleado');
+      const fechaC = this.datePipe.transform(this.dateDay, 'yyyy-MM-dd')
+      const blob = this.yService.ReporteEmpleado(cuerpo, img,empleado,totales,usuario,fechaC);
       const url = URL.createObjectURL(blob);
       this.pdfSrc = this.sanitizer.bypassSecurityTrustResourceUrl(url);
       console.log("Se muestra xd");

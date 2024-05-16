@@ -1,7 +1,7 @@
 <p-toast ></p-toast>
 <div class="main-card mb-3 card"> 
     <div class="card-header">
-        <div style="width: 100%; height: 150px; background-image: url(./../../../../../../assets/demo/images/galleria/factu.png); background-repeat: no-repeat; background-size: cover; background-position: center -60px; border-radius: 10px;"></div>
+        <div style="width: 100%; height: 80px; background-image: url(./../../../../../../assets/demo/images/galleria/factu.png); background-repeat: no-repeat; background-size: cover; background-position: center -60px; border-radius: 10px;"></div>
     </div>
     <div class="card-body">
         <button (click)="collapse()" pButton icon="pi pi-plus" style="margin-bottom: 10px ;  margin-top: 10px;" [class.hidden]="!Agregar">Agregar</button>
@@ -11,7 +11,7 @@
           <form [formGroup]="FacturaForm" (keydown)="handleKeyDown($event)" (ngSubmit)="onSubmit()">
               <div class="p-fluid p-formgrid grid">
 
-                <div class="field col-12 md:col-6">
+                <div class="field col-12 md:col-6" style="display: none;">
                   <label for="">Empleado</label>
                   <p-inputGroup>
                     <p-inputGroupAddon>
@@ -23,7 +23,7 @@
                   <small class="ng-dirty ng-invalid" *ngIf="submitted && FacturaForm.controls['Empl_Nombre'].invalid" style="color: red !important;">Empleado Requerido</small>
                 </div>
 
-                <div class="field col-12 md:col-6">
+                <div class="field col-12 md:col-6" style="display: none;">
                     <label for="">Impuesto</label>
                     <p-inputGroup>
                         <p-inputGroupAddon>
@@ -212,25 +212,25 @@
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
                              ID
-                            <p-columnFilter type="text" field="fact_Id" display="menu" placeholder="Search by name"></p-columnFilter>
+                          
                         </div>
                     </th>
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
                             Cliente
-                            <p-columnFilter type="text" field="clie_Nombre" display="menu" placeholder="Search by country"></p-columnFilter>
+                           
                         </div>
                     </th>
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
                             Empleado
-                            <p-columnFilter type="text" field="empl_Nombre" display="menu" placeholder="Search by country"></p-columnFilter>
+                          
                         </div>
                     </th>
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
                             Metodo Pago
-                            <p-columnFilter type="text" field="mepa_Metodo" display="menu" placeholder="Search by country"></p-columnFilter>
+                         
                         </div>
                     </th>
                     <th style="min-width: 14rem">

@@ -213,7 +213,7 @@ Reporte2PDF(cuerpo, logoURL, Cliente, DNI, Muni, Depa, Fecha, Pedido, Imouesto, 
 
 
 
-ReporteStock(cuerpo, logoURL: string,): Blob {
+ReporteStock(cuerpo, logoURL: string, Usuario,FechaCreacion): Blob {
   const doc = new jsPDF({
     orientation: 'portrait',
     unit: 'px',
@@ -248,6 +248,8 @@ ReporteStock(cuerpo, logoURL: string,): Blob {
     doc.setFontSize(10);
     doc.setFont(undefined, 'normal');
     doc.text( String(pageNumber), 444, 580, { align: 'right' });
+    doc.text('Usuario:' + Usuario, 10,570);
+    doc.text('Fecha:' + FechaCreacion, 10,580);
   };
 
   autoTable(doc, {
@@ -359,7 +361,7 @@ ReporteFacturaCompraPDF(cuerpo: any[], logoURL: string,  Fecha, Factura, Proveed
 
   return doc.output('blob');
 }
-ReporteEmpleado(cuerpo, logoURL: string,Empleado,Total): Blob {
+ReporteEmpleado(cuerpo, logoURL: string,Empleado,Total,Usuario,FechaCreacion): Blob {
   const doc = new jsPDF({
     orientation: 'portrait',
     unit: 'px',
@@ -403,6 +405,8 @@ ReporteEmpleado(cuerpo, logoURL: string,Empleado,Total): Blob {
     doc.setFontSize(10);
     doc.setFont(undefined, 'normal');
     doc.text( String(pageNumber), 444, 580, { align: 'right' });
+    doc.text('Usuario:' + Usuario, 10,570);
+    doc.text('Fecha:' + FechaCreacion, 10,580);
   };
 
   autoTable(doc, {

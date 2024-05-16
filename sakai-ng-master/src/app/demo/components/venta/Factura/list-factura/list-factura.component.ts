@@ -502,9 +502,9 @@ detalles(codigo) {
       const Factura = fillData[0].fact_Id;
       const Metodo = fillData[0].mepa_Metodo;
       const Impuesto = "15%";
-
-      const usuario = this.cookie.get('Empleado');
       const img = "assets/demo/images/galleria/Esmeraldas.png";
+      const usuario = this.cookie.get('Empleado');
+     
       const fechaC = this.datePipe.transform(this.dateDay, 'yyyy-MM-dd')
       console.log("El usuario es" + usuario)
       const blob = this.yService.Reporte2PDF(cuerpo, img, cliente, DNI, Municipio, Departamento, Fecha, Factura, Impuesto, Metodo, Subtotal, Total,fechaC,usuario);
