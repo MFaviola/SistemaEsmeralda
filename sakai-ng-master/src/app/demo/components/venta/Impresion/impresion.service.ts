@@ -120,8 +120,7 @@ Reporte2PDF(cuerpo, logoURL, Cliente, DNI, Muni, Depa, Fecha, Pedido, Imouesto, 
     doc.setFontSize(10);
     doc.setFont(undefined, 'normal');
     doc.text(String(pageNumber), 444, 580, { align: 'right' });
-    doc.text('Usuario:' + Usuario, 10,570);
-    doc.text('Fecha:' + FechaCreacion, 10,580);
+  
   };
 
   doc.setFontSize(10);
@@ -144,18 +143,18 @@ Reporte2PDF(cuerpo, logoURL, Cliente, DNI, Muni, Depa, Fecha, Pedido, Imouesto, 
   doc.text("Municipio: " + Muni, 32, 130);
   doc.text("Departamento: " + Depa, 32, 140);
 
-  doc.text("Fecha Pedido: " + Fecha, 270, 100);
-  doc.text("Codigo Pedido: " + Pedido, 270, 110);
-  doc.text("Impuesto: " + Imouesto, 270, 120);
+  doc.text("Fecha Pedido: " + Fecha, 270, 110);
+  doc.text("Codigo Pedido: " + Pedido, 270, 120);
+
   doc.text("Metodo Pago: " + Metodo, 270, 130);
 
 
 
   
-  const yPosition = 200
+  const yPosition = 130
   autoTable(doc, {
     
-    head: [['Producto', 'Cantidad', 'Precio', 'Subtotal']],
+    head: [['Codigo','Producto', 'Cantidad', 'Precio', 'Subtotal']],
     body: cuerpo,
     startY:  yPosition + 20,
     styles: {
@@ -179,32 +178,42 @@ Reporte2PDF(cuerpo, logoURL, Cliente, DNI, Muni, Depa, Fecha, Pedido, Imouesto, 
  
       
       didDrawPage: (data) => {
-        this.footer(doc, pageNumber);
+        doc.setFontSize(10);
+        doc.setFont(undefined, 'normal');
+        doc.text(String(pageNumber), 444, 580, { align: 'right' });
+        doc.text('Usuario:' + Usuario, 10,570);
+        doc.text('Fecha:' + FechaCreacion, 10,580);
         pageNumber++;
       }
       
 
   });
 
-    doc.setFontSize(10);
-      doc.setFont(undefined, 'normal');
-      doc.text("Subtotal: " + Subtotal,  doc.internal.pageSize.getWidth() - 60, (doc as any).previousAutoTable.finalY + 15, { align: 'right' });
-      doc.setFont(undefined, 'bold');
-      doc.text("Total: " + Total,  doc.internal.pageSize.getWidth() - 60, (doc as any).previousAutoTable.finalY + 25, { align: 'right' });
+  const borderYPosition = (doc as any).previousAutoTable.finalY + 10;
+  const borderHeight = 50;
+  const borderXPosition = doc.internal.pageSize.getWidth() - 120;
 
+  doc.setDrawColor(0);
+  doc.setLineWidth(1);
+  doc.rect(borderXPosition, borderYPosition, 90, borderHeight);
 
-  if ((doc as any).previousAutoTable.finalY + 30 > doc.internal.pageSize.getHeight()) {
+  doc.setFontSize(10);
+  doc.setFont(undefined, 'normal');
+  doc.text("Impuesto: " + Imouesto, borderXPosition + 20, borderYPosition + 15);
+  doc.text("Subtotal: " + Subtotal, borderXPosition + 20, borderYPosition + 30);
+  doc.setFont(undefined, 'bold');
+  doc.text("Total: " + Total, borderXPosition + 20, borderYPosition + 45);
+
+  if (borderYPosition + borderHeight > doc.internal.pageSize.getHeight()) {
     doc.addPage();
     pageNumber++;
   }
 
   return doc.output('blob');
 }
-footer(doc: jsPDF, pageNumber: number) {
-  doc.setFontSize(10);
-  doc.setFont(undefined, 'normal');
-  doc.text(String(pageNumber), 444, 580, { align: 'right' });
-}
+
+
+
 ReporteStock(cuerpo, logoURL: string,): Blob {
   const doc = new jsPDF({
     orientation: 'portrait',

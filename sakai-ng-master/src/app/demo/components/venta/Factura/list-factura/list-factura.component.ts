@@ -480,6 +480,7 @@ detalles(codigo) {
     next: ([detallesData, fillData]) => {
       // Procesar detalles de factura
       const cuerpo = detallesData.map(item => [
+        item.codigoRow.toString(),
         item.producto.toString(),
         item.cantidad.toString(),
         item.precio_Unitario.toString(),
@@ -508,6 +509,7 @@ detalles(codigo) {
       const usuario = this.cookie.get('Empleado');
       const img = "assets/demo/images/galleria/Esmeraldas.png";
       const fechaC = this.datePipe.transform(this.dateDay, 'yyyy-MM-dd')
+      console.log("El usuario es" + usuario)
       const blob = this.yService.Reporte2PDF(cuerpo, img, cliente, DNI, Municipio, Departamento, Fecha, Factura, Impuesto, Metodo, Subtotal, Total,fechaC,usuario);
       const url = URL.createObjectURL(blob);
       this.pdfSrc = this.sanitizer.bypassSecurityTrustResourceUrl(url);

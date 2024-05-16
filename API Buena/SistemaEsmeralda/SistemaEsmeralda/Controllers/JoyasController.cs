@@ -35,7 +35,7 @@ namespace SistemaEsmeralda.API.Controllers
             _s3Client = new AmazonS3Client(
                 awsOptions["AccessKey"],
                 awsOptions["SecretKey"],
-               Amazon.RegionEndpoint.USEast2 // Adjust your region accordingly
+               Amazon.RegionEndpoint.USEast2
             );
         }
 

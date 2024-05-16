@@ -64,7 +64,7 @@ export class reporteporempleadoComponent implements OnInit  {
         const empleadoNombre = facturasArray[0].empl_Nombre;
         const totalEmpleado = facturasArray.reduce((sum, item) => sum + (parseFloat(item.total) || 0), 0).toFixed(2);
 
-        // Imprimir nombre del empleado
+ 
         doc.setFontSize(10);
         doc.setFont(undefined, 'bold');
         const yPosition = pageNumber === 1 ? 80 : (doc as any).previousAutoTable ? (doc as any).previousAutoTable.finalY + 30 : 80;
@@ -79,7 +79,7 @@ export class reporteporempleadoComponent implements OnInit  {
         autoTable(doc, {
           head: [['Factura', 'Fecha', 'Total']],
           body: cuerpo,
-          startY: yPosition + 20, // Reducir espacio entre tablas
+          startY: yPosition + 20, 
           styles: {
             fontSize: 10,
           },
@@ -102,12 +102,11 @@ export class reporteporempleadoComponent implements OnInit  {
           }
         });
 
-        // Mover el total debajo de la tabla y alinearlo a la derecha
+    
         doc.setFontSize(10);
         doc.setFont(undefined, 'bold');
         doc.text(`Total: ${totalEmpleado}`, doc.internal.pageSize.getWidth() - 60, (doc as any).previousAutoTable.finalY + 15, { align: 'right' });
 
-        // Añadir una nueva página si el contenido excede el límite
         if ((doc as any).previousAutoTable.finalY + 30 > doc.internal.pageSize.getHeight()) {
           doc.addPage();
           pageNumber++;

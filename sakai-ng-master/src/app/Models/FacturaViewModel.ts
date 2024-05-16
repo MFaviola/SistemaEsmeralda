@@ -28,6 +28,7 @@ export class FacturaDetalle {
     precio_Unitario?:String;
     total?:string;
     categoria?:String;
+    codigoRow?:String;
 }
 
 export class Years {

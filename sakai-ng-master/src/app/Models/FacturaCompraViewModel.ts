@@ -18,6 +18,7 @@ export class FacturaCompraEncabezado{
     nombreProveedor ?: String;
     mepa_Metodo ?: String;
     faCE_Finalizada ?: String;
+
 }
 export class CrearFacturaCompraEncabezado{
     mepa_Id !: Number;
@@ -30,6 +31,9 @@ export class CrearFacturaCompraEncabezado{
     precioCompra ?: String;
     precioVenta ?: String;
     precioMayor ?: String;
+    Usua_Id ?: String;
+    Actualizar ?: String;
+
 }
 export class EditarFacturaCompraEncabezado{
     mepa_Id !: Number;

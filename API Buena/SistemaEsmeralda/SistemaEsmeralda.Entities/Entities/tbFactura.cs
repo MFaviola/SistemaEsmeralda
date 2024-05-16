@@ -14,6 +14,8 @@ namespace SistemaEsmeralda.Entities.Entities
             tbFacturaDetalles = new HashSet<tbFacturaDetalles>();
         }
         [NotMapped]
+        public string CodigoRow { get; set; }
+        [NotMapped]
         public string FaxD_Id { get; set; }
         [NotMapped]
         public string Prod_Id { get; set; }
