@@ -91,7 +91,7 @@ namespace SistemaEsmeralda.API.Controllers
                 Usua_Administrador = item.Usua_Administrador,
                 Empl_Id = item.Empl_Id,
                 Role_Id = item.Role_Id,
-                Usua_UsuarioCreacion = item.Usua_ID,
+                Usua_UsuarioCreacion = item.Usua_Id,
                 Usua_FechaCreacion =DateTime.Now
             };
             var list = _accesoServices.InsertarUsuario(modelo);

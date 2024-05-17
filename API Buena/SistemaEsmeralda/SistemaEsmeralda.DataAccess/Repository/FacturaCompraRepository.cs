@@ -73,6 +73,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 var parametro = new DynamicParameters();
                 parametro.Add("@Prov_Id", item.Prov_Id);
                 parametro.Add("@Mepa_Id", item.Mepa_Id);
+                parametro.Add("@Sucu_Id", item.sucu_Id);
                 parametro.Add("@FeCE_UsuarioCreacion", item.Usua_Id);
                 parametro.Add("@FaCE_FechaCreacion", DateTime.Now);
                 if (item.faCE_Id == 0)

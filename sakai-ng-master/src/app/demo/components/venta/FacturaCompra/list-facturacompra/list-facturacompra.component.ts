@@ -93,7 +93,6 @@ export class ListFacturacompraComponent {
   facura_impresa: any = null;
   Joya!:Joya[];
   proveedor: any[] = [];
-  sucursal: any[] = [];
   material: any[] = [];
   categoria: any[] = [];
   marca: any[] = [];
@@ -138,7 +137,7 @@ export class ListFacturacompraComponent {
       prov_Id: new FormControl('0', Validators.required),
       nombreProveedor: new FormControl("", [Validators.required]),
       sucu_Id: new FormControl('0', Validators.required),
-      sucu_Nombre: new FormControl('0', Validators.required),
+      sucu_Nombre: new FormControl('', Validators.required),
 
       //detalle
       radio: new FormControl("1",Validators.required),
@@ -317,8 +316,8 @@ export class ListFacturacompraComponent {
   filterSucursal(event: any) {
     const filtered: any[] = [];
     const query = event.query;
-    for (let i = 0; i < this.sucursal.length; i++) {
-        const sucursal = this.sucursal[i];
+    for (let i = 0; i < this.sucursales.length; i++) {
+        const sucursal = this.sucursales[i];
         
         if (sucursal.sucu_Nombre.toLowerCase().indexOf(query.toLowerCase()) == 0) {
             filtered.push(sucursal);
@@ -345,8 +344,6 @@ export class ListFacturacompraComponent {
   
   selectMetodoPago(metodo: string) {
     this.selectedMetodo = metodo;
-  
-  
     this.FacturaForm.controls['mepa_Id'].setValue(metodo);
   }
   
@@ -580,13 +577,12 @@ export class ListFacturacompraComponent {
             }
             
          })
-       }  
-       
+       }         
     }   
-        else 
-        {
-            this.submitted = true;
-        }
+      else 
+      {
+        this.submitted = true;
+      }
     }
 
   //Maquillaje
