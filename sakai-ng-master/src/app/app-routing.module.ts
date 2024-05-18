@@ -25,6 +25,7 @@ import { AuthGuardLogin } from './authLogin.guard';
                     { path: 'venta', loadChildren: () => import('./demo/components/venta/venta.module').then(m => m.VentaModule) },
                     { path: 'pages', loadChildren: () => import('./demo/components/pages/pages.module').then(m => m.PagesModule) },
                     { path: 'reportes', loadChildren: () => import('./demo/components/reporte/reporte.module').then(m => m.ReporteModule) },
+                    { path: 'usuario', loadChildren: () => import('./demo/components/auth/usuario/usuario.module').then(m => m.UsuarioModule) },
                   
                 ]
             },

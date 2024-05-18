@@ -31,11 +31,11 @@
               </form>
         
         </div>
-      
+<!--       
         <div class="grid">
             <div class="col-12">
                 <button (click)="collapse()" pButton icon="pi pi-plus" style="margin-bottom: 10px ;" [class.hidden]="!Agregar">Agregar</button>            </div>
-        </div>
+        </div> -->
         
         <p-table #dt1 [value]="departamento" dataKey="depa_Codigo" [rows]="10" [loading]="loading" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" [globalFilterFields]="['depa_Codigo,depa_Departamento']" responsiveLayout="scroll"[class.hidden]="!DataTable">
             <ng-template pTemplate="caption">
