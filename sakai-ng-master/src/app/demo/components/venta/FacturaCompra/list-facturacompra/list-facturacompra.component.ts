@@ -144,7 +144,6 @@ export class ListFacturacompraComponent {
       faCD_Dif: new FormControl("1",Validators.required),
       // prod_Producto: new FormControl("", Validators.required),
       nombreProducto: new FormControl("", Validators.required),
-      prod_Id: new FormControl("", Validators.required),
       faCD_Cantidad: new FormControl("", [Validators.required]),
       precioCompra: new FormControl("", [Validators.required]),
       precioVenta: new FormControl("", [Validators.required]),
@@ -227,7 +226,6 @@ export class ListFacturacompraComponent {
         this.countries = countries;
         this.FacturaForm.get('faCD_Dif').setValue(value); 
         this.FacturaForm.get('nombreProducto').setValue(""); 
-        this.FacturaForm.get('prod_Id').setValue(""); 
         this.MaquiJoyabtn = false;
     });
   } else {
@@ -235,7 +233,6 @@ export class ListFacturacompraComponent {
         this.countries = countries;
         this.FacturaForm.get('faCD_Dif').setValue(value); 
         this.FacturaForm.get('nombreProducto').setValue(""); 
-        this.FacturaForm.get('prod_Id').setValue(""); 
         this.MaquiJoyabtn = true;
       });
     }
@@ -426,7 +423,6 @@ export class ListFacturacompraComponent {
     this.FacturaForm.get('precioVenta').setValue("1")
     this.FacturaForm.get('precioCompra').setValue("1")
     this.FacturaForm.get('faCD_Cantidad').setValue("1")
-    this.FacturaForm.get('prod_Id').setValue("1")
     this.FacturaForm.get('nombreProducto').setValue("xD")
     this.FacturaForm.get('radio').setValue("1")
     this.onSubmit();
@@ -450,7 +446,6 @@ export class ListFacturacompraComponent {
     this.FacturaForm.get('precioVenta').setValue("1")
     this.FacturaForm.get('precioCompra').setValue("1")
     this.FacturaForm.get('faCD_Cantidad').setValue("1")
-    this.FacturaForm.get('prod_Id').setValue("1")
     this.FacturaForm.get('nombreProducto').setValue("xD")
     this.FacturaForm.get('radio').setValue("1")
     this.onSubmit();
@@ -489,17 +484,18 @@ export class ListFacturacompraComponent {
 
     console.log(this.FacturaForm.valid)
     if (this.FacturaForm.valid) {
-    this.viewModelenviar = this.FacturaForm.value;
+      this.viewModelenviar = this.FacturaForm.value;
      this.viewModelenviar.faCE_Id = this.faCE_Id;
      this.viewModelenviar.Actualizar = this.Actualizar;
      this.viewModelenviar.Usua_Id = this.Usua_Id;
      if (this.Valor == "Agregar") {
       if (this.Actualizar == "Actualizar") {
-        console.log("Entra aqui")
+        console.log(this.FacturaForm);
         this.service.insertarFacturaCom(this.viewModelenviar).subscribe((data: MensajeViewModel[]) => {
        
       })
       }else if(this.Actualizar == "Confirmar"){
+        console.log(this.FacturaForm);
         this.service.insertarFacturaCom(this.viewModelenviar).subscribe((data: MensajeViewModel[]) => {
           if(data["message"] == "La accion ha sido existosa"){
             this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Confirmado con Exito', life: 3000 });
