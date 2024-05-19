@@ -249,6 +249,28 @@ namespace SistemaEsmeralda.BusinessLogic.Services
                 return result.Error(ex);
             }
         }
+
+        public ServiceResult EditarUsuario1(tbUsuarios item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _usuarioRepository.Update1(item);
+                if (list.CodeStatus > 0)
+                {
+                    return result.Ok(list);
+                }
+                else
+                {
+                    return result.Error("Y existe un registro con ese nombre");
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
         public ServiceResult EliminarUsuario(int Usua_Id)
         {
             var result = new ServiceResult();

@@ -153,6 +153,23 @@ namespace SistemaEsmeralda.API.Controllers
             return Ok(new { success = true, message = list.Message });
         }
 
+        [HttpPut("Edit1")]
+        public IActionResult Update1(UsuariosViewModel item)
+        {
+            _mapper.Map<tbUsuarios>(item);
+            var modelo = new tbUsuarios()
+            {
+                Usua_Id = item.Usua_Id,
+                Usua_Usuario = item.Usua_Usuario,
+                Usua_Contraseña = item.Usua_Contraseña,
+                Empl_Id = item.Empl_Id,
+                Role_Id = item.Role_Id,
+                Usua_UsuarioModificacion = 1,
+                Usua_FechaModificacion = DateTime.Now
+            };
+            var list = _accesoServices.EditarUsuario1(modelo);
+            return Ok(new { success = true, message = list.Message });
+        }
 
         [HttpDelete("Delete/{id}")]
         public IActionResult Delete(int id)

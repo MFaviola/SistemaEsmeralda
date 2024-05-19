@@ -241,6 +241,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
         public static string UsuariosListar = "Acce.sp_Usuarios_listar";
         public static string Usuariosllenar = "Acce.sp_Usuarios_buscar";
         public static string UsuariosActualizar = "Acce.sp_Usuarios_actualizar";
+        public static string UsuariosActualizar1 = "Acce.sp_Usuarios_actualizar1";
         public static string UsuariosEliminar = "Acce.sp_Usuarios_eliminar";
         public static string InicioSesion = "Acce.sp_Usuarios_inicioSesion";
         public static string Usuarios_ValidarReestablecer = "[Acce].[sp_validarCorreo]";
