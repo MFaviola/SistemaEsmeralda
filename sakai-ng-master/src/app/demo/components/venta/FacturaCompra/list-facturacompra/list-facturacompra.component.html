@@ -1,7 +1,7 @@
 <p-toast></p-toast>
 <div class="main-card mb-3 card"> 
     <div class="card-header">
-        <div style="width: 100%; height: 150px; background-image: url(./../../../../../../assets/demo/images/galleria/factu.png); background-repeat: no-repeat; background-size: cover; background-position: center -60px; border-radius: 10px;"></div>
+        <div style="width: 100%; height: 140px; background-image: url(./../../../../../../assets/demo/images/galleria/facom.png); background-repeat: no-repeat; background-size: cover; background-position: center 45%; border-radius: 10px;"></div>
     </div>
     <div class="card-body">
          <button (click)="collapse()" pButton icon="pi pi-plus" style="margin-bottom: 10px ;  margin-top: 10px;" [class.hidden]="!Agregar">Agregar</button>
@@ -22,7 +22,7 @@
                         [ngClass]="{'ng-invalid ng-dirty': submitted && FacturaForm.get('nombreProveedor').value === ''}" 
                         field="nombreProveedor" 
                         formControlName="nombreProveedor" 
-                        appendTo="body" [dropdown]="true"></p-autoComplete>
+                        appendTo="body" [dropdown]="true" (keydown)="validarTexto($event)"></p-autoComplete>
                         <small class="ng-dirty ng-invalid" *ngIf="submitted && FacturaForm.controls['nombreProveedor'].invalid" style="color: red !important;">Proveedor Requerido</small>
                     </div>
                     <div class="field col-12 md:col-6">
@@ -36,7 +36,7 @@
                         [ngClass]="{'ng-invalid ng-dirty': submitted && FacturaForm.get('sucu_Nombre').value === ''}" 
                         field="sucu_Nombre" 
                         formControlName="sucu_Nombre" 
-                        appendTo="body" [dropdown]="true"></p-autoComplete>
+                        appendTo="body" [dropdown]="true" (keydown)="validarTexto($event)"></p-autoComplete>
                         <small class="ng-dirty ng-invalid" *ngIf="submitted && FacturaForm.controls['sucu_Nombre'].invalid" style="color: red !important;">Sucursal Requerida</small>
                     </div>
                 <div [class.hidden]="!Detalles">
@@ -61,31 +61,30 @@
                         </div>
                     </div>
                 </div>
+            </div>
    
-                <div [class.hidden]="!Detalles">
-                    <p-table [value]="FacturaDetalle">
+                    <p-table [value]="FacturaDetalle"  responsiveLayout="scroll">
                         <ng-template pTemplate="header">
                             <tr>
                                 <th style="width: 10%;">Categoria</th>
-                        
-                                <th style="width: 45%;">Producto</th>
+                                <th style="width: 40%;">Producto</th>
                                 <th style="width: 10%;">Cantidad</th>
-                                <th style="width: 15%;">Precio Compra</th>
-                                <th style="width: 15%;">Precio Venta</th>
-                                <th style="width: 15%;">Precio Mayorista</th>
+                                <th style="width: 10%;">Precio Compra</th>
+                                <th style="width: 10%;">Precio Venta</th>
+                                <th style="width: 10%;">Precio Mayorista</th>
                                 <th style="width: 10%;">Eliminar</th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-detalle>
                             <tr>
-                                <td>{{detalle.categoria}}</td>
+                                <td style="width:10%;">{{detalle.categoria}}</td>
                             
-                                <td >{{detalle.producto}}</td>
-                                <td>{{detalle.cantidad}}</td>
-                                <td>{{detalle.precio_Venta}}</td>
-                                <td>{{detalle.precioVenta}}</td>
-                                <td>{{detalle.precioMayorista}}</td>
-                                <td>
+                                <td style="width:10%;">{{detalle.producto}}</td>
+                                <td style="width:40%;">{{detalle.cantidad}}</td>
+                                <td style="width:10%;">{{detalle.precio_Venta}}</td>
+                                <td style="width:10%;">{{detalle.precioVenta}}</td>
+                                <td style="width:10%;">{{detalle.precioMayorista}}</td>
+                                <td style="width:10%;">
                                     <span pRipple class="pi pi-trash p-button-rounded p-button-warning" 
                                           style="cursor: pointer; padding: 5px; border: none; background-color: transparent;" 
                                           (click)="confirmDelete(detalle.faCD_Id)">
@@ -107,7 +106,7 @@
                                         </label>
                                     </div>
                                 </td>
-                                <td style="width: 45%;">
+                                <td style="width: 25%;">
                                  
                                     
                     
@@ -128,7 +127,7 @@
                                 </td>
                                 <td style="width: 10%;">
                                     <input pInputText id="faCD_Cantidad" formControlName="faCD_Cantidad" type="text" required autofocus 
-                                           [ngClass]="{'ng-invalid ng-dirty': submitted && FacturaForm.controls['faCD_Cantidad'].value === ''}" style="width: 70px;" />
+                                    (keydown)="ValidarNumeros($event)"    [ngClass]="{'ng-invalid ng-dirty': submitted && FacturaForm.controls['faCD_Cantidad'].value === ''}" style="width: 70px;" />
                                 </td>
                                 <td style="width: 15%;">
                                     <input pInputText id="precioCompra" formControlName="precioCompra" type="text" required autofocus 
@@ -153,18 +152,7 @@
                     </p-table>
                     
                     <div class="formGroup">
-                        <div [class.hidden]="!Detalles">
-                          
-        
-                        </div>
-                        <div [class.hidden]="!FormularioJoya" style="margin-top: 5px; margin-bottom: 5px;">
-                            <button pButton icon="pi pi-times" type="button" (click)="cancelarJM()" label="Cancelar" class="p-button-outlined"></button>
-        
-                        </div>
-                        <div [class.hidden]="!FormularioMaquillaje" style="margin-top: 5px; margin-bottom: 5px;">
-                            <button pButton icon="pi pi-times" type="button" (click)="cancelarMQ()" label="Cancelar" class="p-button-outlined"></button>
-        
-                        </div>
+                       
                         
                     </div>
                     <div style="display: flex; justify-content: flex-end; margin-top: 1rem; grid-gap: 5px;" [class.hidden]="!Tabla">
@@ -173,12 +161,12 @@
                     <div style="display: flex; justify-content: flex-end; margin-top: 1rem; grid-gap: 5px;" [class.hidden]="!Tabla">
                         <h1>Total:575lps</h1>
                     </div>
+                <div class="p-fluid p-formgrid grid">
                     <div style="display: flex; justify-content: flex-end; margin-top: 1rem; grid-gap: 5px;">
                         <button pButton icon="pi pi-check-circle" type="button" (click)="Confirmar()" label="Confirmar" class="p-button-outlined"></button>
                         <button pButton icon="pi pi-reply" type="button" (click)="cancelar()" label="Volver" class="p-button-outlined"></button>
                     </div>
                 </div>
-            </div>
             </form>
 
         

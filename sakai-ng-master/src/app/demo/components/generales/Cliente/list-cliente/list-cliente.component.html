@@ -2,7 +2,7 @@
 
 <div class="main-card mb-3 card"> 
     <div class="card-header">
-        <div style="width: 100%; height: 150px; background-image: url(./../../../../../../assets/demo/images/galleria/cliente.png); background-repeat: no-repeat; background-size: cover; background-position: center -60px; border-radius: 10px;"></div>
+        <div style="width: 100%; height: 140px; background-image: url(./../../../../../../assets/demo/images/galleria/clientes.png); background-repeat: no-repeat; background-size: cover; background-position: center 45%; border-radius: 10px;"></div>
     </div>
     <div class="card-body">
 
@@ -16,7 +16,7 @@
                     <label for="Cliente">DNI</label>
                     <input pInputText id="Clie_DNI" formControlName="Clie_DNI" type="text" required autofocus 
                            [ngClass]="{'ng-invalid ng-dirty': submitted && clienteForm.controls['Clie_DNI'].invalid}"
-                           (keydown)="ValidarNumeros($event)" maxlength="13"/>
+                           (keydown)="ValidarNumeros($event)" maxlength="14"/>
                     <small class="ng-dirty ng-invalid" *ngIf="submitted && clienteForm.controls['Clie_DNI'].invalid" style="color: red !important;">DNI Requerido</small>
                  </div>
                   <div class="field col-12 md:col-6">

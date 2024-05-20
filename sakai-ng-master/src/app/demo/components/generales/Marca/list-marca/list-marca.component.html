@@ -1,7 +1,7 @@
 <p-toast style="background-color: red !important;"></p-toast>
 <div class="main-card mb-3 card"> 
     <div class="card-header">
-        <div style="width: 100%; height: 150px; background-image: url(./../../../../../../assets/demo/images/galleria/marca.png); background-repeat: no-repeat; background-size: cover; background-position: center -60px; border-radius: 10px;"></div>
+        <div style="width: 100%; height: 140px; background-image: url(./../../../../../../assets/demo/images/galleria/marcas.png); background-repeat: no-repeat; background-size: cover; background-position: center 45%; border-radius: 10px;"></div>
     </div>
     <div class="card-body">
     
@@ -15,7 +15,7 @@
                   
 
                     <div class="field col-12 md:col-6">
-                        <label for="marc_Marca">Estado Civil</label>
+                        <label for="marc_Marca">Marca</label>
                         <input pInputText id="marc_Marca" formControlName="marc_Marca" type="text" required autofocus  [ngClass]="{'ng-invalid ng-dirty': submitted && marcaForm.get('marc_Marca').value === ''}"
                         (keydown)="validarTexto($event)" />
                         <small class="ng-dirty ng-invalid" *ngIf="submitted && marcaForm.controls['marc_Marca'].invalid" style="color: red !important;">La marca es Requerido</small>
