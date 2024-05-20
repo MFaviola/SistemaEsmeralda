@@ -1,8 +1,9 @@
 <p-toast ></p-toast>
 <div class="main-card mb-3 card"> 
     <div class="card-header">
-        <h3 class="card-title">Sucursales</h3>
+        <div style="width: 100%; height: 140px; background-image: url(./../../../../../../assets/demo/images/galleria/sucu.png); background-repeat: no-repeat; background-size: cover; background-position: center 45%; border-radius: 10px;"></div>
     </div>
+    
     <div class="card-body">
     
         <button (click)="collapse()" pButton icon="pi pi-plus" style="margin-bottom: 10px ;  margin-top: 10px;" [class.hidden]="!Agregar">Agregar</button>
@@ -112,10 +113,12 @@
                 </tr>
             </ng-template>
         </p-table>
-        <div class="card-body" [class.hidden]="!Detalles">
-            <div class="p-fluid p-formgrid grid">
 
-                <div class="field col-12 md:col-4">
+        
+        <div class="card-body" [class.hidden]="!Detalles" style="padding-top: 5%;">
+            <div class="p-fluid p-formgrid grid">
+                <div class="field col-12 md:col-3"></div>
+                <div class="field col-12 md:col-2">
                     <div class="field rows">
                         <label for="Codigo" style="font-weight: 800;">Codigo:</label>
                     </div>
@@ -124,22 +127,24 @@
                     </div>
                 </div>
                 
-                <div class="field col-12 md:col-4">
+                <div class="field col-12 md:col-2">
                     <div class="field rows">
-                        <label for="Municipio" style="font-weight: 800;">Sucursal:</label>
+                        <label for="sucursal" style="font-weight: 800;">Sucursal:</label>
                     </div>
                     <div class="field rows">
-                        <label for="Municipio">{{ Detalle_Sucursal }}</label>
+                        <label for="sucursal">{{ Detalle_Sucursal }}</label>
                     </div>
                 </div>
-        <div class="field col-12 md:col-4">
-            <div class="field rows" style="font-weight: 800;">
-                <label for="Departamento">Municipio:</label>
-            </div>
-            <div class="field rows">
-                <label for="Departamento">{{ Detalle_Municipio }}</label>
-            </div>
-        </div>
+                <div class="field col-12 md:col-2">
+                    <div class="field rows" style="font-weight: 800;">
+                        <label for="municipio">Municipio:</label>
+                    </div>
+                    <div class="field rows">
+                        <label for="municipio">{{ Detalle_Municipio }}</label>
+                    </div>
+                </div>
+                <div class="field col-12 md:col-3"></div>
+
     </div>
             <div class="card">
                 <div class="card-header">
@@ -175,6 +180,8 @@
               <button pButton icon="pi pi-stop" type="button" (click)="cancelar()" label="Volver" class="p-button-outlined"></button>
             </div>
         </div>
+
+
         <p-dialog [(visible)]="deleteProductDialog" header="Confirmar" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
