@@ -477,6 +477,85 @@ ReporteStock(cuerpo, logoURL: string, Usuario,FechaCreacion): Blob {
 
   return doc.output('blob');
 }
+
+ReportePorTipoPago(cuerpo, logoURL: string, Usuario,FechaCreacion,Total,Metodo): Blob {
+  const doc = new jsPDF({
+    orientation: 'portrait',
+    unit: 'px',
+    format: 'letter'
+  });
+
+
+  let pageNumber = 1;  
+  const imgWidth = 200;
+  const imgHeight = 50;
+  doc.addImage(logoURL, 'JPEG', 10, 10, imgWidth, imgHeight);
+
+
+  
+  doc.setFontSize(10);
+  doc.setFont(undefined, 'bold');
+  doc.text('Esmeraldas HN', 140*2 , 30);
+
+
+  doc.setFontSize(10);
+  doc.setFont(undefined, 'normal');
+  doc.text('Dirección :', 140*2 , 40);
+  doc.setFontSize(10);
+  doc.setFont(undefined, 'normal');
+  doc.text("Tegucigalpa: Los dolores, calle buenos aires", 140*2 , 50);
+  doc.text("Metodo de pago:" + Metodo, 140*2 , 60);
+  doc.setFontSize(28);
+  doc.setFont(undefined, 'bold');
+  doc.text('Tipos de pago', 160 , 80);
+
+  const footer = () => {
+    doc.setFontSize(10);
+    doc.setFont(undefined, 'normal');
+    doc.text( String(pageNumber), 444, 580, { align: 'right' });
+    doc.text('Usuario:' + Usuario, 10,570);
+    doc.text('Fecha:' + FechaCreacion, 10,580);
+  };
+
+  autoTable(doc, {
+    
+    head: [['Codigo Factura', 'Total', 'Fecha']],
+    body: cuerpo,
+    startY: pageNumber === 1 ? 100 : 90,
+    styles: {
+      fontSize: 10,
+    },
+    headStyles: {
+      fillColor: [0, 0, 0],
+      textColor: [255, 255, 255],
+      halign: 'center',
+      valign: 'middle',
+      fontStyle: 'bold',
+    }, columnStyles: {
+      0: { halign: 'center' },  
+      1: { halign: 'center' }, 
+      2: { halign: 'center' }, 
+      3: { halign: 'center' },  
+      4: { halign: 'center' }  
+    },
+    theme: 'grid',
+    didDrawPage: (data) => {
+ 
+  
+      footer();
+      pageNumber++;
+    }
+
+
+  });
+
+  const borderYPosition = (doc as any).previousAutoTable.finalY + 20;
+  doc.setFontSize(12);
+  doc.text('Total:' + Total,340, borderYPosition);
+
+
+  return doc.output('blob');
+}
 ReporteFacturaCompraPDF(cuerpo: any[], logoURL: string,  Fecha, Factura, Proveedor, Metodo): Blob {
   const doc = new jsPDF({
     orientation: 'portrait',
@@ -562,7 +641,7 @@ ReporteEmpleado(cuerpo, logoURL: string,Empleado,Total,Usuario,FechaCreacion): B
   });
 
 
-  let pageNumber = 1;  // Inicializar el contador de página
+  let pageNumber = 1;
   const imgWidth = 200;
   const imgHeight = 50;
   doc.addImage(logoURL, 'JPEG', 10, 10, imgWidth, imgHeight);
@@ -588,12 +667,6 @@ ReporteEmpleado(cuerpo, logoURL: string,Empleado,Total,Usuario,FechaCreacion): B
   doc.setFontSize(10);
   doc.setFont(undefined, 'bold');
   doc.text('Total:' + Total , 380 , 80);
-
-
-
-
-  
-
   const footer = () => {
     doc.setFontSize(10);
     doc.setFont(undefined, 'normal');
@@ -647,8 +720,6 @@ ReporteEmpleadoTodo(cuerpo, logoURL: string,Empleado,Total): Blob {
   const imgHeight = 50;
   doc.addImage(logoURL, 'JPEG', 10, 10, imgWidth, imgHeight);
 
-
-  
   doc.setFontSize(10);
   doc.setFont(undefined, 'bold');
   doc.text('Esmeraldas HN', 140*2 , 30);
@@ -668,9 +739,6 @@ ReporteEmpleadoTodo(cuerpo, logoURL: string,Empleado,Total): Blob {
   doc.setFontSize(10);
   doc.setFont(undefined, 'bold');
   doc.text('Total:' + Total , 380 , 80);
-
-
-
 
 
   const footer = () => {
@@ -749,10 +817,6 @@ ReportePorMes(cuerpo, logoURL: string,Mes,Year,Total): Blob {
   doc.setFont(undefined, 'bold');
   doc.text('Total:' + Total , 380 , 80);
 
-
-
-
-  
 
   const footer = () => {
     doc.setFontSize(10);
@@ -870,6 +934,99 @@ ReportesTop10(cuerpo, logoURL: string,Inicio,Final,Total): Blob {
     }
   });
 
+  return doc.output('blob');
+}
+
+ReportesCaja(logoURL: string,Usuario,FechaCreacion,MontoInicial,MontoFinal,Ganancias,UsuarioApertura,FechaApertura,UsuarioCierre,FechaCierre,Sucursal): Blob {
+  const doc = new jsPDF({
+    orientation: 'portrait',
+    unit: 'px',
+    format: 'letter'
+  });
+
+
+  let pageNumber = 1;  
+  const imgWidth = 200;
+  const imgHeight = 50;
+  doc.addImage(logoURL, 'JPEG', 10, 10, imgWidth, imgHeight);
+
+
+  
+  doc.setFontSize(10);
+  doc.setFont(undefined, 'bold');
+  doc.text('Esmeraldas HN', 140*2 , 30);
+
+  // Información de la empresa - Direcciones
+  doc.setFontSize(10);
+  doc.setFont(undefined, 'normal');
+  doc.text('Dirección :', 140*2 , 40);
+  doc.setFontSize(10);
+  doc.setFont(undefined, 'normal');
+  doc.text("Tegucigalpa: Los dolores, calle buenos aires", 140*2 , 50);
+  doc.setFont(undefined, 'normal');
+  doc.text("Sucursal:" + Sucursal, 140*2 , 60);
+  doc.setFontSize(10);
+  doc.setFont(undefined, 'bold');
+  doc.text("Usuario Apertura:", 14*2 , 80);
+  doc.setFontSize(10);
+  doc.setFont(undefined, 'normal');
+  doc.text(UsuarioApertura, 48*2 , 80);
+
+  doc.setFontSize(10);
+  doc.setFont(undefined, 'bold');
+  doc.text("Fecha Apertura:", 65*2 , 80);
+  doc.setFontSize(10);
+  doc.setFont(undefined, 'normal');
+  doc.text(FechaApertura, 95*2 , 80);
+
+  doc.setFontSize(10);
+  doc.setFont(undefined, 'bold');
+  doc.text("Usuario Cierre:", 120*2 , 80);
+  doc.setFontSize(10);
+  doc.setFont(undefined, 'normal');
+  doc.text(UsuarioCierre, 149*2 , 80);
+
+  doc.setFontSize(10);
+  doc.setFont(undefined, 'bold');
+  doc.text("Fecha Cierre", 166*2 , 80);
+  doc.setFontSize(10);
+  doc.setFont(undefined, 'normal');
+  doc.text(FechaCierre, 190*2 , 80);
+
+
+  doc.setFontSize(12);
+  doc.setFont(undefined, 'bold');
+  doc.text('Detalle Caja:'  , 100*2 , 90);
+  doc.setFontSize(12);
+  doc.setFont(undefined, 'bold');
+  doc.text('Monto Inicial:'  , 50*2 , 105);
+  doc.text('Monto Final:'  , 50*2 , 125);
+  doc.text('Ganancias del dia:'  , 50*2 , 145);
+  doc.setFont(undefined, 'normal');
+  doc.text(MontoInicial  , 80*2 , 105);
+  doc.text(MontoFinal  , 80*2 , 125);
+  doc.text(Ganancias , 90*2 , 145);
+
+  doc.setFont(undefined, 'bold');
+  doc.text('Resultados del dia:'  , 140*2 , 105);
+
+  const TotalDia = parseFloat(MontoFinal) - parseFloat(Ganancias)
+  doc.text(TotalDia.toString()  , 154*2 , 125);
+  doc.setFont(undefined, 'bold');
+if (TotalDia > 0) {
+  doc.text("Ganancias reportadas"  , 140*2 , 145);
+}else{
+  doc.text("Perdidas reportadas"  , 140*2 , 145);
+}
+ 
+
+
+
+  doc.setFontSize(10);
+  doc.setFont(undefined, 'normal');
+  doc.text('Usuario:' + Usuario, 10,570);
+  doc.text('Fecha:' + FechaCreacion, 10,580);
+  doc.text( String(pageNumber), 444, 580, { align: 'right' });
   return doc.output('blob');
 }
 

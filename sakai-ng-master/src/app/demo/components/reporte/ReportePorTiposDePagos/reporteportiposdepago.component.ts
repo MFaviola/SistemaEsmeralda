@@ -4,7 +4,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { BASE_URL } from 'src/app/Service/ulrsettings';
 import { FormGroup, FormControl,  Validators, FormBuilder  } from '@angular/forms';
 import { ServiceService } from 'src/app/Service/Factura.service';
-import { Stock } from 'src/app/Models/FacturaViewModel';
+import { ReportePorTipo, Stock } from 'src/app/Models/FacturaViewModel';
 import { DatePipe } from '@angular/common';
 import { CookieService } from 'ngx-cookie-service';
 import { Usuario } from 'src/app/Models/UsuarioVIewModel';
@@ -38,12 +38,12 @@ import { SliderModule } from 'primeng/slider';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputGroupModule } from 'primeng/inputgroup';
 @Component({
-  templateUrl: './reporteporstock.component.html',
-  styleUrl: './reporteporstock.component.css',
+  templateUrl: './reporteportiposdepago.component.html',
+  styleUrl: './reporteportiposdepago.component.css',
   providers: [YService,DatePipe,CookieService]
 })
 
-export class reporteComponent implements OnInit  {
+export class reportePorTipoPagoComponent implements OnInit  {
     //Region Fecha
     dateDay = new Date();
     conversion: string;
@@ -55,33 +55,38 @@ export class reporteComponent implements OnInit  {
   Reporte_1: boolean = false;
   Reporte_2: boolean = false;
   selectedMetodo: string = '2';
-  Stock!:Stock[];
+  Tipos!:ReportePorTipo[];
   SelectedMes: any= "0";
   sucursales: any[] = [];
   constructor(private service:ServiceService,private yService: YService, private sanitizer: DomSanitizer,private datePipe: DatePipe, private cookie: CookieService) { }
 
   ngOnInit(): void {
-    this.service.getDropDownsSucursales().subscribe((data: dropSucursal[]) => {
+    this.meses = [
+      { label: 'Todo', value: "0" },
+      { label: 'Efectivo',  value: "1" },
+      { label: 'Tarjeta de Credito', value: "4"  },
+      { label: 'Pago en linea',  value: "7" }
+    ];
+    this.service.getReporteTipoPago(0).subscribe((data: any)=>{
+      let prueba = 0
+      this.Tipos = data;
+      const total = this.Tipos.reduce((sum, item) => sum + (parseFloat(item.total) || 0), 0);
       console.log(data);
-      this.sucursales = data.map(sucursal => ({
-        value: sucursal.value.toString(), 
-        label: sucursal.text 
-      }));
-      this.meses = this.sucursales; 
-    });
-    this.service.getControlStock(2,this.sucu_id).subscribe((data: any)=>{
-      this.Stock = data;
-      console.log(data);
-      const cuerpo = this.Stock.map(item => [
-        item.categoria.toString(),
-        item.producto.toString(),
-        item.stock.toString(),
+      const cuerpo = this.Tipos.map(item => [
+        item.fact_Id.toString(),
+        item.total.toString(),
+        item.fact_FechaFinalizado.toString(),
       ]);
-
+      let metodo = "Todos"
+      if (prueba == 0) {
+        metodo  = "Todos"
+      }else{
+        metodo  = data[0].mepa_Metodo
+      }
       const usuario = this.cookie.get('Empleado');
       const fechaC = this.datePipe.transform(this.dateDay, 'yyyy-MM-dd')
       const img = "assets/demo/images/galleria/Esmeraldas.png";
-      const blob = this.yService.ReporteStock(cuerpo, img,usuario,fechaC);
+      const blob = this.yService.ReportePorTipoPago(cuerpo, img,usuario,fechaC,total,metodo);
       const url = URL.createObjectURL(blob);
       this.pdfSrc = this.sanitizer.bypassSecurityTrustResourceUrl(url);
       console.log("Se muestra xd");
@@ -90,52 +95,35 @@ export class reporteComponent implements OnInit  {
   });
   }
 
-  
-  selectMetodoPago(metodo: string) {
-    this.selectedMetodo = metodo;
-    this.service.getControlStock(this.selectedMetodo,this.sucu_id).subscribe((data: any)=>{
-      this.Stock = data;
-      console.log(data);
-      const cuerpo = this.Stock.map(item => [
-        item.categoria.toString(),
-        item.producto.toString(),
-        item.stock.toString(),
-      ]);
-      const usuario = this.cookie.get('Empleado');
-      const fechaC = this.datePipe.transform(this.dateDay, 'yyyy-MM-dd')
-      const img = "assets/demo/images/galleria/Esmeraldas.png";
-      const blob = this.yService.ReporteStock(cuerpo, img,usuario,fechaC);
-      const url = URL.createObjectURL(blob);
-      this.pdfSrc = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-      console.log("Se muestra xd");
-  },error=>{
-    console.log(error);
-  });
 
-   
-    console.log(metodo);
-}
 onselectMes(event){
-	console.log(event.value);
-  this.sucu_id = event.value;
-  this.service.getControlStock(this.selectedMetodo,this.sucu_id).subscribe((data: any)=>{
-    this.Stock = data;
+  this.service.getReporteTipoPago(event.value).subscribe((data: any)=>{
+    this.Tipos = data;
+    const total = this.Tipos.reduce((sum, item) => sum + (parseFloat(item.total) || 0), 0);
     console.log(data);
-    const cuerpo = this.Stock.map(item => [
-      item.categoria.toString(),
-      item.producto.toString(),
-      item.stock.toString(),
+    const cuerpo = this.Tipos.map(item => [
+      item.fact_Id.toString(),
+      item.total.toString(),
+      item.fact_FechaFinalizado.toString(),
     ]);
+    let metodo = "Todos"
+    if (event.value == 0) {
+      metodo  = "Todos"
+    }else{
+      metodo  = data[0].mepa_Metodo
+    }
+
     const usuario = this.cookie.get('Empleado');
     const fechaC = this.datePipe.transform(this.dateDay, 'yyyy-MM-dd')
     const img = "assets/demo/images/galleria/Esmeraldas.png";
-    const blob = this.yService.ReporteStock(cuerpo, img,usuario,fechaC);
+    const blob = this.yService.ReportePorTipoPago(cuerpo, img,usuario,fechaC,total,metodo);
     const url = URL.createObjectURL(blob);
     this.pdfSrc = this.sanitizer.bypassSecurityTrustResourceUrl(url);
     console.log("Se muestra xd");
 },error=>{
   console.log(error);
 });
+
   }
 
 }
@@ -168,6 +156,6 @@ onselectMes(event){
 		InputGroupAddonModule,
 		InputGroupModule
 	],
-	declarations: [reporteComponent]
+	declarations: [reportePorTipoPagoComponent]
 })
-export class ReportePorMesDemoModule { }
+export class ReportePorTipoPagoDemoModule { }

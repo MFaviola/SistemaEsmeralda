@@ -1,0 +1,33 @@
+<div class="main-card mb-3 card"> 
+    <div class="card-header">
+        <div class="card-header" style="margin-bottom: 10px;">
+            <div style="width: 100%; height: 150px; background-image: url(./../../../../../../assets/demo/images/galleria/maqui.png); background-repeat: no-repeat; background-size: cover; background-position: center -60px; border-radius: 10px;"></div>
+        </div>
+
+            <div class="p-fluid p-formgrid grid">
+
+                <div class="field col-12 md:col-6">
+                
+                       
+                
+                    <p-dropdown [options]="meses" [(ngModel)]="SelectedMes" placeholder="Mes" [showClear]="true" (onChange)="onselectMes($event)"></p-dropdown>
+ 
+               
+                 
+                </div>
+            </div>
+
+    </div>
+
+</div>
+
+<div class="card-body" >
+    <iframe  [src]="pdfSrc" type="application/pdf" width="100%" height="600px">
+        PDF Preview
+      </iframe>
+</div>
+
+
+
+
+

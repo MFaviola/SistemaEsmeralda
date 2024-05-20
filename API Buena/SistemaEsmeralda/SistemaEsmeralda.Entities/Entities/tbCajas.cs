@@ -10,6 +10,10 @@ namespace SistemaEsmeralda.Entities.Entities
     {
         public int caja_Id { get; set; }
 
+        public string? Apertura { get; set; }
+
+        public string? Sucu_Nombre { get; set; }
+        public string? Cierre { get; set; }
         public string? caja_Observacion { get; set; }
         public int? caja_UsuarioApertura { get; set; }
         public DateTime? caja_FechaApertura { get; set; }

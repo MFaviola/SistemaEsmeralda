@@ -1,0 +1,23 @@
+
+<div class="main-card mb-3 card"> 
+    <div class="card-header">
+        <h3 class="card-title">Reporte</h3>
+
+            <div class="p-fluid p-formgrid grid">
+   
+                <div class="field col-12 md:col-6">
+                    <label for="">Fecha Inicio</label>
+                    <p-calendar [showIcon]="true" inputId="icon" [(ngModel)]="controllerInicio" (ngModelChange)="onFechaInicioChange($event)"></p-calendar>
+                  </div>
+          
+            </div>
+
+    </div>
+
+</div>
+
+<div class="card-body" >
+    <iframe  [src]="pdfSrc" type="application/pdf" width="100%" height="600px">
+        PDF Preview
+      </iframe>
+</div>

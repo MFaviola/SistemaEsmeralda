@@ -59,10 +59,18 @@ namespace SistemaEsmeralda.API.Controllers
         }
 
 
-        [HttpGet("ReportePorStock/{valor}")]
-        public IActionResult ReportePorStock(int valor)
+        [HttpGet("ReportePorStock/{valor},{sucursal}")]
+        public IActionResult ReportePorStock(int valor, int sucursal)
         {
-            var list = _ventasServices.ReportePorStock(valor);
+            var list = _ventasServices.ReportePorStock(valor,sucursal);
+            return Ok(list.Data);
+        }
+
+
+        [HttpGet("ReporteTipoPago/{valor}")]
+        public IActionResult ReporteTipoPago(int valor)
+        {
+            var list = _ventasServices.ReportePorTipoPago(valor);
             return Ok(list.Data);
         }
 

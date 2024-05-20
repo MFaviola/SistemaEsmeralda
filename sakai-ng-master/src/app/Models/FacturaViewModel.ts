@@ -34,6 +34,21 @@ export class FacturaDetalle {
     codigoRow?:String;
 }
 
+
+export class CajaDetalle {
+    caja_Id?:String;
+    caja_UsuarioApertura?:String;
+    caja_FechaApertura?:String;
+    caja_UsuarioCierre?:String
+    caja_FechaCierre?:String;
+    caja_MontoInicial?:String;
+    caja_MontoFinal?:String;
+    caja_MontoSistema?:String;
+    sucu_Nombre?:String;
+    apertura?:String;
+    cierre?:String;
+}
+
 export class Years {
    id?:number;
    name?:string;
@@ -62,6 +77,14 @@ export class FacturaDetallesEnviar {
     Faxd_Cantidad?:String;
     Fact_Id?:String;
 }
+
+export class ReportePorTipo {
+    fact_Id?:String;
+    total?:string;
+    fact_FechaFinalizado?:String;
+    mepa_Metodo?:String;
+}
+
 
 
 

@@ -145,11 +145,11 @@ namespace SistemaEsmeralda.DataAccess.Repository
             }
         }
 
-        public IEnumerable<tbFactura> ReportePorStock(int valor)
+        public IEnumerable<tbFactura> ReportePorStock(int valor, int sucu)
         {
             const string sql = "[Vent].[sp_Reporte_ControlStock]";
 
-            var parameters = new { TipoProducto = valor };
+            var parameters = new { TipoProducto = valor, Sucu_Id = sucu };
 
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
             {
@@ -157,6 +157,18 @@ namespace SistemaEsmeralda.DataAccess.Repository
             }
         }
 
+
+        public IEnumerable<tbFactura> ReportePorTipoPago(int valor)
+        {
+            const string sql = "[Vent].[sp_ReporteVentaspPorPago]";
+
+            var parameters = new {Mepa_Id = valor};
+
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+                return db.Query<tbFactura>(sql, parameters, commandType: CommandType.StoredProcedure).ToList();
+            }
+        }
         public IEnumerable<tbFactura> ReportePorEmpleado(int empleado)
         {
             const string sql = "[Vent].[SP_Reporte_FacturaEmpleadoTotal]";

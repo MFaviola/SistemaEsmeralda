@@ -35,6 +35,21 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 return result;
             }
         }
+
+        public IEnumerable<tbCajas> ReporteCaja(string Date, string sucu)
+        {
+            const string sql = "Vent.sp_ReporteCaja_Fecha";
+
+            List<tbCajas> result = new List<tbCajas>();
+            var parameters = new { FechaHoy = Date, Sucu_Id = sucu };
+
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+                result = db.Query<tbCajas>(sql, parameters, commandType: CommandType.StoredProcedure).ToList();
+
+                return result;
+            }
+        }
         public tbCajas find(int? id)
         {
             throw new NotImplementedException();

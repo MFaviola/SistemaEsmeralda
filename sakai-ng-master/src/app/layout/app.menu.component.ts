@@ -444,6 +444,7 @@ export class AppMenuComponent implements OnInit {
 
                             },
                             {
+
                                 label: 'Transferencias',
                                 icon: 'pi pi-fw pi-user',
                                 routerLink: ['/venta/transferencias']
@@ -461,6 +462,11 @@ export class AppMenuComponent implements OnInit {
                         label: 'Reportes',
                         icon: 'pi pi-fw pi-chart-bar',
                         items: [
+                            {
+                                label: 'Tipos de pago reporte',
+                                icon: 'pi pi-fw pi-dollar',
+                                routerLink: ['/reportes/reporteportipo']
+                            },
                             {
                                 label: 'Control de stock',
                                 icon: 'pi pi-fw pi-dollar',

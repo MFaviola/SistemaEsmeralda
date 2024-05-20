@@ -40,7 +40,7 @@ import { FacturaDetalle, Years } from 'src/app/Models/FacturaViewModel';
 })
 
 export class ReportesPormesComponent implements OnInit  {
-
+ 
   cities: SelectItem[] = [];
   meses: SelectItem[] = [];
   pdfSrc: SafeResourceUrl | null = null;

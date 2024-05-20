@@ -570,12 +570,27 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             }
         }
 
-        public ServiceResult ReportePorStock(int valor)
+        public ServiceResult ReportePorStock(int valor, int sucu)
         {
             var result = new ServiceResult();
             try
             {
-                var list = _facturaRepository.ReportePorStock(valor);
+                var list = _facturaRepository.ReportePorStock(valor, sucu);
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+        public ServiceResult ReportePorTipoPago(int valor)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _facturaRepository.ReportePorTipoPago(valor);
                 return result.Ok(list);
             }
 
@@ -684,6 +699,23 @@ namespace SistemaEsmeralda.BusinessLogic.Services
                 return result.Error(ex.Message);
             }
         }
+
+        public ServiceResult ReporteCaja(string date, string sucu)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _CajaRepository.ReporteCaja(date, sucu);
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
 
 
         #endregion

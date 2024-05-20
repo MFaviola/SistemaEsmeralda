@@ -6,6 +6,8 @@ import { reporteMayorista } from './ReporteVentasMayoristas/reportepormayorista.
 import {CookieService} from 'ngx-cookie-service';
 import { AuthGuard } from 'src/app/auth.guard';
 import { ReportesPormesComponent } from './ReportePorMes/reporteportemes.component';
+import { reporteComponent } from './ReportePorControlStock/reporteporstock.component';
+import { reportePorTipoPagoComponent } from './ReportePorTiposDePagos/reporteportiposdepago.component';
 
 @NgModule({
     imports: [RouterModule.forChild([
@@ -14,7 +16,8 @@ import { ReportesPormesComponent } from './ReportePorMes/reporteportemes.compone
         { path: 'productosvendidos', component: reportepormesComponent ,canActivate: [AuthGuard]},
         { path: 'ventaspormes', component : ReportesPormesComponent ,canActivate: [AuthGuard]},
         { path: 'ventasporempleado', data: { breadcrumb: 'Empleado' }, loadChildren: () => import('./ReportePorEmpleadoTotal/reporteporempleadockdemo.module').then(m => m.ReportePorEmpleadoDemoModule) ,canActivate: [AuthGuard]},
-        { path: 'controldestock', data: { breadcrumb: 'Stock' }, loadChildren: () => import('./ReportePorControlStock/reporteporstockdemo-routing.module').then(m => m.ReportePorStockDemoRoutingModule) ,canActivate: [AuthGuard]},
+        { path: 'controldestock', component : reporteComponent ,canActivate: [AuthGuard]},
+        { path: 'reporteportipo', component : reportePorTipoPagoComponent ,canActivate: [AuthGuard]},
         { path: '**', redirectTo: '/notfound' }
     ])],
     exports: [RouterModule]

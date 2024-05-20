@@ -29,6 +29,13 @@ namespace SistemaEsmeralda.API.Controllers
             var list = _ventasServices.ValidacionCaja(date,sucu);
             return Ok(list.Data);
         }
+
+        [HttpGet("ReporteCaja/{date},{sucu}")]
+        public IActionResult ReporteCaja(string date, string sucu)
+        {
+            var list = _ventasServices.ReporteCaja(date, sucu);
+            return Ok(list.Data);
+        }
         [HttpPost("AbrirCaja")]
         public IActionResult AbrirCaja(CajaViewModel item)
         {

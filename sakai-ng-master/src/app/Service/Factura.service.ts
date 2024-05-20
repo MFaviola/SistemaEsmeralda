@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BASE_URL } from './ulrsettings';
-import { EmpleadoRe, Factura,FacturaDetalle,Fill, Stock } from '../Models/FacturaViewModel';
+import { CajaDetalle, EmpleadoRe, Factura,FacturaDetalle,Fill, ReportePorTipo, Stock } from '../Models/FacturaViewModel';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs';
 import { dropJoya, dropJoyaStock } from '../Models/JoyaViewModel';
@@ -10,6 +10,7 @@ import { Metodo } from '../Models/MetodoPagoViewModel';
 import { Cliente } from '../Models/ClienteViewModel';
 import { Empleado, dropEmpleado } from '../Models/EmpleadoViewModel';
 import { Fill2 } from '../Models/DashboardViewModel';
+import { dropSucursal } from '../Models/SucursalViewModel';
 
 
 
@@ -91,8 +92,17 @@ export class ServiceService {
     return this.http.get<FacturaDetalle[]>(BASE_URL + 'API/Factura/ListaDetalles/' + id)
   }
 
-  getControlStock(id){
-    return this.http.get<Stock[]>(BASE_URL + 'API/Factura/ReportePorStock/' + id)
+  getControlStock(id,sucu){
+    return this.http.get<Stock[]>(BASE_URL + 'API/Factura/ReportePorStock/' + id + ',' + sucu)
+  }
+
+  getReporteTipoPago(id){
+    return this.http.get<ReportePorTipo[]>(BASE_URL + 'API/Factura/ReporteTipoPago/' + id)
+  }
+  urlDropSucursales = BASE_URL + 'API/Sucursal/DropDown'
+
+  getDropDownsSucursales(){
+    return this.http.get<dropSucursal[]>(this.urlDropSucursales)
   }
 
   GetReportePorEmpleado(empleado){
@@ -113,6 +123,10 @@ export class ServiceService {
 
   GetReporteVentasMayoristas(año,mes){
     return this.http.get<FacturaDetalle[]>(BASE_URL + 'API/Factura/ReporteVentasMayoristas/' + año +',' + mes )
+  }
+
+  GetReporteCaja(Fecha,Sucu){
+    return this.http.get<CajaDetalle[]>(BASE_URL + 'API/Caja/ReporteCaja/' + Fecha +',' + Sucu )
   }
   EnviarFactura(formData: any): Observable<any> {
     return this.http.post<any>(BASE_URL + 'API/Factura/Create/', formData).pipe(

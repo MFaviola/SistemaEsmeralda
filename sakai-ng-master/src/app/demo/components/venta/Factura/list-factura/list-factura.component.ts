@@ -114,7 +114,7 @@ export class ListFacturaComponent {
   Usuario: string = this.cookie.get('Usuario');
   Usua_Id: string = this.cookie.get('ID_Usuario');
   Sucu_Id: string = this.cookie.get('SucursalID');
-  
+  Empl_Id: string =  this.cookie.get('empl_Id');
  
   //AUTOCOMPLETADO
 
@@ -160,7 +160,7 @@ export class ListFacturaComponent {
 
       this.FacturaForm = new FormGroup({
         Mepa_Id: new FormControl("1", Validators.required),
-        Empl_Id: new FormControl("3", [Validators.required]),
+        Empl_Id: new FormControl(this.Empl_Id, [Validators.required]),
         Clie_Id: new FormControl("1", [Validators.required]),
         Clie_DNI: new FormControl(""),
         Impu_Impuesto: new FormControl("15%",Validators.required),
@@ -191,6 +191,50 @@ export class ListFacturaComponent {
     });
    } 
 
+   refrescar(){
+    this.service.getFacturasDetalle(0).subscribe((data: any)=>{
+      this.FacturaDetalle = data;
+    })
+    this.selectedClientesNombreAdvanced = "Consumidor Final";
+    this.FacturaForm.get('Mepa_Id').setValue("1")
+    this.selectedRadio = '1';
+    this.selectedMetodo = '1';
+    this.FacturaForm.get('Faxd_Dif').setValue("1")
+    this.FacturaForm.get('Clie_Id').setValue("1")
+    this.FacturaForm.get('Clie_DNI').setValue("")
+    this.FacturaForm.get('Faxd_Cantidad').setValue("")
+    this.FacturaForm.get('Prod_Nombre').setValue("")
+    this.FacturaForm.get('Prod_Producto').setValue("")
+    this.FacturaForm.get('Prod_Id').setValue("");
+    this.Fact_ID = "0";
+    this.Valor = "";
+    this.MayorOVenta = "0";
+    this.Subtotal = "0"
+    this.TotalTabla = "0";
+
+    this.service.getAutoCompletadoJoya(this.Sucu_Id).subscribe(countries => {
+      this.countries = countries;
+    });
+   this.service.getAutoCompletadoJoyaLista(this.Sucu_Id).subscribe(countries => {
+    this.listJoyas = countries;
+    });
+    this.submitted = false;
+      this.Collapse= true;
+      this.DataTable = false;
+      this.Valor = "Agregar";
+      this.Agregar= false;
+      this.Detalles = false;
+      this.Tabla = false;
+      this.Subtotal = "0";
+      this.Impuesto = "0"
+      this.Total = "0";
+      this.selectedMetodo = "1";
+      this.Actualizar = ""
+    this.Impuesto = "0"
+    this.Total = "0";
+    this.submitted = false;
+  }
+  
 //Seleccionar el metodo
    selectMetodoPago(metodo: string) {
     this.selectedMetodo = metodo;
@@ -318,9 +362,7 @@ onSelectProduct(event) {
   this.Mayor = event.value.mayor;
   this.MayorOVenta = event.value.venta;
   this.TotalTabla = event.value.venta;
-
-    this.cantidadInput.nativeElement.focus();
-
+  this.cantidadInput.nativeElement.focus();
 }
 
 onSelectJoyaList(event) {
@@ -412,7 +454,7 @@ ConfirmarEditado(){
     this.FacturaForm.get('Prod_Nombre').setValue("Pro")
     this.FacturaForm.get('Prod_Id').setValue("1");
     this.PagoForm.get('Pago').value;
-    this.Total
+
     const valor =parseFloat(this.Total) - parseFloat( this.PagoForm.get('Pago').value);
     console.log(valor);
     if (valor > 0) {
@@ -454,6 +496,7 @@ onSubmitCaja() {
           this.Actualizar = ""
           this.service.getFacturasDetalle(0).subscribe((data: any)=>{
           this.FacturaDetalle = data;
+          this.AbrirCaja = false;
         })
       }else{
     
@@ -469,7 +512,6 @@ onSubmitCaja() {
           this.subirCaja = true;
       }
   }
-
 
 
 collapse(){
