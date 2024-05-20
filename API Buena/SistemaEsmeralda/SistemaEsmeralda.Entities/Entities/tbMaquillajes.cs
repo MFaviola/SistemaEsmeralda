@@ -11,6 +11,8 @@ namespace SistemaEsmeralda.Entities.Entities
     {
 
         [NotMapped]
+        public string Stock { get; set; }
+        [NotMapped]
         public string ID { get; set; }
         [NotMapped]
         public string Nombre { get; set; }

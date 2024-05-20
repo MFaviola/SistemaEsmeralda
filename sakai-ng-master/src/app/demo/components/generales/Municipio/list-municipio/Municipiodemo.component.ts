@@ -4,13 +4,14 @@ import { Router } from '@angular/router';
 import { Fill,Municipio,MunicipioEnviar } from 'src/app/Models/MunicipioViewModel';
 import { dropDepartamento } from 'src/app/Models/DepartamentoViewModel';
 import { MensajeViewModel } from 'src/app/Models/MensajeViewModel';
-
+import { Table } from 'primeng/table';
 import { ServiceService } from 'src/app/Service/Municipio.service';
 import { FormGroup, FormControl,  Validators  } from '@angular/forms';
+import { CookieService } from 'ngx-cookie-service';
 @Component({
     templateUrl: './Municipiodemo.component.html',
     styleUrl: './list-municipio.component.css',
-    providers: [ConfirmationService, MessageService]
+    providers: [ConfirmationService, MessageService,CookieService]
 })
 export class MunicipioDemoComponent implements OnInit {
     Municipio!: Municipio[];
@@ -30,6 +31,8 @@ export class MunicipioDemoComponent implements OnInit {
     Valor: string = "";
     staticData = [{}];
 
+    Usua_Id: any = this.cookie.get('ID_Usuario');
+    
     deleteProductDialog: boolean = false;
     //Detalle
     Muni: String = "";
@@ -44,7 +47,8 @@ export class MunicipioDemoComponent implements OnInit {
         private service: ServiceService, 
         private router: Router,
         private confirmationService: ConfirmationService, 
-        private messageService: MessageService
+        private messageService: MessageService,
+        private cookie: CookieService
     ) { 
        
     
@@ -66,6 +70,13 @@ export class MunicipioDemoComponent implements OnInit {
         });
     }
     //Abrir collapse
+    clear(table: Table, filter: ElementRef) {
+        table.clear();
+        filter.nativeElement.value = '';
+      }
+      onGlobalFilter(table: Table, event: Event) {
+        table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+      }
     collapse(){
         this.Collapse= true;
         this.DataTable = false;
@@ -122,6 +133,7 @@ export class MunicipioDemoComponent implements OnInit {
     onSubmit() {
     if (this.municipioForm.valid && this.municipioForm.get('Depa_Codigo').value !== '0') {
        this.viewModel = this.municipioForm.value;
+       this.viewModel.Usua_Id = this.Usua_Id
        if (this.Valor == "Agregar") {
         this.service.EnviarMunicipios(this.viewModel).subscribe((data: MensajeViewModel[]) => {
             if(data["message"] == "Operación completada exitosamente."){

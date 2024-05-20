@@ -29,7 +29,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
               
                 parametro.Add("@Muni_Codigo", item.Muni_Codigo);
               
-                parametro.Add("@Prov_UsuarioCreacion", 1);
+                parametro.Add("@Prov_UsuarioCreacion", item.Prov_UsuarioCreacion);
                 parametro.Add("@Prov_FechaCreacion", item.Prov_FechaCreacion);
 
 

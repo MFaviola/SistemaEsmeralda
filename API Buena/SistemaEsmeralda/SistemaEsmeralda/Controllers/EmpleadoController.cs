@@ -62,11 +62,12 @@ namespace SistemaEsmeralda.API.Controllers
                 Empl_FechaNac = item.Empl_FechaNac,
                 Empl_DNI = item.Empl_DNI,
                 Empl_Sexo = item.Empl_Sexo,
+                Sucu_Id = item.Sucu_Id,
                 Muni_Codigo = item.Muni_Codigo,
                 Esta_Id = item.Esta_Id,
                 Carg_Id = item.Carg_Id,
                 Empl_Correo= item.Empl_Correo,
-                Empl_UsuarioCreacion = item.Usua_ID,
+                Empl_UsuarioCreacion = item.Usua_Id,
                 Empl_FechaCreacion = DateTime.Now
 
             };
@@ -98,13 +99,14 @@ namespace SistemaEsmeralda.API.Controllers
                 Empl_Apellido = item.Empl_Apellido,
                 Empl_DNI = item.Empl_DNI,
                 Empl_FechaNac = item.Empl_FechaNac,
+                Sucu_Id = item.Sucu_Id,
                 Empl_Sexo = item.Empl_Sexo,
                 Muni_Codigo = item.Muni_Codigo,
                 Esta_Id = item.Esta_Id,
                 Carg_Id = item.Carg_Id,
 
                 Empl_Correo= item.Empl_Correo,
-                Empl_UsuarioCreacion = 1,
+                Empl_UsuarioCreacion = item.Usua_Id,
                 Empl_FechaCreacion = DateTime.Now
             };
             var list = _generalServices.EditarEmpleado(modelo);

@@ -214,7 +214,7 @@ a {
 }
 .layout-sidebar {
   position: fixed;
-  width: 300px;
+  width: 250px;
   height: calc(100vh - 9rem);
   z-index: 999;
   overflow-y: auto;
@@ -222,7 +222,7 @@ a {
      -moz-user-select: none;
           user-select: none;
   top: 7rem;
-  left: 2rem;
+  left: 0.8rem;
   transition: transform 0.2s, left 0.2s;
   background-color: var(--surface-overlay);
   border-radius: 12px;
@@ -358,7 +358,7 @@ a {
   flex-direction: column;
   min-height: 100vh;
   justify-content: space-between;
-  padding: 7rem 2rem 2rem 4rem;
+  padding: 7rem 0.5rem 2rem 4rem;
   transition: margin-left 0.2s;
 }
 
@@ -399,7 +399,7 @@ a {
     transform: translateX(0);
   }
   .layout-wrapper.layout-static .layout-main-container {
-    margin-left: 300px;
+    margin-left: 220px;
   }
   .layout-wrapper.layout-static.layout-static-inactive .layout-sidebar {
     transform: translateX(-100%);

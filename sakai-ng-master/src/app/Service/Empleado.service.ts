@@ -10,6 +10,7 @@ import { dropDepartamento } from '../Models/DepartamentoViewModel';
 import { dropMunicipio } from '../Models/MunicipioViewModel';
 import { dropEstadoCivil } from '../Models/EstadoCivilViewModel';
 import { dropCargo } from '../Models/CargoViewModel';
+import { dropSucursal } from '../Models/SucursalViewModel';
 
 
 
@@ -27,7 +28,11 @@ export class ServiceService {
   getDropDownsDepartamentos(){
     return this.http.get<dropDepartamento[]>(this.urlDrop)
   }
+  urlDropSucursales = BASE_URL + 'API/Sucursal/DropDown'
 
+  getDropDownsSucursales(){
+    return this.http.get<dropSucursal[]>(this.urlDropSucursales)
+  }
   getMunicipios(codigo){
     return this.http.get<dropMunicipio[]>(BASE_URL + 'API/Municipio/Lista/' + codigo )
   }

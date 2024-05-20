@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { reporteComponent } from './reporteporstock.component';
-import { ReportePorStockDemoRoutingModule } from './reporteporstockdemo-routing.module';
+import { TransferenciaComponent } from './transferencia.component'; 
+import { TransferenciaRoutingModule } from './trasnferencia.routing.module';
 import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
@@ -15,24 +15,39 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { TooltipModule } from 'primeng/tooltip';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from "primeng/dropdown";
+import { ReactiveFormsModule } from '@angular/forms';
+import { FileUploadModule } from 'primeng/fileupload';
+import { AutoCompleteModule } from "primeng/autocomplete";
+import { InputNumberModule } from 'primeng/inputnumber';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { InputGroupModule } from 'primeng/inputgroup';
+
 @NgModule({
 	imports: [
 		CommonModule,
-		ReportePorStockDemoRoutingModule,
+		TransferenciaRoutingModule,
 		ToastModule,
 		DialogModule,
+        FileUploadModule,
 		FormsModule,
 		TooltipModule,
 		InputTextModule,
 		DropdownModule,
 		ButtonModule,
+		InputGroupAddonModule,
+		InputGroupModule,
 		OverlayPanelModule,
+		SelectButtonModule,
 		TableModule,
 		ConfirmDialogModule,
 		SidebarModule,
 		RippleModule,
-		ConfirmPopupModule
+		ConfirmPopupModule,
+		ReactiveFormsModule,
+		AutoCompleteModule,
+		InputNumberModule
 	],
-	declarations: [reporteComponent]
+	declarations: [TransferenciaComponent]
 })
-export class ReportePorStockDemoModule { }
+export class TransferenciasModule { }

@@ -9,10 +9,11 @@ import { ServiceService } from 'src/app/Service/Roles.service';
 import { TreeNode} from 'primeng/api';
 import { FormGroup, FormControl,  Validators  } from '@angular/forms';
 import { MensajeViewModel } from 'src/app/Models/MensajeViewModel';
+import { CookieService } from 'ngx-cookie-service';
 @Component({
   templateUrl: './list-rol.component.html',
   styleUrl: './list-rol.component.scss',
-  providers: [ConfirmationService, MessageService]
+  providers: [ConfirmationService, MessageService,CookieService]
 })
 export class ListRolComponent implements OnInit{
   Rol!:Rol[];
@@ -26,7 +27,8 @@ export class ListRolComponent implements OnInit{
   fill: any[] = [];
   viewModel: RolEnviar = new RolEnviar();
   rolForm: FormGroup;
-
+  Usuario: any = this.cookie.get('Usuario');
+  Usua_Id: any = this.cookie.get('ID_Usuario');
  
   @ViewChild('filter') filter!: ElementRef;
 
@@ -52,7 +54,7 @@ export class ListRolComponent implements OnInit{
 
     Valor1: string = "";
     Valor2: string = "";
-  constructor(private service: ServiceService, private router: Router,private nodeService: NodeService,private messageService: MessageService
+  constructor(private service: ServiceService, private router: Router,private nodeService: NodeService,private messageService: MessageService, private cookie: CookieService
   
   ) { }
 
@@ -74,6 +76,14 @@ export class ListRolComponent implements OnInit{
       });
    }
 
+   clear(table: Table, filter: ElementRef) {
+    table.clear();
+    filter.nativeElement.value = '';
+  }
+
+  onGlobalFilter(table: Table, event: Event) {
+    table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+  }
   onNodeSelect(event: any) {
     this.updateSelectedKeys();
   }
@@ -128,6 +138,7 @@ cancelar(){
 llenar(id){
   this.nodeService.getFiles().then(treeFiles => {
     this.files1 = treeFiles;
+    this.Valor = "Editar";
     this.service.getDetalles(id).subscribe({
       next: (data: Fill) => {
          this.ID = data[0].role_Id
@@ -210,7 +221,7 @@ findNodesByKey(nodes: TreeNode[], keys: string[], parent: TreeNode | null = null
 
     const expectedCount = nodes.reduce((count, node) => count + 1 + (node.children ? node.children.length : 0), 0);
 
-    if (keys.length === 15) {
+    if (keys.length == 27 || keys.length == 26) {
       nodes.forEach((node) => {
         node.partialSelected = false;
         if (!selected.includes(node)) {
@@ -236,6 +247,7 @@ validarTexto(event: KeyboardEvent) {
   if (this.rolForm.valid) {
      this.viewModel.txtRol = this.rolForm.get('Rol_Rol').value;
      this.viewModel.pantallasSeleccionadas = this.selectedKeys;
+     this.viewModel.Usua_Id = this.Usua_Id
      if (this.Valor == "Agregar") {
       this.service.EnviarRol(this.viewModel).subscribe((data: MensajeViewModel[]) => {
           if(data["message"] == "Operación completada exitosamente."){
@@ -250,8 +262,7 @@ validarTexto(event: KeyboardEvent) {
            this.selectedKeys = [];
           }else{
            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro insertar', life: 3000 });
-          }
-          
+          } 
        })
      } else {
           this.viewModel.Rol_Id = this.ID;

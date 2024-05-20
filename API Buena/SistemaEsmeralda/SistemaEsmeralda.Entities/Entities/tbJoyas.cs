@@ -9,7 +9,8 @@ namespace SistemaEsmeralda.Entities.Entities
 {
     public partial class tbJoyas
     {
-
+        [NotMapped]
+        public string Stock { get; set; }
         [NotMapped]
         public string ID { get; set; }
         [NotMapped]

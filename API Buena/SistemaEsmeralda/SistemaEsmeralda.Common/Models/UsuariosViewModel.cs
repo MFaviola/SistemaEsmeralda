@@ -10,6 +10,9 @@ namespace SistemaEsmeralda.Common.Models
   public  class UsuariosViewModel
     {
 
+
+
+     
         public int Usua_Id { get; set; }
         public string Usua_Usuario { get; set; }
         public string Usua_Contraseña { get; set; }

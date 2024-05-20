@@ -97,6 +97,16 @@ namespace SistemaEsmeralda.API.Controllers
             return Ok(list.Data);
         }
 
+
+        [HttpGet("AutoCompletadoSucursal/{id}")]
+        public IActionResult AutoCompletadoSucursal(int id)
+        {
+            var list = _ventasServices.ListaAutoCompletadoMaqui(id);
+
+
+            return Ok(list.Data);
+        }
+
         [HttpGet("AutoCompletado1")]
         public IActionResult AutoCompletado1()
         {
@@ -121,6 +131,16 @@ namespace SistemaEsmeralda.API.Controllers
         }
 
 
+        [HttpGet("FiltroCodigoSucursal/{id}")]
+        public IActionResult FiltroCodigoSucursal(int id)
+        {
+            var list = _ventasServices.ListaPorCodigoMaqui(id);
+
+
+            return Ok(list.Data);
+        }
+
+
         [HttpPost("Create")]
         public IActionResult Insert(MaquillajeViewModel item)
         {
@@ -135,7 +155,7 @@ namespace SistemaEsmeralda.API.Controllers
                 Maqu_Stock = item.Maqu_Stock,
                 Prov_Id = item.Prov_Id,
                 Marc_Id = item.Marc_Id,
-                Maqu_UsuarioCreacion = item.Usua_ID,
+                Maqu_UsuarioCreacion = item.Usua_Id,
                 Maqu_FechaCreacion = DateTime.Now
 
             };
@@ -171,7 +191,7 @@ namespace SistemaEsmeralda.API.Controllers
                 Maqu_Stock = item.Maqu_Stock,
                 Prov_Id = item.Prov_Id,
                 Marc_Id = item.Marc_Id,
-                Maqu_UsuarioModificacion = 1,
+                Maqu_UsuarioModificacion = item.Usua_Id,
                 Maqu_FechaModificacion = DateTime.Now
             };
             var list = _ventasServices.EditarMaquillaje(modelo);

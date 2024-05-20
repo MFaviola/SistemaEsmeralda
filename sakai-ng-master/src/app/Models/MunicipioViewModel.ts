@@ -6,7 +6,6 @@ export class Municipio{
 
 
 export class MunicipioEnviar {
-    Usua_ID?: String;
     Usua_Id?: Number;
     Muni_Codigo: string;
     Muni_Municipio: string;

@@ -33,7 +33,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 parametro.Add("@Prov_Id", item.Prov_Id);
                 parametro.Add("@Mate_Id", item.Mate_Id);
                 parametro.Add("@Cate_Id", item.Cate_Id);
-                parametro.Add("@Joya_UsuarioCreacion", 1);
+                parametro.Add("@Joya_UsuarioCreacion", item.Joya_UsuarioCreacion);
                 parametro.Add("@Joya_FechaCreacion", item.Joya_FechaCreacion);
 
 
@@ -46,7 +46,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
         public IEnumerable<tbJoyas> ListaAutoCompletado()
         {
             const string sql = "[Vent].[sp_Joyas_listarAutoCompletado]";
-
+         
 
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
             {
@@ -54,6 +54,17 @@ namespace SistemaEsmeralda.DataAccess.Repository
             }
         }
 
+        public IEnumerable<tbJoyas> ListaAutoCompletado(int id)
+        {
+            const string sql = "[Vent].[sp_JoyasPorSucursal_Lista]";
+            var parametro = new DynamicParameters();
+            parametro.Add("@Sucu_Id", id);
+
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+                return db.Query<tbJoyas>(sql, parametro, commandType: CommandType.StoredProcedure).ToList();
+            }
+        }
         public IEnumerable<tbJoyas> ListaAutoCompletado1()
         {
             const string sql = "[Vent].[sp_Joyas_listarAutoCompletado1]";
@@ -76,6 +87,18 @@ namespace SistemaEsmeralda.DataAccess.Repository
             }
         }
 
+        public IEnumerable<tbJoyas> ListaPorCodigo(int id)
+        {
+            const string sql = "Vent.sp_FiltroJoyaCodigoSucursal";
+
+
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+                var parametro = new DynamicParameters();
+                parametro.Add("@Sucu_Id", id);
+                return db.Query<tbJoyas>(sql, parametro, commandType: CommandType.StoredProcedure).ToList();
+            }
+        }
 
         public IEnumerable<tbJoyas> List()
         {

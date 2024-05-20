@@ -11,7 +11,7 @@ namespace SistemaEsmeralda.Common.Models
     {
 
 
-        public int Usua_ID { get; set; }
+        public int Usua_Id { get; set; }
         public int Mate_Id { get; set; }
         public string Mate_Material { get; set; }
         public int? Mate_UsuarioCreacion { get; set; }

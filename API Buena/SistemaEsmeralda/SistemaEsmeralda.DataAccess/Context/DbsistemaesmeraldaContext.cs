@@ -19,6 +19,7 @@ namespace SistemaEsmeralda.DataAccess.Context
         {
         }
 
+        public virtual DbSet<tbCajas> tbCajas { get; set; }
         public virtual DbSet<tbCargos> tbCargos { get; set; }
         public virtual DbSet<tbCategorias> tbCategorias { get; set; }
         public virtual DbSet<tbClientes> tbClientes { get; set; }
@@ -39,13 +40,39 @@ namespace SistemaEsmeralda.DataAccess.Context
         public virtual DbSet<tbPantallas> tbPantallas { get; set; }
         public virtual DbSet<tbPantallasPorRoles> tbPantallasPorRoles { get; set; }
         public virtual DbSet<tbPreciosBitacora> tbPreciosBitacora { get; set; }
+        public virtual DbSet<tbProductosPorSucurales> tbProductosPorSucurales { get; set; }
+        public virtual DbSet<tbProductosPorSucursalesEncabezados> tbProductosPorSucursalesEncabezados { get; set; }
         public virtual DbSet<tbProveedores> tbProveedores { get; set; }
         public virtual DbSet<tbRoles> tbRoles { get; set; }
         public virtual DbSet<tbSucursales> tbSucursales { get; set; }
+
         public virtual DbSet<tbUsuarios> tbUsuarios { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
+
+            modelBuilder.Entity<tbCajas>(entity =>
+            {
+                entity.HasKey(e => e.caja_Id)
+                    .HasName("PK__tbCajas__AC3629A2118F7C62");
+
+                entity.ToTable("tbCajas", "Vent");
+
+                entity.Property(e => e.caja_FechaApertura).HasColumnType("datetime");
+
+                entity.Property(e => e.caja_FechaCierre).HasColumnType("datetime");
+
+                entity.Property(e => e.caja_MontoFinal)
+                    .HasColumnType("numeric(9, 2)")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.caja_MontoInicial).HasColumnType("numeric(9, 2)");
+
+                entity.Property(e => e.caja_MontoSistema)
+                    .HasColumnType("numeric(9, 2)")
+                    .HasDefaultValueSql("((0))");
+            });
 
             modelBuilder.Entity<tbCargos>(entity =>
             {
@@ -249,7 +276,11 @@ namespace SistemaEsmeralda.DataAccess.Context
 
                 entity.Property(e => e.Fact_FechaCreacion).HasColumnType("datetime");
 
+                entity.Property(e => e.Fact_FechaFinalizado).HasColumnType("datetime");
+
                 entity.Property(e => e.Fact_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.Fact_Finalizado).HasDefaultValueSql("((1))");
 
                 entity.HasOne(d => d.Clie)
                     .WithMany(p => p.tbFactura)
@@ -290,12 +321,17 @@ namespace SistemaEsmeralda.DataAccess.Context
 
                 entity.ToTable("tbFacturaCompraEncabezado", "Vent");
 
+              
+
                 entity.Property(e => e.FaCE_FechaCreacion).HasColumnType("datetime");
 
                 entity.Property(e => e.FaCE_FechaModificacion).HasColumnType("datetime");
 
                 entity.Property(e => e.FaCE_fechafinalizacion).HasColumnType("datetime");
 
+                
+
+             
             });
 
             modelBuilder.Entity<tbFacturaDetalles>(entity =>
@@ -553,6 +589,30 @@ namespace SistemaEsmeralda.DataAccess.Context
                 entity.Property(e => e.Prec_PrecioVenta).HasColumnType("numeric(8, 2)");
             });
 
+            modelBuilder.Entity<tbProductosPorSucurales>(entity =>
+            {
+                entity.HasKey(e => e.Prxs_Id)
+                    .HasName("PK__tbProduc__D65DBD139003298E");
+
+                entity.ToTable("tbProductosPorSucurales", "Gral");
+            });
+
+            modelBuilder.Entity<tbProductosPorSucursalesEncabezados>(entity =>
+            {
+                entity.HasKey(e => e.Pren_Id)
+                    .HasName("PK__tbProduc__C18E6BEA152DED43");
+
+                entity.ToTable("tbProductosPorSucursalesEncabezados", "Vent");
+
+                entity.Property(e => e.Pren_Estado).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.Pren_FechaCreacion).HasColumnType("datetime");
+
+                entity.Property(e => e.Pren_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.Pren_Finalizado).HasDefaultValueSql("((1))");
+            });
+
             modelBuilder.Entity<tbProveedores>(entity =>
             {
                 entity.HasKey(e => e.Prov_Id)
@@ -634,10 +694,11 @@ namespace SistemaEsmeralda.DataAccess.Context
                     .HasConstraintName("tbSucursales_tbMunicipios_Muni_Codigo");
             });
 
+            OnModelCreatingPartial(modelBuilder);
             modelBuilder.Entity<tbUsuarios>(entity =>
             {
                 entity.HasKey(e => e.Usua_Id)
-                    .HasName("PK__tbUsuari__E863C8EE7A8BE553");
+                    .HasName("PK_tbUsuari_E863C8EE7A8BE553");
 
                 entity.ToTable("tbUsuarios", "Acce");
 
@@ -653,8 +714,6 @@ namespace SistemaEsmeralda.DataAccess.Context
                     .IsRequired()
                     .IsUnicode(false);
             });
-
-            OnModelCreatingPartial(modelBuilder);
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

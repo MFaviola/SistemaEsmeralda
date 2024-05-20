@@ -56,6 +56,17 @@ namespace SistemaEsmeralda.API.Controllers
             return Ok(list.Data);
         }
 
+        [HttpGet("AutoCompletadoSucursal/{id}")]
+        public IActionResult AutoCompletadoSucursal(int id)
+        {
+            var list = _ventasServices.ListadoAutoCompletado(id);
+
+
+
+            return Ok(list.Data);
+        }
+
+
 
         [HttpGet("AutoCompletado1")]
         public IActionResult AutoCompletado1()
@@ -71,6 +82,8 @@ namespace SistemaEsmeralda.API.Controllers
             return Ok(rol.ToList());
         }
 
+
+     
         [HttpGet("FiltroCodigo")]
         public IActionResult FiltroCodigo()
         {
@@ -78,7 +91,14 @@ namespace SistemaEsmeralda.API.Controllers
      
             return Ok(list.Data);
         }
-          
+
+        [HttpGet("FiltroCodigoSucursal/{id}")]
+        public IActionResult FiltroCodigoSucursal(int id)
+        {
+            var list = _ventasServices.ListadoJoyaPorCodigo(id);
+
+            return Ok(list.Data);
+        }
 
 
         [HttpPost("Create")]
@@ -96,7 +116,7 @@ namespace SistemaEsmeralda.API.Controllers
                 Prov_Id = item.Prov_Id,
                 Mate_Id = item.Mate_Id,
                 Cate_Id = item.Cate_Id,
-                Joya_UsuarioCreacion = item.Usua_ID,
+                Joya_UsuarioCreacion = item.Usua_Id,
                 Joya_FechaCreacion = DateTime.Now
 
             };
@@ -174,7 +194,7 @@ namespace SistemaEsmeralda.API.Controllers
                 Prov_Id = item.Prov_Id,
                 Mate_Id = item.Mate_Id,
                 Cate_Id = item.Cate_Id,
-                Joya_UsuarioModificacion = 1,
+                Joya_UsuarioModificacion = item.Usua_Id,
                 Joya_FechaModificacion = DateTime.Now
             };
             var list = _ventasServices.EditarJoyas(modelo);

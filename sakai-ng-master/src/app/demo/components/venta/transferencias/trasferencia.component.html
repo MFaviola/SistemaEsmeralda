@@ -1,0 +1,142 @@
+<p-toast></p-toast>
+<div class="card">
+    <div class="card-body">
+        <form [formGroup]="FacturaForm" #formDirective="ngForm">
+            <div class="p-fluid p-formgrid grid">
+                <div class="field col-12 md:col-6">
+                    <label for="">Sucursal Envio</label>
+                    <div class="styled-input-group">
+                        <div class="styled-addon">
+                            <i class="pi pi-search-plus"></i>
+                        </div>
+                        <p-autoComplete
+                            [(ngModel)]="selectedsSucursalAdvanced"
+                            [suggestions]="filteredCSucursal"
+                            (completeMethod)="FilterSucursal($event)"
+                            (onSelect)="onSelectSucursalEnvio($event)"
+                            field="text"
+                            formControlName="Sucu_NombreEnvio"
+                            class="autocomplete-input"
+                            appendTo="body">
+                        </p-autoComplete>
+                    </div>
+                </div>
+        
+                <div class="field col-12 md:col-6">
+                    <label for="">Sucursal Recibido</label>
+                    <div class="styled-input-group">
+                        <div class="styled-addon">
+                            <i class="pi pi-search-plus"></i>
+                        </div>
+                        <p-autoComplete
+                            [(ngModel)]="selectedsSucursalRecibido"
+                            [suggestions]="filteredCSucursalRecibido"
+                            (completeMethod)="FilterSucursalRecibido($event)"
+                            (onSelect)="onSelectSucursalRecibido($event)"
+                            field="text"
+                            formControlName="Sucu_NombreRecibido"
+                            class="autocomplete-input"
+                            appendTo="body">
+                        </p-autoComplete>
+                    </div>
+                    <small *ngIf="submitted && FacturaForm.get('Sucu_NombreRecibido').errors?.['required']" style="color: red;">
+                        Sucursal de envío vacía.
+                    </small>
+                </div>
+            </div>
+        
+            <p-table [value]="ProductoDetalle" [rows]="5" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" responsiveLayout="scroll">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width:10%;">Categoria</th>
+                        <th style="width:5%;">Código</th>
+                        <th style="width:100%;">Producto</th>
+                        <th style="width:5%;">Stock</th>
+                        <th style="width:5%;">Compra</th>
+                        <th style="width:5%;">Venta</th>
+                        <th style="width:5%;">Mayor</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-detalle>
+                    <tr>
+                        <td style="width:10%;">{{detalle.tipo}}</td>
+                        <td style="width:5%;">{{detalle.id}}</td>
+                        <td style="width:100%;">{{detalle.nombre}}</td>
+                        <td style="width:5%;">{{detalle.stock}}</td>
+                        <td style="width:5%;">{{detalle.compra}}</td>
+                        <td style="width:5%;">{{detalle.venta}}</td>
+                        <td style="width:5%;">{{detalle.mayor}}</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="footer">
+                    <tr>
+                        <td style="width:10%;">
+                            <div style="width: 100px;">
+                                <label style="width: 80px !important;">
+                                    <input type="radio" name="j-m-radio" value="1" (change)="onRadioChange($event)" formControlName="Prxs_Dif" />
+                                    J
+                                </label>
+                                <label style="width: 80px !important; ">
+                                    <input type="radio" name="j-m-radio" value="0" (change)="onRadioChange($event)" formControlName="Prxs_Dif" />
+                                    M
+                                </label>
+                            </div>
+                        </td>
+                        <td style="width:5%;">
+                            <p-autoComplete [(ngModel)]="selectedListJoya"
+                                [suggestions]="filteredListJoya"
+                                (completeMethod)="filterJoyaList($event)"
+                                (onSelect)="onSelectJoyaList($event)"
+                                field="id"
+                                formControlName="Prod_Id"
+                                (keydown)="handleKeyDown($event, 'Prod_Id')"
+                                appendTo="body"
+                                [style]="{'height': '30px'}">
+                            </p-autoComplete>
+                            <small *ngIf="submitted && FacturaForm.get('Prod_Id').errors?.['required']" style="color: red;">
+                                Código vacío.
+                            </small>
+                        </td>
+                        <td style="width:70%;">
+                            <p-autoComplete [(ngModel)]="selectedCountryAdvanced"
+                                [suggestions]="filteredCountries"
+                                (completeMethod)="filterJoyaEscrito($event)"
+                                (onSelect)="OnSelectProduct($event)"
+                                field="nombre"
+                                formControlName="Prod_Nombre"
+                                (keydown)="handleKeyDown($event, 'Prod_Nombre')"
+                                appendTo="body"
+                                [style]="{'height': '30px'}">
+                            </p-autoComplete>
+                            <small *ngIf="submitted && FacturaForm.get('Prod_Nombre').errors?.['required']" style="color: red;">
+                                Producto vacío.
+                            </small>
+                        </td>
+                        <td style="width:5%;">
+                            <input pInputText id="Prsx_Stock" formControlName="Prsx_Stock" type="text" required
+                                #cantidadInput
+                                (keydown)="handleKeyDown($event, 'Prsx_Stock')" style="height: 30px;">
+                            <small *ngIf="submitted && FacturaForm.get('Prsx_Stock').errors?.['required']" style="color: red;">
+                                Cantidad vacía.
+                            </small>
+                            <small *ngIf="submitted && FacturaForm.get('Prsx_Stock').errors?.['min']" style="color: red;">
+                                Cantidad debe ser mayor que 0.
+                            </small>
+                        </td>
+                        <td style="width:5%;"></td>
+                        <td style="width:5%;"></td>
+                        <td style="width:5%;"></td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </form>
+        
+    </div>
+</div>
+        
+          
+      
+
+          
+
+    

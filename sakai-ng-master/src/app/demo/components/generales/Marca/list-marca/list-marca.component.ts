@@ -7,11 +7,12 @@ import { Marca, MarcaEnviar, Fill } from 'src/app/Models/MarcaViewModel';
 import { ServiceService } from 'src/app/Service/Marca.service';
 import { FormGroup, FormControl,  Validators  } from '@angular/forms';
 import { MensajeViewModel } from 'src/app/Models/MensajeViewModel';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   templateUrl: './list-marca.component.html',
   styleUrl: './list-marca.component.scss',
-  providers: [ConfirmationService, MessageService]
+  providers: [ConfirmationService, MessageService,CookieService]
 })
 export class ListMarcaComponent implements OnInit{
   Marca!:Marca[];
@@ -30,8 +31,7 @@ export class ListMarcaComponent implements OnInit{
   MunCodigo: boolean = true;
   Valor: string = "";
   staticData = [{}];
-
-
+  Usua_Id: any = this.cookie.get('ID_Usuario');
   deleteProductDialog: boolean = false;
   //Detalle
   marca: String = "";
@@ -46,7 +46,8 @@ export class ListMarcaComponent implements OnInit{
       private service: ServiceService, 
       private router: Router,
       private confirmationService: ConfirmationService, 
-      private messageService: MessageService
+      private messageService: MessageService,
+      private cookie: CookieService
   ) { 
      
   
@@ -68,6 +69,13 @@ export class ListMarcaComponent implements OnInit{
       });
    }
 
+   clear(table: Table, filter: ElementRef) {
+    table.clear();
+    filter.nativeElement.value = '';
+  }
+  onGlobalFilter(table: Table, event: Event) {
+    table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+  }
 
     
   //Abrir collapse
@@ -124,6 +132,7 @@ validarTexto(event: KeyboardEvent) {
    onSubmit() {
     if (this.marcaForm.valid ) {
        this.viewModel = this.marcaForm.value;
+       this.viewModel.Usua_Id = this.Usua_Id;
        if (this.Valor == "Agregar") {
         this.service.EnviarMarca(this.viewModel).subscribe((data: MensajeViewModel[]) => {
             if(data["message"] == "Operación completada exitosamente."){

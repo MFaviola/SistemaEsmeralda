@@ -9,6 +9,8 @@ namespace SistemaEsmeralda.Entities.Entities
 {
     public partial class tbFacturaDetalles
     {
+        [NotMapped]
+        public string Sucu_Id { get; set; }
         public int FaxD_Id { get; set; }
         public string? FaxD_Dif { get; set; }
         public int? Prod_Id { get; set; }

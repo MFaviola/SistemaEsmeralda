@@ -7,17 +7,18 @@ import { ServiceService } from 'src/app/Service/Cargo.service';
 import { FormGroup, FormControl,  Validators  } from '@angular/forms';
 import { MensajeViewModel } from 'src/app/Models/MensajeViewModel';
 import { Fill,Cargo, CargoEnviar } from 'src/app/Models/CargoViewModel';
+import { CookieService } from 'ngx-cookie-service';
 
 
 
 @Component({
   templateUrl: './list-cargo.component.html',
   styleUrl: './list-cargo.component.scss',
-  providers: [ConfirmationService, MessageService]
+  providers: [ConfirmationService, MessageService,CookieService]
 })
 export class ListCargoComponent implements OnInit{
   Cargo!:Cargo[];
-   
+  Usua_Id: any = this.cookie.get('ID_Usuario');
   MensajeViewModel!: MensajeViewModel[];
   submitted: boolean = false;
   loading: boolean = false;
@@ -49,7 +50,8 @@ export class ListCargoComponent implements OnInit{
       private service: ServiceService, 
       private router: Router,
       private confirmationService: ConfirmationService, 
-      private messageService: MessageService
+      private messageService: MessageService,
+      private cookie: CookieService
   ) { 
      
   
@@ -122,11 +124,19 @@ export class ListCargoComponent implements OnInit{
           event.preventDefault();
       }
   }
+  clear(table: Table, filter: ElementRef) {
+    table.clear();
+    filter.nativeElement.value = '';
+  }
 
+  onGlobalFilter(table: Table, event: Event) {
+    table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+  }
   //Insert
   onSubmit() {
   if (this.cargoForm.valid ) {
      this.viewModel = this.cargoForm.value;
+     this.viewModel.Usua_ID = this.Usua_Id
      if (this.Valor == "Agregar") {
       this.service.EnviarCargo(this.viewModel).subscribe((data: MensajeViewModel[]) => {
           if(data["message"] == "Operación completada exitosamente."){

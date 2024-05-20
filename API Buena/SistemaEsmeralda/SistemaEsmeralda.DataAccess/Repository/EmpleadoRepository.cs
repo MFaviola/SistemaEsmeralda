@@ -29,12 +29,13 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 parametro.Add("@Empl_FechaNac", item.Empl_FechaNac);
                 parametro.Add("@Empl_DNI", item.Empl_DNI);
                 parametro.Add("@Empl_Sexo", item.Empl_Sexo);
+                parametro.Add("@Sucu_Id", item.Sucu_Id);
                 parametro.Add("@Muni_Codigo", item.Muni_Codigo);
                 parametro.Add("@Esta_Id", item.Esta_Id);
                 parametro.Add("@Carg_Id", item.Carg_Id);
                 parametro.Add("@Empl_Correo", item.Empl_Correo);
 
-                parametro.Add("@Empl_UsuarioCreacion", 1);
+                parametro.Add("@Empl_UsuarioCreacion", item.Empl_UsuarioCreacion);
                 parametro.Add("@Empl_FechaCreacion", item.Empl_FechaCreacion);
 
                 var result = db.Execute(sql, parametro, commandType: CommandType.StoredProcedure);
@@ -82,6 +83,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 parameter.Add("@Empl_Nombre", item.Empl_Nombre);
                 parameter.Add("@Empl_Apellido", item.Empl_Apellido);
                 parameter.Add("@Empl_Sexo", item.Empl_Sexo);
+                parameter.Add("@Sucu_Id", item.Sucu_Id);
                 parameter.Add("@Empl_FechaNac", item.Empl_FechaNac);
                 parameter.Add("@Empl_DNI", item.Empl_DNI);
                 parameter.Add("@Muni_Codigo", item.Muni_Codigo);
@@ -91,7 +93,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 parameter.Add("@Empl_Correo", item.Empl_Correo);
 
                 
-                parameter.Add("@Empl_UsuarioModificacion", 1);
+                parameter.Add("@Empl_UsuarioModificacion", item.Empl_UsuarioCreacion);
                 parameter.Add("@Empl_FechaModificacion", DateTime.Now);
                 var result = db.Execute(sql, parameter, commandType: CommandType.StoredProcedure);
                 string mensaje = (result == 1) ? "exito" : "error";

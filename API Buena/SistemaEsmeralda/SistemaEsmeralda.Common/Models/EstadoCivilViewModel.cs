@@ -9,7 +9,7 @@ namespace SistemaEsmeralda.Common.Models
 {
    public class EstadoCivilViewModel
     {
-        public int Usua_ID { get; set; }
+        public int Usua_Id { get; set; }
         public int Esta_Id { get; set; }
         public string Esta_EstadoCivil { get; set; }
         public int? Esta_UsuarioCreacion { get; set; }

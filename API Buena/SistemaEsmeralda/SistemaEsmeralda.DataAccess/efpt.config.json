@@ -18,15 +18,11 @@
          "ObjectType": 0
       },
       {
-         "Name": "[Acce].[tbPantallasXRoles]",
+         "Name": "[Acce].[tbPantallasPorRoles]",
          "ObjectType": 0
       },
       {
          "Name": "[Acce].[tbRoles]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[Acce].[tbUsuarios]",
          "ObjectType": 0
       },
       {
@@ -74,6 +70,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[Gral].[tbProductosPorSucurales]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[Gral].[tbProveedores]",
          "ObjectType": 0
       },
@@ -82,7 +82,19 @@
          "ObjectType": 0
       },
       {
+         "Name": "[Vent].[tbCajas]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[Vent].[tbFactura]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Vent].[tbFacturaCompraDetalle]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Vent].[tbFacturaCompraEncabezado]",
          "ObjectType": 0
       },
       {
@@ -99,6 +111,10 @@
       },
       {
          "Name": "[Vent].[tbPreciosBitacora]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Vent].[tbProductosPorSucursalesEncabezados]",
          "ObjectType": 0
       }
    ],

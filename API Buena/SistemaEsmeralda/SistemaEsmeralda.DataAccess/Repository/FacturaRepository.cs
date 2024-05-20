@@ -46,9 +46,10 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 parametro.Add("@Prod_Nombre", item.Prod_Nombre);
                 parametro.Add("@Faxd_Cantidad", item.FaxD_Cantidad);
                 parametro.Add("@Fact_Id", item.Fact_Id);
+                parametro.Add("@Sucu_Id", item.Sucu_Id);
                 parametro.Add("@StockFinal", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-                var result = db.Execute(sql, parametro, commandType: CommandType.StoredProcedure);
+                var result = db.QueryFirstOrDefault<int>(sql, parametro, commandType: CommandType.StoredProcedure);
                 int Stock = parametro.Get<int>("StockFinal");
                 string mensaje = (result == 1) ? "Exito" : "Error";
                 return (new RequestStatus { CodeStatus = result, MessageStatus = mensaje }, Stock);
@@ -62,7 +63,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 parametro.Add("Clie_Id", item.Clie_Id);
                 parametro.Add("Empl_Id", item.Empl_Id);
                 parametro.Add("Mepa_Id", item.Mepa_Id);
-                parametro.Add("Mepa_Id", item.Mepa_Id);
+                parametro.Add("Sucu_Id", item.Sucu_Id);
                 if (item.Fact_Id == 0)
                 {
                     parametro.Add("Fact_UsuarioModificacion", null);
@@ -110,6 +111,28 @@ namespace SistemaEsmeralda.DataAccess.Repository
             }
         }
 
+        public IEnumerable<tbFactura> VentasDelDia(string Date)
+        {
+            const string sql = "[Vent].[sp_ReporteVentasFechasDelDia]";
+            
+            var parameters = new { Fecha = Date };
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+                return db.Query<tbFactura>(sql, parameters, commandType: CommandType.StoredProcedure).ToList();
+            }
+        }
+
+        public IEnumerable<tbProductosPorSucurales> ListaDetallesSucursales(string ID)
+        {
+            const string sql = "[Vent].[sp_ProductosPorSucursal_Detalle]";
+
+            var parameters = new { Pren_Id = ID };
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+                return db.Query<tbProductosPorSucurales>(sql, parameters, commandType: CommandType.StoredProcedure).ToList();
+            }
+        }
+
         public IEnumerable<tbFactura> ReportePorMes(string año,string mes)
         {
             const string sql = "[Vent].[sp_ProductosVendidosEnMes]";
@@ -122,11 +145,11 @@ namespace SistemaEsmeralda.DataAccess.Repository
             }
         }
 
-        public IEnumerable<tbFactura> ReportePorStock(int valor)
+        public IEnumerable<tbFactura> ReportePorStock(int valor, int sucu)
         {
             const string sql = "[Vent].[sp_Reporte_ControlStock]";
 
-            var parameters = new { TipoProducto = valor };
+            var parameters = new { TipoProducto = valor, Sucu_Id = sucu };
 
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
             {
@@ -134,6 +157,18 @@ namespace SistemaEsmeralda.DataAccess.Repository
             }
         }
 
+
+        public IEnumerable<tbFactura> ReportePorTipoPago(int valor)
+        {
+            const string sql = "[Vent].[sp_ReporteVentaspPorPago]";
+
+            var parameters = new {Mepa_Id = valor};
+
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+                return db.Query<tbFactura>(sql, parameters, commandType: CommandType.StoredProcedure).ToList();
+            }
+        }
         public IEnumerable<tbFactura> ReportePorEmpleado(int empleado)
         {
             const string sql = "[Vent].[SP_Reporte_FacturaEmpleadoTotal]";
@@ -196,28 +231,30 @@ namespace SistemaEsmeralda.DataAccess.Repository
             }
         }
 
-        public RequestStatus Delete(string Fact_Id,string Prod_Nombre, int dif)
+        public RequestStatus Delete(string Fact_Id,string Prod_Nombre,string sucu_Id)
         {
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
             {
                 var parameter = new DynamicParameters();
                 parameter.Add("Fact_Id", Fact_Id);
                 parameter.Add("Prod_Nombre", Prod_Nombre);
+                parameter.Add("@Sucu_Id", sucu_Id);
 
-               
-                var result = db.QueryFirst(ScriptsBaseDeDatos.DetalleEliminar, parameter, commandType: CommandType.StoredProcedure);
+                var result = db.QueryFirstOrDefault<int>(ScriptsBaseDeDatos.DetalleEliminar, parameter, commandType: CommandType.StoredProcedure);
 
-                return new RequestStatus { CodeStatus = result.Resultado, MessageStatus = (result.Resultado == 1) ? "Exito" : "Error" };
+                return new RequestStatus { CodeStatus = result, MessageStatus = (result == 1) ? "Exito" : "Error" };
             }
         }
 
 
-        public RequestStatus ConfirmarFactura(string Fact_Id)
+        public RequestStatus ConfirmarFactura(string Fact_Id, string pago, string cambio)
         {
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
             {
                 var parameter = new DynamicParameters();
                 parameter.Add("Fact_Id", Fact_Id);
+                parameter.Add("Fact_Pago", pago);
+                parameter.Add("Fact_Cambio", cambio);
                 parameter.Add("Fact_FechaFinalizado", DateTime.Now);
                 var result = db.QueryFirst(ScriptsBaseDeDatos.ConfirmarFactura, parameter, commandType: CommandType.StoredProcedure);
                 return new RequestStatus { CodeStatus = result.Resultado, MessageStatus = (result.Resultado == 1) ? "Exito" : "Error" };

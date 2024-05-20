@@ -13,6 +13,16 @@ namespace SistemaEsmeralda.Entities.Entities
         {
             tbFacturaDetalles = new HashSet<tbFacturaDetalles>();
         }
+
+                    [NotMapped]
+        public string Sucu_Nombre { get; set; }
+
+        [NotMapped]
+        public string Fact_Cambio { get; set; }
+        [NotMapped]
+        public string Fact_Pago { get; set; }
+        [NotMapped]
+        public string Sucu_Id { get; set; }
         [NotMapped]
         public string CodigoRow { get; set; }
         [NotMapped]

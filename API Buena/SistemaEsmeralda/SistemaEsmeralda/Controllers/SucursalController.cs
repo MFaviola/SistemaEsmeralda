@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using SistemaEsmeralda.BusinessLogic.Services;
 using SistemaEsmeralda.Common.Models;
 using SistemaEsmeralda.Entities.Entities;
@@ -42,13 +43,25 @@ namespace SistemaEsmeralda.API.Controllers
 
                 Muni_Codigo = item.Muni_Codigo,
 
-                Sucu_UsuarioCreacion = item.Usua_ID,
-                Sucu_FechaCreacion = item.Sucu_FechaCreacion,
+                Sucu_UsuarioCreacion = item.Usua_Id,
+                Sucu_FechaCreacion = DateTime.Now,
             };
             var list = _generalServices.InsertarSucursal(modelo);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
-
+        [HttpGet("DropDown")]
+        public IActionResult List()
+        {
+            var list = _generalServices.ListadoSucursal();
+            var drop = list.Data as List<tbSucursales>;
+            var rol = drop.Select(x => new SelectListItem
+            {
+                Text = x.Sucu_Nombre,
+                Value = x.Sucu_Id.ToString()
+            }).ToList();
+            rol.Insert(0, new SelectListItem { Text = "-- SELECCIONE --", Value = "0" });
+            return Ok(rol.ToList());
+        }
 
 
 
@@ -72,18 +85,18 @@ namespace SistemaEsmeralda.API.Controllers
                 Sucu_Nombre = item.Sucu_Nombre,
                 Muni_Codigo = item.Muni_Codigo,
 
-                Sucu_UsuarioModificacion = 1,
+                Sucu_UsuarioModificacion = item.Usua_Id,
                 Sucu_FechaModificacion = DateTime.Now
             };
             var list = _generalServices.EditarSucursal(modelo);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
-        [HttpDelete("Delete")]
+        [HttpDelete("Delete/{Sucu_Id}")]
         public IActionResult Delete(string Sucu_Id)
         {
             var list = _generalServices.EliminarSucursal(Sucu_Id);
-            return Ok(list.Data);
+            return Ok(new { success = true, message = list.Message });
         }
 
     }

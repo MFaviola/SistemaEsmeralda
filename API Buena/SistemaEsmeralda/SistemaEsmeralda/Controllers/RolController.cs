@@ -64,22 +64,25 @@ namespace SistemaEsmeralda.API.Controllers
         
             public IActionResult Insert(FormData formData)
             {
-
+            var list = 0;
+            var mensaje = "";
 
             var msj = new ServiceResult();
             string txtRol = formData.txtRol;
+            int Usua_Id = formData.Usua_Id;
             List<int> pantallasSeleccionadas = formData.pantallasSeleccionadas;
 
             var modelo = new tbRoles()
             {
+                
                 Role_Rol = txtRol,
-                Role_UsuarioCreacion = 1, 
+                Role_UsuarioCreacion = Usua_Id, 
                 Role_FechaCreacion = DateTime.Now
             };
-            var list = _accesoServices.InsertarRol(modelo);
+            list = Convert.ToInt32(_accesoServices.InsertarRol(modelo));
 
 
-            int idRol = Int32.Parse(list);
+            int idRol = list;
 
             foreach (var pantalla in pantallasSeleccionadas)
             {
@@ -93,8 +96,11 @@ namespace SistemaEsmeralda.API.Controllers
                 
             }
 
-
-            return Ok(new { success = true, message = msj.Message });
+            if (list != 0)
+            {
+                mensaje = "Operación completada exitosamente.";
+            }
+            return Ok(new { success = true, message = mensaje });
         }
 
 
@@ -143,7 +149,7 @@ namespace SistemaEsmeralda.API.Controllers
             {
                 Role_Id = formData.Rol_Id,
                 Role_Rol = formData.txtRol,
-                Role_UsuarioModificacion = 1,
+                Role_UsuarioModificacion = formData.Usua_Id,
                 Role_FechaModificacion = DateTime.Now
           
             };

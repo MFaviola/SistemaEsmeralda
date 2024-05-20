@@ -9,7 +9,7 @@ namespace SistemaEsmeralda.Common.Models
 {
    public class ProveedorViewModel
     {
-        public int Usua_ID { get; set; }
+        public int Usua_Id { get; set; }
         public int Prov_Id { get; set; }
         public string Prov_Proveedor { get; set; }
         public string Prov_Telefono { get; set; }

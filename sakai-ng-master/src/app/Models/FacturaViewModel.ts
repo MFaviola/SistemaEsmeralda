@@ -8,9 +8,11 @@ export class Factura{
 }
 
 export class FacturaEnviar {
-
+    PagoCambio?:String;
+    Pago:String;
     Mepa_Id?:String;
     Empl_Id?:String;
+    Sucu_Id?:String;
     Clie_Id?:String;
     Fact_Id?:String;
     Faxd_Dif?:String;
@@ -30,6 +32,21 @@ export class FacturaDetalle {
     total?:string;
     categoria?:String;
     codigoRow?:String;
+}
+
+
+export class CajaDetalle {
+    caja_Id?:String;
+    caja_UsuarioApertura?:String;
+    caja_FechaApertura?:String;
+    caja_UsuarioCierre?:String
+    caja_FechaCierre?:String;
+    caja_MontoInicial?:String;
+    caja_MontoFinal?:String;
+    caja_MontoSistema?:String;
+    sucu_Nombre?:String;
+    apertura?:String;
+    cierre?:String;
 }
 
 export class Years {
@@ -61,9 +78,20 @@ export class FacturaDetallesEnviar {
     Fact_Id?:String;
 }
 
+export class ReportePorTipo {
+    fact_Id?:String;
+    total?:string;
+    fact_FechaFinalizado?:String;
+    mepa_Metodo?:String;
+}
+
+
 
 
 export class Fill {
+    sucu_Nombre: string;
+    fact_Cambio: string;
+    fact_Pago: string;
     impu_Id: string;
     clie_Nombre: string;
     empl_Nombre: string;

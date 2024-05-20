@@ -13,6 +13,7 @@ namespace SistemaEsmeralda.Entities.Entities
         {
             tbFactura = new HashSet<tbFactura>();
         }
+     
         [NotMapped]
         public string Empl_DNI { get; set; }
         [NotMapped]

@@ -53,7 +53,7 @@ namespace SistemaEsmeralda.API.Controllers
                 Prov_Proveedor = item.Prov_Proveedor,
                 Prov_Telefono = item.Prov_Telefono,
                 Muni_Codigo = item.Muni_Codigo,
-                Prov_UsuarioCreacion = item.Usua_ID,
+                Prov_UsuarioCreacion = item.Usua_Id,
                 Prov_FechaCreacion = DateTime.Now
 
             };
@@ -98,7 +98,7 @@ namespace SistemaEsmeralda.API.Controllers
                 Prov_Proveedor = item.Prov_Proveedor,
                 Prov_Telefono = item.Prov_Telefono,
                 Muni_Codigo = item.Muni_Codigo,
-                Prov_UsuarioModificacion = 1,
+                Prov_UsuarioModificacion = item.Usua_Id,
                 Prov_FechaModificacion = DateTime.Now
             };
             var list = _generalServices.EditarProveedor(modelo);

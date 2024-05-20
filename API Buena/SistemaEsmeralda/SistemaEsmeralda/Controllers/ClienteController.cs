@@ -48,7 +48,7 @@ namespace SistemaEsmeralda.API.Controllers
                 Clie_Sexo = item.Clie_Sexo,
                 Muni_Codigo = item.Muni_Codigo,
                 Esta_Id = item.Esta_Id,
-                Clie_UsuarioCreacion = item.Usua_ID,
+                Clie_UsuarioCreacion = item.Usua_Id,
                 Clie_FechaCreacion = DateTime.Now
 
             };
@@ -83,7 +83,7 @@ namespace SistemaEsmeralda.API.Controllers
                 Clie_Sexo = item.Clie_Sexo,
                 Muni_Codigo = item.Muni_Codigo,
                 Esta_Id = item.Esta_Id,
-                Clie_UsuarioCreacion = 1,
+                Clie_UsuarioCreacion = item.Usua_Id,
                 Clie_FechaCreacion = DateTime.Now
             };
             var list = _generalServices.EditarCliente(modelo);

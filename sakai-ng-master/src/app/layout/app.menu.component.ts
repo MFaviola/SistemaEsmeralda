@@ -397,6 +397,12 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['/generales/empleados']
 
                             },
+                            {
+                                label: 'Sucursales',
+                                icon: 'pi pi-fw pi-user',
+                                routerLink: ['/generales/sucursales']
+
+                            },
 
                         ]
                     },
@@ -431,6 +437,21 @@ export class AppMenuComponent implements OnInit {
                                 icon: 'pi pi-fw pi-cart-plus',
                                 routerLink: ['/venta/facturasdecompra']
                             },
+                            {
+                                label: 'Caja',
+                                icon: 'pi pi-fw pi-user',
+                                routerLink: ['/venta/caja']
+
+                            },
+                            {
+
+                                label: 'Transferencias',
+                                icon: 'pi pi-fw pi-user',
+                                routerLink: ['/venta/transferencias']
+
+                            },
+
+
                         ]
                     },
                 ]
@@ -441,6 +462,11 @@ export class AppMenuComponent implements OnInit {
                         label: 'Reportes',
                         icon: 'pi pi-fw pi-chart-bar',
                         items: [
+                            {
+                                label: 'Tipos de pago reporte',
+                                icon: 'pi pi-fw pi-dollar',
+                                routerLink: ['/reportes/reporteportipo']
+                            },
                             {
                                 label: 'Control de stock',
                                 icon: 'pi pi-fw pi-dollar',

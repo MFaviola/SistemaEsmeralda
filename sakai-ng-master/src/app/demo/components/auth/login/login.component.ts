@@ -55,6 +55,8 @@ export class LoginComponent {
                 this.cookie.set('ID_Usuario', response[0].usua_Id);
                 this.cookie.set('esAdmin',response[0].usua_Administrador);
                 this.cookie.set('roleID',response[0].role_Id);
+                this.cookie.set('SucursalID',response[0].sucu_Id);
+                this.cookie.set('SucursalNombre',response[0].sucu_Nombre);
                 this.authService.loadPermissions();
                 console.log(this.cookie.get('esAdmin'));
                 this.router.navigate(['/dash']);

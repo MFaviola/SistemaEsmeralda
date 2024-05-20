@@ -6,7 +6,7 @@
 
             <div class="p-fluid p-formgrid grid">
    
-                <div class="field col-12 md:col-12">
+                <div class="field col-12 md:col-6">
                     <div class="payment-method-icons" >
                        
                         <button type="button" (click)="selectMetodoPago('2')" [class.selected]="selectedMetodo === '2'">
@@ -22,7 +22,23 @@
                         <button type="button" (click)="selectMetodoPago('0')" [class.selected]="selectedMetodo === '0'">
                             <i class="pi pi-pencil"></i> Maquillajes
                         </button>
+
+
+              
+                  
+                            
+ 
+               
                     </div>
+                </div>
+                <div class="field col-12 md:col-6">
+                
+                       
+                
+                    <p-dropdown [options]="meses" [(ngModel)]="SelectedMes" placeholder="Mes" [showClear]="true" (onChange)="onselectMes($event)"></p-dropdown>
+ 
+               
+                 
                 </div>
             </div>
 

@@ -7,11 +7,12 @@ import { ServiceService } from 'src/app/Service/Material.service';
 import { FormGroup, FormControl,  Validators  } from '@angular/forms';
 import { MensajeViewModel } from 'src/app/Models/MensajeViewModel';
 import { Fill,Material, MaterialEnviar } from 'src/app/Models/MaterialViewModel';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   templateUrl: './list-material.component.html',
   styleUrl: './list-material.component.scss',
-  providers: [ConfirmationService, MessageService]
+  providers: [ConfirmationService, MessageService,CookieService]
 })
 export class ListMaterialComponent implements OnInit{
   Material!:Material[];
@@ -33,7 +34,7 @@ export class ListMaterialComponent implements OnInit{
   Valor: string = "";
   staticData = [{}];
 
-
+  Usua_Id: any = this.cookie.get('ID_Usuario');
   deleteProductDialog: boolean = false;
   //Detalle
   mater: String = "";
@@ -48,7 +49,8 @@ export class ListMaterialComponent implements OnInit{
       private service: ServiceService, 
       private router: Router,
       private confirmationService: ConfirmationService, 
-      private messageService: MessageService
+      private messageService: MessageService,
+      private cookie: CookieService
   ) { 
      
   
@@ -72,7 +74,14 @@ export class ListMaterialComponent implements OnInit{
 
       
    }
-  
+   clear(table: Table, filter: ElementRef) {
+    table.clear();
+    filter.nativeElement.value = '';
+  }
+  onGlobalFilter(table: Table, event: Event) {
+    table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+  }
+
     //Abrir collapse
 collapse(){
   this.Collapse= true;
@@ -130,6 +139,7 @@ validarTexto(event: KeyboardEvent) {
   onSubmit() {
     if (this.materialForm.valid ) {
        this.viewModel = this.materialForm.value;
+       this.viewModel.Usua_Id = this.Usua_Id
        if (this.Valor == "Agregar") {
         this.service.EnviarMaterial(this.viewModel).subscribe((data: MensajeViewModel[]) => {
             if(data["message"] == "Operación completada exitosamente."){

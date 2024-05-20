@@ -9,10 +9,11 @@ import { MensajeViewModel } from 'src/app/Models/MensajeViewModel';
 import { FormGroup, FormControl,  Validators  } from '@angular/forms';
 import { dropDepartamento } from 'src/app/Models/DepartamentoViewModel';
 import { dropMunicipio } from 'src/app/Models/MunicipioViewModel';
+import { CookieService } from 'ngx-cookie-service';
 @Component({
   templateUrl: './list-proveedor.component.html',
   styleUrl: './list-proveedor.component.scss',
-  providers: [ConfirmationService, MessageService]
+  providers: [ConfirmationService, MessageService,CookieService]
 })
 export class ListProveedorComponent implements OnInit{
   Proveedor!:Proveedor[];
@@ -26,7 +27,7 @@ export class ListProveedorComponent implements OnInit{
   fill: any[] = [];
   viewModel: ProveedorEnviar = new ProveedorEnviar();
   proveedorForm: FormGroup;
- 
+  Usua_Id: any = this.cookie.get('ID_Usuario');
   @ViewChild('filter') filter!: ElementRef;
 
   selectedState: any = null;
@@ -52,7 +53,7 @@ export class ListProveedorComponent implements OnInit{
   ID: String = "";
   MunicipioCodigo: String = "";
 
-  constructor(private service: ServiceService, private router: Router,   private messageService: MessageService
+  constructor(private service: ServiceService, private router: Router,   private messageService: MessageService,private cookie: CookieService
   
   ) { }
 
@@ -65,7 +66,7 @@ export class ListProveedorComponent implements OnInit{
       Muni_Codigo: new FormControl("0", [Validators.required]),
     });
     this.service.getDropDownsDepartamentos().subscribe((data: dropDepartamento[]) => {
-    console.log(data);
+
     this.departamentos = data;
     });
     this.service.getProveedor().subscribe((data: any)=>{
@@ -89,6 +90,13 @@ export class ListProveedorComponent implements OnInit{
     } else {
       this.municipios = []; // Clear municipios if the department is invalid or reset
     }
+  }
+  clear(table: Table, filter: ElementRef) {
+    table.clear();
+    filter.nativeElement.value = '';
+  }
+  onGlobalFilter(table: Table, event: Event) {
+    table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
    collapse(){
     this.Collapse= true;
@@ -141,6 +149,7 @@ ValidarNumero(event: KeyboardEvent) {
 onSubmit() {
   if (this.proveedorForm.valid && this.proveedorForm.get('Depa_Codigo').value !== '0' && this.proveedorForm.get('Muni_Codigo').value !== '0') {
      this.viewModel = this.proveedorForm.value;
+     this.viewModel.Usua_Id = this.Usua_Id;
      if (this.Valor == "Agregar") {
       this.service.EnviarProveedor(this.viewModel).subscribe((data: MensajeViewModel[]) => {
           if(data["message"] == "Operación completada exitosamente."){

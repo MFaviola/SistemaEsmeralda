@@ -9,10 +9,11 @@ import { FormGroup, FormControl,  Validators  } from '@angular/forms';
 import { MensajeViewModel } from 'src/app/Models/MensajeViewModel';
 import { EmpleadoEnviar, dropEmpleado } from 'src/app/Models/EmpleadoViewModel';
 import { dropRol } from 'src/app/Models/RolViewModel';
+import { CookieService } from 'ngx-cookie-service';
 @Component({
   templateUrl: './list-usuario.component.html',
   styleUrl: './list-usuario.component.css',
-  providers: [ConfirmationService, MessageService]
+  providers: [ConfirmationService,MessageService,CookieService]
 })
 export class ListUsuarioComponent {
   Usuario!:Usuario[];
@@ -26,6 +27,7 @@ export class ListUsuarioComponent {
   usuarioForm: FormGroup;
   @ViewChild('filter') filter!: ElementRef;
 
+  Usua_Id: any = this.cookie.get('ID_Usuario');
   selectedState: any = null;
   Collapse: boolean = false;
   DataTable: boolean = true;
@@ -46,7 +48,7 @@ export class ListUsuarioComponent {
   FechaCreacion: String = "";
   FechaModificacion: String = "";
   ID: String = "";
-  constructor(private service: ServiceService, private router: Router,     private messageService: MessageService
+  constructor(private service: ServiceService, private router: Router, private cookie: CookieService,    private messageService: MessageService
   
   ) { }
 
@@ -75,6 +77,15 @@ export class ListUsuarioComponent {
       });
    }
 
+   
+   clear(table: Table, filter: ElementRef) {
+    table.clear();
+    filter.nativeElement.value = '';
+  }
+
+  onGlobalFilter(table: Table, event: Event) {
+    table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+  }
    collapse(){
     this.Collapse= true;
     this.DataTable = false;
@@ -131,6 +142,7 @@ validarTextoNumeros(event: KeyboardEvent) {
 onSubmit() {
   if (this.usuarioForm.valid && this.usuarioForm.get('Empl_Id').value !== '0' && this.usuarioForm.get('Role_Id').value !== '0') {
      this.viewModel = this.usuarioForm.value;
+     this.viewModel.Usua_UsuarioCreacion = this.Usua_Id;
      if (this.Valor == "Agregar") {
       this.service.EnviarUsuario(this.viewModel).subscribe((data: MensajeViewModel[]) => {
           if(data["message"] == "Operación completada exitosamente."){

@@ -32,7 +32,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 parametro.Add("@Maqu_Imagen", item.Maqu_Imagen);
                 parametro.Add("@Prov_Id", item.Prov_Id);
                 parametro.Add("@Marc_Id", item.Marc_Id);
-                parametro.Add("@Maqu_UsuarioCreacion", 1);
+                parametro.Add("@Maqu_UsuarioCreacion", item.Maqu_UsuarioCreacion);
                 parametro.Add("@Maqu_FechaCreacion", item.Maqu_FechaCreacion);
 
 
@@ -57,6 +57,18 @@ namespace SistemaEsmeralda.DataAccess.Repository
         }
 
 
+        public IEnumerable<tbMaquillajes> ListaAutocompletado(int id)
+        {
+            const string sql = "[Vent].[sp_MaquillajesPorSucursal_Lista]";
+            var parametro = new DynamicParameters();
+            parametro.Add("@Sucu_Id", id);
+
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+                return db.Query<tbMaquillajes>(sql,parametro, commandType: CommandType.StoredProcedure).ToList();
+            }
+        }
+
         public IEnumerable<tbMaquillajes> ListaAutocompletado()
         {
             const string sql = "[Vent].[sp_Maquillajes_listarAutoCompletado]";
@@ -67,6 +79,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 return db.Query<tbMaquillajes>(sql, commandType: CommandType.StoredProcedure).ToList();
             }
         }
+
 
         public IEnumerable<tbMaquillajes> ListaAutocompletado1()
         {
@@ -87,6 +100,19 @@ namespace SistemaEsmeralda.DataAccess.Repository
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
             {
                 return db.Query<tbMaquillajes>(sql,  commandType: CommandType.StoredProcedure).ToList();
+            }
+        }
+
+        public IEnumerable<tbMaquillajes> ListaPorCodigo(int id)
+        {
+            const string sql = "Vent.sp_FiltroMaquillajeCodigoSucursal";
+
+
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+                var parameter = new DynamicParameters();
+                parameter.Add("Sucu_Id", id);
+                return db.Query<tbMaquillajes>(sql, parameter,commandType: CommandType.StoredProcedure).ToList();
             }
         }
         public tbMaquillajes Fill(int id)

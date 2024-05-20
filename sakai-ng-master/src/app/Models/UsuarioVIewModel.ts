@@ -6,7 +6,7 @@ export class Usuario{
     empl_Nombre?:String;
 }
 export class UsuarioEnviar {
-    Usua_ID?: String;
+    Usua_UsuarioCreacion?: number;
     Usua_Id?:String;
     Usua_Usuario: string;
     Usua_Contraseña: string;  

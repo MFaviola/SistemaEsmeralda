@@ -7,6 +7,7 @@ import { ServiceService } from 'src/app/Service/Categoria.service';
 import { FormGroup, FormControl,  Validators  } from '@angular/forms';
 import { MensajeViewModel } from 'src/app/Models/MensajeViewModel';
 import { Fill,Categoria, CategoriaEnviar } from 'src/app/Models/CategoriaViewModel';
+import { CookieService } from 'ngx-cookie-service';
 
 
 
@@ -14,11 +15,11 @@ import { Fill,Categoria, CategoriaEnviar } from 'src/app/Models/CategoriaViewMod
     templateUrl: './Categoriademo.component.html',
     styleUrl: './list-categoria.component.css',
 
-    providers: [ConfirmationService, MessageService]
+    providers: [ConfirmationService, MessageService,CookieService]
 })
 export class CategoriaDemoComponent implements OnInit {
     Categoria!:Categoria[];
-   
+    Usua_Id: any = this.cookie.get('ID_Usuario');
     MensajeViewModel!: MensajeViewModel[];
     submitted: boolean = false;
     loading: boolean = false;
@@ -50,7 +51,8 @@ export class CategoriaDemoComponent implements OnInit {
         private service: ServiceService, 
         private router: Router,
         private confirmationService: ConfirmationService, 
-        private messageService: MessageService
+        private messageService: MessageService,
+        private cookie: CookieService
     ) { 
        
     
@@ -79,7 +81,14 @@ export class CategoriaDemoComponent implements OnInit {
 
         
      }
+     clear(table: Table, filter: ElementRef) {
+        table.clear();
+        filter.nativeElement.value = '';
+      }
     
+      onGlobalFilter(table: Table, event: Event) {
+        table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+      }
       //Abrir collapse
   collapse(){
     this.Collapse= true;
@@ -137,6 +146,7 @@ validarTexto(event: KeyboardEvent) {
     onSubmit() {
       if (this.categoriaForm.valid ) {
          this.viewModel = this.categoriaForm.value;
+         this.viewModel.Usua_Id = this.Usua_Id
          if (this.Valor == "Agregar") {
           this.service.EnviarCategoria(this.viewModel).subscribe((data: MensajeViewModel[]) => {
               if(data["message"] == "Operación completada exitosamente."){

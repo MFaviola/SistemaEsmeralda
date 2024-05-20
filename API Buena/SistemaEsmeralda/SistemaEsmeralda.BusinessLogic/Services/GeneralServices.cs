@@ -1502,7 +1502,7 @@ namespace SistemaEsmeralda.BusinessLogic.Services
                 var list = _sucursalRepository.Update(item);
                 if (list.CodeStatus > 0)
                 {
-                    return result.Ok("okis", list);
+                    return result.Ok(list);
                 }
                 else
                 {
@@ -1523,7 +1523,7 @@ namespace SistemaEsmeralda.BusinessLogic.Services
                 var list = _sucursalRepository.Delete(Sucu_Id);
                 if (list.CodeStatus > 0)
                 {
-                    return result.Ok($"Exelente chiquit@", list);
+                    return result.Ok($"La accion ha sido existosa", list);
                 }
                 else
                 {
