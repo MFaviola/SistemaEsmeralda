@@ -5,6 +5,7 @@ import { Productos,MaquillajeMes, JoyaMes, MaqJoyaMes,totalJo,totalMa,totalanual
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs';
 import { Fill } from '../Models/DashboardViewModel';
+import { FacturaDetalle } from '../Models/FacturaViewModel';
 
 
 
@@ -16,7 +17,13 @@ export class ServiceService {
 
   constructor(private http:HttpClient) { }
 
-
+  EnviarCierre(formData: any): Observable<any> {
+    return this.http.post<any>(BASE_URL + 'API/Caja/CerrarCaja/', formData).pipe(
+      map(response => {
+        return response;
+      }),
+    );
+  }
   url = BASE_URL + 'API/Graficos/VentaMes'
   url2 = BASE_URL + 'API/'
   getproducto(){
@@ -26,7 +33,9 @@ export class ServiceService {
   getValidacion(codigo: string, sucu: string): Observable<Fill[]> {
     return this.http.get<Fill[]>(this.url2 + 'Caja/Validacion/' + codigo + ',' + sucu);
   }
-  
+  getFacturasDetalle(id){
+    return this.http.get<FacturaDetalle[]>(BASE_URL + 'API/Factura/VentasDelDia/' + id)
+  }
   urlE = BASE_URL + 'API/Graficos/MaquillajeMes'
 
   getMaquillajemes(){

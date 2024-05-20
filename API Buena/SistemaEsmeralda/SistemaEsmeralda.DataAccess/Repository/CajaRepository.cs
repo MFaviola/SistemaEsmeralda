@@ -42,7 +42,27 @@ namespace SistemaEsmeralda.DataAccess.Repository
 
         public RequestStatus Insert(tbCajas item)
         {
-            throw new NotImplementedException();
+            string sql = "[Vent].[sp_Cajas_Insertar]";
+
+            try
+            {
+                using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+                {
+                    var parameter = new DynamicParameters();
+                    parameter.Add("@caja_UsuarioApertura", item.caja_UsuarioApertura);
+                    parameter.Add("@caja_FechaApertura", DateTime.Now);
+                    parameter.Add("@caja_MontoInicial", item.caja_MontoInicial, DbType.String);
+                    parameter.Add("@Sucu_Id", item.Sucu_Id);
+
+                    var result = db.QueryFirstOrDefault<int>(sql, parameter, commandType: CommandType.StoredProcedure);
+                    string mensaje = (result == 1) ? "exito" : "error";
+                    return new RequestStatus { CodeStatus = result, MessageStatus = mensaje };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new RequestStatus { CodeStatus = -1, MessageStatus = $"Error: {ex.Message}" };
+            }
         }
 
         public IEnumerable<tbCajas> List()
@@ -52,7 +72,30 @@ namespace SistemaEsmeralda.DataAccess.Repository
 
         public RequestStatus Update(tbCajas item)
         {
-            throw new NotImplementedException();
+            string sql = "[Vent].[sp_Cajas_Cierre]";
+
+            try
+            {
+                using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+                {
+                    var parameter = new DynamicParameters();
+                    parameter.Add("@caja_UsuarioCierre", item.caja_UsuarioCierre, DbType.Int32);
+                    parameter.Add("@caja_FechaCierre", DateTime.Now, DbType.DateTime);
+                    parameter.Add("@caja_Observacion", item.caja_Observacion, DbType.String);
+                    parameter.Add("@caja_MontoFinal", item.caja_MontoFinal, DbType.Decimal);
+                    parameter.Add("@caja_MontoInicial", item.caja_MontoInicial, DbType.Decimal);
+                    parameter.Add("@caja_MontoSistema", item.caja_MontoSistema, DbType.Decimal);
+                    parameter.Add("@caja_Id", item.caja_Id, DbType.Int32);
+
+                    var result = db.QueryFirstOrDefault<int>(sql, parameter, commandType: CommandType.StoredProcedure);
+                    string mensaje = (result == 1) ? "exito" : "error";
+                    return new RequestStatus { CodeStatus = result, MessageStatus = mensaje };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new RequestStatus { CodeStatus = -1, MessageStatus = $"Error: {ex.Message}" };
+            }
         }
     }
 }

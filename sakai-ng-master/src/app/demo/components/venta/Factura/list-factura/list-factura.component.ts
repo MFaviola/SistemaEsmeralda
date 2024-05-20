@@ -16,6 +16,7 @@ import { C, an, el } from '@fullcalendar/core/internal-common';
 import { forkJoin } from 'rxjs';
 import {CookieService} from 'ngx-cookie-service';
 import { DatePipe } from '@angular/common';
+import { CajaEnviar, Fill2 } from 'src/app/Models/DashboardViewModel';
 
 @Component({
   templateUrl: './list-factura.component.html',
@@ -35,7 +36,7 @@ export class ListFacturaComponent {
   FacturaDetalle!:FacturaDetalle[];
   MensajeViewModel!: MensajeViewModel[];
   viewModel: FacturaEnviar = new FacturaEnviar();
-
+  viewModel2: CajaEnviar = new CajaEnviar();
   //Region FormGroup
   FacturaForm: FormGroup;
   DetalleForm: FormGroup;
@@ -79,6 +80,10 @@ export class ListFacturaComponent {
   ID: String = "";
 
 
+  //VARIABLES PARA LA CAJA
+  Inicio: string = "0";
+  CajaID; string = "0";
+
   facura_impresa: any = null;
 
   //Region Logica para calculado dinamico
@@ -94,7 +99,7 @@ export class ListFacturaComponent {
   Total: string = "0";
   pago: string = "0";
   cambio: string = "0";
-
+  CajaForm: FormGroup;
   //Region Fecha
   dateDay = new Date();
   conversion: string;
@@ -103,8 +108,8 @@ export class ListFacturaComponent {
 
   //Variable para manejar el estado de Actualizar
   Actualizar: string = "";
-
-
+  AbrirCaja: boolean = false;
+  subirCaja: boolean = false;
   //Almacenado del usuario
   Usuario: string = this.cookie.get('Usuario');
   Usua_Id: string = this.cookie.get('ID_Usuario');
@@ -135,6 +140,9 @@ export class ListFacturaComponent {
 
 
   ngOnInit(): void {
+    this.CajaForm = new FormGroup({
+      caja_MontoInicial: new FormControl("", Validators.required),
+    });  
       this.service.getFacturas().subscribe((data: any)=>{
           console.log(data);
           this.Factura = data;
@@ -422,24 +430,75 @@ ConfirmarEditado(){
 
  
 }
+//SUBIR
+onSubmitCaja() {
+  if (this.CajaForm.valid) {
+     this.viewModel2 = this.CajaForm.value;
+     this.viewModel2.caja_UsuarioApertura = this.Usua_Id;
+     this.viewModel2.Sucu_Id = this.Sucu_Id;
+     this.service.EnviarAbierto(this.viewModel2).subscribe((data: MensajeViewModel[]) => {
+      if(data["message"] == "Operación completada exitosamente."){
+          this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Puede continuar', life: 3000 });
+          this.ConfirmarPago = false;
+          this.submitted = false;
+          this.Collapse= true;
+          this.DataTable = false;
+          this.Valor = "Agregar";
+          this.Agregar= false;
+          this.Detalles = false;
+          this.Tabla = false;
+          this.Subtotal = "0";
+          this.Impuesto = "0"
+          this.Total = "0";
+          this.selectedMetodo = "1";
+          this.Actualizar = ""
+          this.service.getFacturasDetalle(0).subscribe((data: any)=>{
+          this.FacturaDetalle = data;
+        })
+      }else{
+    
+       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo cerrar:', life: 3000 });
+      } 
+   })
+  
+    
+ 
+  }   
+      else 
+      {
+          this.subirCaja = true;
+      }
+  }
+
+
 
 collapse(){
-  this.submitted = false;
-  this.Collapse= true;
-  this.DataTable = false;
-  this.Valor = "Agregar";
-  this.Agregar= false;
-  this.Detalles = false;
-  this.Tabla = false;
-  this.Subtotal = "0";
-  this.Impuesto = "0"
-  this.Total = "0";
-  this.selectedMetodo = "1";
-  this.Actualizar = ""
-  this.service.getFacturasDetalle(0).subscribe((data: any)=>{
-    console.log(data);
-    this.FacturaDetalle = data;
+  const fechaC = this.datePipe.transform(this.dateDay, 'yyyy-MM-dd')
+  this.service.getValidacion(fechaC, this.Sucu_Id).subscribe((data: Fill2[]) => {
+    if (data.length > 0) {
+      this.submitted = false;
+      this.Collapse= true;
+      this.DataTable = false;
+      this.Valor = "Agregar";
+      this.Agregar= false;
+      this.Detalles = false;
+      this.Tabla = false;
+      this.Subtotal = "0";
+      this.Impuesto = "0"
+      this.Total = "0";
+      this.selectedMetodo = "1";
+      this.Actualizar = ""
+      this.service.getFacturasDetalle(0).subscribe((data: any)=>{
+        this.FacturaDetalle = data;
+    })
+        this.AbrirCaja = false;
+    } else {
+        this.AbrirCaja = true; 
+    }
+   
+
 })
+ 
 }
 
 //Envio tanto para insertar como para actualizar

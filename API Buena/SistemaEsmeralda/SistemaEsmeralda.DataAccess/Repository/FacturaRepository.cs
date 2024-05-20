@@ -111,6 +111,17 @@ namespace SistemaEsmeralda.DataAccess.Repository
             }
         }
 
+        public IEnumerable<tbFactura> VentasDelDia(string Date)
+        {
+            const string sql = "[Vent].[sp_ReporteVentasFechasDelDia]";
+            
+            var parameters = new { Fecha = Date };
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+                return db.Query<tbFactura>(sql, parameters, commandType: CommandType.StoredProcedure).ToList();
+            }
+        }
+
         public IEnumerable<tbProductosPorSucurales> ListaDetallesSucursales(string ID)
         {
             const string sql = "[Vent].[sp_ProductosPorSucursal_Detalle]";

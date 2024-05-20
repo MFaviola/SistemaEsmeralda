@@ -356,6 +356,32 @@
       </iframe>
 </div>
 
+<p-dialog [(visible)]="AbrirCaja" [modal]="true" [style]="{width:'450px'}" [closable]="false">
+    <ng-template pTemplate="header">
+        <div style="display: flex; align-items: center;">
+            <span>Con cuanto inicia el dia?</span>
+            <div style="margin-left: 5px; display: flex; align-items: center; color: red;">
+                <i class="pi pi-exclamation-circle" style="margin-right: 0.5rem;"></i>
+                <span>Caja no abierta</span>
+            </div>
+        </div>
+    </ng-template>
+    <form [formGroup]="CajaForm" #formDirective="ngForm">
+      <div class="p-fluid p-formgrid grid">
+        <div class="field col-12 md:col-6">
+          <label for="caja_MontoFinal">Monto Inicio</label>
+          <p-inputNumber id="Compra" formControlName="caja_MontoInicial" mode="currency" currency="USD" locale="en-US" [ngClass]="{'ng-invalid ng-dirty': subirCaja && CajaForm.controls['caja_MontoInicial'].invalid}"></p-inputNumber>
+        <small class="ng-dirty ng-invalid" *ngIf="subirCaja && CajaForm.controls['caja_MontoInicial'].invalid" style="color: red !important;">Monto inicial requerido</small>
+        </div>
+
+     
+    </div>
+    <div style="display: flex; justify-content: flex-end; margin-top: 1rem; grid-gap: 5px;">
+        <button pButton pRipple icon="pi pi-check" class="p-button-outlined p-button-primary" label="Abrir caja" type="submit" (click)="onSubmitCaja()"></button>
+      </div>
+    </form>
+  </p-dialog>
+
 
 
 

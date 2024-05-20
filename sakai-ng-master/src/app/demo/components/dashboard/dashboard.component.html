@@ -1,3 +1,5 @@
+<p-toast ></p-toast>
+
 <!--     
     
     
@@ -276,34 +278,39 @@
             -->
            
 </div>
+
+    
+
 <p-dialog [(visible)]="ConfirmarPago" [modal]="true" [style]="{width:'450px'}" [closable]="false">
-    <ng-template pTemplate="header">
-        <div style="display: flex; align-items: center;">
-            <span>Digite las ganancias del dia</span>
-            <div style="margin-left: 5px; display: flex; align-items: center; color: red;">
-                <i class="pi pi-exclamation-circle" style="margin-right: 0.5rem;"></i>
-                <span>Caja no cerrada</span>
+        <ng-template pTemplate="header">
+            <div style="display: flex; align-items: center;">
+                <span>Digite las ganancias del dia</span>
+                <div style="margin-left: 5px; display: flex; align-items: center; color: red;">
+                    <i class="pi pi-exclamation-circle" style="margin-right: 0.5rem;"></i>
+                    <span>Caja no cerrada</span>
+                </div>
             </div>
-        </div>
-    </ng-template>
-
-    <form [formGroup]="CajaForm" #formDirective="ngForm">
-        <div class="p-fluid p-formgrid grid">
+        </ng-template>
+        <form [formGroup]="CajaForm" #formDirective="ngForm" (ngSubmit)="onSubmit()">
+          <div class="p-fluid p-formgrid grid">
             <div class="field col-12 md:col-6">
-                <p-inputGroup>
-                    <p-inputGroupAddon>
-                        <i class="pi pi-money-bill" style="line-height: 1.25"></i>
-                    </p-inputGroupAddon>
-                    <input pInputText id="caja_MontoFinal" formControlName="caja_MontoFinal" type="text" required autofocus />
-                </p-inputGroup>
+              <label for="caja_MontoFinal">Monto Final</label>
+              <p-inputNumber id="Compra" formControlName="caja_MontoFinal" mode="currency" currency="USD" locale="en-US" [ngClass]="{'ng-invalid ng-dirty': submitted && CajaForm.controls['caja_MontoFinal'].invalid}"></p-inputNumber>
+            <small class="ng-dirty ng-invalid" *ngIf="submitted && CajaForm.controls['caja_MontoFinal'].invalid" style="color: red !important;">Monto inicial requerido</small>
             </div>
+            <div class="field col-12 md:col-6">
+              <label for="caja_Observacion">Observaciones</label>
+              <input pInputText id="caja_Observacion" formControlName="caja_Observacion" type="text" required autofocus 
+              [ngClass]="{'ng-invalid ng-dirty': submitted && CajaForm.controls['caja_Observacion'].invalid}"
+           />
+            <small class="ng-dirty ng-invalid" *ngIf="submitted && CajaForm.controls['caja_Observacion'].invalid" style="color: red !important;">Observacion requerido</small>
+          </div>
+          <div style="display: flex; justify-content: flex-end; margin-top: 1rem; grid-gap: 5px;">
+            <button pButton pRipple icon="pi pi-check" class="p-button-outlined p-button-primary" label="Cerrar caja" type="submit"></button>
+          </div>
         </div>
-    </form>
-
-    <div style="display: flex; justify-content: flex-end; margin-top: 1rem; grid-gap: 5px;">
-        <button pButton pRipple icon="pi pi-check" class="p-button-outlined p-button-primary" label="Cerrar caja"></button>    
-    </div>
-</p-dialog>
+        </form>
+      </p-dialog>
 
 
 

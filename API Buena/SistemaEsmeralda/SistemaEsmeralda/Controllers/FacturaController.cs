@@ -43,6 +43,13 @@ namespace SistemaEsmeralda.API.Controllers
             return Ok(list.Data);
         }
 
+        [HttpGet("VentasDelDia/{Date}")]
+        public IActionResult VentasDelDia(string Date)
+        {
+            var list = _ventasServices.VentasDelDia(Date);
+            return Ok(list.Data);
+        }
+
 
         [HttpGet("ReportePorMes/{ano},{mes}")]
         public IActionResult ReportePorMes(string ano,string mes)

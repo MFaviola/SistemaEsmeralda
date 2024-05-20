@@ -9,6 +9,8 @@ namespace SistemaEsmeralda.Entities.Entities
     public partial class tbCajas
     {
         public int caja_Id { get; set; }
+
+        public string? caja_Observacion { get; set; }
         public int? caja_UsuarioApertura { get; set; }
         public DateTime? caja_FechaApertura { get; set; }
         public int? caja_UsuarioCierre { get; set; }

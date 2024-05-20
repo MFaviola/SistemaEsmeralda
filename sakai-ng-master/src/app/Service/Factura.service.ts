@@ -9,6 +9,7 @@ import { Maquillaje, dropMaqui } from '../Models/MaquillajeViewModel';
 import { Metodo } from '../Models/MetodoPagoViewModel';
 import { Cliente } from '../Models/ClienteViewModel';
 import { Empleado, dropEmpleado } from '../Models/EmpleadoViewModel';
+import { Fill2 } from '../Models/DashboardViewModel';
 
 
 
@@ -19,6 +20,21 @@ export class ServiceService {
 
   constructor(private http:HttpClient) { }
   urlClientes = BASE_URL + 'API/Cliente/List'
+  url2 = BASE_URL + 'API/'
+
+  EnviarAbierto(formData: any): Observable<any> {
+    return this.http.post<any>(BASE_URL + 'API/Caja/AbrirCaja/', formData).pipe(
+      map(response => {
+        return response;
+      }),
+    );
+  }
+
+  getValidacion(codigo: string, sucu: string): Observable<Fill2[]> {
+    return this.http.get<Fill2[]>(this.url2 + 'Caja/Validacion/' + codigo + ',' + sucu);
+  }
+
+
 
   getClientes(){
     return this.http.get<Cliente[]>(this.urlClientes)

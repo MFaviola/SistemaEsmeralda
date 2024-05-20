@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SistemaEsmeralda.BusinessLogic.Services;
+using SistemaEsmeralda.Common.Models;
+using SistemaEsmeralda.Entities.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +28,36 @@ namespace SistemaEsmeralda.API.Controllers
         {
             var list = _ventasServices.ValidacionCaja(date,sucu);
             return Ok(list.Data);
+        }
+        [HttpPost("AbrirCaja")]
+        public IActionResult AbrirCaja(CajaViewModel item)
+        {
+            _mapper.Map<tbCajas>(item);
+            var modelo = new tbCajas()
+            {
+                caja_UsuarioApertura = item.caja_UsuarioApertura,
+                caja_MontoInicial = item.caja_MontoInicial,
+                Sucu_Id = item.Sucu_Id
+            };
+            var list = _ventasServices.AbrirCaja(modelo);
+            return Ok(new { success = true, message = list.Message });
+        }
+
+        [HttpPost("CerrarCaja")]
+        public IActionResult Update(CajaViewModel item)
+        {
+            _mapper.Map<tbCajas>(item);
+            var modelo = new tbCajas()
+            {
+                caja_UsuarioCierre = item.caja_UsuarioCierre,
+                caja_MontoSistema = item.caja_MontoSistema,
+                caja_MontoFinal = item.caja_MontoFinal,
+                caja_MontoInicial = item.caja_MontoInicial,
+                caja_Observacion = item.caja_Observacion,
+                caja_Id = item.caja_Id
+            };
+            var list = _ventasServices.CerrarCaja(modelo);
+            return Ok(new { success = true, message = list.Message });
         }
     }
 }

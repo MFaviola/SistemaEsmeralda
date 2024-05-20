@@ -488,6 +488,57 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             }
         }
 
+        public ServiceResult VentasDelDia(string Date)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _facturaRepository.VentasDelDia(Date);
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult CerrarCaja(tbCajas item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _CajaRepository.Update(item);
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
+
+        public ServiceResult AbrirCaja(tbCajas item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _CajaRepository.Insert(item);
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
+
+
         public ServiceResult ListadoFacturaDetalleSucursales(string id)
         {
             var result = new ServiceResult();
