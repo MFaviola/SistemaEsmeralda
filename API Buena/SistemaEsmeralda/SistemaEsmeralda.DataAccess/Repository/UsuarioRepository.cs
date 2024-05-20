@@ -88,6 +88,26 @@ namespace SistemaEsmeralda.DataAccess.Repository
             }
         }
 
+        public RequestStatus Update1(tbUsuarios item)
+        {
+            string sql = ScriptsBaseDeDatos.UsuariosActualizar1;
+
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+                var parameter = new DynamicParameters();
+                parameter.Add("@Usua_Id", item.Usua_Id);
+                parameter.Add("@Usua_Usuario", item.Usua_Usuario);
+                parameter.Add("@Empl_Id", item.Empl_Id);
+                parameter.Add("@Rol_Id", item.Role_Id);
+                parameter.Add("@UsuarioModificacion", item.Usua_UsuarioModificacion);
+                parameter.Add("@FechaModificacion", item.Usua_FechaModificacion);
+                var result = db.Execute(sql, parameter, commandType: CommandType.StoredProcedure);
+                string mensaje = (result == 1) ? "exito" : "error";
+                return new RequestStatus { CodeStatus = result, MessageStatus = mensaje };
+
+            }
+        }
+
         public RequestStatus Restablecer(tbUsuarios item)
         {
             string sql = ScriptsBaseDeDatos.Usuarios_Reestablecer;

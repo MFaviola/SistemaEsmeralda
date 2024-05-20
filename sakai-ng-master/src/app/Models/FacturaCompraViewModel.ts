@@ -2,6 +2,7 @@ export class FacturaCompraEncabezado{
     faCE_Id ?: String;
     prov_Id !: Number;
     mepa_Id !: Number;
+    sucu_Id !: Number;
     faCE_fechafinalizacion !: String;
     feCE_UsuarioCreacion !: Number;
     faCE_FechaCreacion !: String;
@@ -26,7 +27,6 @@ export class CrearFacturaCompraEncabezado{
     faCE_Id ?: String;
     faCD_Dif ?: String;
     nombreProducto ?: String;
-    prod_Id !: Number;
     faCD_Cantidad !: String;
     precioCompra ?: String;
     precioVenta ?: String;

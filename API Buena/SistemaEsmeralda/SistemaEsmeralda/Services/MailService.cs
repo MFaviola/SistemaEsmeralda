@@ -41,7 +41,7 @@ namespace SistemaEsmeralda.API.Services
                     using (SmtpClient mailClient = new SmtpClient())
                     {
                         mailClient.Connect(_mailSettings.Server, _mailSettings.Port, SecureSocketOptions.StartTls);
-                        mailClient.Authenticate("eduardo.jafet.varela.salinas@gmail.com", "adqj xjhn pltr pgbq");
+                        mailClient.Authenticate("jahir.lara98@gmail.com", "nntp wfvl wife gekw");
                         mailClient.Send(emailMessage);
                         mailClient.Disconnect(true);
                     }

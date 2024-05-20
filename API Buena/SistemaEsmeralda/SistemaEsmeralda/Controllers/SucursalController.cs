@@ -71,7 +71,14 @@ namespace SistemaEsmeralda.API.Controllers
         {
 
             var list = _generalServices.obterSucursal(id);
-            return Json(list.Data);
+            if (list.Success == true)
+            {
+                return Json(list.Data);
+            }
+            else
+            {
+                return Problem();
+            }
         }
 
 

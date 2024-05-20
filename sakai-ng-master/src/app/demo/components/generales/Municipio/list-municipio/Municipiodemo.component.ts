@@ -124,7 +124,7 @@ export class MunicipioDemoComponent implements OnInit {
     }
     validarTexto(event: KeyboardEvent) {
 
-        if (!/^[a-zA-Z\s]+$/.test(event.key) && event.key !== 'Backspace' && event.key !== 'Tab' && event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {
+        if (!/^[a-zñA-ZÑ\s]+$/.test(event.key) && event.key !== 'Backspace' && event.key !== 'Tab' && event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {
             event.preventDefault();
         }
     }

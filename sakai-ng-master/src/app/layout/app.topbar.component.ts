@@ -2,7 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { LayoutService } from "./service/app.layout.service";
 import { CookieService } from 'ngx-cookie-service';
-
+import { Router } from '@angular/router';
 @Component({
     selector: 'app-topbar',
     templateUrl: './app.topbar.component.html'
@@ -17,7 +17,7 @@ export class AppTopBarComponent {
 
     @ViewChild('topbarmenu') menu!: ElementRef;
 
-    constructor(public layoutService: LayoutService,private cookieService: CookieService) { }
+    constructor(public layoutService: LayoutService,private cookieService: CookieService, private router: Router) { }
 
 
     logOut()
@@ -25,6 +25,12 @@ export class AppTopBarComponent {
         this.cookieService.deleteAll();
         window.location.reload();
         window.location.replace('/');
+
+    }
+
+
+    onusuario(){
+        this.router.navigate(['/usuario']);
 
     }
 }

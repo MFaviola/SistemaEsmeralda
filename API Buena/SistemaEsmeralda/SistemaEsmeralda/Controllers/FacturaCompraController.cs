@@ -39,19 +39,19 @@ namespace SistemaEsmeralda.API.Controllers
             [HttpPost("Crear")]
             public IActionResult Insert(FacturaCompraViewModel item)
             {
-            var model = _mapper.Map<tbFacturaCompraEncabezado>(item);
-            if (item.Actualizar == "Actualizar")
-            {
-                var list = _ventasServices.InsertarFacturaCompra(model, out int fac);
-                return Ok(new { success = true, message = list.Message });
-            }
-            else if (item.Actualizar == "Confirmar")
-            {
-                var Fac = _ventasServices.InsertarFacturaCompra(model, out int fac);
-                var list = _ventasServices.FinalizarFacturaCompra((int)item.faCE_Id);
-                return Ok(new { success = true, message = list.Message });
-            }
-            if (item.faCE_Id == 0)
+                var model = _mapper.Map<tbFacturaCompraEncabezado>(item);
+                if (item.Actualizar == "Actualizar")
+                {
+                    var list = _ventasServices.InsertarFacturaCompra(model, out int fac);
+                    return Ok(new { success = true, message = list.Message });
+                }
+                else if (item.Actualizar == "Confirmar")
+                {
+                    var Fac = _ventasServices.InsertarFacturaCompra(model, out int fac);
+                    var list = _ventasServices.FinalizarFacturaCompra((int)item.faCE_Id);
+                    return Ok(new { success = true, message = list.Message });
+                }
+                if (item.faCE_Id == 0)
                 {
 
                    

@@ -107,14 +107,17 @@ export class ListFacturacompraComponent {
   metodos: any[] = [];
   joyas: any[] = [];
   maquillajes: any[] = [];
+  sucursales: any[] = [];
   countries: any[] = [];
   selectedCountryAdvanced: any[] = [];
   selectedProductosAdvanced: any[] = [];
   selectedProveedoresAdvanced: any[] = [];
+  selectedSucursalesAdvanced: any[] = [];
   selectedMetodoPagoAdvanced: any[] = [];
   filteredMetodoPago: any[] = [];
   filteredCountries: any[] = [];
   filteredProveedores: any[] = [];
+  filteredSucursales: any[] = [];
   //#endregion
  
   constructor(private service: FacturaCompraService, private router: Router, private srvImprecion : YService, private messageService: MessageService,private fb: FormBuilder, private sservice: ServiceService, private maquillajeservice: MaquillajeService, private joyaService : JoyaService, private yService: YService, private sanitizer: DomSanitizer,private cookie: CookieService, private datePipe: DatePipe) { }
@@ -129,19 +132,18 @@ export class ListFacturacompraComponent {
       console.log(error);
     });
     
-    
-
     this.FacturaForm = new FormGroup({
       mepa_Id: new FormControl('7', Validators.required),
       prov_Id: new FormControl('0', Validators.required),
       nombreProveedor: new FormControl("", [Validators.required]),
+      sucu_Id: new FormControl('0', Validators.required),
+      sucu_Nombre: new FormControl('', Validators.required),
 
       //detalle
       radio: new FormControl("1",Validators.required),
       faCD_Dif: new FormControl("1",Validators.required),
       // prod_Producto: new FormControl("", Validators.required),
       nombreProducto: new FormControl("", Validators.required),
-      prod_Id: new FormControl("", Validators.required),
       faCD_Cantidad: new FormControl("", [Validators.required]),
       precioCompra: new FormControl("", [Validators.required]),
       precioVenta: new FormControl("", [Validators.required]),
@@ -207,23 +209,12 @@ export class ListFacturacompraComponent {
     this.service.getAutoCompletadoMaquillaje().subscribe(maqu => {
       this.maquillajes = maqu;
     });
+
+    this.service.getAutoCompletadoSucursal().subscribe(sucu => {
+      this.sucursales = sucu;
+    });
     //#endregion
  } 
- selectMetodoPago(metodo: string) {
-  this.selectedMetodo = metodo;
-
-
-  this.FacturaForm.controls['mepa_Id'].setValue(metodo);
-}
-
-SeleccionAgregar(){
-  if (this.selectedRadio == "1") {
-    this.Onjoya();
-  }else{
-    this.Onmaquillaje();
-  }
- 
-}
 
   onRadioChange(event: Event) {
     const target = event.target as HTMLInputElement;
@@ -235,7 +226,6 @@ SeleccionAgregar(){
         this.countries = countries;
         this.FacturaForm.get('faCD_Dif').setValue(value); 
         this.FacturaForm.get('nombreProducto').setValue(""); 
-        this.FacturaForm.get('prod_Id').setValue(""); 
         this.MaquiJoyabtn = false;
     });
   } else {
@@ -243,7 +233,6 @@ SeleccionAgregar(){
         this.countries = countries;
         this.FacturaForm.get('faCD_Dif').setValue(value); 
         this.FacturaForm.get('nombreProducto').setValue(""); 
-        this.FacturaForm.get('prod_Id').setValue(""); 
         this.MaquiJoyabtn = true;
       });
     }
@@ -321,6 +310,20 @@ SeleccionAgregar(){
     this.filteredProveedores = filtered;
   }
 
+  filterSucursal(event: any) {
+    const filtered: any[] = [];
+    const query = event.query;
+    for (let i = 0; i < this.sucursales.length; i++) {
+        const sucursal = this.sucursales[i];
+        
+        if (sucursal.sucu_Nombre.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+            filtered.push(sucursal);
+        }
+    }
+
+    this.filteredSucursales = filtered;
+  }
+
   producto(event: any){
     console.log(event.key)
     console.log()
@@ -336,11 +339,23 @@ SeleccionAgregar(){
   
   //#region  selects
   
+  selectMetodoPago(metodo: string) {
+    this.selectedMetodo = metodo;
+    this.FacturaForm.controls['mepa_Id'].setValue(metodo);
+  }
+  
+  SeleccionAgregar(){
+    if (this.selectedRadio == "1") {
+      this.Onjoya();
+    }else{
+      this.Onmaquillaje();
+    }
+   
+  }
+
   onSelectProduct(event) {
     this.FacturaForm.get('prod_Id').setValue(event.value.value); 
     this.FacturaForm.get('nombreProducto').setValue(event.value.text); 
-   
-
   }
 
   handleKeyDown(event: KeyboardEvent) {
@@ -357,6 +372,12 @@ SeleccionAgregar(){
     this.FacturaForm.get('prov_Id').setValue(event.value.prov_Id);
     this.JoyaForm.get('Prov_Id').setValue(event.value.prov_Id);
     this.MaquillajeForm.get('Prov_Id').setValue(event.value.prov_Id);
+
+  }
+
+  onSelectSucursal(event) {
+
+    this.FacturaForm.get('sucu_Id').setValue(event.value.sucu_Id);
 
   }
   onSelectMetodo(event) {
@@ -402,7 +423,6 @@ SeleccionAgregar(){
     this.FacturaForm.get('precioVenta').setValue("1")
     this.FacturaForm.get('precioCompra').setValue("1")
     this.FacturaForm.get('faCD_Cantidad').setValue("1")
-    this.FacturaForm.get('prod_Id').setValue("1")
     this.FacturaForm.get('nombreProducto').setValue("xD")
     this.FacturaForm.get('radio').setValue("1")
     this.onSubmit();
@@ -426,7 +446,6 @@ SeleccionAgregar(){
     this.FacturaForm.get('precioVenta').setValue("1")
     this.FacturaForm.get('precioCompra').setValue("1")
     this.FacturaForm.get('faCD_Cantidad').setValue("1")
-    this.FacturaForm.get('prod_Id').setValue("1")
     this.FacturaForm.get('nombreProducto').setValue("xD")
     this.FacturaForm.get('radio').setValue("1")
     this.onSubmit();
@@ -465,17 +484,18 @@ SeleccionAgregar(){
 
     console.log(this.FacturaForm.valid)
     if (this.FacturaForm.valid) {
-    this.viewModelenviar = this.FacturaForm.value;
+      this.viewModelenviar = this.FacturaForm.value;
      this.viewModelenviar.faCE_Id = this.faCE_Id;
      this.viewModelenviar.Actualizar = this.Actualizar;
      this.viewModelenviar.Usua_Id = this.Usua_Id;
      if (this.Valor == "Agregar") {
       if (this.Actualizar == "Actualizar") {
-        console.log("Entra aqui")
+        console.log(this.FacturaForm);
         this.service.insertarFacturaCom(this.viewModelenviar).subscribe((data: MensajeViewModel[]) => {
        
       })
       }else if(this.Actualizar == "Confirmar"){
+        console.log(this.FacturaForm);
         this.service.insertarFacturaCom(this.viewModelenviar).subscribe((data: MensajeViewModel[]) => {
           if(data["message"] == "La accion ha sido existosa"){
             this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Confirmado con Exito', life: 3000 });
@@ -553,13 +573,12 @@ SeleccionAgregar(){
             }
             
          })
-       }  
-       
+       }         
     }   
-        else 
-        {
-            this.submitted = true;
-        }
+      else 
+      {
+        this.submitted = true;
+      }
     }
 
   //Maquillaje

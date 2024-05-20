@@ -56,4 +56,8 @@ export class ServiceService {
   ActualizarUsuario(formData){
     return this.http.put(BASE_URL + 'API/Usuario/Edit/', formData)
   }
+
+  ActualizarUsuario1(formData){
+    return this.http.put(BASE_URL + 'API/Usuario/Edit1/', formData)
+  }
 }
