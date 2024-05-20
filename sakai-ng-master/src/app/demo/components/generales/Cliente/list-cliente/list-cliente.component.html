@@ -188,8 +188,8 @@
                  
                     <td style="display: flex; justify-content: space-around; ;grid-gap: 5px;">
                         <p-button  label="Editar"   icon="pi pi-user-edit" size="small" (click)="Fill(clie.clie_Id)" severity="primary" [raised]="true" [plain]="true"></p-button>
-                        <p-button  label="Detalles"   icon="pi pi-book" size="small" (click)="Fill(clie.clie_Id)" severity="secondary" [raised]="true" [plain]="true"></p-button>
-                        <p-button  label="Eliminar" icon="pi pi-trash" size="small" (click)="Fill(clie.clie_Id)" severity="danger" [raised]="true" [plain]="true"></p-button>
+                        <p-button  label="Detalles"   icon="pi pi-book" size="small" (click)="detalles(clie.clie_Id)" severity="secondary" [raised]="true" [plain]="true"></p-button>
+                        <p-button  label="Eliminar" icon="pi pi-trash" size="small" (click)="deleteSelectedProducts(clie.clie_Id)" severity="danger" [raised]="true" [plain]="true"></p-button>
                     </td>
                 </tr>
             </ng-template>
@@ -208,10 +208,10 @@
 
 
 
-        <div class="card-body" [class.hidden]="!Detalles">
+    <div class="card-body" [class.hidden]="!Detalles">
             <div class="p-fluid p-formgrid grid">
 
-                <div class="field col-12 md:col-4">
+                <div class="field col-12 md:col-6">
                     <div class="field rows">
                         <label for="Codigo" style="font-weight: 800;">Codigo:</label>
                     </div>
@@ -220,7 +220,7 @@
                     </div>
                 </div>
                 
-                <div class="field col-12 md:col-4">
+                <div class="field col-12 md:col-6">
                     <div class="field rows">
                         <label for="Municipio" style="font-weight: 800;">Nombre:</label>
                     </div>
@@ -259,15 +259,15 @@
            
                 
    
-        <div class="field col-12 md:col-4">
-            <div class="field rows" style="font-weight: 800;">
-                <label for="Departamento">Municipio:</label>
-            </div>
-            <div class="field rows">
-                <label for="Departamento">{{ Detalle_Municipio }}</label>
+            <div class="field col-12 md:col-4">
+                <div class="field rows" style="font-weight: 800;">
+                    <label for="Departamento">Municipio:</label>
+                </div>
+                <div class="field rows">
+                    <label for="Departamento">{{ Detalle_Municipio }}</label>
+                </div>
             </div>
         </div>
-    </div>
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">
