@@ -1,23 +1,72 @@
-
+<p-toast ></p-toast>
 <div class="main-card mb-3 card"> 
     <div class="card-header">
         <h3 class="card-title">Reporte</h3>
+        <div class="p-fluid p-formgrid grid">
+   
+            <div class="field col-12 md:col-2" [class.hidden]="!Collapse">
+                <p-button  label="Abrir"   icon="pi pi-user-edit" size="small" severity="primary" [raised]="true" [plain]="true"  (click)="AbrirModal()"></p-button>
 
-            <div class="p-fluid p-formgrid grid">
+              </div>
+              <div class="field col-12 md:col-2" [class.hidden]="!Editar">
+                <p-button  label="Editar"   icon="pi pi-user-edit" size="small" severity="primary" [raised]="true" [plain]="true"></p-button>
+            </div>
+            <div class="field col-12 md:col-2" [class.hidden]="!Cerrar">
+                <p-button  label="Cerrar" icon="pi pi-trash" size="small"  severity="danger" [raised]="true" [plain]="true"></p-button>
+            </div>
+            <div class="field col-12 md:col-2" [class.hidden]="!Reportes">
+                <p-button  label="Reportes"   icon="pi pi-book" size="small" severity="secondary" [raised]="true" [plain]="true"></p-button>
+            </div>
+        </div>
+            <div class="p-fluid p-formgrid grid" [class.hidden]="!Reportes2">
    
                 <div class="field col-12 md:col-6">
-                    <label for="">Fecha Inicio</label>
+                    <label for="">Fecha</label>
                     <p-calendar [showIcon]="true" inputId="icon" [(ngModel)]="controllerInicio" (ngModelChange)="onFechaInicioChange($event)"></p-calendar>
                   </div>
-          
+                  <div class="field col-12 md:col-6">
+                
+                    <label for="">Sucursales</label>
+                    
+                    <p-dropdown [options]="meses" [(ngModel)]="SelectedMes" placeholder="Mes" [showClear]="true" (ngModelChange)="onselectMes($event)"> </p-dropdown>
+    
+               
+                 
+                </div>
             </div>
+        
+
 
     </div>
 
 </div>
 
+<p-dialog [(visible)]="AbrirCaja" [modal]="true" [style]="{width:'450px'}" [closable]="false">
+    <ng-template pTemplate="header">
+        <div style="display: flex; align-items: center;">
+            <span>Con cuanto inicia el dia?</span>
+        </div>
+    </ng-template>
+    <form [formGroup]="CajaForm" #formDirective="ngForm">
+      <div class="p-fluid p-formgrid grid">
+        <div class="field col-12 md:col-6">
+          <label for="caja_MontoFinal">Monto Inicio</label>
+          <p-inputNumber id="Compra" formControlName="caja_MontoInicial" mode="currency" currency="USD" locale="en-US" [ngClass]="{'ng-invalid ng-dirty': subirCaja && CajaForm.controls['caja_MontoInicial'].invalid}"></p-inputNumber>
+        <small class="ng-dirty ng-invalid" *ngIf="subirCaja && CajaForm.controls['caja_MontoInicial'].invalid" style="color: red !important;">Monto inicial requerido</small>
+        </div>
+
+     
+    </div>
+    <div style="display: flex; justify-content: flex-end; margin-top: 1rem; grid-gap: 5px;">
+        <button pButton pRipple icon="pi pi-times" class="p-button-outlined p-button-primary" label="Cancelar" (click)="AbrirCaja = false"></button>
+        <button pButton pRipple icon="pi pi-check" class="p-button-outlined p-button-primary" label="Abrir caja" type="submit" (click)="onSubmitCaja()"></button>
+      </div>
+    </form>
+  </p-dialog>
 <div class="card-body" >
     <iframe  [src]="pdfSrc" type="application/pdf" width="100%" height="600px">
         PDF Preview
       </iframe>
 </div>
+
+
