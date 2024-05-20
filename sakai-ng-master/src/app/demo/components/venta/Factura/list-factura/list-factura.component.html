@@ -8,7 +8,7 @@
           
         <div [class.hidden]="!Collapse" style="margin-top: 20px;">
 
-          <form [formGroup]="FacturaForm" (keydown)="handleKeyDown($event)" (ngSubmit)="onSubmit()">
+            <form [formGroup]="FacturaForm" (ngSubmit)="onSubmit()" #formDirective="ngForm">
               <div class="p-fluid p-formgrid grid">
 
                 <div class="field col-12 md:col-6" style="display: none;">
@@ -53,17 +53,25 @@
                         </p-autoComplete>
                     </div>
                 </div>
-                  <div class="field col-12 md:col-6">
+                <div class="field col-12 md:col-6">
                     <label for="">Cliente</label>
-                    <p-inputGroup>
-                        <p-inputGroupAddon>
-                            <i class="pi pi-users" style="line-height: 1.25"></i>
-                        </p-inputGroupAddon>
-                    <input pInputText id="Cliente" formControlName="Clie_Nombre" type="text" required autofocus  [ngClass]="{'ng-invalid ng-dirty': submitted && FacturaForm.get('Clie_Nombre').value === ''}"
-                    (keydown)="validarTexto($event)" />
-                </p-inputGroup>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && FacturaForm.controls['Clie_Nombre'].invalid" style="color: red !important;">Impuesto Requerido</small>
-                  </div>
+                    <div class="styled-input-group">
+                        <div class="styled-addon">
+                            <i class="pi pi-search-plus"></i>
+                        </div>
+                        <p-autoComplete
+                            [(ngModel)]="selectedClientesNombreAdvanced"
+                            [suggestions]="filteredClientesNombre"
+                            (completeMethod)="filterClienteNombre($event)"
+                            (onSelect)="onSelectClienteNombre($event)"
+                            field="clie_Nombre"
+                            formControlName="Clie_Nombre"
+                            class="autocomplete-input"
+                            appendTo="body">
+                        </p-autoComplete>
+                    </div>
+                </div>
+         
                   <div class="field col-12 md:col-12">
                     <label for="">Método de Pago</label>
                     <div class="payment-method-icons" >
@@ -137,6 +145,7 @@
                                 (onSelect)="onSelectJoyaList($event)"
                                 field="id"
                                 formControlName="Prod_Id"
+                                (keydown)="handleKeyDown($event, 'Prod_Id')"
                                 appendTo="body"
                                 [style]="{'height': '30px'}">               >
                                 </p-autoComplete>
@@ -152,18 +161,20 @@
                                 (onSelect)="onSelectProduct($event)"
                                 field="nombre"
                                 formControlName="Prod_Producto"
+                                (keydown)="handleKeyDown($event, 'Prod_Producto')"
                                 appendTo="body"
-                                [style]="{'height': '30px'}"
-                               >
-                </p-autoComplete>
+                                [style]="{'height': '30px'}">
+                              </p-autoComplete>
                                 <small *ngIf="submitted && FacturaForm.get('Prod_Producto').errors?.required" style="color: red;">
                                     Producto vacío.
                                 </small>
                             </td>
                             
                             <td style="width:5%;">
-                                <input pInputText id="Faxd_Cantidad" formControlName="Faxd_Cantidad" (ngModelChange)="onCantidadChange()" type="text" required autofocus
-                                        style="height: 30px;"       />
+                               
+                                <input pInputText id="Faxd_Cantidad" formControlName="Faxd_Cantidad" type="text" required
+                                #cantidadInput
+                                (keydown)="handleKeyDown($event, 'Faxd_Cantidad')" style="height: 30px;">
                                 <small *ngIf="submitted && FacturaForm.get('Faxd_Cantidad').errors?.required" style="color: red;">
                                     Cantidad vacía.
                                 </small>
@@ -188,6 +199,10 @@
                 <span class="total-value"> {{Subtotal}}Lps</span>
             </div>
             <div class="total-item">
+                <span class="total-label">Impuesto:</span>
+                <span class="total-value"> {{Impuesto}}Lps</span>
+            </div>
+            <div class="total-item">
                 <span class="total-label">Total:</span>
                 <span class="total-value">{{Total}} Lps</span>
             </div>
@@ -196,6 +211,8 @@
             <button pButton icon="pi pi-check-circle" type="button" (click)="confirmar()" label="Confirmar" class="p-button-outlined"></button>
             <button pButton icon="pi pi-reply" type="button" (click)="cancelar()" label="Volver" class="p-button-outlined"></button>
         </div>
+
+        
         </form>
     </div>
         <p-table #dt1 [value]="Factura" dataKey="fact_Id" [rows]="10" [loading]="loading" [rowHover]="true" styleClass="p-datatable-gridlines" [class.hidden]="!DataTable"[paginator]="true" [globalFilterFields]="['fact_Id,clie_Nombre,empl_Nombre,mepa_Metodo,impu_Impuesto']" responsiveLayout="scroll">
@@ -256,7 +273,7 @@
                     <td style="display: flex; justify-content: space-around; grid-gap: 5px;">
                         <p-button *ngIf="fact.fact_Finalizado == 'True'" label="Editar" icon="pi pi-user-edit" size="small" (click)="Fill(fact.fact_Id)" severity="primary" [raised]="true" [plain]="true"></p-button>
                         <p-button *ngIf="fact.fact_Finalizado == 'False'" label="Imprimir"   icon="pi pi-book" size="small"  severity="secondary" (click)="detalles(fact.fact_Id)" [raised]="true" [plain]="true"></p-button>
-                        <p-button  *ngIf="fact.fact_Finalizado == 'True'" label="Confirmar" icon="pi pi-check" size="small" (click)="deleteSelectedProducts(fact.fact_Id)" severity="success" [raised]="true" [plain]="true"></p-button>
+                        <p-button  *ngIf="fact.fact_Finalizado == 'True'" label="Confirmar" icon="pi pi-check" size="small" (click)="EfectivoOConfirmar(fact.fact_Id)" severity="success" [raised]="true" [plain]="true"></p-button>
                     </td>
                 </tr>
             </ng-template>
@@ -271,17 +288,67 @@
                 </tr>
             </ng-template>
         </p-table>
-        <p-dialog [(visible)]="deleteProductDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
-            <div class="flex align-items-center justify-content-center">
-                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span>Esta seguro de eliminarlo?</span>
-            </div>
-            <ng-template pTemplate="footer">
-                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteProductDialog = false"></button>
-                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="ConfirmFactura()"></button>
-            </ng-template>
+        <form [formGroup]="PagoForm" #formDirective="ngForm">
+        <p-dialog [(visible)]="deleteProductDialog" header="Pago en efectivo" [modal]="true" [style]="{width:'450px'}">
+           
+                <div class="p-fluid p-formgrid grid">
+                    <div class="field col-12 md:col-6" >
+                        <p-inputGroup>
+                            <p-inputGroupAddon>
+                              <i class="pi pi-money-bill" style="line-height: 1.25"></i>
+                            </p-inputGroupAddon>
+                            <input pInputText id="Pago" formControlName="Pago" type="text" required autofocus [ngClass]="{'ng-invalid ng-dirty': dinero}"/>
+                          </p-inputGroup>
+                          <small *ngIf="dinero" style="color: red;">
+                            La cantidad de dinero no es suficiente
+                          </small>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: flex-end; margin-top: 1rem; grid-gap: 5px;">
+                    <button pButton pRipple icon="pi pi-times" class="p-button-outlined p-button-primary" label="No" (click)="deleteProductDialog = false"></button>
+                    <button pButton pRipple icon="pi pi-check" class="p-button-outlined p-button-primary" label="Si" (click)="ConfirmarEditado()" ></button>    
+                </div>
+      
+               
+     
         </p-dialog>
+
+        <p-dialog [(visible)]="ConfirmarPago" header="Pago en efectivo" [modal]="true" [style]="{width:'450px'}">
+          
+                <div class="p-fluid p-formgrid grid">
+                    <div class="field col-12 md:col-6" >
+                        <p-inputGroup>
+                            <p-inputGroupAddon>
+                              <i class="pi pi-money-bill" style="line-height: 1.25"></i>
+                            </p-inputGroupAddon>
+                            <input pInputText id="Pago" formControlName="PagoT" type="text" required autofocus [ngClass]="{'ng-invalid ng-dirty': dinero}"/>
+                          </p-inputGroup>
+                          <small *ngIf="dinero" style="color: red;">
+                            La cantidad de dinero no es suficiente
+                          </small>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: flex-end; margin-top: 1rem; grid-gap: 5px;">
+                    <button pButton pRipple icon="pi pi-times" class="p-button-outlined p-button-primary" label="No" (click)="ConfirmarPago = false"></button>
+                    <button pButton pRipple icon="pi pi-check" class="p-button-outlined p-button-primary" label="Si" (click)="ConfirmarT()" ></button>    
+                </div>
+      
+               
+      
+        </p-dialog>
+    </form>
     </div>
+</div>
+<div class="card-body" [class.hidden]="!Reporte_2">
+  <div style="display: flex; justify-content: flex-start; margin-bottom: 5px;margin-top: 5px; grid-gap: 5px;">
+    <p-button label="Volver" icon="pi pi-user-edit" size="small" (click)="Volver()" severity="primary" [raised]="true" [plain]="true"></p-button>
+   
+    </div>
+</div>
+<div class="card-body" [class.hidden]="!Reporte_3">
+    <iframe *ngIf="pdfSrc" [src]="pdfSrc" type="application/pdf" width="100%" height="600px">
+        PDF Preview
+      </iframe>
 </div>
 <div class="card-body" [class.hidden]="!Reporte_2">
     <iframe *ngIf="pdfSrc" [src]="pdfSrc" type="application/pdf" width="100%" height="600px">

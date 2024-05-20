@@ -35,8 +35,8 @@ namespace SistemaEsmeralda.API.Extensions
             CreateMap<FacturaCompraViewModel, tbFacturaCompraEncabezado>().ReverseMap();
             CreateMap<FacturaCompraDetalleViewModel, tbFacturaCompraDetalle>().ReverseMap();
             CreateMap<FacturaViewModel, tbFacturaDetalles>().ReverseMap();
-
-
+            CreateMap<ProductoPorSucursalViewModel, tbProductosPorSucurales>().ReverseMap();
+            CreateMap<ProductoPorSucursalViewModel, tbProductosPorSucursalesEncabezados>().ReverseMap();
         }
     }
 }

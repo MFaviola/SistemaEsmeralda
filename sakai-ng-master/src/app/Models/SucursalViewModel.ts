@@ -9,6 +9,10 @@ export class SucursalEnviar {
     Sucu_Nombre: string;
     Muni_Codigo: string; 
 }
+export class dropSucursal{
+    value?:String;
+    text?:String;
+}
 
 
 export class Fill {

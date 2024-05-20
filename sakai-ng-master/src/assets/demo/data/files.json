@@ -24,7 +24,7 @@
                 "label": "Ventas",
                 "data": "Work Folder",
                 "icon": "pi pi-fw pi-cog",
-                "children": [{ "key": "16", "label": "Joyas", "icon": "pi pi-fw pi-file" },{ "key": "31", "label": "Transferencias", "icon": "pi pi-fw pi-file" },{ "key": "31", "label": "Caja", "icon": "pi pi-fw pi-file" },{ "key": "15", "label": "Factura", "icon": "pi pi-fw pi-file" }, { "key": "17", "label": "Maquillajes", "icon": "pi pi-fw pi-file" },{ "key": "18", "label": "Facturas de Compra", "icon": "pi pi-fw pi-file" }]
+                "children": [{ "key": "16", "label": "Joyas", "icon": "pi pi-fw pi-file" },{ "key": "31", "label": "Transferencias", "icon": "pi pi-fw pi-file" },{ "key": "30", "label": "Caja", "icon": "pi pi-fw pi-file" },{ "key": "15", "label": "Factura", "icon": "pi pi-fw pi-file" }, { "key": "17", "label": "Maquillajes", "icon": "pi pi-fw pi-file" },{ "key": "18", "label": "Facturas de Compra", "icon": "pi pi-fw pi-file" }]
             },
             {
                 "key": "103",

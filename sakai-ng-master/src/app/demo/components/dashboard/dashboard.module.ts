@@ -9,7 +9,10 @@ import { ButtonModule } from 'primeng/button';
 import { StyleClassModule } from 'primeng/styleclass';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { DashboardsRoutingModule } from './dashboard-routing.module';
-
+import { ReactiveFormsModule } from '@angular/forms';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { DialogModule } from 'primeng/dialog';
 @NgModule({
     imports: [
         CommonModule,
@@ -20,7 +23,10 @@ import { DashboardsRoutingModule } from './dashboard-routing.module';
         StyleClassModule,
         PanelMenuModule,
         ButtonModule,
-        DashboardsRoutingModule
+        DashboardsRoutingModule,ReactiveFormsModule,
+        InputGroupAddonModule,
+        InputGroupModule,
+        DialogModule
     ],
     declarations: [DashboardComponent]
 })

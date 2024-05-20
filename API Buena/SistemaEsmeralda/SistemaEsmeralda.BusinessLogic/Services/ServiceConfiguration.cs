@@ -31,9 +31,10 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             service.AddScoped<UsuarioRepository>();
             service.AddScoped<PantallaRolesRepository>();
             service.AddScoped<GraficosRepository>();
-
+            service.AddScoped<ProductosPorSucursalesRepository>();
             service.AddScoped<FacturaRepository>();
             service.AddScoped<FacturaCompraRepository>();
+            service.AddScoped<CajaRepository>();
 
 
             SistemaEsmeraldaContex.BuildConnectionString(conn);

@@ -8,9 +8,11 @@ export class Factura{
 }
 
 export class FacturaEnviar {
-
+    PagoCambio?:String;
+    Pago:String;
     Mepa_Id?:String;
     Empl_Id?:String;
+    Sucu_Id?:String;
     Clie_Id?:String;
     Fact_Id?:String;
     Faxd_Dif?:String;
@@ -64,6 +66,9 @@ export class FacturaDetallesEnviar {
 
 
 export class Fill {
+    sucu_Nombre: string;
+    fact_Cambio: string;
+    fact_Pago: string;
     impu_Id: string;
     clie_Nombre: string;
     empl_Nombre: string;

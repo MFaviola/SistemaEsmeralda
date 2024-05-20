@@ -4,6 +4,7 @@ import { BASE_URL } from './ulrsettings';
 import { Productos,MaquillajeMes, JoyaMes, MaqJoyaMes,totalJo,totalMa,totalanual,totalcate } from '../Models/GraficosViewModel';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs';
+import { Fill } from '../Models/DashboardViewModel';
 
 
 
@@ -17,11 +18,14 @@ export class ServiceService {
 
 
   url = BASE_URL + 'API/Graficos/VentaMes'
-
+  url2 = BASE_URL + 'API/'
   getproducto(){
     return this.http.get<Productos[]>(this.url)
   }
 
+  getValidacion(codigo: string, sucu: string): Observable<Fill[]> {
+    return this.http.get<Fill[]>(this.url2 + 'Caja/Validacion/' + codigo + ',' + sucu);
+  }
   
   urlE = BASE_URL + 'API/Graficos/MaquillajeMes'
 

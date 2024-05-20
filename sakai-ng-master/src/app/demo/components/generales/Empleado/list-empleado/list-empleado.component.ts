@@ -12,6 +12,7 @@ import { dropCargo } from 'src/app/Models/CargoViewModel';
 import { dropEstadoCivil } from 'src/app/Models/EstadoCivilViewModel';
 import { MensajeViewModel } from 'src/app/Models/MensajeViewModel';
 import { CookieService } from 'ngx-cookie-service';
+import { dropSucursal } from 'src/app/Models/SucursalViewModel';
 @Component({
   templateUrl: './list-empleado.component.html',
   styleUrl: './list-empleado.component.scss',
@@ -25,6 +26,7 @@ export class ListEmpleadoComponent {
   submitted: boolean = false;
   loading: boolean = false;
   departamentos: any[] = [];
+  sucursales: any[] = [];
   municipios: any[] = [];
   estadocivil: any[] = [];
   cargo: any[] = [];
@@ -79,7 +81,8 @@ export class ListEmpleadoComponent {
         Empl_FechaNac: new FormControl("", Validators.required),
         Carg_Id: new FormControl("", Validators.required),
         Empl_Correo:new FormControl("",Validators.required),
-      Esta_Id: new FormControl("", Validators.required),
+      Sucu_Id: new FormControl("0",Validators.required),
+      Esta_Id: new FormControl("0", Validators.required),
       Depa_Codigo: new FormControl("0", [Validators.required]),
       Muni_Codigo: new FormControl("0", [Validators.required]),
     });
@@ -87,7 +90,10 @@ export class ListEmpleadoComponent {
     console.log(data);
     this.departamentos = data;
     });
-
+    this.service.getDropDownsSucursales().subscribe((data: dropSucursal[]) => {
+      console.log(data);
+      this.sucursales = data;
+      });
     this.service.getDropDownsEstado().subscribe((data: dropEstadoCivil[]) => {
       console.log(data);
       this.estadocivil = data;
@@ -280,7 +286,7 @@ Fill(codigo) {
             Empl_FechaNac: new FormControl(data.empl_FechaNac, Validators.required),
             Carg_Id: new FormControl(data.carg_Id, Validators.required),
             Empl_Correo: new FormControl(data.empl_Correo, Validators.required),
-
+            Sucu_Id: new FormControl(data.sucu_Id, Validators.required),
           Esta_Id: new FormControl(data.esta_Id, Validators.required),
           Depa_Codigo: new FormControl(data.depa_Codigo, [Validators.required]),
           Muni_Codigo: new FormControl(data.muni_Codigo, [Validators.required]),

@@ -75,6 +75,14 @@
                                 <small *ngIf="submitted && clienteForm.get('Carg_Id').value === '0'" style="color: red;">El Cargo Requerido</small>
                               </div>
                   
+                              <div class="field col-12 md:col-6">
+                                <label for="Departamento">Sucursal</label>
+                                <select formControlName="Sucu_Id" pInputText id="Departamento" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && clienteForm.get('Sucu_Id').value === '0'}"
+                                >
+                                  <option *ngFor="let depa of sucursales" [value]="depa.value">{{ depa.text }}</option>
+                                 </select>      
+                                  <small *ngIf="submitted && clienteForm.get('Sucu_Id').value === '0'" style="color: red;">Sucursal Requerido</small>
+                              </div>
                   
                       <div class="field col-12 md:col-6">
                         <label for="Departamento">Departamento</label>

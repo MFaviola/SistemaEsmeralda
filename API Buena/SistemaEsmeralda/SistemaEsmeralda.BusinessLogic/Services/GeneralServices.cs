@@ -1502,7 +1502,7 @@ namespace SistemaEsmeralda.BusinessLogic.Services
                 var list = _sucursalRepository.Update(item);
                 if (list.CodeStatus > 0)
                 {
-                    return result.Ok("okis", list);
+                    return result.Ok(list);
                 }
                 else
                 {

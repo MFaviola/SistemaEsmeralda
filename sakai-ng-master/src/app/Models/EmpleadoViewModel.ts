@@ -47,6 +47,7 @@ export class Fill {
     empl_Sexo?:String;
     muni_Codigo?:String;
     esta_Id?:String;
+    sucu_Id :string;
     carg_Id :string;
     carg_Cargo?:string;
     esta_EstadoCivil?:String;

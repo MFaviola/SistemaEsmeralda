@@ -97,6 +97,16 @@ namespace SistemaEsmeralda.API.Controllers
             return Ok(list.Data);
         }
 
+
+        [HttpGet("AutoCompletadoSucursal/{id}")]
+        public IActionResult AutoCompletadoSucursal(int id)
+        {
+            var list = _ventasServices.ListaAutoCompletadoMaqui(id);
+
+
+            return Ok(list.Data);
+        }
+
         [HttpGet("AutoCompletado1")]
         public IActionResult AutoCompletado1()
         {
@@ -116,6 +126,16 @@ namespace SistemaEsmeralda.API.Controllers
         {
             var list = _ventasServices.ListaPorCodigoMaqui();
  
+
+            return Ok(list.Data);
+        }
+
+
+        [HttpGet("FiltroCodigoSucursal/{id}")]
+        public IActionResult FiltroCodigoSucursal(int id)
+        {
+            var list = _ventasServices.ListaPorCodigoMaqui(id);
+
 
             return Ok(list.Data);
         }

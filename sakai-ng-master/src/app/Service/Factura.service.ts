@@ -4,7 +4,7 @@ import { BASE_URL } from './ulrsettings';
 import { EmpleadoRe, Factura,FacturaDetalle,Fill, Stock } from '../Models/FacturaViewModel';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs';
-import { dropJoya } from '../Models/JoyaViewModel';
+import { dropJoya, dropJoyaStock } from '../Models/JoyaViewModel';
 import { Maquillaje, dropMaqui } from '../Models/MaquillajeViewModel';
 import { Metodo } from '../Models/MetodoPagoViewModel';
 import { Cliente } from '../Models/ClienteViewModel';
@@ -26,16 +26,9 @@ export class ServiceService {
 
   urlAuto = BASE_URL + 'API/Joyas/AutoCompletado'
 
-  getAutoCompletadoJoya(){
-    return this.http.get<dropJoya[]>(this.urlAuto)
-  }
 
-  urlAutoLista = BASE_URL + 'API/Joyas/FiltroCodigo'
 
-  getAutoCompletadoJoyaLista(){
-    return this.http.get<dropJoya[]>(this.urlAutoLista)
-  }
-
+ 
   urlAutoEmpleado = BASE_URL + 'API/Empleado/List'
 
   getAutoCompletadoEmpleadoLista(){
@@ -47,15 +40,30 @@ export class ServiceService {
   getMetodo(){
     return this.http.get<Metodo[]>(this.urlMetodo)
   }
+
+
+  getAutoCompletadoJoya(id){
+    return this.http.get<dropJoyaStock[]>(BASE_URL + 'API/Joyas/AutoCompletadoSucursal/' + id)
+  }
+  getAutoCompletadoMaquillaje(id){
+    return this.http.get<dropJoyaStock[]>(BASE_URL + 'API/Maquillaje/AutoCompletadoSucursal/' + id)
+  }
+
+ 
+  getAutoCompletadoListaMaquillaje(id){
+    return this.http.get<dropJoyaStock[]>(BASE_URL + 'API/Maquillaje/FiltroCodigoSucursal/' + id)
+  }
+
+  urlAutoLista = BASE_URL + 'API/Joyas/FiltroCodigo'
+
+  getAutoCompletadoJoyaLista(id){
+    return this.http.get<dropJoyaStock[]>(BASE_URL + 'API/Joyas/FiltroCodigoSucursal/' + id)
+  }
+
+
   urlAutoMaqui = BASE_URL + 'API/Maquillaje/AutoCompletado'
 
-  getAutoCompletadoMaquillaje(){
-    return this.http.get<dropMaqui[]>(this.urlAutoMaqui)
-  }
-  urlAutoMaquiLista = BASE_URL + 'API/Maquillaje/FiltroCodigo'
-  getAutoCompletadoListaMaquillaje(){
-    return this.http.get<dropMaqui[]>(this.urlAutoMaquiLista)
-  }
+ 
   url = BASE_URL + 'API/Factura/List'
 
   getFacturas(){
@@ -101,8 +109,8 @@ export class ServiceService {
     return this.http.get<Fill>(`${BASE_URL + 'API/Factura/Fill/' + codigo}`);
   }
 
-  ConfirmarFactura(id: any): Observable<any> {
-    return this.http.put<any>(`${BASE_URL}API/Factura/ConfirmarFactura/${id}`, {});
+  ConfirmarFactura(id: any,pago,cambio): Observable<any> {
+    return this.http.put<any>(`${BASE_URL}API/Factura/ConfirmarFactura/${id},${pago},${cambio}`, {});
   }
   EliminarDetalles(ID,Prod_Nombre,Dif): Observable<any>{
     return this.http.put<any>(`${BASE_URL + 'API/Factura/DeleteFactura/' + ID + ',' +  Prod_Nombre  + ',' +  Dif}`, {})

@@ -1,7 +1,9 @@
 import { DatePipe } from '@angular/common';
 import { Component, Injectable, NgModule } from '@angular/core';
+import { cu } from '@fullcalendar/core/internal-common';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable'
+import { Impuesto } from 'src/app/Models/ImpuestoViewModel';
 @Injectable({
   providedIn: 'root',
 })
@@ -102,8 +104,189 @@ export class YService {
   return doc.output('blob');
 
 }
-  
-Reporte2PDF(cuerpo, logoURL, Cliente, DNI, Muni, Depa, Fecha, Pedido, Imouesto, Metodo, Subtotal, Total,FechaCreacion,Usuario) {
+
+ReporteFactura(cuerpo, logoURL, Cliente, DNI, Muni, Depa, Fecha, Pedido, Imouesto, Metodo, Subtotal, Total, FechaCreacion, Usuario, largo, HoraGeneracion,TotalCancelado,Cambio) {
+  const doc = new jsPDF({
+    orientation: 'portrait',
+    unit: 'px',
+    format: [160, largo] // Ancho fijo de 200px, altura inicial muy grande
+  });
+
+  // Información de la empresa
+  doc.setFontSize(12);
+  doc.setFont(undefined, 'normal');
+  doc.text('Esmeraldas HN', 75, 20, { align: 'center' });
+
+  doc.setFontSize(10);
+  doc.setFont(undefined, 'normal');
+  doc.text("Francisco Morazan, Tegucigalpa", 75, 30, { align: 'center' });
+  doc.text("Los dolores, calle buenos aires", 75, 40, { align: 'center' });
+  doc.text("email: esmeraldashn2014@gmail.com", 75, 50, { align: 'center' });
+
+  // Información de la factura
+  doc.setFontSize(12);
+  doc.setFont(undefined, 'bold');
+  doc.text("Factura:", 60, 70, { align: 'center' });
+
+  doc.setFontSize(10);
+  doc.setFont(undefined, 'normal');
+  doc.text("Fecha: " + FechaCreacion + "   Hora:  " + HoraGeneracion, 10, 80, { align: 'left' });
+  doc.text("" + Pedido, 90, 70, { align: 'center' });
+  doc.text("Cliente: " + Cliente, 10, 90, { align: 'left' });
+  doc.text("RTN: " + DNI, 10, 100, { align: 'left' });
+  doc.text("--------------------------------------------------------", 10, 110, { align: 'left' });
+  doc.setFontSize(12);
+  doc.text("Descripción          Cant.        Precio ", 10, 120, { align: 'left' });
+  doc.setFontSize(10);
+  doc.text("--------------------------------------------------------", 10, 130, { align: 'left' });
+
+  // Ajustar la posición de inicio de la tabla
+  const yPosition = 140; // Ajustar esta posición para que la tabla inicie justo debajo de la cabecera
+  autoTable(doc, {
+    body: cuerpo,
+    startY: yPosition,
+    margin: { left: 10 },
+    styles: {
+      fontSize: 12,
+      fillColor: [255, 255, 255], // Fondo blanco
+      textColor: [0, 0, 0]       // Texto negro
+    },
+    headStyles: {
+      halign: 'center',
+      valign: 'middle',
+      fontStyle: 'normal',
+      fillColor: [255, 255, 255], // Fondo blanco
+      textColor: [0, 0, 0]       // Texto negro
+    },
+    columnStyles: {
+      0: { halign: 'left', cellWidth: 75 },  // Ancho personalizado para la columna 0
+      1: { halign: 'center', cellWidth: 20 },  // Ancho personalizado para la columna 1
+      2: { halign: 'center', cellWidth: 60 }   // Ancho personalizado para la columna 2
+    },
+    theme: 'plain' // Sin líneas de borde, solo blanco
+  });
+
+const borderYPosition = (doc as any).previousAutoTable.finalY + 10;
+doc.text("--------------------------------------------------------", 10, borderYPosition, { align: 'left' });
+doc.setFontSize(12);
+doc.text("Subtotal", 10, borderYPosition + 10, { align: 'left' });
+doc.text("Impuesto", 10, borderYPosition + 25, { align: 'left' });
+doc.text("Total", 10, borderYPosition + 40 , { align: 'left' });
+doc.text( Subtotal, 150, borderYPosition + 10, { align: 'right' });
+doc.text(Imouesto, 150, borderYPosition + 25, { align: 'right' });
+doc.text(Total, 150, borderYPosition + 40, { align: 'right' });
+
+if (Metodo == "Efectivo") {
+doc.text("Total Cancelado", 10, borderYPosition + 55 , { align: 'left' });
+doc.text(TotalCancelado, 150, borderYPosition + 55, { align: 'right' });
+doc.text("Cambio", 10, borderYPosition + 70 , { align: 'left' });
+doc.text(Cambio, 150, borderYPosition + 70, { align: 'right' });
+}else{
+  doc.text("Total Cancelado", 10, borderYPosition + 55 , { align: 'left' });
+doc.text(Total, 150, borderYPosition + 55, { align: 'right' });
+doc.text("Cambio", 10, borderYPosition + 70 , { align: 'left' });
+doc.text("0", 150, borderYPosition + 70, { align: 'right' });
+}
+doc.setFontSize(10);
+doc.text("--------------------------------------------------------", 10, borderYPosition + 80, { align: 'left' });
+doc.setFontSize(14);
+doc.text("Gracias por su compra", 80, borderYPosition + 90 , { align: 'center' });
+console.log(borderYPosition + 100)
+  return doc.output('blob');
+}
+
+ReporteFacturaNumero(cuerpo, logoURL, Cliente, DNI, Muni, Depa, Fecha, Pedido, Imouesto, Metodo, Subtotal, Total, FechaCreacion, Usuario, largo, HoraGeneracion,TotalCancelado,Cambio) {
+  const doc = new jsPDF({
+    orientation: 'portrait',
+    unit: 'px',
+    format: [160, largo] // Ancho fijo de 200px, altura inicial muy grande
+  });
+
+  // Información de la empresa
+  doc.setFontSize(12);
+  doc.setFont(undefined, 'normal');
+  doc.text('Esmeraldas HN', 75, 20, { align: 'center' });
+
+  doc.setFontSize(10);
+  doc.setFont(undefined, 'normal');
+  doc.text("Francisco Morazan, Tegucigalpa", 75, 30, { align: 'center' });
+  doc.text("Los dolores, calle buenos aires", 75, 40, { align: 'center' });
+  doc.text("email: esmeraldashn2014@gmail.com", 75, 50, { align: 'center' });
+
+  // Información de la factura
+  doc.setFontSize(12);
+  doc.setFont(undefined, 'bold');
+  doc.text("Factura:", 60, 70, { align: 'center' });
+
+  doc.setFontSize(10);
+  doc.setFont(undefined, 'normal');
+  doc.text("Fecha: " + FechaCreacion + "   Hora:  " + HoraGeneracion, 10, 80, { align: 'left' });
+  doc.text("" + Pedido, 90, 70, { align: 'center' });
+  doc.text("Cliente: " + Cliente, 10, 90, { align: 'left' });
+  doc.text("RTN: " + DNI, 10, 100, { align: 'left' });
+  doc.text("--------------------------------------------------------", 10, 110, { align: 'left' });
+  doc.setFontSize(12);
+  doc.text("Descripción          Cant.        Precio ", 10, 120, { align: 'left' });
+  doc.setFontSize(10);
+  doc.text("--------------------------------------------------------", 10, 130, { align: 'left' });
+
+  // Ajustar la posición de inicio de la tabla
+  const yPosition = 140; // Ajustar esta posición para que la tabla inicie justo debajo de la cabecera
+  autoTable(doc, {
+    body: cuerpo,
+    startY: yPosition,
+    margin: { left: 10 },
+    styles: {
+      fontSize: 12,
+      fillColor: [255, 255, 255], // Fondo blanco
+      textColor: [0, 0, 0]       // Texto negro
+    },
+    headStyles: {
+      halign: 'center',
+      valign: 'middle',
+      fontStyle: 'normal',
+      fillColor: [255, 255, 255], // Fondo blanco
+      textColor: [0, 0, 0]       // Texto negro
+    },
+    columnStyles: {
+      0: { halign: 'left', cellWidth: 75 },  // Ancho personalizado para la columna 0
+      1: { halign: 'center', cellWidth: 20 },  // Ancho personalizado para la columna 1
+      2: { halign: 'center', cellWidth: 60 }   // Ancho personalizado para la columna 2
+    },
+    theme: 'plain' // Sin líneas de borde, solo blanco
+  });
+
+const borderYPosition = (doc as any).previousAutoTable.finalY + 10;
+doc.text("--------------------------------------------------------", 10, borderYPosition, { align: 'left' });
+doc.setFontSize(12);
+doc.text("Subtotal", 10, borderYPosition + 10, { align: 'left' });
+doc.text("Impuesto", 10, borderYPosition + 25, { align: 'left' });
+doc.text("Total", 10, borderYPosition + 40 , { align: 'left' });
+doc.text( Subtotal, 150, borderYPosition + 10, { align: 'right' });
+doc.text(Imouesto, 150, borderYPosition + 25, { align: 'right' });
+doc.text(Total, 150, borderYPosition + 40, { align: 'right' });
+
+if (Metodo == "Efectivo") {
+doc.text("Total Cancelado", 10, borderYPosition + 55 , { align: 'left' });
+doc.text(TotalCancelado, 150, borderYPosition + 55, { align: 'right' });
+doc.text("Cambio", 10, borderYPosition + 70 , { align: 'left' });
+doc.text(Cambio, 150, borderYPosition + 70, { align: 'right' });
+}else{
+  doc.text("Total Cancelado", 10, borderYPosition + 55 , { align: 'left' });
+doc.text(Total, 150, borderYPosition + 55, { align: 'right' });
+doc.text("Cambio", 10, borderYPosition + 70 , { align: 'left' });
+doc.text("0", 150, borderYPosition + 70, { align: 'right' });
+}
+doc.setFontSize(10);
+doc.text("--------------------------------------------------------", 10, borderYPosition + 80, { align: 'left' });
+doc.setFontSize(14);
+doc.text("Gracias por su compra", 75, borderYPosition + 90 , { align: 'center' });
+console.log(borderYPosition + 100)
+  return borderYPosition + 110;
+}
+
+
+Reporte2PDF(cuerpo, logoURL, Cliente, DNI, Muni, Depa, Fecha, Pedido, Imouesto, Metodo, Subtotal, Total,FechaCreacion,Usuario,TotalCancelado,Cambio,Sucursal) {
   const doc = new jsPDF({
     orientation: 'portrait',
     unit: 'px',
@@ -146,6 +329,7 @@ Reporte2PDF(cuerpo, logoURL, Cliente, DNI, Muni, Depa, Fecha, Pedido, Imouesto, 
   doc.text("Codigo Pedido: " + Pedido, 270, 120);
 
   doc.text("Metodo Pago: " + Metodo, 270, 130);
+  doc.text("Sucursal: " + Sucursal, 270, 140);
 
 
 
@@ -194,14 +378,23 @@ Reporte2PDF(cuerpo, logoURL, Cliente, DNI, Muni, Depa, Fecha, Pedido, Imouesto, 
 
   doc.setDrawColor(0);
   doc.setLineWidth(1);
-  doc.rect(borderXPosition, borderYPosition, 90, borderHeight);
+  doc.rect(borderXPosition - 10, borderYPosition, 100, borderHeight + 40);
 
   doc.setFontSize(10);
   doc.setFont(undefined, 'normal');
-  doc.text("Impuesto: " + Imouesto, borderXPosition + 20, borderYPosition + 15);
-  doc.text("Subtotal: " + Subtotal, borderXPosition + 20, borderYPosition + 30);
-  doc.setFont(undefined, 'bold');
-  doc.text("Total: " + Total, borderXPosition + 20, borderYPosition + 45);
+  doc.text("Impuesto: " + Imouesto, borderXPosition + -5, borderYPosition + 30);
+  doc.text("Subtotal: " + Subtotal, borderXPosition + -5, borderYPosition + 15);
+  doc.setFont(undefined, 'normal');
+  doc.text("Total: " + Total, borderXPosition + -5, borderYPosition + 45);
+  if (Metodo == "Efectivo") {
+  doc.setFont(undefined, 'normal');
+  doc.text("Total Cancelado: " + TotalCancelado, borderXPosition + -5, borderYPosition + 60);
+  doc.text("Cambio: " + Cambio, borderXPosition + -5, borderYPosition + 75);
+  }else{
+    doc.setFont(undefined, 'normal');
+    doc.text("Total Cancelado: " + Total, borderXPosition + -5, borderYPosition + 60);
+    doc.text("Cambio: " + "0", borderXPosition + -5, borderYPosition + 75);
+    }
 
   if (borderYPosition + borderHeight > doc.internal.pageSize.getHeight()) {
     doc.addPage();

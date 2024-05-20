@@ -57,6 +57,18 @@ namespace SistemaEsmeralda.DataAccess.Repository
         }
 
 
+        public IEnumerable<tbMaquillajes> ListaAutocompletado(int id)
+        {
+            const string sql = "[Vent].[sp_MaquillajesPorSucursal_Lista]";
+            var parametro = new DynamicParameters();
+            parametro.Add("@Sucu_Id", id);
+
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+                return db.Query<tbMaquillajes>(sql,parametro, commandType: CommandType.StoredProcedure).ToList();
+            }
+        }
+
         public IEnumerable<tbMaquillajes> ListaAutocompletado()
         {
             const string sql = "[Vent].[sp_Maquillajes_listarAutoCompletado]";
@@ -67,6 +79,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 return db.Query<tbMaquillajes>(sql, commandType: CommandType.StoredProcedure).ToList();
             }
         }
+
 
         public IEnumerable<tbMaquillajes> ListaAutocompletado1()
         {
@@ -87,6 +100,19 @@ namespace SistemaEsmeralda.DataAccess.Repository
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
             {
                 return db.Query<tbMaquillajes>(sql,  commandType: CommandType.StoredProcedure).ToList();
+            }
+        }
+
+        public IEnumerable<tbMaquillajes> ListaPorCodigo(int id)
+        {
+            const string sql = "Vent.sp_FiltroMaquillajeCodigoSucursal";
+
+
+            using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
+            {
+                var parameter = new DynamicParameters();
+                parameter.Add("Sucu_Id", id);
+                return db.Query<tbMaquillajes>(sql, parameter,commandType: CommandType.StoredProcedure).ToList();
             }
         }
         public tbMaquillajes Fill(int id)

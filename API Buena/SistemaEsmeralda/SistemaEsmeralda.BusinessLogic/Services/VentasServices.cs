@@ -15,12 +15,16 @@ namespace SistemaEsmeralda.BusinessLogic.Services
         private readonly MaquillajeRepository _maquillajeRepository;
         private readonly FacturaRepository _facturaRepository;
         private readonly FacturaCompraRepository _facturaCompraRepository;
-        public VentasServices(JoyaRepository joyaRepository, MaquillajeRepository maquillajeRepository, FacturaRepository facturaRepository, FacturaCompraRepository facturaCompraRepository)
+        private readonly ProductosPorSucursalesRepository _ProductosPorSucursalesRepository;
+        private readonly CajaRepository _CajaRepository;
+        public VentasServices(JoyaRepository joyaRepository, MaquillajeRepository maquillajeRepository, FacturaRepository facturaRepository, FacturaCompraRepository facturaCompraRepository, ProductosPorSucursalesRepository productosPorSucursalesRepository, CajaRepository  cajaRepository)
         {
             _joyaRepository = joyaRepository;
             _maquillajeRepository = maquillajeRepository;
             _facturaRepository = facturaRepository;
             _facturaCompraRepository = facturaCompraRepository;
+            _ProductosPorSucursalesRepository = productosPorSucursalesRepository;
+            _CajaRepository = cajaRepository;
         }
 
 
@@ -59,12 +63,44 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             }
         }
 
+        public ServiceResult ListadoJoyaPorCodigo(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _joyaRepository.ListaPorCodigo(id);
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
         public ServiceResult ListadoAutoCompletado()
         {
             var result = new ServiceResult();
             try
             {
                 var list = _joyaRepository.ListaAutoCompletado();
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult ListadoAutoCompletado(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _joyaRepository.ListaAutoCompletado(id);
                 return result.Ok(list);
             }
 
@@ -132,12 +168,12 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             }
         }
 
-        public ServiceResult ElimnarFacturaDetalle(string Fact_Id,string prod_nombre,int dif)
+        public ServiceResult ElimnarFacturaDetalle(string Fact_Id,string prod_nombre,string sucu_Id)
         {
             var result = new ServiceResult();
             try
             {
-                var list = _facturaRepository.Delete(Fact_Id,prod_nombre,dif);
+                var list = _facturaRepository.Delete(Fact_Id,prod_nombre, sucu_Id);
                 if (list.CodeStatus > 0)
                 {
                     return result.Ok($"La accion ha sido existosa", list);
@@ -153,12 +189,12 @@ namespace SistemaEsmeralda.BusinessLogic.Services
             }
         }
 
-        public ServiceResult ConfirmarFactura(string Fact_Id)
+        public ServiceResult ConfirmarFactura(string Fact_Id, string pago, string cambio)
         {
             var result = new ServiceResult();
             try
             {
-                var list = _facturaRepository.ConfirmarFactura(Fact_Id);
+                var list = _facturaRepository.ConfirmarFactura(Fact_Id, pago, cambio);
                 if (list.CodeStatus > 0)
                 {
                     return result.Ok($"La accion ha sido existosa", list);
@@ -260,6 +296,21 @@ namespace SistemaEsmeralda.BusinessLogic.Services
                 return result.Error(ex.Message);
             }
         }
+        public ServiceResult ListaPorCodigoMaqui(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _maquillajeRepository.ListaPorCodigo(id);
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
         public ServiceResult ListaAutoCompletadoMaqui()
         {
             var result = new ServiceResult();
@@ -275,6 +326,23 @@ namespace SistemaEsmeralda.BusinessLogic.Services
                 return result.Error(ex.Message);
             }
         }
+
+        public ServiceResult ListaAutoCompletadoMaqui(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _maquillajeRepository.ListaAutocompletado(id);
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
 
         public ServiceResult ListaAutoCompletadoMaqui1()
         {
@@ -419,6 +487,22 @@ namespace SistemaEsmeralda.BusinessLogic.Services
                 return result.Error(ex.Message);
             }
         }
+
+        public ServiceResult ListadoFacturaDetalleSucursales(string id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _facturaRepository.ListaDetallesSucursales(id);
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
         public ServiceResult ReportePorMes(string año, string mes)
         {
             var result = new ServiceResult();
@@ -534,6 +618,23 @@ namespace SistemaEsmeralda.BusinessLogic.Services
 
 
 
+        public ServiceResult ValidacionCaja(string date,string sucu)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _CajaRepository.Validacion(date, sucu);
+                return result.Ok(list);
+            }
+
+            catch (Exception ex)
+            {
+
+                return result.Error(ex.Message);
+            }
+        }
+
+
         #endregion
         #region Factura
 
@@ -587,6 +688,60 @@ namespace SistemaEsmeralda.BusinessLogic.Services
 
 
         #endregion
+
+        #region ProductoPorSucursales
+
+
+        public ServiceResult CrearProductoPorSucursales(tbProductosPorSucursalesEncabezados item, out int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var (lost, scope) = _ProductosPorSucursalesRepository.InsertarEncabezado(item);
+                id = scope;
+                if (lost.CodeStatus > 0)
+                {
+                    return result.Ok(lost);
+                }
+                else
+                {
+                    lost.MessageStatus = (lost.CodeStatus != 1) ? "401 Error de consulta" : lost.MessageStatus;
+                    return result.Error(lost);
+                }
+            }
+            catch (Exception ex)
+            {
+                id = 0;
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult CrearProductoPorSucursalesDetalle(tbProductosPorSucurales item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _ProductosPorSucursalesRepository.InsertarDetalles(item);
+           
+                if (list.CodeStatus > 0)
+                {
+                    return result.Ok(list);
+                }
+                else
+                {
+                    return result.Error(list);
+                }
+            }
+            catch (Exception ex)
+            {
+   
+                return result.Error(ex.Message);
+            }
+        }
+
+
+        #endregion
+
 
 
         #region FacturaCompra

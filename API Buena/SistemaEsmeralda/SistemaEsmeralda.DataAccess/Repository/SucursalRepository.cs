@@ -92,7 +92,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
             {
                 var parameter = new DynamicParameters();
-                parameter.Add("Carg_Id", Carg_Id);
+                parameter.Add("@Sucu_Id", Carg_Id);
 
                 var result = db.QueryFirst(ScriptsBaseDeDatos.SucursalesEliminar, parameter, commandType: CommandType.StoredProcedure);
                 return new RequestStatus { CodeStatus = result.Resultado, MessageStatus = (result.Resultado == 1) ? "Exito" : "Error" };

@@ -440,7 +440,13 @@ export class AppMenuComponent implements OnInit {
                             {
                                 label: 'Caja',
                                 icon: 'pi pi-fw pi-user',
-                                routerLink: ['/generales/caja']
+                                routerLink: ['/venta/caja']
+
+                            },
+                            {
+                                label: 'Transferencias',
+                                icon: 'pi pi-fw pi-user',
+                                routerLink: ['/venta/transferencias']
 
                             },
 

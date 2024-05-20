@@ -9,6 +9,7 @@ namespace SistemaEsmeralda.Common.Models
 {
     public class EmpleadoViewModel
     {
+        
         [NotMapped]
         public int Usua_Id { get; set; }
         public string Empl_DNI { get; set; }

@@ -41,11 +41,13 @@ namespace SistemaEsmeralda.DataAccess.Context
         public virtual DbSet<tbPantallasPorRoles> tbPantallasPorRoles { get; set; }
         public virtual DbSet<tbPreciosBitacora> tbPreciosBitacora { get; set; }
         public virtual DbSet<tbProductosPorSucurales> tbProductosPorSucurales { get; set; }
+        public virtual DbSet<tbProductosPorSucursalesEncabezados> tbProductosPorSucursalesEncabezados { get; set; }
         public virtual DbSet<tbProveedores> tbProveedores { get; set; }
         public virtual DbSet<tbRoles> tbRoles { get; set; }
         public virtual DbSet<tbSucursales> tbSucursales { get; set; }
 
         public virtual DbSet<tbUsuarios> tbUsuarios { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
@@ -319,7 +321,7 @@ namespace SistemaEsmeralda.DataAccess.Context
 
                 entity.ToTable("tbFacturaCompraEncabezado", "Vent");
 
-                
+              
 
                 entity.Property(e => e.FaCE_FechaCreacion).HasColumnType("datetime");
 
@@ -327,8 +329,9 @@ namespace SistemaEsmeralda.DataAccess.Context
 
                 entity.Property(e => e.FaCE_fechafinalizacion).HasColumnType("datetime");
 
-              
-              
+                
+
+             
             });
 
             modelBuilder.Entity<tbFacturaDetalles>(entity =>
@@ -592,6 +595,22 @@ namespace SistemaEsmeralda.DataAccess.Context
                     .HasName("PK__tbProduc__D65DBD139003298E");
 
                 entity.ToTable("tbProductosPorSucurales", "Gral");
+            });
+
+            modelBuilder.Entity<tbProductosPorSucursalesEncabezados>(entity =>
+            {
+                entity.HasKey(e => e.Pren_Id)
+                    .HasName("PK__tbProduc__C18E6BEA152DED43");
+
+                entity.ToTable("tbProductosPorSucursalesEncabezados", "Vent");
+
+                entity.Property(e => e.Pren_Estado).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.Pren_FechaCreacion).HasColumnType("datetime");
+
+                entity.Property(e => e.Pren_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.Pren_Finalizado).HasDefaultValueSql("((1))");
             });
 
             modelBuilder.Entity<tbProveedores>(entity =>

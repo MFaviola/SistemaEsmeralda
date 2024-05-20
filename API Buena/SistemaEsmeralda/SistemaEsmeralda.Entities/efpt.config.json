@@ -70,11 +70,19 @@
          "ObjectType": 0
       },
       {
+         "Name": "[Gral].[tbProductosPorSucurales]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[Gral].[tbProveedores]",
          "ObjectType": 0
       },
       {
          "Name": "[Gral].[tbSucursales]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Vent].[tbCajas]",
          "ObjectType": 0
       },
       {
@@ -103,6 +111,10 @@
       },
       {
          "Name": "[Vent].[tbPreciosBitacora]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Vent].[tbProductosPorSucursalesEncabezados]",
          "ObjectType": 0
       }
    ],

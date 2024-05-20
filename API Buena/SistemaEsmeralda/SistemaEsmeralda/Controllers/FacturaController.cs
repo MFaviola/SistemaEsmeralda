@@ -104,22 +104,28 @@ namespace SistemaEsmeralda.API.Controllers
             {
                 Empl_Id = item.Empl_Id,
                 Clie_Id = item.Clie_Id,
+                Sucu_Id = item.Sucu_Id,
                 Mepa_Id = item.Mepa_Id,
                 Fact_UsuarioCreacion = item.Usua_Id,
                 Fact_Id = item.Fact_Id,
                 Fact_UsuarioModificacion = item.Usua_Id
+
                
 
             };
             if (item.Actualizar == "Actualizar")
             {
+
                 var IdFactura = _ventasServices.CrearFactura(modeloFactura, out int id);
                 return Ok(new { success = true, message = IdFactura.Message });
             }
             else if(item.Actualizar == "Confirmar")
             {
+                string cambio = item.PagoCambio;
+                string pago = item.Pago;
+
                 var IdFactura = _ventasServices.CrearFactura(modeloFactura, out int id);
-                var list = _ventasServices.ConfirmarFactura(item.Fact_Id.ToString());
+                var list = _ventasServices.ConfirmarFactura(item.Fact_Id.ToString(), pago, cambio);
                 return Ok(new { success = true, message = list.Message });
             }
             if (item.Fact_Id == 0 )
@@ -131,6 +137,7 @@ namespace SistemaEsmeralda.API.Controllers
                 var model = _mapper.Map<tbFacturaDetalles>(item);
                 var modelo = new tbFacturaDetalles()
                 {
+                    Sucu_Id = item.Sucu_Id,
                     FaxD_Dif = item.Faxd_Dif,
                     Prod_Nombre = item.Prod_Nombre,
                     FaxD_Cantidad = item.Faxd_Cantidad,
@@ -146,6 +153,7 @@ namespace SistemaEsmeralda.API.Controllers
                 var model = _mapper.Map<tbFacturaDetalles>(item);
                 var modelo = new tbFacturaDetalles()
                 {
+                    Sucu_Id = item.Sucu_Id,
                     FaxD_Dif =item.Faxd_Dif,
                  Prod_Nombre = item.Prod_Nombre,
                     FaxD_Cantidad = item.Faxd_Cantidad,
@@ -159,27 +167,19 @@ namespace SistemaEsmeralda.API.Controllers
 
     }
 
-        [HttpPut("DeleteFactura/{id},{nombre},{dif}")]
-        public IActionResult DeleteFactura(string id,string nombre, string dif)
+        [HttpPut("DeleteFactura/{id},{nombre},{sucu_iD}")]
+        public IActionResult DeleteFactura(string id,string nombre, string sucu_iD)
         {
-            int difEnd = 0;
-            if (dif == "Maquillajes")
-            {
-               difEnd = 1;
-            }
-            else
-            {
-                difEnd = 0;
-            }
-            var list = _ventasServices.ElimnarFacturaDetalle(id, nombre, difEnd);
+      
+            var list = _ventasServices.ElimnarFacturaDetalle(id, nombre, sucu_iD);
             return Ok(new { success = true, message = list.Message });
         }
 
-        [HttpPut("ConfirmarFactura/{id}")]
-        public IActionResult ConfirmarFactura(int id)
+        [HttpPut("ConfirmarFactura/{id},{pago},{cambio}")]
+        public IActionResult ConfirmarFactura(int id, string pago, string cambio)
         {
 
-            var list = _ventasServices.ConfirmarFactura(id.ToString());
+            var list = _ventasServices.ConfirmarFactura(id.ToString(),pago,cambio);
             return Ok(new { success = true, message = list.Message });
         }
 

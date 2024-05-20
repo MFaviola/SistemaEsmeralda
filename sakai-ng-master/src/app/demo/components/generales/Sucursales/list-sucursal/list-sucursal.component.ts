@@ -109,6 +109,16 @@ export class ListSucursalComponent implements OnInit{
     this.Detalles = false;
   }
 
+  cancelar(){
+    this.Collapse= false;
+    this.DataTable = true;
+    this.Detalles = false;
+    this.ngOnInit();
+    this.submitted = false;
+    this.Agregar= true;
+    this.Valor = "";
+}
+
   detalles(codigo){
     this.Collapse= false;
     this.DataTable = false;

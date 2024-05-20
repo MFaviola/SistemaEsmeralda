@@ -8,14 +8,19 @@ import { ServiceService } from 'src/app/Service/Graficos.service';
 
 import { Productos, MaquillajeMes, JoyaMes, MaqJoyaMes,totalJo,totalMa,totalanual} from 'src/app/Models/GraficosViewModel';
 import { dA } from '@fullcalendar/core/internal-common';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { CookieService } from 'ngx-cookie-service';
+import { DatePipe } from '@angular/common';
+import { Fill } from 'src/app/Models/DashboardViewModel';
 
 @Component({
     templateUrl: './dashboard.component.html',
+    providers: [CookieService,DatePipe]
 })
 export class DashboardComponent implements OnInit, OnDestroy {
 
     items!: MenuItem[];
-
+    CajaForm: FormGroup;
     products!: Product[];
     maquillajeMes:MaquillajeMes[];
     JoyaMes:JoyaMes[];
@@ -73,9 +78,25 @@ total13:string;
     subscription!: Subscription;
     top1: String = "arreglo[0]";
     cantidadTop1: Number = 30;
+    ConfirmarPago: boolean = false;
+
+    dateDay = new Date();
+    conversion: string;
+
+  
+    //Variable para manejar el estado de Actualizar
+    Actualizar: string = "";
+  
+  
+    //Almacenado del usuario
+
+    Sucu_Id: string = this.cookie.get('SucursalID');
 
 
-    constructor(private productService: ProductService, public service:ServiceService,public layoutService: LayoutService) {
+
+
+
+    constructor(private productService: ProductService, public service:ServiceService,private cookie: CookieService, private datePipe: DatePipe,public layoutService: LayoutService) {
         this.subscription = this.layoutService.configUpdate$
         .pipe(debounceTime(25))
         .subscribe((config) => {
@@ -84,6 +105,24 @@ total13:string;
     }
 
     ngOnInit() {
+        this.CajaForm = new FormGroup({
+            caja_MontoFinal: new FormControl("", Validators.required),
+        });  
+        const fechaC = this.datePipe.transform(this.dateDay, 'yyyy-MM-dd')
+        this.service.getValidacion(fechaC, this.Sucu_Id).subscribe((data: Fill[]) => {
+            if (data.length > 0) {
+                const cajaSinCerrar = data.some(item => item.caja_FechaCierre === null);
+                this.ConfirmarPago = cajaSinCerrar;
+            } else {
+                // Si no hay datos, no hacer nada (o puedes agregar lógica adicional si lo necesitas)
+                this.ConfirmarPago = false; // o cualquier otro comportamiento deseado
+            }
+           
+
+        })
+
+
+
 
         this.initChart();
         this.productService.getProductsSmall().then(data => this.products = data);

@@ -29,6 +29,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 parametro.Add("@Empl_FechaNac", item.Empl_FechaNac);
                 parametro.Add("@Empl_DNI", item.Empl_DNI);
                 parametro.Add("@Empl_Sexo", item.Empl_Sexo);
+                parametro.Add("@Sucu_Id", item.Sucu_Id);
                 parametro.Add("@Muni_Codigo", item.Muni_Codigo);
                 parametro.Add("@Esta_Id", item.Esta_Id);
                 parametro.Add("@Carg_Id", item.Carg_Id);
@@ -82,6 +83,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
                 parameter.Add("@Empl_Nombre", item.Empl_Nombre);
                 parameter.Add("@Empl_Apellido", item.Empl_Apellido);
                 parameter.Add("@Empl_Sexo", item.Empl_Sexo);
+                parameter.Add("@Sucu_Id", item.Sucu_Id);
                 parameter.Add("@Empl_FechaNac", item.Empl_FechaNac);
                 parameter.Add("@Empl_DNI", item.Empl_DNI);
                 parameter.Add("@Muni_Codigo", item.Muni_Codigo);
