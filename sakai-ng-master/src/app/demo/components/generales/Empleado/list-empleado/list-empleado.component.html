@@ -2,7 +2,7 @@
 
 <div class="main-card mb-3 card"> 
     <div class="card-header">
-        <div style="width: 100%; height: 140px; background-image: url(./../../../../../../assets/demo/images/galleria/empliados.png); background-repeat: no-repeat; background-size: cover; background-position: center 45%; border-radius: 10px;"></div>
+        <div style="width: 100%; height: 80px; background-image: url(./../../../../../../assets/demo/images/galleria/empleados.png); background-repeat: no-repeat; background-size: cover; background-position: center 50%; border-radius: 10px;"></div>
     </div>
     <div class="card-body">
 
@@ -43,19 +43,18 @@
                     </div>
 
                     <div class="field col-12 md:col-6">
-                        <label for="Empl_Sexo" class="form-label">Sexo</label>
                         <div class="col-md-3">
+                            <label for="Empl_Sexo" class="form-label">Sexo</label>
+                        </div>
+                        <div class="col-md-6">
                             <label>
                                 <input type="radio" class="form-check-input" name="sexo" value="M" checked formControlName="Empl_Sexo"> Masculino
-                              </label>
-                            </div>
-
-                            <div class="col-md-3">
-                                <label>
-                                    <input type="radio" class="form-check-input" name="sexo" value="F" formControlName="Empl_Sexo"> Femenino
-                                  </label>
-                                </div>
-                            </div>
+                            </label>
+                            <label>
+                                <input type="radio" class="form-check-input" name="sexo" value="F" formControlName="Empl_Sexo"> Femenino
+                            </label>
+                        </div>
+                    </div>
 
                             <div class="field col-12 md:col-6">
                                 <label for="state">Estado Civil</label>
@@ -248,8 +247,9 @@
   
             <div class="card-body" [class.hidden]="!Detalles">
                 <div class="p-fluid p-formgrid grid">
-    
-                    <div class="field col-12 md:col-4">
+                    <div class="field col-12 md:col-12" >
+    </div>
+                    <div class="field col-12 md:col-4" style="position: relative;">
                         <div class="field rows">
                             <label for="Codigo" style="font-weight: 800;">DNI:</label>
                         </div>
@@ -258,7 +258,7 @@
                         </div>
                     </div>
                     
-                    <div class="field col-12 md:col-4">
+                    <div class="field col-12 md:col-4" style="position: relative;">
                         <div class="field rows">
                             <label for="Municipio" style="font-weight: 800;">Nombre:</label>
                         </div>
@@ -278,7 +278,7 @@
                         </div>
                     </div>
            
-         <div class="field col-12 md:col-4">
+         <div class="field col-12 md:col-4" style="position: relative;">
                         <div class="field rows">
                             <label for="Municipio" style="font-weight: 800;">Sexo:</label>
                         </div>
@@ -286,7 +286,7 @@
                             <label for="Municipio">{{ Detalle_Sexo }}</label>
                         </div>
                     </div>
-                    <div class="field col-12 md:col-4">
+                    <div class="field col-12 md:col-4" style="position: relative;">
                         <div class="field rows">
                             <label for="Municipio" style="font-weight: 800;">Estado Civil:</label>
                         </div>
@@ -297,7 +297,7 @@
 
 
 
-                    <div class="field col-12 md:col-4">
+                    <div class="field col-12 md:col-4" style="position: relative;">
                         <div class="field rows">
                             <label for="Municipio" style="font-weight: 800;">Cargo:</label>
                         </div>
