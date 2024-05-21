@@ -121,6 +121,7 @@
                         {{empl.empl_Nombre}}
                     </td>
                     <td style="display: flex; justify-content: space-around; ;grid-gap: 5px;">
+                        <p-button  label="Restablecer"  icon="pi pi-user-edit" *ngIf="Esadmin == 'true'" size="small" (click)="contraa(empl.usua_Id)" severity="primary" [raised]="true" [plain]="true"></p-button>
                         <p-button  label="Editar"   icon="pi pi-user-edit" size="small" (click)="Fill(empl.usua_Id)" severity="primary" [raised]="true" [plain]="true"></p-button>
                         <p-button  label="Detalles"   icon="pi pi-book" size="small" (click)="detalles(empl.usua_Id)" severity="secondary" [raised]="true" [plain]="true"></p-button>
                         <p-button  label="Eliminar" icon="pi pi-trash" size="small" (click)="deleteSelectedProducts(empl.usua_Id)" severity="danger" [raised]="true" [plain]="true"></p-button>
@@ -140,8 +141,8 @@
         </p-table>
         <div class="card-body" [class.hidden]="!Detalles">
             <div class="p-fluid p-formgrid grid">
-
-                <div class="field col-12 md:col-4">
+                <div class="field col-12 md:col-12"></div>
+                <div class="field col-12 md:col-3">
                     <div class="field rows">
                         <label for="Codigo" style="font-weight: 800;">Usuario:</label>
                     </div>
@@ -150,7 +151,7 @@
                     </div>
                 </div>
                 
-                <div class="field col-12 md:col-4">
+                <div class="field col-12 md:col-3">
                     <div class="field rows">
                         <label for="Municipio" style="font-weight: 800;">Administrador:</label>
                     </div>
@@ -159,7 +160,7 @@
                     </div>
                 </div>
                 
-                <div class="field col-12 md:col-4">
+                <div class="field col-12 md:col-3">
                     <div class="field rows" style="font-weight: 800;">
                         <label for="Departamento">Rol:</label>
                     </div>
@@ -167,7 +168,7 @@
                         <label for="Departamento">{{ Detalle_Rol }}</label>
                     </div>
                 </div>
-                <div class="field col-12 md:col-4">
+                <div class="field col-12 md:col-3">
                     <div class="field rows" style="font-weight: 800;">
                         <label for="Departamento">Empleado:</label>
                     </div>
@@ -220,6 +221,29 @@
                 <button pButton pRipple icon="pi pi-check" class="p-button-outlined p-button-primary" label="Si" (click)="confirmDelete()"></button>
             </ng-template>
         </p-dialog>
+
+
+
+
+        <div [class.hidden]="Contrasenas" style="margin-top: 20px;">
+
+            <form [formGroup]="enviarcontraForm" (ngSubmit)="oncontra()">
+                <div class="p-fluid p-formgrid grid">
+                    <div class="field col-12 md:col-6">
+                        <label for="Usuario">Nueva contraseña</label>
+                        <input pInputText id="Usua_Contraseña" formControlName="Usua_Contraseña" type="text" required autofocus 
+                               [ngClass]="{'ng-invalid ng-dirty': submitted && enviarcontraForm.controls['Usua_Contraseña'].invalid}"
+                               (keydown)="validarTextoNumeros($event)" />
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && enviarcontraForm.controls['Usua_Contraseña'].invalid" style="color: red !important;">Usuario Requerido</small>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; margin-top: 1rem; grid-gap: 5px;">
+                    <button pButton icon="pi pi-check" type="submit" label="Agregar" class="p-button-outlined"></button>
+                    <button pButton icon="pi pi-stop" type="button" (click)="cancelar()" label="Cancelar" class="p-button-outlined"></button>
+                </div>
+        </form>
+        </div>
     </div>
 </div>
 

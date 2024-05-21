@@ -5,11 +5,14 @@ import {Router} from '@angular/router';
 import { Table } from 'primeng/table';
 import { Usuario, UsuarioEnviar,Fill } from 'src/app/Models/UsuarioVIewModel';
 import { ServiceService } from 'src/app/Service/Usuario.service';
-import { FormGroup, FormControl,  Validators  } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl,  Validators  } from '@angular/forms';
 import { MensajeViewModel } from 'src/app/Models/MensajeViewModel';
 import { EmpleadoEnviar, dropEmpleado } from 'src/app/Models/EmpleadoViewModel';
 import { dropRol } from 'src/app/Models/RolViewModel';
 import { CookieService } from 'ngx-cookie-service';
+import { clave } from 'src/app/Models/ValidarViewModel';
+import { contraservice } from 'src/app/Service/Login.Service';
+
 @Component({
   templateUrl: './list-usuario.component.html',
   styleUrl: './list-usuario.component.css',
@@ -28,6 +31,7 @@ export class ListUsuarioComponent {
   @ViewChild('filter') filter!: ElementRef;
 
   Usua_Id: any = this.cookie.get('ID_Usuario');
+  Esadmin: any = this.cookie.get('esAdmin');
   selectedState: any = null;
   Collapse: boolean = false;
   DataTable: boolean = true;
@@ -48,9 +52,9 @@ export class ListUsuarioComponent {
   FechaCreacion: String = "";
   FechaModificacion: String = "";
   ID: String = "";
-  constructor(private service: ServiceService, private router: Router, private cookie: CookieService,    private messageService: MessageService
-  
-  ) { }
+  enviarcontraForm: FormGroup;
+
+  constructor(private service: ServiceService, private router: Router, private formBuilder: FormBuilder,  private cookie: CookieService, private messageService: MessageService, private contraService : contraservice ) { }
 
 
   ngOnInit(): void {
@@ -62,6 +66,11 @@ export class ListUsuarioComponent {
       Role_Id: new FormControl('0', [Validators.required]),
     });
 
+    this.enviarcontraForm = this.formBuilder.group({
+      Usua_Id: ['0', [Validators.required]],
+      Usua_Contraseña: ['', [Validators.required]],
+    });
+
     this.service.getDropDownEmpleado().subscribe((data: dropEmpleado[]) => {
       this.empleados = data;
     });
@@ -71,6 +80,7 @@ export class ListUsuarioComponent {
 
       this.service.getUsuario().subscribe((data: any)=>{
           console.log(data);
+          console.log(this.Esadmin);
           this.Usuario = data;
       },error=>{
         console.log(error);
@@ -98,6 +108,7 @@ detalles(codigo){
   this.DataTable = false;
   this.Agregar= false;
   this.Detalles = true;
+  this.Contrasenas = true;
   this.service.getFill(codigo).subscribe({
       next: (data: Fill) => {
          this.Detalle_Usuario = data.usua_Usuario,
@@ -222,10 +233,54 @@ Fill(codigo) {
             this.DataTable = false;
             this.Agregar = false;
             this.Detalles = false;
-            this.Contrasenas = false;
+            this.Contrasenas = true;
             this.Valor = "Editar";
         }
       });
 
 }
+
+  contraa(codigo){
+
+    this.enviarcontraForm = new FormGroup({
+      Usua_Id: new FormControl(codigo, [Validators.required]),
+      Usua_Contraseña: new FormControl ('', [Validators.required]),
+    })
+    this.Contrasenas= true;
+    this.DataTable = false;
+    this.Agregar = false;
+    this.Detalles = false;
+    this.Contrasenas = false;
+    }
+
+  oncontra(){
+    if(this.enviarcontraForm.valid)
+    {
+        const codigoData: clave = this.enviarcontraForm.value;
+          console.log(codigoData);
+          this.contraService.cambiarclave(codigoData).subscribe(
+            response => {
+              console.log('Respuesta del servidor:', response);
+              if (response!="Error"){
+                console.log("Contraseña establecida");
+                this.Contrasenas= true;
+                this.Collapse= false;
+                this.DataTable = true;
+                this.submitted = false;
+                this.Detalles = false;
+                this.Agregar= true;
+              }
+            },
+            error => {
+              console.error('codigo incorrecto:', error);
+            }
+          );
+    }
+    else
+    {
+      console.log('Formulario inválido');
+      console.log(this.enviarcontraForm);
+
+    }
+  }
 }

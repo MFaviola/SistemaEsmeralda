@@ -36,7 +36,18 @@ import { Observable } from 'rxjs';
   //    return this.http.get<Login[]>(this.url)
    }
 
+   @Injectable({
+    providedIn: 'root'
+  })
+   export class contraservice {
+    constructor(private http:HttpClient) { }
 
+    Urlmuestra = BASE_URL + 'API/Usuario/';
+
+    cambiarclave(loginData: clave): Observable<any>{
+      return this.http.put<any>(`${this.Urlmuestra}Restablecer`,loginData);
+    }
+   }
 
 
 

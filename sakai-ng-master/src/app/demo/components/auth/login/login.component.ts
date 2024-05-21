@@ -6,6 +6,9 @@ import { ServiceService } from '../../../../Service/Login.Service';
 import { Login, validar, codigo, clave } from '../../../../Models/ValidarViewModel';
 import {CookieService} from 'ngx-cookie-service';
 import { AuthService } from 'src/app/Service/authGuard.service';
+import { MensajeViewModel } from 'src/app/Models/MensajeViewModel';
+import { ConfirmationService, MessageService } from 'primeng/api';
+
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
@@ -17,16 +20,20 @@ import { AuthService } from 'src/app/Service/authGuard.service';
             margin-right: 1rem;
             color: var(--primary-color) !important;
         }
-    `],  providers:
-    [CookieService]
+    `],  
+  providers: [ConfirmationService,MessageService,CookieService],
+
 })
 export class LoginComponent {
   Collapse: boolean = true;
   Login: boolean = false;
   Codigo: boolean = true;
   Contra: boolean = true;
-
-  Usua_Id = '0';
+  Errior: boolean = true;
+  Uvacio: boolean = true;
+  Cvacio: boolean = true;
+  Usua_Id: String = '0';
+  MensajeViewModel!: MensajeViewModel[];
 
 
     // valCheck: string[] = ['remember'];
@@ -40,7 +47,7 @@ export class LoginComponent {
 
 
     
-    constructor(public layoutService: LayoutService, private formBuilder: FormBuilder, private service: ServiceService,private router: Router,private cookie: CookieService,private authService:AuthService) {
+    constructor(public layoutService: LayoutService, private messageService: MessageService, private formBuilder: FormBuilder, private service: ServiceService,private router: Router,private cookie: CookieService,private authService:AuthService) {
         
         
      }
@@ -53,7 +60,7 @@ export class LoginComponent {
       });
 
       this.enviarcontraForm = this.formBuilder.group({
-        Usua_Id: [this.cookie.get('ID_Usuario'), [Validators.required]],
+        Usua_Id: ['', [Validators.required]],
         Usua_Contraseña: ['', [Validators.required]],
       });
 
@@ -115,11 +122,39 @@ export class LoginComponent {
             },
             error => {
               console.error('Error al iniciar sesión:', error);
+              this.Uvacio = true;
+              this.Cvacio = true;
+
+              this.Errior = false;
 
             }
           );
         } else {
+          const loginData: Login = this.loginForm.value;
+
           console.log('Formulario inválido');
+          if(loginData.contra == "")
+            {
+              this.Errior = true;
+              this.Cvacio = false;
+
+            }
+          else
+          {
+              this.Errior = true;
+              this.Cvacio = true;
+          }
+
+          if(loginData.usuario == "")
+          {
+              this.Errior = true;
+              this.Uvacio = false;
+          }
+          else
+          {
+              this.Errior = true;
+              this.Uvacio = true;
+          }
         }
       }
 
@@ -130,7 +165,14 @@ export class LoginComponent {
             response => {
               console.log('Respuesta del servidor:', response);
               if (response!="Error"){
-                this.cookie.set('ID_Usuario', response[0].usua_Id);
+                this.Usua_Id = response[0].usua_Id;
+                this.messageService.add({ severity: 'info', summary: 'Correo enviado', detail: 'se envio un codigo de verificacion a su correo electronico', life: 3000 });
+
+                this.enviarcontraForm = new FormGroup({
+                  Usua_Id: new FormControl(this.Usua_Id, [Validators.required]),
+                  Usua_Contraseña: new FormControl ('', [Validators.required]),
+                })
+
                 this.Collapse = true;
                 this.Codigo = false;
               }
@@ -140,7 +182,7 @@ export class LoginComponent {
             }
           );
         } else {
-          console.log('Formulario inválido');
+              console.log('Formulario inválido');
         }
       }
 
@@ -153,12 +195,14 @@ export class LoginComponent {
               console.log('Respuesta del servidor:', response);
               if (response!="Error"){
                 console.log("el codigo es correcto");
+                this.messageService.add({ severity: 'success', summary: 'Codigo Correcto', detail: 'el codigo ingresado fue correcto', life: 3000 });
                 this.Codigo = true;
                 this.Contra = false;
               }
             },
             error => {
-              console.error('codigo incorrecto:', error);
+                this.messageService.add({ severity: 'error', summary: 'Codigo Incorrecto', detail: 'el codigo ingresado fue incorrecto', life: 3000 });
+                console.error('codigo incorrecto:', error);
             }
           );
         } else {
@@ -168,14 +212,16 @@ export class LoginComponent {
 
 
       oncontra():void{
-        if (this.enviarcodigoForm.valid) {
-          const codigoData: clave = this.enviarcontraForm.value;
+        if (this.enviarcontraForm.valid) {
+        const codigoData: clave = this.enviarcontraForm.value;
+          
           console.log(codigoData);
           this.service.cambiarclave(codigoData).subscribe(
             response => {
               console.log('Respuesta del servidor:', response);
               if (response!="Error"){
                 console.log("Contraseña establecida");
+                this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Contraseña establecida con exito', life: 3000 });
                 this.Codigo = true;
                 this.Login = false;
                 this.Contra = true;
@@ -187,6 +233,7 @@ export class LoginComponent {
           );
         } else {
           console.log('Formulario inválido');
+          console.log(this.enviarcontraForm)
         }
       }
       

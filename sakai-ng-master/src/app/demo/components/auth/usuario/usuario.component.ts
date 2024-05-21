@@ -36,6 +36,10 @@ export class UsuarioComponent {
     var nombre = this.cookie.get('Usuario')
     usuario.textContent = nombre;
 
+    var sucursal = document.getElementById('sucu');
+    var sucu = this.cookie.get('SucursalNombre')
+    sucursal.textContent = sucu;
+
     var empleado = document.getElementById('empl');
     var emple = this.cookie.get('Empleado');
     empleado.textContent = emple;
