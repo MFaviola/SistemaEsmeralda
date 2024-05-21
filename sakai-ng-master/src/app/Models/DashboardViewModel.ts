@@ -4,6 +4,11 @@ export class Fill {
     caja_FechaCierre?: string | null;
 }
 
+export class FillCajaCierre {
+    caja_Id: string;
+    caja_MontoInicial: string;
+    caja_FechaCierre?: string | null;
+}
 export class Fill2 {
     caja_Id: string;
     caja_MontoInicial: string;

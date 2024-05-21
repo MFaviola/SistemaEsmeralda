@@ -28,6 +28,7 @@ export class FacturaDetalle {
     prod_Id?:String;
     producto?:String;
     cantidad?:String;
+    imagen?:String;
     precio_Unitario?:String;
     total?:string;
     categoria?:String;

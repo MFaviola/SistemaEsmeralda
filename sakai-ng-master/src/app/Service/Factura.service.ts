@@ -22,6 +22,13 @@ export class ServiceService {
   constructor(private http:HttpClient) { }
   urlClientes = BASE_URL + 'API/Cliente/List'
   url2 = BASE_URL + 'API/'
+  EnviarCierre(formData: any): Observable<any> {
+    return this.http.post<any>(BASE_URL + 'API/Caja/CerrarCaja/', formData).pipe(
+      map(response => {
+        return response;
+      }),
+    );
+  }
 
   EnviarAbierto(formData: any): Observable<any> {
     return this.http.post<any>(BASE_URL + 'API/Caja/AbrirCaja/', formData).pipe(

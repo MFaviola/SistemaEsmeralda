@@ -1,0 +1,124 @@
+.ui-autocomplete {
+    position: relative;
+}
+.ui-autocomplete-panel {
+    z-index: 1050 !important; /* Asegúrate de que sea mayor que el del datatable */
+}::ng-deep .p-datatable {
+    overflow: visible;
+}
+
+.payment-method-icons {
+    display: flex;
+    gap: 10px;
+ 
+    width: 100%;
+}
+
+.payment-method-icons button {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #6b7280;
+}
+
+.payment-method-icons button.selected {
+    background-color: #e2c8c8;
+    
+    border-color: #C8B6B6;
+}
+
+.payment-method-icons button i {
+    font-size: 18px;
+}
+
+.styled-input-group {
+    display: flex;
+    align-items: center;
+}
+
+.styled-addon {
+    padding: 10px; /* Ajusta según sea necesario */
+    background-color: #f3f4f6; /* Mismo fondo */
+    border-top: 1px solid #d1d5db;
+    border-left: 1px solid #d1d5db;
+    border-bottom: 1px solid #d1d5db;
+    height: 39px !important;
+    width: 42px !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.p-inputtext{
+    width: 100px;
+    border-radius: 0 px !important;  /* Bordes redondeados */
+}
+.cien .p-inputtext{
+    width: 300px;  /* Bordes redondeados */
+    border-radius: 0 px !important; 
+}
+
+.codigo .p-inputtext{
+    width: 100px;  /* Bordes redondeados */
+    border-radius: 0 px !important; 
+}
+
+.cantidad .p-inputtext{
+    width: 40px;  /* Bordes redondeados */
+    border-radius: 0 px !important; 
+}
+.cien .p-inputtext{
+
+    border-radius: 0 px !important; 
+}
+.autocomplete-input {
+    width: 100%;
+    border: none; /* Elimina borde del input */
+    outline: none;
+    box-sizing: border-box;
+    background-color: transparent; /* Fondo del grupo de entrada */
+}
+.si .p-inputtext{
+    width: 400px;
+
+}
+
+
+.totals-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-top: 1rem;
+}
+
+.total-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 1.25rem; /* Tamaño de fuente más grande */
+}
+
+.total-label {
+    font-weight: bold;
+    margin-right: 0.5rem;
+}
+
+.total-value {
+    color: #7c7c7c; 
+}
+
+.error-field {
+    border: 1px solid red !important; 
+    border-bottom:  solid 10px;
+    position: relative;
+    z-index: 2000;
+  }
+
+
+  .error-field .p-element.p-autocomplete {
+    border: 2px solid red !important;
+}

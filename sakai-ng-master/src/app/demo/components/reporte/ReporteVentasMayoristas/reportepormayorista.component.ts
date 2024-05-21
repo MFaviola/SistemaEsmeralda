@@ -92,7 +92,7 @@ pdfSrc: SafeResourceUrl | null = null;
   onFechaFinalChange(event: any) {
 	this.controllerFinal = event
 	this.fechaFinal = this.datePipe.transform(event, 'yyyy-MM-dd');
-	this.service.GetReporteTop10(this.fechaInicio,this.fechaFinal).subscribe((data: any)=>{
+	this.service.GetReporteVentasMayoristas(this.fechaInicio,this.fechaFinal).subscribe((data: any)=>{
 
 		this.Factura = data;
 		console.log(data);
@@ -119,7 +119,6 @@ pdfSrc: SafeResourceUrl | null = null;
 		const blob = this.yService.ReportesTop10(cuerpo, img,Inicio,Final,totales);
 		const url = URL.createObjectURL(blob);
 		this.pdfSrc = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-		console.log("Se muestra xd");
 	},error=>{
 	  console.log(error);
 	});

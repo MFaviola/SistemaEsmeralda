@@ -279,13 +279,15 @@ export class AppMenuComponent implements OnInit {
                     this.model = this.menuCompleto
                         .map(section => {
                             const itemsFiltrados = section.items.map(subSection => {
+                                
                                 const subItemsFiltrados = filtrarSubitems(subSection.items || []);
                                 return {
                                     ...subSection,
                                     items: subItemsFiltrados
                                 };
+                                
                             }).filter(subSection => subSection.items.length > 0);
-    
+                           
                             return {
                                 ...section,
                                 items: itemsFiltrados
@@ -535,6 +537,17 @@ export class AppMenuComponent implements OnInit {
 
 
 
+            },  {
+                items: [
+                    {
+                        label: 'Facturas',
+                        icon: 'pi pi-fw pi-shopping-cart',
+                        routerLink: ['/facturas']
+                    },
+                    
+                 
+
+                ]
             },
         ];
     
