@@ -655,8 +655,8 @@ export class ListFacturacompraComponent {
       this.FacturaForm = new FormGroup({
           mepa_Id: new FormControl(data[0].mepa_Id,Validators.required),
           prov_Id: new FormControl(data[0].prov_Id, [Validators.required]),
-          sucu_Id: new FormControl(data[0].sucu_Id, Validators.required),
-          sucu_Nombre: new FormControl(data[0].sucu_Nombre, Validators.required),    
+          sucu_Id: new FormControl(data[0].sucu_Id, [Validators.required]),
+          sucu_Nombre: new FormControl(data[0].sucu_Nombre, [Validators.required]),    
           nombreProveedor: new FormControl(data[0].nombreProveedor, [Validators.required]),
           radio: new FormControl("0", [Validators.required]),
           faCD_Dif: new FormControl("0", [Validators.required]),

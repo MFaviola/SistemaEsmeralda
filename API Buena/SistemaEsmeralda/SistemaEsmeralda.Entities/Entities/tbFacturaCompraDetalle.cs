@@ -35,6 +35,10 @@ namespace SistemaEsmeralda.Entities.Entities
 
         public int? FaCD_Cantidad { get; set; }
         [NotMapped]
+        public string sucu_Id { get; set; }
+        [NotMapped]
+        public string sucu_Nombre { get; set; }
+        [NotMapped]
         public string NombreProveedor { get; set; }
         [NotMapped]
         public string mepa_Metodo { get; set; }
