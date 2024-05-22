@@ -219,14 +219,16 @@ confirmDelete() {
 Fill(codigo) {
     this.service.getFill(codigo).subscribe({
         next: (data: Fill) => {
+          console.log(data);
           this.sucursalForm = new FormGroup({
+            
             Sucu_Nombre: new FormControl(data.sucu_Nombre,Validators.required),
-            Depa_Codigo: new FormControl(data.depa_codigo, [Validators.required]),
+            Depa_Codigo: new FormControl(data.depa_Codigo, [Validators.required]),
             Muni_Codigo: new FormControl(data.muni_Codigo, [Validators.required]),
           });
           this.MunicipioCodigo = data.muni_Codigo;
           console.log(this.MunicipioCodigo);
-          this.service.getMunicipios(data.depa_codigo).subscribe(
+          this.service.getMunicipios(data.depa_Codigo).subscribe(
             (data: any) => {
               this.municipios = data; 
               this.sucursalForm.get('Muni_Codigo').setValue(this.MunicipioCodigo); 

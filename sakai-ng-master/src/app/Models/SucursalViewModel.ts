@@ -21,7 +21,7 @@ export class Fill {
     sucu_Nombre?: String;
     muni_Codigo: string; 
     muni_Municipio?:String;
-    depa_codigo?:String;
+    depa_Codigo?:String;
     usuarioCreacion?:String;
     usuarioModificacion:String;
     fechaCreacion:String;

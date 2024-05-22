@@ -1,7 +1,7 @@
 <p-toast ></p-toast>
 <div class="main-card mb-3 card"> 
     <div class="card-header">
-        <div style="width: 100%; height: 140px; background-image: url(./../../../../../../assets/demo/images/galleria/proveedores.png); background-repeat: no-repeat; background-size: cover; background-position: center 45%; border-radius: 10px;"></div>
+        <div style="width: 100%; height: 80px; background-image: url(./../../../../../../assets/demo/images/galleria/proveedores.png); background-repeat: no-repeat; background-size: cover; background-position: center 50%; border-radius: 10px;"></div>
     </div>
     <div class="card-body">
 
@@ -23,7 +23,7 @@
                     <input pInputText id="Telefono" formControlName="Prov_Telefono" type="text" required autofocus 
                            [ngClass]="{'ng-invalid ng-dirty': submitted && proveedorForm.controls['Prov_Telefono'].invalid}"
                            (keydown)="ValidarNumero($event)" maxlength="8"/>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && proveedorForm.controls['Prov_Telefono'].invalid" style="color: red !important;">Proveedor Requerido</small>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && proveedorForm.controls['Prov_Telefono'].invalid" style="color: red !important;">Telefono Requerido</small>
                  </div>
                 <div class="field col-12 md:col-6">
                   <label for="Departamento">Departamento</label>
@@ -139,6 +139,7 @@
         </p-table>
         <div class="card-body" [class.hidden]="!Detalles">
             <div class="p-fluid p-formgrid grid">
+                <div class="field col-12 md:col-12"></div>
 
                 <div class="field col-12 md:col-4">
                     <div class="field rows">
@@ -169,7 +170,7 @@
        
  
    
-        <div class="field col-12 md:col-4">
+        <div class="field col-12 md:col-4" style="position: relative; top: -50px;">
             <div class="field rows" style="font-weight: 800;">
                 <label for="Departamento">Municipio:</label>
             </div>

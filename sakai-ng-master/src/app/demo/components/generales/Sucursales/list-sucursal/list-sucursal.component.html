@@ -1,7 +1,7 @@
 <p-toast ></p-toast>
 <div class="main-card mb-3 card"> 
     <div class="card-header">
-        <div style="width: 100%; height: 80px; background-image: url(./../../../../../../assets/demo/images/galleria/sucu.png); background-repeat: no-repeat; background-size: cover; background-position: center 45%; border-radius: 10px;"></div>
+        <div style="width: 100%; height: 80px; background-image: url(./../../../../../../assets/demo/images/galleria/sucursales.png); background-repeat: no-repeat; background-size: cover; background-position: center 50%; border-radius: 10px;"></div>
     </div>
     
     <div class="card-body">
@@ -17,7 +17,7 @@
                       <input pInputText id="Sucursal" formControlName="Sucu_Nombre" type="text" required autofocus 
                              [ngClass]="{'ng-invalid ng-dirty': submitted && sucursalForm.controls['Sucu_Nombre'].invalid}"
                              (keydown)="validarTexto($event)" />
-                      <small class="ng-dirty ng-invalid" *ngIf="submitted && sucursalForm.controls['Sucu_Nombre'].invalid" style="color: red !important;">Proveedor Requerido</small>
+                      <small class="ng-dirty ng-invalid" *ngIf="submitted && sucursalForm.controls['Sucu_Nombre'].invalid" style="color: red !important;">Sucursal Requerido</small>
                    </div>
                 <div class="field col-12 md:col-6">
                   <label for="Departamento">Departamento</label>
@@ -48,7 +48,7 @@
         <p-table #dt1 [value]="Sucursal" dataKey="sucu_Id" [rows]="10"  [class.hidden]="!DataTable"  [loading]="loading" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" [globalFilterFields]="['sucu_Id','sucu_Nombre','muni_Municipio']" responsiveLayout="scroll">
             <ng-template pTemplate="caption">
                 <div class="flex justify-content-between flex-column sm:flex-row">
-                    <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clear(dt1)"></button>
+                    <button pButton label="Limpiar" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clear(dt1)"></button>
                     <span class="p-input-icon-left mb-2">
                         <i class="pi pi-search"></i>
                         <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Search Keyword" class="w-full"/>
@@ -117,8 +117,7 @@
         
         <div class="card-body" [class.hidden]="!Detalles" style="padding-top: 5%;">
             <div class="p-fluid p-formgrid grid">
-                <div class="field col-12 md:col-3"></div>
-                <div class="field col-12 md:col-2">
+                <div class="field col-12 md:col-4">
                     <div class="field rows">
                         <label for="Codigo" style="font-weight: 800;">Codigo:</label>
                     </div>
@@ -127,7 +126,7 @@
                     </div>
                 </div>
                 
-                <div class="field col-12 md:col-2">
+                <div class="field col-12 md:col-4">
                     <div class="field rows">
                         <label for="sucursal" style="font-weight: 800;">Sucursal:</label>
                     </div>
@@ -135,7 +134,7 @@
                         <label for="sucursal">{{ Detalle_Sucursal }}</label>
                     </div>
                 </div>
-                <div class="field col-12 md:col-2">
+                <div class="field col-12 md:col-4">
                     <div class="field rows" style="font-weight: 800;">
                         <label for="municipio">Municipio:</label>
                     </div>
@@ -143,7 +142,6 @@
                         <label for="municipio">{{ Detalle_Municipio }}</label>
                     </div>
                 </div>
-                <div class="field col-12 md:col-3"></div>
 
     </div>
             <div class="card">

@@ -1,7 +1,7 @@
 <p-toast ></p-toast>
 <div class="main-card mb-3 card"> 
     <div class="card-header">
-        <div style="width: 100%; height: 140px; background-image: url(./../../../../../../assets/demo/images/galleria/joyas.png); background-repeat: no-repeat; background-size: cover; background-position: center 45%; border-radius: 10px;"></div>
+        <div style="width: 100%; height: 80px; background-image: url(./../../../../../../assets/demo/images/galleria/joyas.png); background-repeat: no-repeat; background-size: cover; background-position: center 50%; border-radius: 10px;"></div>
     </div>
     <div class="card-body">
         <button (click)="collapse()" pButton icon="pi pi-plus" style="margin-bottom: 10px ;  margin-top: 10px;" [class.hidden]="!Agregar">Agregar</button>
@@ -78,7 +78,7 @@
         <p-table #dt1 [value]="Joya" dataKey="joya_Id" [rows]="10" [loading]="loading" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" [class.hidden]="!DataTable" [globalFilterFields]="['joya_Id','joya_Nombre','joya_PrecioCompra','joya_PrecioVenta','joya_PrecioMayor','mate_Material','prov_Proveedor','cate_Categoria']" responsiveLayout="scroll">
             <ng-template pTemplate="caption">
                 <div class="flex justify-content-between flex-column sm:flex-row">
-                    <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clear(dt1)"></button>
+                    <button pButton label="Limpiar" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clear(dt1)"></button>
                     <span class="p-input-icon-left mb-2">
                         <i class="pi pi-search"></i>
                         <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Search Keyword" class="w-full"/>
@@ -205,6 +205,7 @@
         </p-table>
         <div class="card-body" [class.hidden]="!Detalles">
             <div class="p-fluid p-formgrid grid">
+                <div class="field col-12 md:col-12"></div>
 
                 <div class="field col-12 md:col-4">
                     <div class="field rows">
@@ -233,7 +234,7 @@
                     </div>
                 </div>
     
-        <div class="field col-12 md:col-4">
+        <div class="field col-12 md:col-4" style="position: relative; top: -50px;">
             <div class="field rows" style="font-weight: 800;">
                 <label for="Mayor">Precio Mayor:</label>
             </div>
@@ -241,7 +242,7 @@
                 <label for="Mayor">{{ Detalle_Mayor }}</label>
             </div>
         </div>
-        <div class="field col-12 md:col-4">
+        <div class="field col-12 md:col-4" style="position: relative; top: -50px;">
             <div class="field rows" style="font-weight: 800;">
                 <label for="Precio">Precio Venta:</label>
             </div>
@@ -249,7 +250,7 @@
                 <label for="Precio">{{ Detalle_Venta }}</label>
             </div>
         </div>
-        <div class="field col-12 md:col-4">
+        <div class="field col-12 md:col-4" style="position: relative; top: -50px;">
             <div class="field rows" style="font-weight: 800;">
                 <label for="Precio">Stock:</label>
             </div>
@@ -257,7 +258,7 @@
                 <label for="Precio">{{ Detalle_Stock }}</label>
             </div>
         </div>
-        <div class="field col-12 md:col-4">
+        <div class="field col-12 md:col-4" style="position: relative; top: -50px;">
             <div class="field rows" style="font-weight: 800;">
                 <label for="Material">Material:</label>
             </div>
@@ -265,7 +266,7 @@
                 <label for="Material">{{ Detalle_Material }}</label>
             </div>
         </div>
-        <div class="field col-12 md:col-4">
+        <div class="field col-12 md:col-4" style="position: relative; top: -50px;">
             <div class="field rows" style="font-weight: 800;">
                 <label for="Provedor">Provedor:</label>
             </div>
@@ -273,7 +274,7 @@
                 <label for="Provedor">{{ Detalle_Proveedor }}</label>
             </div>
         </div>
-        <div class="field col-12 md:col-4">
+        <div class="field col-12 md:col-4" style="position: relative; top: -100px;">
             <div class="field rows" style="font-weight: 800;">
                 <label for="Categoria">Categoria:</label>
             </div>
@@ -281,7 +282,7 @@
                 <label for="Categoria">{{ Detalle_Categoria }}</label>
             </div>
         </div>
-        <div class="field col-12 md:col-4">
+        <div class="field col-12 md:col-4" style="position: relative; top: -100px;">
             <div class="field rows" style="font-weight: 800;">
                 <label for="Categoria">Imagen:</label>
             </div>
@@ -290,7 +291,7 @@
             </div>
         </div>
     </div>
-            <div class="card">
+            <div class="card" style="position: relative; top: -100px; bottom: -50px;">
                 <div class="card-header">
                     <div class="card-title">
                        <h1>Auditoria</h1>

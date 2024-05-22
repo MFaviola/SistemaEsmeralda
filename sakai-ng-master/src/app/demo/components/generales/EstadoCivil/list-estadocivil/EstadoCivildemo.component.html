@@ -1,7 +1,7 @@
 <p-toast style="background-color: red !important;"></p-toast>
 <div class="main-card mb-3 card"> 
     <div class="card-header">
-        <div style="width: 100%; height: 140px; background-image: url(./../../../../../../assets/demo/images/galleria/estadosciviles.png); background-repeat: no-repeat; background-size: cover; background-position: center 45%; border-radius: 10px;"></div>
+        <div style="width: 100%; height: 80px; background-image: url(./../../../../../../assets/demo/images/galleria/estadosciviles.png); background-repeat: no-repeat; background-size: cover; background-position: center 50%; border-radius: 10px;"></div>
     </div>
     <div class="card-body">
     
@@ -35,7 +35,7 @@
         <p-table #dt1 [value]="Estado" dataKey="esta_Id" [rows]="10" [loading]="loading" [class.hidden]="!DataTable" [rowHover]="true" styleClass="p-datatable-gridlines"  [paginator]="true" [globalFilterFields]="['esta_Id','esta_EstadoCivil']" responsiveLayout="scroll">
             <ng-template pTemplate="caption">
                 <div class="flex justify-content-between flex-column sm:flex-row">
-                    <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clear(dt1)"></button>
+                    <button pButton label="Limpiar" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clear(dt1)"></button>
                     <span class="p-input-icon-left mb-2">
                         <i class="pi pi-search"></i>
                         <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Buscar palabra" class="w-full"/>
@@ -116,6 +116,7 @@
                 <label for="Codigo">{{ id }}</label>
             </div>
         </div> -->
+        <div class="field col-12 md:col-12"></div>
         
         <div class="field col-12 md:col-4">
             <div class="field rows">

@@ -324,17 +324,6 @@ export class ListFacturacompraComponent {
     this.filteredSucursales = filtered;
   }
 
-  producto(event: any){
-    console.log(event.key)
-    console.log()
-    this.service.getDatosPorCodigo(this.FacturaForm.get('prod_Id').value).subscribe(countries => {
-      this.FacturaForm.get('nombreProducto').setValue(countries[0].maqu_Nombre); 
-      this.FacturaForm.get('prod_Id').setValue(countries[0].maqu_Id); 
-      this.FacturaForm.get('Prod_Producto').setValue(countries[0].maqu_Nombre); 
-    
-    });
-  
-  }
   //#endregion
   
   //#region  selects
@@ -354,7 +343,6 @@ export class ListFacturacompraComponent {
   }
 
   onSelectProduct(event) {
-    this.FacturaForm.get('prod_Id').setValue(event.value.value); 
     this.FacturaForm.get('nombreProducto').setValue(event.value.text); 
   }
 
@@ -423,7 +411,7 @@ export class ListFacturacompraComponent {
     this.FacturaForm.get('precioVenta').setValue("1")
     this.FacturaForm.get('precioCompra').setValue("1")
     this.FacturaForm.get('faCD_Cantidad').setValue("1")
-    this.FacturaForm.get('nombreProducto').setValue("xD")
+    this.FacturaForm.get('nombreProducto').setValue("a")
     this.FacturaForm.get('radio').setValue("1")
     this.onSubmit();
     this.Collapse= false;
@@ -671,7 +659,6 @@ export class ListFacturacompraComponent {
           radio: new FormControl("0", [Validators.required]),
           faCD_Dif: new FormControl("", [Validators.required]),
           nombreProducto: new FormControl("", [Validators.required]),
-          prod_Id: new FormControl("", [Validators.required]),
           faCD_Cantidad: new FormControl("", [Validators.required]),
           precioCompra: new FormControl("", [Validators.required]),
           precioVenta: new FormControl("", [Validators.required]),

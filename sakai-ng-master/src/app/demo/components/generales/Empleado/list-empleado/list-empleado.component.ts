@@ -74,7 +74,7 @@ export class ListEmpleadoComponent {
 
   ngOnInit(): void {
     this.clienteForm = new FormGroup({
-        Empl_DNI: new FormControl("",Validators.required),
+        Empl_DNI: new FormControl("",[Validators.required , Validators.minLength(14)]),
         Empl_Nombre: new FormControl("",Validators.required),
         Empl_Apellido: new FormControl("", Validators.required),
         Empl_Sexo: new FormControl("", Validators.required),
