@@ -16,7 +16,7 @@ import { C, an, el } from '@fullcalendar/core/internal-common';
 import { forkJoin } from 'rxjs';
 import {CookieService} from 'ngx-cookie-service';
 import { DatePipe } from '@angular/common';
-import { CajaEnviar, Fill2 } from 'src/app/Models/DashboardViewModel';
+import { CajaEnviar, Fill2, FillCajaCierre } from 'src/app/Models/DashboardViewModel';
 
 @Component({
   templateUrl: './list-factura.component.html',
@@ -58,7 +58,7 @@ export class ListFacturaComponent {
   deleteProductDialog: boolean = false;
   ConfirmarPago: boolean = false;
 
-
+  CajaCerradaForm : FormGroup;
   //Region ?
 
   routeItems: MenuItem[] = [];
@@ -105,10 +105,16 @@ export class ListFacturaComponent {
   cambio: string = "0";
   CajaForm: FormGroup;
   //Region Fecha
+ 
+  //Region Fecha
   dateDay = new Date();
+  dateDayAnter = new Date();
+  Validaciones: string = "Prueba";
+  Validaciones2: string = "Prueba";
   conversion: string;
   hora = new Date().getHours;
   conversionHora: string;
+  TotalCajaCerrar: string = "0";
 
   //Variable para manejar el estado de Actualizar
   Actualizar: string = "";
@@ -135,6 +141,7 @@ export class ListFacturaComponent {
   filteredListJoya: any[] = [];
   filteredMetodoPago: any[] = [];
   filteredCountries: any[] = [];
+  CajaCerradaDialog: boolean = false
   filteredClientes: any[] = [];
   filteredClientesNombre: any[] = [];
   constructor(private service: ServiceService, private router: Router, private srvImprecion : YService,
@@ -144,23 +151,68 @@ export class ListFacturaComponent {
 
 
   ngOnInit(): void {
-    const fechaC = this.datePipe.transform(this.dateDay, 'yyyy-MM-dd')
-    this.service.getValidacion(fechaC, this.Sucu_Id).subscribe((data: Fill2[]) => {
+    this.dateDayAnter.setDate(this.dateDayAnter.getDate() - 1);
+    const fechaA = this.datePipe.transform(this.dateDayAnter, 'yyyy-MM-dd');
+    this.service.getValidacion(fechaA, this.cookie.get('SucursalID')).subscribe((data: FillCajaCierre[]) => {
       if (data.length > 0) {
-          this.AbrirCaja = false;
-      } else {
-          this.AbrirCaja = true; 
+       this.CajaID =  data[0].caja_Id
+       this.Inicio = data[0].caja_MontoInicial
       }
+      this.service.getFacturasVentas(fechaA).subscribe(
+        (ventasData: any) => {
+          console.log('Ventas Data:', ventasData);
+          if (ventasData && ventasData.length > 0) {
+            const total = parseFloat(ventasData[0].total); 
+            this.TotalCajaCerrar = total.toFixed(2);
+            console.log('Total Caja Cerrar:', this.TotalCajaCerrar);
+          } 
+        },
+      );
+      const cajaSinCerrar = data.some(item => item.caja_Finalizado == "True");
+      this.CajaCerradaDialog = cajaSinCerrar;
      
-  
-  })
 
+         
+        } 
+           
+      
+        )
+    this.dateDayAnter.setDate(this.dateDayAnter.getDate());
+    const fechaAS = this.datePipe.transform(this.dateDayAnter, 'yyyy-MM-dd');
+    this.service.getValidacion(fechaAS, this.cookie.get('SucursalID')).subscribe((data: FillCajaCierre[]) => {
+      const cajaSinCerrar = data.some(item => item.caja_Finalizado == "False");
+      this.AbrirCaja = cajaSinCerrar;
+     
+         
+        } 
+           
+      
+        )
+
+
+
+
+      
+
+        if (this.Validaciones == "Prueba") {
+          this.service.getFacturasDetalle(0).subscribe((data: any)=>{
+          this.FacturaDetalle = data;
+        })
+}else if(this.Validaciones == "Ayer"){
+  this.CajaCerradaDialog = true;
+}else if(this.Validaciones == "Hoy"){
+this.AbrirCaja= true
+}
+    
     //Tabla de Factura
     this.service.getFacturasDetalle(this.Fact_ID).subscribe((data: any)=>{
       console.log(data);
       this.FacturaDetalle = data;
     });
-
+    this.CajaCerradaForm = new FormGroup({
+      caja_MontoFinal: new FormControl("", Validators.required),
+      caja_Observacion: new FormControl("", Validators.required),
+  });  
     //Formularios
     this.CajaForm = new FormGroup({
       caja_MontoInicial: new FormControl("", Validators.required),
@@ -203,6 +255,82 @@ export class ListFacturaComponent {
       this.subirCaja = false
   }
   
+
+  
+onSubmitCajaCerrada() {
+  if (this.CajaCerradaForm.valid) {
+     this.viewModel2 = this.CajaCerradaForm.value;
+     this.viewModel2.caja_UsuarioCierre = this.cookie.get('ID_Usuario');
+     this.viewModel2.caja_Id = this.CajaID;
+     const total = parseFloat(this.CajaCerradaForm.get('caja_MontoFinal').value) + parseFloat(this.Inicio);
+     this.viewModel2.caja_MontoInicial = this.Inicio;
+     this.viewModel2.caja_MontoFinal = total.toFixed(2)
+    this.viewModel2.caja_MontoSistema = this.TotalCajaCerrar;
+     this.service.EnviarCierre(this.viewModel2).subscribe((data: MensajeViewModel[]) => {
+      if(data["message"] == "Operación completada exitosamente."){
+          this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Puede continuar', life: 3000 });
+          this.CajaCerradaDialog = false;
+            this.service.getFacturasDetalle(0).subscribe((data: any)=>{
+            this.FacturaDetalle = data;
+          })
+          
+        
+      }else{
+    
+       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo cerrar:', life: 3000 });
+      } 
+   })
+  
+    
+ 
+  }   
+      else 
+      {
+          this.submitted = true;
+      }
+  }
+
+
+onSubmitCaja() {
+  if (this.CajaForm.valid) {
+     this.viewModel2 = this.CajaForm.value;
+     this.viewModel2.caja_UsuarioApertura = this.cookie.get('ID_Usuario');
+     this.viewModel2.Sucu_Id = this.Sucu_Id;
+     this.service.EnviarAbierto(this.viewModel2).subscribe((data: MensajeViewModel[]) => {
+      if(data["message"] == "Operación completada exitosamente."){
+          this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Puede continuar', life: 3000 });
+          this.ConfirmarPago = false;
+          this.submitted = false;
+          this.Collapse= true;
+          this.DataTable = false;
+          this.Valor = "Agregar";
+          this.Agregar= false;
+          this.Detalles = false;
+          this.Tabla = false;
+          this.Subtotal = "0";
+          this.Impuesto = "0"
+          this.Total = "0";
+          this.selectedMetodo = "1";
+          this.Actualizar = ""
+          this.service.getFacturasDetalle(0).subscribe((data: any)=>{
+          this.FacturaDetalle = data;
+          this.AbrirCaja = false;
+        })
+      }else{
+    
+       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo cerrar:', life: 3000 });
+      } 
+   })
+  
+    
+ 
+  }   
+      else 
+      {
+          this.subirCaja = true;
+      }
+  }
+
 //Seleccionar el metodo
    selectMetodoPago(metodo: string) {
     this.selectedMetodo = metodo;
@@ -445,45 +573,7 @@ ConfirmarEditado(){
 }
 
 //SUBIR
-onSubmitCaja() {
-  if (this.CajaForm.valid) {
-     this.viewModel2 = this.CajaForm.value;
-     this.viewModel2.caja_UsuarioApertura = this.Usua_Id;
-     this.viewModel2.Sucu_Id = this.Sucu_Id;
-     this.service.EnviarAbierto(this.viewModel2).subscribe((data: MensajeViewModel[]) => {
-      if(data["message"] == "Operación completada exitosamente."){
-          this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Puede continuar', life: 3000 });
-          this.ConfirmarPago = false;
-          this.submitted = false;
-          this.Collapse= true;
-          this.DataTable = false;
-          this.Valor = "Agregar";
-          this.Agregar= false;
-          this.Detalles = false;
-          this.Tabla = false;
-          this.Subtotal = "0";
-          this.Impuesto = "0"
-          this.Total = "0";
-          this.selectedMetodo = "1";
-          this.Actualizar = ""
-          this.service.getFacturasDetalle(0).subscribe((data: any)=>{
-          this.FacturaDetalle = data;
-          this.AbrirCaja = false;
-        })
-      }else{
-    
-       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo cerrar:', life: 3000 });
-      } 
-   })
-  
-    
- 
-  }   
-      else 
-      {
-          this.subirCaja = true;
-      }
-  }
+
 
 
 
