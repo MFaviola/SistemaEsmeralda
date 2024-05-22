@@ -24,38 +24,29 @@ export class UsuarioComponent {
   submitted: boolean = false;
   viewModel: UsuarioEnviar = new UsuarioEnviar();
   usuform: FormGroup;
-  nombre: string = "";
 
   empleados: any[] = [];
   rol: any[] = [];
 
+  Usuanombre: String = "";
+  sucursal: String = "";
+  empleado: String = "";
+  role: String = "";
+  correo: String = "";
+  
   constructor(private service: ServiceService, private router: Router, private messageService: MessageService, private cookie: CookieService ) { }
 
   ngOnInit(): void {
-    var id = this.cookie.get('ID_Usuario');
 
-    var usuario = document.getElementById('ID_Usuario');
-   usuario.textContent = this.nombre;
 
-    var sucursal = document.getElementById('sucu');
-    var sucu = this.cookie.get('SucursalNombre')
-    sucursal.textContent = sucu;
 
-    var empleado = document.getElementById('empl');
-    var emple = this.cookie.get('Empleado');
-    empleado.textContent = emple;
-
-    var role = document.getElementById('rol');
-    var rol = this.cookie.get('Rol');
-    role.textContent = rol;
-
-    var correo = document.getElementById('correo');
-    var corre = this.cookie.get('correo');
-    correo.textContent = corre;
-
-    this.service.getFill(this.cookie.get('ID_Usuario')).subscribe((data: any)=>{
+    this.service.getFill(this.id).subscribe((data: any)=>{
       console.log(data);
-      this.nombre = data.usua_Usuario
+      this.Usuanombre = data.usua_Usuario;
+      this.empleado = data.empl_Nombre;
+      this.role = data.role_Rol;
+      this.sucursal = data.sucu_Nombre;
+      this.correo = data.empl_Correo;
     },error=>{
         console.log(error);
     })
@@ -88,7 +79,10 @@ export class UsuarioComponent {
           Empl_Id: new FormControl(data.empl_Id, [Validators.required]),
           Role_Id: new FormControl(data.role_Id, [Validators.required]),
         });
-          this.Collapse= true;
+
+        this.cookie.set('Usuario', data.usua_Usuario);
+        
+        this.Collapse= true;
           this.Edicion = true;
       }
     });
@@ -114,6 +108,8 @@ export class UsuarioComponent {
           this.Collapse= false;
           this.Edicion = false;
           this.submitted = false;
+          this.router.navigate(['/usuario']);
+
         }else{
          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro actualizar', life: 3000 });
         }          
