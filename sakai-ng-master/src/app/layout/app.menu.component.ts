@@ -8,6 +8,7 @@ import { MensajeViewModel } from '../Models/MensajeViewModel';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DatePipe } from '@angular/common';
 import { CajaEnviar, FillCajaCierre } from '../Models/DashboardViewModel';
+import { C } from '@fullcalendar/core/internal-common';
 
 
 @Component({
@@ -32,9 +33,26 @@ export class AppMenuComponent implements OnInit {
     Inicio: string = "0";
     CajaID : string = "0";
     submitted: boolean = false;
+    validacion: string = "False";
     constructor(private datePipe: DatePipe,private servicioLogin: ServiceService, public layoutService: LayoutService, private cookieService: CookieService, private messageService: MessageService) { }
 
     ngOnInit() {
+        this.dateDayAnter.setDate(this.dateDayAnter.getDate());
+        const fechaA = this.datePipe.transform(this.dateDayAnter, 'yyyy-MM-dd');
+        this.servicioLogin.getValidacion(fechaA, this.cookieService.get('SucursalID')).subscribe((data: FillCajaCierre[]) => {
+        
+        if (data.length <= 0 ) {
+            this.validacion = "False"
+        }else{
+            this.validacion = data[0].caja_Finalizado;
+        }
+       
+
+           
+          } 
+             
+        
+          )
         this.CajaCerradaForm = new FormGroup({
             caja_MontoFinal: new FormControl("", Validators.required),
             caja_Observacion: new FormControl("", Validators.required),
@@ -44,8 +62,12 @@ export class AppMenuComponent implements OnInit {
             caja_MontoInicial: new FormControl("", Validators.required),
           });  
 
+            this.crearMapeo();
 
+       
+    }
 
+    crearMapeo(){
         const admin = this.cookieService.get('esAdmin').toString();
         if (admin != "true") {
             const roleId = Number.parseInt(this.cookieService.get('roleID'));
@@ -71,18 +93,29 @@ export class AppMenuComponent implements OnInit {
                                         ...subSection
                                     };
                                 }
-
-                                if (subSection.label.toLowerCase().trim() == 'cerrar caja' || subSection.label.toLowerCase().trim() == 'abrir caja') {
-                                    if (nombresPermitidos.has(subSection.label.toLowerCase().trim())) {
-                                        return {
-                                            ...subSection,
-                                            command: () => this.openDialog(subSection.label.toLowerCase().trim())
-                                        };
-                                    }
-                                    return null;
-                                }
+                              
+                                 
+                              
+                               
                             }
-
+                            if (subSection.label.toLowerCase().trim() == 'abrir caja' && this.validacion == "False") {
+                                if (nombresPermitidos.has(subSection.label.toLowerCase().trim())) {
+                                    return {
+                                        ...subSection,
+                                        command: () => this.openDialog(subSection.label.toLowerCase().trim())
+                                    };
+                                }
+                                return null;
+                            }
+                            if (subSection.label.toLowerCase().trim() == 'cerrar caja' && this.validacion == "True") {
+                                if (nombresPermitidos.has(subSection.label.toLowerCase().trim())) {
+                                    return {
+                                        ...subSection,
+                                        command: () => this.openDialog(subSection.label.toLowerCase().trim())
+                                    };
+                                }
+                                return null;
+                            }
                             if (subItemsFiltrados.length > 0) {
                                 return {
                                     ...subSection,
@@ -103,7 +136,6 @@ export class AppMenuComponent implements OnInit {
             this.model = this.menuCompleto;
         }
     }
-
     openDialog(type: string) {
         if (type === 'abrir caja') {
             this.abrirCajaDialog = true;
@@ -115,8 +147,6 @@ export class AppMenuComponent implements OnInit {
 
                 this.Inicio = data[0].caja_MontoInicial;
                 this.CajaID = data[0].caja_Id;
-                
-            
                 this.servicioLogin.getFacturasVentas(fechaA).subscribe(
                   (ventasData: any) => {
                     console.log('Ventas Data:', ventasData);
@@ -145,8 +175,11 @@ export class AppMenuComponent implements OnInit {
            this.viewModel2.Sucu_Id = this.cookieService.get('SucursalID');
            this.servicioLogin.EnviarAbierto(this.viewModel2).subscribe((data: MensajeViewModel[]) => {
             if(data["message"] == "Operación completada exitosamente."){
+                this.ngOnInit();
                 this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Puede continuar', life: 3000 });
                 this.abrirCajaDialog = false;
+                this.validacion = "True";
+                this.crearMapeo();
             }else{
           
              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo cerrar:', life: 3000 });
@@ -176,8 +209,10 @@ export class AppMenuComponent implements OnInit {
                this.viewModel2.caja_MontoSistema = this.TotalCajaCerrar;
                this.servicioLogin.EnviarCierre(this.viewModel2).subscribe((data: MensajeViewModel[]) => {
                 if(data["message"] == "Operación completada exitosamente."){
-                    this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Puede continuar', life: 3000 });
+                    this.validacion = "False";
+                    this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Puede operar', life: 3000 });
                     this.cerrarCajaDialog = false;
+                    this.crearMapeo();
                 
                 }else{
               

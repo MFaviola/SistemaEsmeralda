@@ -8,8 +8,9 @@ namespace SistemaEsmeralda.Entities.Entities
 {
     public partial class tbCajas
     {
+        public string? caja_Finalizado { get; set; }
         public int caja_Id { get; set; }
-
+        
         public string? Apertura { get; set; }
 
         public string? Sucu_Nombre { get; set; }
