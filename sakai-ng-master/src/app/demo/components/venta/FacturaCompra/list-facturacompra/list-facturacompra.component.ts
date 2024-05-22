@@ -650,14 +650,16 @@ export class ListFacturacompraComponent {
   Fill(codigo) {
     this.service.fillenca(codigo).subscribe({
       next: (data: Fill) => {
-        console.log(codigo);
+        console.log(data);
       this.submitted = false;
       this.FacturaForm = new FormGroup({
           mepa_Id: new FormControl(data[0].mepa_Id,Validators.required),
           prov_Id: new FormControl(data[0].prov_Id, [Validators.required]),
+          sucu_Id: new FormControl(data[0].sucu_Id, Validators.required),
+          sucu_Nombre: new FormControl(data[0].sucu_Nombre, Validators.required),    
           nombreProveedor: new FormControl(data[0].nombreProveedor, [Validators.required]),
           radio: new FormControl("0", [Validators.required]),
-          faCD_Dif: new FormControl("", [Validators.required]),
+          faCD_Dif: new FormControl("0", [Validators.required]),
           nombreProducto: new FormControl("", [Validators.required]),
           faCD_Cantidad: new FormControl("", [Validators.required]),
           precioCompra: new FormControl("", [Validators.required]),
