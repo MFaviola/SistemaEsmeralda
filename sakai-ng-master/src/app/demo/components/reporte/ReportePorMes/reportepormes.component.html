@@ -3,17 +3,17 @@
     <div class="card-header">
         <h3 class="card-title">Reporte</h3>
 
-            <div class="p-fluid p-formgrid grid">
+        <div class="p-fluid p-formgrid grid">
    
-                <div class="field col-12 md:col-6">
-                    <p-dropdown [options]="cities" [(ngModel)]="selectedDrop" placeholder="Año" [showClear]="true"  (onChange)="onselectAno($event)"></p-dropdown>
-               
-                </div>
-                <div class="field col-12 md:col-6">
-                    <p-dropdown [options]="meses" [(ngModel)]="SelectedMes" placeholder="Mes" [showClear]="true" (onChange)="onselectMes($event)"></p-dropdown>
-               
-                </div>
-            </div>
+            <div class="field col-12 md:col-6">
+                <label for="">Fecha Inicio</label>
+                <p-calendar [showIcon]="true" inputId="icon" [(ngModel)]="controllerInicio" (ngModelChange)="onFechaInicioChange($event)"></p-calendar>
+              </div>
+              <div class="field col-12 md:col-6">
+                <label for="">Fecha Final</label>
+                <p-calendar [showIcon]="true" inputId="icon" [(ngModel)]="controllerFinal" (ngModelChange)="onFechaFinalChange($event)"></p-calendar>
+              </div>
+        </div>
 
     </div>
 

@@ -118,7 +118,7 @@ total13:string;
         this.service.getValidacion(fechaC, this.Sucu_Id).subscribe((data: Fill[]) => {
             this.Inicio = data[0].caja_MontoInicial;
             this.CajaID = data[0].caja_Id;
-            if (data.length > 0) {
+            if (data.length > 2) {
                 const cajaSinCerrar = data.some(item => item.caja_FechaCierre === null);
                 this.ConfirmarPago = cajaSinCerrar;
             } else {

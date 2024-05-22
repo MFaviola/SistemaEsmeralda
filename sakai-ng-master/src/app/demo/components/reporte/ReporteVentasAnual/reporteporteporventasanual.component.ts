@@ -3,7 +3,7 @@ import { YService } from '../../venta/Impresion/impresion.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { BASE_URL } from 'src/app/Service/ulrsettings';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AutoCompleteModule } from "primeng/autocomplete";
 import { CalendarModule } from "primeng/calendar";
@@ -32,19 +32,23 @@ import { InputGroupModule } from 'primeng/inputgroup';
 import { SelectItem } from 'primeng/api';
 import { ServiceService } from 'src/app/Service/Factura.service';
 import { FacturaDetalle } from 'src/app/Models/FacturaViewModel';
+import { CookieService } from 'ngx-cookie-service';
 @Component({
   templateUrl: './reporteporteporventasanual.component.html',
-  providers: [YService]
+  providers: [YService,CookieService,DatePipe]
 })
 
 export class reporteVentasAnual implements OnInit  {
   pdfSrc: SafeResourceUrl | null = null;
   Reporte_1: boolean = false;
   Reporte_2: boolean = false;
+  dateDay = new Date();
+  conversion: string;
+
   selectedDrop:any;
   cities: SelectItem[] = [];
   Factura!:FacturaDetalle[];
-  constructor(private service: ServiceService,private yService: YService, private sanitizer: DomSanitizer) { }
+  constructor(private datePipe: DatePipe,private cookie: CookieService,private service: ServiceService,private yService: YService, private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
 	this.cities = [
@@ -80,11 +84,12 @@ export class reporteVentasAnual implements OnInit  {
 				 
 	
 	
-			   const totales = total.toFixed(2);
-	
+		const totales = total.toFixed(2);
+		const usuario = this.cookie.get('Empleado');
+		const fechaC = this.datePipe.transform(this.dateDay, 'yyyy-MM-dd')
 		const Año = event.value
 		const img = "assets/demo/images/galleria/Esmeraldas.png";
-		const blob = this.yService.ReportesVentaAnual(cuerpo, img,Año,totales);
+		const blob = this.yService.ReportesVentaAnual(cuerpo, img,Año,totales,usuario,fechaC);
 		const url = URL.createObjectURL(blob);
 		this.pdfSrc = this.sanitizer.bypassSecurityTrustResourceUrl(url);
 		console.log("Se muestra xd");

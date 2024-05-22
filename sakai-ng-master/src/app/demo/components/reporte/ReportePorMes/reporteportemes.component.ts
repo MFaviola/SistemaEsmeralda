@@ -5,7 +5,7 @@ import { BASE_URL } from 'src/app/Service/ulrsettings';
 import { SelectItem } from 'primeng/api';
 import { FormGroup, FormControl,  Validators  } from '@angular/forms';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AutoCompleteModule } from "primeng/autocomplete";
 import { CalendarModule } from "primeng/calendar";
@@ -33,14 +33,15 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { ServiceService } from 'src/app/Service/Factura.service';
 import { FacturaDetalle, Years } from 'src/app/Models/FacturaViewModel';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   templateUrl: './reportepormes.component.html',
-  providers: [YService]
+  providers: [YService,CookieService,DatePipe]
 })
 
 export class ReportesPormesComponent implements OnInit  {
- 
+dateDay = new Date();
   cities: SelectItem[] = [];
   meses: SelectItem[] = [];
   pdfSrc: SafeResourceUrl | null = null;
@@ -50,10 +51,14 @@ export class ReportesPormesComponent implements OnInit  {
   municipioForm: FormGroup;
   selectedYear: number;
   selectedDrop:any = 2024;
+  fechaInicio: string;
+  fechaFinal: string;
+  controllerInicio: string;
+  controllerFinal: string;
   SelectedMes: any= { id:5,name:'Enero'};
   mes: any = "Mayo"
   year: any = 2024
-  constructor(private service: ServiceService,private yService: YService, private sanitizer: DomSanitizer) { }
+  constructor(private cookie: CookieService,private datePipe: DatePipe,private service: ServiceService,private yService: YService, private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
 	console.log(this.SelectedMes)
@@ -83,43 +88,53 @@ export class ReportesPormesComponent implements OnInit  {
 ];
 
 
-this.service.GetReportePorMes(2024,5).subscribe((data: any)=>{
 
-	this.Fatura = data;
-	console.log(data);
-	const cuerpo = this.Fatura.map(item => [
-	  item.categoria.toString(),
-	  item.producto.toString(),
-	  item.cantidad.toString(),
-	  item.precio_Unitario.toString(),
-	  item.total.toString(),
-	]);
-	const cuerpoSinPrimerElemento = cuerpo.slice(1);
-
-	const total = data.reduce((sum, item) => {
-	  const itemTotal = parseFloat(item.total) || 0; 
-	  return sum + itemTotal;
-		  }, 0);
-			 
-
-
-		   const totales = total.toFixed(2);
-
-	const Mes = this.mes;
-	const img = "assets/demo/images/galleria/Esmeraldas.png";
-	const blob = this.yService.ReportePorMes(cuerpoSinPrimerElemento, img,Mes,this.year,totales);
-	const url = URL.createObjectURL(blob);
-	this.pdfSrc = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-	console.log("Se muestra xd");
-},error=>{
-  console.log(error);
-});
   }
 
-  onselectAno(event){
-	console.log(event.value);
-	this.year = event.value
-	this.service.GetReportePorMes(this.selectedDrop,this.SelectedMes.id).subscribe((data: any)=>{
+
+
+  onFechaInicioChange(event: any) {
+	this.controllerInicio = event
+	this.fechaInicio = this.datePipe.transform(event, 'yyyy-MM-dd');
+	this.service.GetReportePorMes(this.fechaInicio,this.fechaFinal).subscribe((data: any)=>{
+
+		this.Fatura = data;
+		console.log(data);
+		const cuerpo = this.Fatura.map(item => [
+		  item.categoria.toString(),
+		  item.producto.toString(),
+		  item.cantidad.toString(),
+		  item.precio_Unitario.toString(),
+		  item.total.toString(),
+		]);
+
+	
+		const total = data.reduce((sum, item) => {
+		  const itemTotal = parseFloat(item.total) || 0; 
+		  return sum + itemTotal;
+			  }, 0);
+				 
+	
+	
+			   const totales = total.toFixed(2);
+	
+		const Mes = this.mes;
+		const usuario = this.cookie.get('Empleado');
+		const fechaC = this.datePipe.transform(this.dateDay, 'yyyy-MM-dd')
+		const img = "assets/demo/images/galleria/Esmeraldas.png";
+		const blob = this.yService.ReportePorMes(cuerpo ,img,Mes,this.year,totales,usuario,fechaC);
+		const url = URL.createObjectURL(blob);
+		this.pdfSrc = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+		console.log("Se muestra xd");
+	},error=>{
+	  console.log(error);
+	});
+  }
+
+  onFechaFinalChange(event: any) {
+	this.controllerFinal = event
+	this.fechaFinal = this.datePipe.transform(event, 'yyyy-MM-dd');
+	this.service.GetReportePorMes(this.fechaInicio,this.fechaFinal).subscribe((data: any)=>{
 
 		this.Fatura = data;
 		console.log(data);
@@ -141,9 +156,11 @@ this.service.GetReportePorMes(2024,5).subscribe((data: any)=>{
 	
 			   const totales = total.toFixed(2);
 	
+			   const usuario = this.cookie.get('Empleado');
+		const fechaC = this.datePipe.transform(this.dateDay, 'yyyy-MM-dd')
 		const Mes = this.mes;
 		const img = "assets/demo/images/galleria/Esmeraldas.png";
-		const blob = this.yService.ReportePorMes(cuerpoSinPrimerElemento, img,Mes,this.year,totales);
+		const blob = this.yService.ReportePorMes(cuerpo, img,Mes,this.year,totales,usuario,fechaC);
 		const url = URL.createObjectURL(blob);
 		this.pdfSrc = this.sanitizer.bypassSecurityTrustResourceUrl(url);
 		console.log("Se muestra xd");
@@ -151,47 +168,6 @@ this.service.GetReportePorMes(2024,5).subscribe((data: any)=>{
 	  console.log(error);
 	});
   }
-
-  onselectMes(event){
-	console.log(event.value.name);
-	this.mes = event.value.name;
-	console.log(this.SelectedMes);
-	console.log(this.SelectedMes);
-	this.service.GetReportePorMes(this.selectedDrop,this.SelectedMes.id).subscribe((data: any)=>{
-
-		this.Fatura = data;
-		console.log(data);
-		const cuerpo = this.Fatura.map(item => [
-		  item.categoria.toString(),
-		  item.producto.toString(),
-		  item.cantidad.toString(),
-		  item.precio_Unitario.toString(),
-		  item.total.toString(),
-		]);
-		const cuerpoSinPrimerElemento = cuerpo.slice(1);
-	
-		const total = data.reduce((sum, item) => {
-		  const itemTotal = parseFloat(item.total) || 0; 
-		  return sum + itemTotal;
-			  }, 0);
-				 
-	
-	
-			   const totales = total.toFixed(2);
-	
-		const Mes = this.mes;
-		const Year = this.year;
-		const img = "assets/demo/images/galleria/Esmeraldas.png";
-		const blob = this.yService.ReportePorMes(cuerpoSinPrimerElemento, img,Mes,Year,totales);
-		const url = URL.createObjectURL(blob);
-		this.pdfSrc = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-		console.log("Se muestra xd");
-	},error=>{
-	  console.log(error);
-	});
-  }
-
-  
 }
 
 @NgModule({

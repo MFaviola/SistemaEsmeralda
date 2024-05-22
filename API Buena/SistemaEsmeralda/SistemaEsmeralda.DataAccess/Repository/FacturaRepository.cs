@@ -137,7 +137,7 @@ namespace SistemaEsmeralda.DataAccess.Repository
         {
             const string sql = "[Vent].[sp_ProductosVendidosEnMes]";
 
-            var parameters = new { Año = año,Mes = mes };
+            var parameters = new { FechaInicio = año, FechaFin = mes };
      
             using (var db = new SqlConnection(SistemaEsmeraldaContex.ConnectionString))
             {

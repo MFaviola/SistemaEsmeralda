@@ -779,7 +779,7 @@ ReporteEmpleadoTodo(cuerpo, logoURL: string,Empleado,Total): Blob {
 
   return doc.output('blob');
 }
-ReportePorMes(cuerpo, logoURL: string,Mes,Year,Total): Blob {
+ReportePorMes(cuerpo, logoURL: string,Mes,Year,Total,usuario,fecha): Blob {
   const doc = new jsPDF({
     orientation: 'portrait',
     unit: 'px',
@@ -821,6 +821,8 @@ ReportePorMes(cuerpo, logoURL: string,Mes,Year,Total): Blob {
   const footer = () => {
     doc.setFontSize(10);
     doc.setFont(undefined, 'normal');
+    doc.text('Usuario:' + usuario, 10,570);
+    doc.text('Fecha:' + fecha, 10,580);
     doc.text( String(pageNumber), 444, 580, { align: 'right' });
   };
 
@@ -828,7 +830,7 @@ ReportePorMes(cuerpo, logoURL: string,Mes,Year,Total): Blob {
     
     head: [['Categoria','Producto', 'Cantidad', 'Precio','Total']],
     body: cuerpo,
-    startY: pageNumber === 1 ? 100 : 90,
+    startY: 100,
     styles: {
       fontSize: 10,
     },
@@ -856,7 +858,7 @@ ReportePorMes(cuerpo, logoURL: string,Mes,Year,Total): Blob {
 
   return doc.output('blob');
 }
-ReportesTop10(cuerpo, logoURL: string,Inicio,Final,Total): Blob {
+ReportesTop10(cuerpo, logoURL: string,Inicio,Final,Total,UsuarioCreacion,FechaC): Blob {
   const doc = new jsPDF({
     orientation: 'portrait',
     unit: 'px',
@@ -901,6 +903,8 @@ ReportesTop10(cuerpo, logoURL: string,Inicio,Final,Total): Blob {
   const footer = () => {
     doc.setFontSize(10);
     doc.setFont(undefined, 'normal');
+    doc.text('Usuario:' + UsuarioCreacion, 10,570);
+    doc.text('Fecha:' + FechaC, 10,580);
     doc.text( String(pageNumber), 444, 580, { align: 'right' });
   };
 
@@ -1031,7 +1035,7 @@ if (TotalDia > 0) {
 }
 
 
-ReportesVentaAnual(cuerpo, logoURL: string,Ano,Total): Blob {
+ReportesVentaAnual(cuerpo, logoURL: string,Ano,Total,UsuarioCreacion,FechaC): Blob {
   const doc = new jsPDF({
     orientation: 'portrait',
     unit: 'px',
@@ -1075,6 +1079,8 @@ ReportesVentaAnual(cuerpo, logoURL: string,Ano,Total): Blob {
   const footer = () => {
     doc.setFontSize(10);
     doc.setFont(undefined, 'normal');
+    doc.text('Usuario:' + UsuarioCreacion, 10,570);
+    doc.text('Fecha:' + FechaC, 10,580);
     doc.text( String(pageNumber), 444, 580, { align: 'right' });
   };
 

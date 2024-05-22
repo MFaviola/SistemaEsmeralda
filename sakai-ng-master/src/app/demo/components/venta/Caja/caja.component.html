@@ -2,23 +2,7 @@
 <div class="main-card mb-3 card"> 
     <div class="card-header">
         <h3 class="card-title">Reporte</h3>
-        <div class="p-fluid p-formgrid grid">
-   
-            <div class="field col-12 md:col-2" [class.hidden]="!Collapse">
-                <p-button  label="Abrir"   icon="pi pi-user-edit" size="small" severity="primary" [raised]="true" [plain]="true"  (click)="AbrirModal()"></p-button>
-
-              </div>
-              <div class="field col-12 md:col-2" [class.hidden]="!Editar">
-                <p-button  label="Editar"   icon="pi pi-user-edit" size="small" severity="primary" [raised]="true" [plain]="true"></p-button>
-            </div>
-            <div class="field col-12 md:col-2" [class.hidden]="!Cerrar">
-                <p-button  label="Cerrar" icon="pi pi-trash" size="small"  severity="danger" [raised]="true" [plain]="true"></p-button>
-            </div>
-            <div class="field col-12 md:col-2" [class.hidden]="!Reportes">
-                <p-button  label="Reportes"   icon="pi pi-book" size="small" severity="secondary" [raised]="true" [plain]="true"></p-button>
-            </div>
-        </div>
-            <div class="p-fluid p-formgrid grid" [class.hidden]="!Reportes2">
+            <div class="p-fluid p-formgrid grid">
    
                 <div class="field col-12 md:col-6">
                     <label for="">Fecha</label>

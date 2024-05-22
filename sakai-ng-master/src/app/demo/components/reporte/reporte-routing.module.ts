@@ -8,6 +8,7 @@ import { AuthGuard } from 'src/app/auth.guard';
 import { ReportesPormesComponent } from './ReportePorMes/reporteportemes.component';
 import { reporteComponent } from './ReportePorControlStock/reporteporstock.component';
 import { reportePorTipoPagoComponent } from './ReportePorTiposDePagos/reporteportiposdepago.component';
+import { CajaComponent } from '../venta/Caja/caja.component';
 
 @NgModule({
     imports: [RouterModule.forChild([
@@ -17,7 +18,8 @@ import { reportePorTipoPagoComponent } from './ReportePorTiposDePagos/reportepor
         { path: 'ventaspormes', component : ReportesPormesComponent ,canActivate: [AuthGuard]},
         { path: 'ventasporempleado', data: { breadcrumb: 'Empleado' }, loadChildren: () => import('./ReportePorEmpleadoTotal/reporteporempleadockdemo.module').then(m => m.ReportePorEmpleadoDemoModule) ,canActivate: [AuthGuard]},
         { path: 'controldestock', component : reporteComponent ,canActivate: [AuthGuard]},
-        { path: 'reporteportipo', component : reportePorTipoPagoComponent ,canActivate: [AuthGuard]},
+        { path: 'ventasporpago', component : reportePorTipoPagoComponent ,canActivate: [AuthGuard]},
+        { path: 'reportedecaja', component : CajaComponent ,canActivate: [AuthGuard]},
         { path: '**', redirectTo: '/notfound' }
     ])],
     exports: [RouterModule]

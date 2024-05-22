@@ -17,21 +17,21 @@
                 "label": "Generales",
                 "data": "Work Folder",
                 "icon": "pi pi-fw pi-cog",
-                "children": [{ "key": "28", "label": "Empleados", "icon": "pi pi-fw pi-file" },{ "key": "14", "label": "Sucursales", "icon": "pi pi-fw pi-file" },{ "key": "3", "label": "Cargos", "icon": "pi pi-fw pi-file" }, { "key": "4", "label": "Categorias", "icon": "pi pi-fw pi-file" },{ "key": "5", "label": "Cliente", "icon": "pi pi-fw pi-file" },{ "key": "6", "label": "Departamentos", "icon": "pi pi-fw pi-file" },{ "key": "7", "label": "Estados Civiles", "icon": "pi pi-fw pi-file" },{ "key": "9", "label": "Marcas", "icon": "pi pi-fw pi-file" },{ "key": "10", "label": "Materiales", "icon": "pi pi-fw pi-file" },{ "key": "12", "label": "Municipios", "icon": "pi pi-fw pi-file" },{ "key": "13", "label": "Proveedores", "icon": "pi pi-fw pi-file" }]
+                "children": [{ "key": "28", "label": "Empleados", "icon": "pi pi-fw pi-file" },{ "key": "14", "label": "Sucursales", "icon": "pi pi-fw pi-file" },{ "key": "3", "label": "Cargos", "icon": "pi pi-fw pi-file" }, { "key": "4", "label": "Categorias", "icon": "pi pi-fw pi-file" },{ "key": "5", "label": "Clientes", "icon": "pi pi-fw pi-file" },{ "key": "6", "label": "Departamentos", "icon": "pi pi-fw pi-file" },{ "key": "7", "label": "Estados Civiles", "icon": "pi pi-fw pi-file" },{ "key": "9", "label": "Marcas", "icon": "pi pi-fw pi-file" },{ "key": "10", "label": "Materiales", "icon": "pi pi-fw pi-file" },{ "key": "12", "label": "Municipios", "icon": "pi pi-fw pi-file" },{ "key": "13", "label": "Proveedores", "icon": "pi pi-fw pi-file" }]
             },
             {
                 "key": "100",
                 "label": "Ventas",
                 "data": "Work Folder",
                 "icon": "pi pi-fw pi-cog",
-                "children": [{ "key": "16", "label": "Joyas", "icon": "pi pi-fw pi-file" },{ "key": "31", "label": "Transferencias", "icon": "pi pi-fw pi-file" },{ "key": "30", "label": "Caja", "icon": "pi pi-fw pi-file" },{ "key": "15", "label": "Factura", "icon": "pi pi-fw pi-file" }, { "key": "17", "label": "Maquillajes", "icon": "pi pi-fw pi-file" },{ "key": "18", "label": "Facturas de Compra", "icon": "pi pi-fw pi-file" }]
+                "children": [{ "key": "16", "label": "Joyas", "icon": "pi pi-fw pi-file" },{ "key": "31", "label": "Transferencias", "icon": "pi pi-fw pi-file" },{ "key": "15", "label": "Facturas", "icon": "pi pi-fw pi-file" }, { "key": "17", "label": "Maquillajes", "icon": "pi pi-fw pi-file" },{ "key": "18", "label": "Facturas de Compra", "icon": "pi pi-fw pi-file" }]
             },
             {
                 "key": "103",
                 "label": "Reportes",
                 "data": "Work Folder",
                 "icon": "pi pi-fw pi-cog",
-                "children": [{ "key": "20", "label": "Control de stock", "icon": "pi pi-fw pi-file" }, { "key": "21", "label": "Ventas por empleado", "icon": "pi pi-fw pi-file" },{ "key": "22", "label": "Ventas por mes", "icon": "pi pi-fw pi-file" },{ "key": "23", "label": "Productos vendidos", "icon": "pi pi-fw pi-file" },{ "key": "24", "label": "Ventas Anuales", "icon": "pi pi-fw pi-file" },{ "key": "25", "label": "Ventas mayoristas", "icon": "pi pi-fw pi-file" }]
+                "children": [{ "key": "30", "label": "Reporte de caja", "icon": "pi pi-fw pi-file" },{ "key": "32", "label": "Ventas por caja", "icon": "pi pi-fw pi-file" }, { "key": "20", "label": "Control de stock", "icon": "pi pi-fw pi-file" }, { "key": "21", "label": "Ventas por empleado", "icon": "pi pi-fw pi-file" },{ "key": "22", "label": "Ventas por mes", "icon": "pi pi-fw pi-file" },{ "key": "23", "label": "Productos vendidos", "icon": "pi pi-fw pi-file" },{ "key": "24", "label": "Ventas Anuales", "icon": "pi pi-fw pi-file" },{ "key": "25", "label": "Ventas mayoristas", "icon": "pi pi-fw pi-file" }]
             },
             {
                 "key": "104",
@@ -39,6 +39,20 @@
                 "data": "Work Folder",
                 "icon": "pi pi-fw pi-cog",
                 "children": [{ "key": "26", "label": "Mensuales", "icon": "pi pi-fw pi-file" },{ "key": "27", "label": "Anuales", "icon": "pi pi-fw pi-file" }]
+            },
+            {
+                "key": "33",
+                "label": "Abrir caja",
+                "data": "Work Folder",
+                "icon": "pi pi-fw pi-cog"
+                
+            },
+            {
+                "key": "34",
+                "label": "Cerrar Caja",
+                "data": "Work Folder",
+                "icon": "pi pi-fw pi-cog"
+                
             }
         ]
         }

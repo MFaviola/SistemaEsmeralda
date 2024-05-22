@@ -99,6 +99,9 @@ export class ServiceService {
     return this.http.get<FacturaDetalle[]>(BASE_URL + 'API/Factura/ListaDetalles/' + id)
   }
 
+  getFacturasVentas(id){
+    return this.http.get<FacturaDetalle[]>(BASE_URL + 'API/Factura/VentasDelDia/' + id)
+  }
   getControlStock(id,sucu){
     return this.http.get<Stock[]>(BASE_URL + 'API/Factura/ReportePorStock/' + id + ',' + sucu)
   }

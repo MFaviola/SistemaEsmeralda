@@ -77,7 +77,7 @@ export class ListFacturaComponent {
   UsuarioModificacion: String = "";
   FechaCreacion: String = "";
   FechaModificacion: String = "";
-
+  TotalEfectivo: string = "";
   ID: String = "";
 
 
@@ -107,7 +107,7 @@ export class ListFacturaComponent {
   conversion: string;
   hora = new Date().getHours;
   conversionHora: string;
-
+  TotalCajaCerrar: string = "0";
   //Variable para manejar el estado de Actualizar
   Actualizar: string = "";
   AbrirCaja: boolean = false;
@@ -146,21 +146,7 @@ export class ListFacturaComponent {
       caja_MontoFinal: new FormControl("", Validators.required),
       caja_Observacion: new FormControl("", Validators.required),
   });  
-  this.dateDayAnter.setDate(this.dateDayAnter.getDate() - 1);
-  const fechaA = this.datePipe.transform(this.dateDayAnter, 'yyyy-MM-dd')
-  this.service.getValidacion(fechaA, this.Sucu_Id).subscribe((data: FillCajaCierre[]) => {
-      this.Inicio = data[0].caja_MontoInicial;
-      this.CajaID = data[0].caja_Id;
-      if (data.length > 0) {
-          const cajaSinCerrar = data.some(item => item.caja_FechaCierre === null);
-          this.CajaCerradaDialog = cajaSinCerrar;
-      } else {
-        
-          this.CajaCerradaDialog = false;
-      }
-     
 
-  })
     this.CajaForm = new FormGroup({
       caja_MontoInicial: new FormControl("", Validators.required),
     });  
@@ -212,31 +198,6 @@ export class ListFacturaComponent {
     });
    } 
 
-   onSubmitCajaCerrada() {
-    if (this.CajaCerradaForm.valid) {
-       this.viewModel2 = this.CajaCerradaForm.value;
-       this.viewModel2.caja_UsuarioCierre = this.Usua_Id;
-       this.viewModel2.caja_Id = this.CajaID;
-       this.viewModel2.caja_MontoInicial = this.Inicio
-       this.viewModel2.caja_MontoSistema = this.Total;
-       this.service.EnviarCierre(this.viewModel).subscribe((data: MensajeViewModel[]) => {
-        if(data["message"] == "Operación completada exitosamente."){
-            this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Puede continuar', life: 3000 });
-            this.CajaCerradaDialog = false;
-        }else{
-      
-         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo cerrar:', life: 3000 });
-        } 
-     })
-    
-      
-   
-    }   
-        else 
-        {
-            this.submitted = true;
-        }
-    }
 
 
    refrescar(){
@@ -521,10 +482,70 @@ ConfirmarEditado(){
  
 }
 //SUBIR
+
+onSubmitCajaCerrada() {
+  if (this.CajaCerradaForm.valid) {
+     this.viewModel2 = this.CajaCerradaForm.value;
+     this.viewModel2.caja_UsuarioCierre = this.cookie.get('ID_Usuario');
+     this.viewModel2.caja_Id = this.CajaID;
+     const total = parseFloat(this.TotalCajaCerrar) + parseFloat(this.Inicio);
+     console.log(total)
+     this.viewModel2.caja_MontoInicial = this.Inicio;
+     this.viewModel2.caja_MontoSistema = total.toFixed(2);
+     this.service.EnviarCierre(this.viewModel2).subscribe((data: MensajeViewModel[]) => {
+      if(data["message"] == "Operación completada exitosamente."){
+          this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Puede continuar', life: 3000 });
+          this.CajaCerradaDialog = false;
+          const fechaC = this.datePipe.transform(this.dateDay, 'yyyy-MM-dd')
+          this.service.getValidacion(fechaC, this.Sucu_Id).subscribe((data: Fill2[]) => {
+            if (data.length > 0) {
+              
+              const cajaSinCerrar = data.some(item => item.caja_FechaCierre != null);
+              if (cajaSinCerrar) {
+                this.AbrirCaja = cajaSinCerrar;
+              }else{
+                this.submitted = false;
+                this.Collapse= true;
+                this.DataTable = false;
+                this.Valor = "Agregar";
+                this.Agregar= false;
+                this.Detalles = false;
+                this.Tabla = false;
+                this.Subtotal = "0";
+                this.Impuesto = "0"
+                this.Total = "0";
+                this.selectedMetodo = "1";
+                this.Actualizar = ""
+                this.service.getFacturasDetalle(0).subscribe((data: any)=>{
+                  this.FacturaDetalle = data;
+              })
+              }   
+            } else {
+                this.AbrirCaja = true; 
+            }
+           
+        
+        })
+      }else{
+    
+       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo cerrar:', life: 3000 });
+      } 
+   })
+  
+    
+ 
+  }   
+      else 
+      {
+          this.submitted = true;
+      }
+  }
+
+
 onSubmitCaja() {
   if (this.CajaForm.valid) {
      this.viewModel2 = this.CajaForm.value;
-     this.viewModel2.caja_UsuarioApertura = this.Usua_Id;
+     this.viewModel2.caja_UsuarioApertura = this.cookie.get('ID_Usuario');
      this.viewModel2.Sucu_Id = this.Sucu_Id;
      this.service.EnviarAbierto(this.viewModel2).subscribe((data: MensajeViewModel[]) => {
       if(data["message"] == "Operación completada exitosamente."){
@@ -563,31 +584,81 @@ onSubmitCaja() {
 
 
 collapse(){
-  const fechaC = this.datePipe.transform(this.dateDay, 'yyyy-MM-dd')
-  this.service.getValidacion(fechaC, this.Sucu_Id).subscribe((data: Fill2[]) => {
-    if (data.length > 0) {
-      this.submitted = false;
-      this.Collapse= true;
-      this.DataTable = false;
-      this.Valor = "Agregar";
-      this.Agregar= false;
-      this.Detalles = false;
-      this.Tabla = false;
-      this.Subtotal = "0";
-      this.Impuesto = "0"
-      this.Total = "0";
-      this.selectedMetodo = "1";
-      this.Actualizar = ""
-      this.service.getFacturasDetalle(0).subscribe((data: any)=>{
-        this.FacturaDetalle = data;
-    })
-        this.AbrirCaja = false;
-    } else {
-        this.AbrirCaja = true; 
-    }
-   
+  this.dateDayAnter.setDate(this.dateDayAnter.getDate() - 1);
+const fechaA = this.datePipe.transform(this.dateDayAnter, 'yyyy-MM-dd');
+this.service.getValidacion(fechaA, this.Sucu_Id).subscribe((data: FillCajaCierre[]) => {
+  if (data.length > 0) {
+    this.Inicio = data[0].caja_MontoInicial;
+    this.CajaID = data[0].caja_Id;
+    const cajaSinCerrar = data.some(item => item.caja_FechaCierre == null);
 
-})
+    this.service.getFacturasVentas(fechaA).subscribe(
+      (ventasData: any) => {
+        console.log('Ventas Data:', ventasData);
+        if (ventasData && ventasData.length > 0) {
+          const total = parseFloat(ventasData[0].total); 
+          this.TotalCajaCerrar = total.toFixed(2);
+          console.log('Total Caja Cerrar:', this.TotalCajaCerrar);
+        } else {
+          console.log('No se recibieron datos de ventas.');
+        }
+      },
+      error => {
+        console.error('Error al obtener los datos de ventas:', error);
+      }
+    );
+
+    this.CajaCerradaDialog = cajaSinCerrar;
+  } else {
+          this.CajaCerradaDialog = false;
+          const fechaC = this.datePipe.transform(this.dateDay, 'yyyy-MM-dd')
+          this.service.getValidacion(fechaC, this.Sucu_Id).subscribe((data: Fill2[]) => {
+            if (data.length > 0) {
+              const cajaSinCerrar = data.some(item => item.caja_FechaCierre != null);
+              if (cajaSinCerrar) {
+                this.AbrirCaja = cajaSinCerrar;
+              }else{
+                this.submitted = false;
+                this.Collapse= true;
+                this.DataTable = false;
+                this.Valor = "Agregar";
+                this.Agregar= false;
+                this.Detalles = false;
+                this.Tabla = false;
+                this.Subtotal = "0";
+                this.Impuesto = "0"
+                this.Total = "0";
+                this.selectedMetodo = "1";
+                this.Actualizar = ""
+                this.service.getFacturasDetalle(0).subscribe((data: any)=>{
+                this.FacturaDetalle = data;
+              })
+              }   
+            }  else {
+              this.submitted = false;
+              this.Collapse= true;
+              this.DataTable = false;
+              this.Valor = "Agregar";
+              this.Agregar= false;
+              this.Detalles = false;
+              this.Tabla = false;
+              this.Subtotal = "0";
+              this.Impuesto = "0"
+              this.Total = "0";
+              this.selectedMetodo = "1";
+              this.Actualizar = ""
+              this.service.getFacturasDetalle(0).subscribe((data: any)=>{
+              this.FacturaDetalle = data;
+            })
+            }
+           
+        
+        })
+      }
+     
+
+  })
+
  
 }
 

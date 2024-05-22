@@ -32,13 +32,15 @@ import { InputGroupModule } from 'primeng/inputgroup';
 import { ServiceService } from 'src/app/Service/Factura.service';
 import { DatePipe } from '@angular/common';
 import { FacturaDetalle } from 'src/app/Models/FacturaViewModel';
+import { CookieService } from 'ngx-cookie-service';
 @Component({
   templateUrl: './reportepormayorista.component.html',
-  providers: [YService,DatePipe]
+  providers: [YService,DatePipe,CookieService]
 })
 
 export class reporteMayorista implements OnInit  {
-
+	dateDay = new Date();
+    conversion: string;
   Reporte_1: boolean = false;
   Reporte_2: boolean = false;
   fechaInicio: string;
@@ -47,7 +49,7 @@ export class reporteMayorista implements OnInit  {
   controllerInicio: string;
   controllerFinal: string;
 pdfSrc: SafeResourceUrl | null = null;
-  constructor(private service: ServiceService,private yService: YService, private sanitizer: DomSanitizer,private datePipe: DatePipe) { }
+  constructor(private cookie: CookieService,private service: ServiceService,private yService: YService, private sanitizer: DomSanitizer,private datePipe: DatePipe) { }
 
   ngOnInit(): void {
     
@@ -77,10 +79,12 @@ pdfSrc: SafeResourceUrl | null = null;
 	
 	
 		const totales = total.toFixed(2);
-		const Inicio = "2024-1-12";
-		const Final = "2024-12-12";
+		const Inicio = this.fechaInicio;
+		const usuario = this.cookie.get('Empleado');
+		const fechaC = this.datePipe.transform(this.dateDay, 'yyyy-MM-dd')
+		const Final = this.fechaFinal;
 		const img = "assets/demo/images/galleria/Esmeraldas.png";
-		const blob = this.yService.ReportesTop10(cuerpo, img,Inicio,Final,totales);
+		const blob = this.yService.ReportesTop10(cuerpo, img,Inicio,Final,totales,usuario,fechaC);
 		const url = URL.createObjectURL(blob);
 		this.pdfSrc = this.sanitizer.bypassSecurityTrustResourceUrl(url);
 		console.log("Se muestra xd");
@@ -113,10 +117,12 @@ pdfSrc: SafeResourceUrl | null = null;
 	
 	
 		const totales = total.toFixed(2);
-		const Inicio = "2024-1-12";
-		const Final = "2024-12-12";
+		const Inicio =this.fechaInicio;
+		const Final = this.fechaFinal;
+		const usuario = this.cookie.get('Empleado');
+		const fechaC = this.datePipe.transform(this.dateDay, 'yyyy-MM-dd')
 		const img = "assets/demo/images/galleria/Esmeraldas.png";
-		const blob = this.yService.ReportesTop10(cuerpo, img,Inicio,Final,totales);
+		const blob = this.yService.ReportesTop10(cuerpo, img,Inicio,Final,totales,usuario,fechaC);
 		const url = URL.createObjectURL(blob);
 		this.pdfSrc = this.sanitizer.bypassSecurityTrustResourceUrl(url);
 	},error=>{

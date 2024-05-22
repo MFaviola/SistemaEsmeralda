@@ -5,6 +5,8 @@ import { BASE_URL } from './ulrsettings';
 import { Rol,Fill } from '../Models/RolViewModel';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs';
+import { Fill2 } from '../Models/DashboardViewModel';
+import { FacturaDetalle } from '../Models/FacturaViewModel';
 
 
 interface Pantalla {
@@ -17,7 +19,28 @@ interface Pantalla {
 export class ServiceService {
 
   constructor(private http:HttpClient) { }
+  url2 = BASE_URL + 'API/'
 
+  getFacturasVentas(id){
+    return this.http.get<FacturaDetalle[]>(BASE_URL + 'API/Factura/VentasDelDia/' + id)
+  }
+  getValidacion(codigo: string, sucu: string): Observable<Fill2[]> {
+    return this.http.get<Fill2[]>(this.url2 + 'Caja/Validacion/' + codigo + ',' + sucu);
+  }
+  EnviarCierre(formData: any): Observable<any> {
+    return this.http.post<any>(BASE_URL + 'API/Caja/CerrarCaja/', formData).pipe(
+      map(response => {
+        return response;
+      }),
+    );
+  }
+  EnviarAbierto(formData: any): Observable<any> {
+    return this.http.post<any>(BASE_URL + 'API/Caja/AbrirCaja/', formData).pipe(
+      map(response => {
+        return response;
+      }),
+    );
+  }
 
   url = BASE_URL + 'API/Rol/List'
 
