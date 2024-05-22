@@ -219,7 +219,9 @@ confirmDelete() {
 Fill(codigo) {
     this.service.getFill(codigo).subscribe({
         next: (data: Fill) => {
+          console.log(data);
           this.sucursalForm = new FormGroup({
+            
             Sucu_Nombre: new FormControl(data.sucu_Nombre,Validators.required),
             Depa_Codigo: new FormControl(data.depa_codigo, [Validators.required]),
             Muni_Codigo: new FormControl(data.muni_Codigo, [Validators.required]),
