@@ -13,6 +13,7 @@ namespace SistemaEsmeralda.Common.Models
         public int Sucu_Id { get; set; }
         public string Sucu_Nombre { get; set; }
         public string Muni_Codigo { get; set; }
+        public string Depa_Codigo { get; set; }
         public int? Sucu_UsuarioCreacion { get; set; }
         public DateTime? Sucu_FechaCreacion { get; set; }
         public int? Sucu_UsuarioModificacion { get; set; }

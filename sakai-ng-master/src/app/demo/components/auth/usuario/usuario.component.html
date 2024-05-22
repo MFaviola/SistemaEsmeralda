@@ -1,44 +1,47 @@
+<p-toast ></p-toast>
 <div class="card" style="background-color: #eececd;" [class.hidden]="Collapse">
     <div class="card-header">
             <div class="p-fluid p-formgrid grid" style="width: 100%; height: 150px; background-image: url(./../../../../../../assets/demo/images/galleria/sinletras.png); background-repeat: no-repeat; background-size: cover; background-position: center -60px; border-radius: 10px; margin-bottom: -7%;">
                 <div class="field col-12 md:col-4"></div>
                 <div class="field col-12 md:col-4">
-                    <img src="./../../../../../../assets/demo/images/avatar/icono.png" style="width: 100%; height: 150px;" alt="">
+                    <img src="./../../../../../../assets/demo/images/avatar/icono.png" style="width: 100%; height: 200px;" alt="">
                 </div>
                 <div class="field col-12 md:col-4"></div>
             </div>
 
     </div>
     <div class="card-body">
-        <div class="p-fluid p-formgrid grid">
+        <div class="p-fluid p-formgrid grid" style="margin-top: 10%;">
             <div class="field col-12 md:col-12"></div>
             
 
-            <div class="field col-12 " style="margin-top: 5%;">
-                <div class="field col-12 md:col-6">
+                <div class="p-fluid  col-12 md:col-6">
                     <label  style="font-weight: bold">Nombre de usuario: </label>
                     <label for="" id="ID_Usuario"></label>
                 </div>
-                <div class="field col-12 md:col-6">
+                <div class="p-fluid  col-12 md:col-5">
                     <label for=""  style="font-weight: bold">Empleado: </label>
                     <label for="" id="empl"></label>
                 </div>
-                <div class="field col-12 md:col-6">
+                <div class="p-fluid  col-12 md:col-6">
                     <label style="font-weight: bold">Correo: </label>
                     <label for="" id="correo"></label>
                 </div>
-                <div class="field col-12 md:col-6">
+                <div class="p-fluid  col-12 md:col-6">
                     <label for="" style="font-weight: bold">Sucursal asignada: </label>
                     <label for="" id="sucu"></label>
                 </div>
-                <div class="field col-12 md:col-6">
+                <div class="p-fluid col-12 md:col-6">
                     <label for="" style="font-weight: bold">Rol del usuario: </label>
                     <label for="" id="rol"></label>
                 </div>
-          <button (click)="collapse()" pButton icon="pi pi-user-edit" style="margin-bottom: 10px ;  margin-top: 10px;" >Editar</button>
+                <div class="p-fluid col-12 md:col-6"></div>
+                <div class="p-fluid col-12 md:col-6">
 
-            </div>
+                    <button (click)="collapse()" pButton icon="pi pi-user-edit" style="margin-bottom: 10px ;  margin-top: 10px;" >Editar</button>
+                </div>
         </div>
+
     </div>
 </div>
 <div class="card" [class.hidden]="!Edicion" style="background-color: #eececd;">
@@ -48,11 +51,11 @@
                 <div class="field col-12 md:col-6">
 
                     <label for="">Nombre de usuario</label>
-                    <input pInputText id="usuario" formControlName="usua_Usuario" type="text" required autofocus  [ngClass]="{'ng-invalid ng-dirty': submitted && usuform.get('usua_Usuario').value === ''}" />
+                    <input pInputText id="usuario" formControlName="Usua_Usuario" type="text" required autofocus  [ngClass]="{'ng-invalid ng-dirty': submitted && usuform.get('Usua_Usuario').value === ''}" />
                 </div>
                 <div class="field col-12 md:col-6">
                     <label for="">Empleado</label>
-                        <select formControlName="Empl_Id" pInputText id="Empleado" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && usuform.get('Empl_Id').value === '0'}" >
+                        <select formControlName="Empl_Id" pInputText id="Empl_Id" required autofocus [ngClass]="{'ng-invalid ng-dirty': submitted && usuform.get('Empl_Id').value === '0'}" >
                         <option *ngFor="let empl of empleados" [value]="empl.value">{{ empl.text }}</option>
                         </select>
                         <small *ngIf="submitted && usuform.get('Empl_Id').value === '0'" style="color: red;">Empleado Requerido</small>
@@ -65,8 +68,8 @@
                     <small *ngIf="submitted && usuform.get('Role_Id').value === '0'" style="color: red;">Rol Requerido</small>
                 </div>
             </div>
-        </form>
         <button pButton icon="pi pi-check" type="submit" label="Agregar" ></button>
         <button (click)="cancelar()" pButton  style="margin-left: 10px ; " >Cancelar</button>
+    </form>
 
 </div>

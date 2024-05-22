@@ -64,13 +64,16 @@ export class ListClienteComponent implements OnInit{
   ID: string = "";
   MunicipioCodigo: String = "";
   Usua_Id: any = this.cookie.get('ID_Usuario');
+
+
+
   constructor(private service: ServiceService, private router: Router,   private messageService: MessageService, private cookie: CookieService
   ) { }
 
 
   ngOnInit(): void {
     this.clienteForm = new FormGroup({
-      Clie_DNI: new FormControl("",Validators.required),
+      Clie_DNI: new FormControl("",[Validators.required, Validators.minLength(14)]),
       Clie_Nombre: new FormControl("",Validators.required),
       Clie_Apellido: new FormControl("", Validators.required),
       Clie_Sexo: new FormControl("", Validators.required),

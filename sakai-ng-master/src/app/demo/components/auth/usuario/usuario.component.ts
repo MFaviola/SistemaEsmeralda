@@ -24,6 +24,7 @@ export class UsuarioComponent {
   submitted: boolean = false;
   viewModel: UsuarioEnviar = new UsuarioEnviar();
   usuform: FormGroup;
+  nombre: string = "";
 
   empleados: any[] = [];
   rol: any[] = [];
@@ -31,10 +32,10 @@ export class UsuarioComponent {
   constructor(private service: ServiceService, private router: Router, private messageService: MessageService, private cookie: CookieService ) { }
 
   ngOnInit(): void {
+    var id = this.cookie.get('ID_Usuario');
 
     var usuario = document.getElementById('ID_Usuario');
-    var nombre = this.cookie.get('Usuario')
-    usuario.textContent = nombre;
+   usuario.textContent = this.nombre;
 
     var sucursal = document.getElementById('sucu');
     var sucu = this.cookie.get('SucursalNombre')
@@ -52,6 +53,12 @@ export class UsuarioComponent {
     var corre = this.cookie.get('correo');
     correo.textContent = corre;
 
+    this.service.getFill(this.cookie.get('ID_Usuario')).subscribe((data: any)=>{
+      console.log(data);
+      this.nombre = data.usua_Usuario
+    },error=>{
+        console.log(error);
+    })
 
     this.service.getDropDownEmpleado().subscribe((data: dropEmpleado[]) => {
       this.empleados = data;
@@ -62,17 +69,30 @@ export class UsuarioComponent {
 
     this.usuform = new FormGroup({
       Usua_Usuario: new FormControl("",Validators.required),
-      Usua_Contraseña: new FormControl("", Validators.required),
-      Usua_Administrador: new FormControl(this.cookie.get('esAdmin'), [Validators.required]),
-      empl_Id: new FormControl('0', [Validators.required]),
-      role_Id: new FormControl('0', [Validators.required]),
+      Usua_Administrador: new FormControl("", [Validators.required]),
+      Usua_Contraseña: new  FormControl("", [Validators.required]),
+      Empl_Id: new FormControl('0', [Validators.required]),
+      Role_Id: new FormControl('0', [Validators.required]),
     });
 
   }
 
   collapse(){
-    this.Collapse= true;
-    this.Edicion = true;
+
+    this.service.getFill(this.id).subscribe({
+      next: (data: Fill) => {
+        this.usuform = new FormGroup({
+          Usua_Usuario: new FormControl(data.usua_Usuario,Validators.required),
+          Usua_Administrador: new FormControl(data.usua_Administrador, [Validators.required]),
+          Usua_Contraseña: new FormControl("x", Validators.required),
+          Empl_Id: new FormControl(data.empl_Id, [Validators.required]),
+          Role_Id: new FormControl(data.role_Id, [Validators.required]),
+        });
+          this.Collapse= true;
+          this.Edicion = true;
+      }
+    });
+
   }
 
   cancelar(){
@@ -81,16 +101,19 @@ export class UsuarioComponent {
   }
 
   onSubmit():void{
-    if (this.usuform.valid && this.usuform.get('empl_Id').value !== '0' && this.usuform.get('eole_Id').value !== '0') {
+    if (this.usuform.valid && this.usuform.get('Empl_Id').value !== '0' && this.usuform.get('Role_Id').value !== '0') {
      this.viewModel = this.usuform.value;
     
       this.viewModel.Usua_Id = this.id;
-      this.service.ActualizarUsuario1(this.viewModel).subscribe((data: MensajeViewModel[]) => {
+
+
+      this.service.ActualizarUsuario(this.viewModel).subscribe((data: MensajeViewModel[]) => {
         if(data["message"] == "Operación completada exitosamente."){
-        this.ngOnInit();
+          this.ngOnInit();
         this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Actualizado con Exito', life: 3000 });
-        this.Collapse= false;
-         this.submitted = false;
+          this.Collapse= false;
+          this.Edicion = false;
+          this.submitted = false;
         }else{
          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se logro actualizar', life: 3000 });
         }          

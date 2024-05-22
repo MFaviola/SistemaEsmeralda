@@ -17,7 +17,7 @@
                     <input pInputText id="Empl_DNI" formControlName="Empl_DNI" type="text" required autofocus 
                            [ngClass]="{'ng-invalid ng-dirty': submitted && clienteForm.controls['Empl_DNI'].invalid}"
                            (keydown)="ValidarNumeros($event)" maxlength="14" />
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && clienteForm.controls['Empl_DNI'].invalid" style="color: red !important;">Nombre Requerido</small>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && clienteForm.controls['Empl_DNI'].invalid" style="color: red !important;">DNI Requerido</small>
                  </div>
                   <div class="field col-12 md:col-6">
                       <label for="Cliente">Nombre</label>
@@ -38,7 +38,7 @@
                    <div class="field col-12 md:col-6">
                         <label for="Empl_FechaNac" class="form-label">Fecha de Nacimiento</label>
                         <input pInputText id="Empl_FechaNac" class="form-control" formControlName="Empl_FechaNac" type="datetime-local" required autofocus />
-                        <small class="ng-dirty ng-invalid" *ngIf="submitted && clienteForm.controls['Empl_FechaNac'].invalid" style="color: red !important;">Apellido Requerido</small>
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && clienteForm.controls['Empl_FechaNac'].invalid" style="color: red !important;">Fecha de nacimiento Requerido</small>
 
                     </div>
 

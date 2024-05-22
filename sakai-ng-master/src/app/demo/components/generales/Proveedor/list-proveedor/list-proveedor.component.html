@@ -23,7 +23,7 @@
                     <input pInputText id="Telefono" formControlName="Prov_Telefono" type="text" required autofocus 
                            [ngClass]="{'ng-invalid ng-dirty': submitted && proveedorForm.controls['Prov_Telefono'].invalid}"
                            (keydown)="ValidarNumero($event)" maxlength="8"/>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && proveedorForm.controls['Prov_Telefono'].invalid" style="color: red !important;">Proveedor Requerido</small>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && proveedorForm.controls['Prov_Telefono'].invalid" style="color: red !important;">Telefono Requerido</small>
                  </div>
                 <div class="field col-12 md:col-6">
                   <label for="Departamento">Departamento</label>

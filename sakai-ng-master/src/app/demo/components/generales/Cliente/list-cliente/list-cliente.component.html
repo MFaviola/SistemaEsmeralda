@@ -16,7 +16,7 @@
                     <label for="Cliente">DNI</label>
                     <input pInputText id="Clie_DNI" formControlName="Clie_DNI" type="text" required autofocus 
                            [ngClass]="{'ng-invalid ng-dirty': submitted && clienteForm.controls['Clie_DNI'].invalid}"
-                           (keydown)="ValidarNumeros($event)" maxlength="14"/>
+                           (keydown)="ValidarNumeros($event)" maxlength="14" />
                     <small class="ng-dirty ng-invalid" *ngIf="submitted && clienteForm.controls['Clie_DNI'].invalid" style="color: red !important;">DNI Requerido</small>
                  </div>
                   <div class="field col-12 md:col-6">
@@ -38,19 +38,18 @@
                    <div class="field col-12 md:col-6">
                         <label for="Clie_FechaNac" class="form-label">Fecha de Nacimiento</label>
                         <input pInputText id="Clie_FechaNac" class="form-control" formControlName="Clie_FechaNac" type="datetime-local" required autofocus />
-                        <small class="ng-dirty ng-invalid" *ngIf="submitted && clienteForm.controls['Clie_FechaNac'].invalid" style="color: red !important;">Apellido Requerido</small>
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && clienteForm.controls['Clie_FechaNac'].invalid" style="color: red !important;">La Fecha de Nacimiento es Requerida</small>
 
                     </div>
 
                     <div class="field col-12 md:col-6">
-                        <label for="Clie_Sexo" class="form-label">Sexo</label>
                         <div class="col-md-3">
+                            <label for="Clie_Sexo" class="form-label">Sexo</label>
+                        </div>
+                        <div class="col-md-6">
                             <label>
                                 <input type="radio" class="form-check-input" name="sexo" value="M" checked formControlName="Clie_Sexo"> Masculino
                               </label>
-                            </div>
-
-                            <div class="col-md-3">
                                 <label>
                                     <input type="radio" class="form-check-input" name="sexo" value="F" formControlName="Clie_Sexo"> Femenino
                                   </label>

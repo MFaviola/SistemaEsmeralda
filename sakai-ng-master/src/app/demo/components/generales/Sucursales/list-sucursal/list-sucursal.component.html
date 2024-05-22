@@ -17,7 +17,7 @@
                       <input pInputText id="Sucursal" formControlName="Sucu_Nombre" type="text" required autofocus 
                              [ngClass]="{'ng-invalid ng-dirty': submitted && sucursalForm.controls['Sucu_Nombre'].invalid}"
                              (keydown)="validarTexto($event)" />
-                      <small class="ng-dirty ng-invalid" *ngIf="submitted && sucursalForm.controls['Sucu_Nombre'].invalid" style="color: red !important;">Proveedor Requerido</small>
+                      <small class="ng-dirty ng-invalid" *ngIf="submitted && sucursalForm.controls['Sucu_Nombre'].invalid" style="color: red !important;">Sucursal Requerido</small>
                    </div>
                 <div class="field col-12 md:col-6">
                   <label for="Departamento">Departamento</label>
