@@ -26,6 +26,8 @@ export class CrearFacturaCompraEncabezado{
     prov_Id !: Number;
     faCE_Id ?: String;
     faCD_Dif ?: String;
+    sucu_Id ?: String;
+    sucu_Nombre ?: String;
     nombreProducto ?: String;
     faCD_Cantidad !: String;
     precioCompra ?: String;

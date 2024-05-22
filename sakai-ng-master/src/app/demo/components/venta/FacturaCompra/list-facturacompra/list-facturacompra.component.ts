@@ -648,8 +648,8 @@ export class ListFacturacompraComponent {
   //#endregion
 
   Fill(codigo) {
-    this.service.fillenca(codigo).subscribe({
-      next: (data: Fill) => {
+    this.service.fillenca1(codigo).subscribe({
+      next: (data: CrearFacturaCompraEncabezado) => {
         console.log(data);
       this.submitted = false;
       this.FacturaForm = new FormGroup({
