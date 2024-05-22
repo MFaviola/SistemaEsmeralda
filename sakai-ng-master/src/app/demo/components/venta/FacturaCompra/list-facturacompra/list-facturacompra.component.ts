@@ -324,15 +324,6 @@ export class ListFacturacompraComponent {
     this.filteredSucursales = filtered;
   }
 
-  producto(event: any){
-    console.log(event.key)
-    console.log()
-    this.service.getDatosPorCodigo(this.FacturaForm.get('prod_Id').value).subscribe(countries => {
-      this.FacturaForm.get('nombreProducto').setValue(countries[0].maqu_Nombre); 
-    
-    });
-  
-  }
   //#endregion
   
   //#region  selects
