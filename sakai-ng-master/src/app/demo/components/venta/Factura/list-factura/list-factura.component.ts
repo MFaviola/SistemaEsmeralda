@@ -144,26 +144,7 @@ export class ListFacturaComponent {
 
 
   ngOnInit(): void {
-    this.dateDayAnter.setDate(this.dateDayAnter.getDate());
-    const fechaAS = this.datePipe.transform(this.dateDayAnter, 'yyyy-MM-dd');
-    this.service.getValidacion(fechaAS, this.cookie.get('SucursalID')).subscribe((data: FillCajaCierre[]) => {
-        
-      if (data.length <= 0 ) {
-        this.Validaciones = "Hoy"
-        this.Validaciones2 = "Hoy"
-      }else{
-        if (data[0].caja_Finalizado == "False") {
-          this.Validaciones = "Hoy"
-          this.Validaciones2 = "Hoy"
-        }
-      }
-     
-
-         
-        } 
-           
-      
-        )
+  this.verifyCajaState()
 
 
     this.dateDayAnter.setDate(this.dateDayAnter.getDate() - 1);
@@ -175,6 +156,7 @@ export class ListFacturaComponent {
           this.CajaID = data[0].caja_Id;
           this.Inicio = data[0].caja_MontoInicial
           this.Validaciones = "Ayer"
+          this.CajaCerradaDialog = true
         }
         
       }
@@ -253,8 +235,39 @@ export class ListFacturaComponent {
     this.clientes = client;
     this.clientesNombre = client;
     });
+
+    this.yService.cajaStateSource.subscribe(state => {
+      if (state == 'Cerrada') {
+        this.CajaCerradaForm = new FormGroup({
+          caja_MontoFinal: new FormControl("", Validators.required),
+          caja_Observacion: new FormControl("", Validators.required),
+      });  
+    
+        this.CajaForm = new FormGroup({
+          caja_MontoInicial: new FormControl("", Validators.required),
+        });  
+        this.Validaciones = "Hoy"
+        this.Validaciones2 = "Hoy"
+
+      }
+    });
    } 
 
+   verifyCajaState(): void {
+    this.dateDayAnter.setDate(this.dateDayAnter.getDate());
+    const fechaAS = this.datePipe.transform(this.dateDayAnter, 'yyyy-MM-dd');
+    this.service.getValidacion(fechaAS, this.cookie.get('SucursalID')).subscribe((data: FillCajaCierre[]) => {
+      if (data.length <= 0) {
+        this.yService.changeCajaState('Cerrada');
+      } else {
+        const cajaSinCerrar = data.some(item => item.caja_Finalizado == "False");
+        this.yService.changeCajaState(cajaSinCerrar ? 'Cerrada' : 'Abrir');
+  
+    
+
+      }
+    });
+  }
 
 
    refrescar(){
@@ -292,6 +305,47 @@ export class ListFacturaComponent {
       this.Agregar= false;
       this.Detalles = false;
       this.Tabla = false;
+      this.Subtotal = "0";
+      this.Impuesto = "0"
+      this.Total = "0";
+      this.selectedMetodo = "1";
+      this.Actualizar = ""
+    this.Impuesto = "0"
+    this.Total = "0";
+    this.submitted = false;
+  }
+
+
+  refrescarCancelar(){
+    this.service.getFacturasDetalle(0).subscribe((data: any)=>{
+      this.FacturaDetalle = data;
+    })
+    this.selectedClientesNombreAdvanced = "Consumidor Final";
+    this.FacturaForm.get('Mepa_Id').setValue("1")
+    this.selectedRadio = '1';
+    this.Validaciones = "Prueba";
+    this.selectedMetodo = '1';
+    this.FacturaForm.get('Faxd_Dif').setValue("1")
+    this.FacturaForm.get('Clie_Id').setValue("1")
+    this.FacturaForm.get('Clie_DNI').setValue("")
+    this.FacturaForm.get('Faxd_Cantidad').setValue("")
+    this.FacturaForm.get('Prod_Nombre').setValue("")
+    this.FacturaForm.get('Prod_Producto').setValue("")
+    this.FacturaForm.get('Prod_Id').setValue("");
+    this.Fact_ID = "0";
+    this.Valor = "";
+    this.MayorOVenta = "0";
+    this.Subtotal = "0"
+    this.TotalTabla = "0";
+
+    this.service.getAutoCompletadoJoya(this.Sucu_Id).subscribe(countries => {
+      this.countries = countries;
+    });
+   this.service.getAutoCompletadoJoyaLista(this.Sucu_Id).subscribe(countries => {
+    this.listJoyas = countries;
+    });
+    this.submitted = false;
+      this.Valor = "Agregar";
       this.Subtotal = "0";
       this.Impuesto = "0"
       this.Total = "0";
@@ -496,7 +550,7 @@ cancelar(){
   this.DataTable = true;
   this.Detalles = false;
   this.submitted = false;
-  this.ngOnInit();
+  this.refrescarCancelar();
   this.Agregar= true;
   this.MunCodigo=true;
   this.Fact_ID = "0";
@@ -556,25 +610,8 @@ onSubmitCajaCerrada() {
       if(data["message"] == "Operación completada exitosamente."){
           this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Puede continuar', life: 3000 });
           this.CajaCerradaDialog = false;
-          if (this.Validaciones == "Hoy" || this.Validaciones2 == "Hoy") {
-            this.AbrirCaja = true
-          }else{
-            this.submitted = false;
-            this.Collapse= true;
-            this.DataTable = false;
-            this.Valor = "Agregar";
-            this.Agregar= false;
-            this.Detalles = false;
-            this.Tabla = false;
-            this.Subtotal = "0";
-            this.Impuesto = "0"
-            this.Total = "0";
-            this.selectedMetodo = "1";
-            this.Actualizar = ""
-            this.service.getFacturasDetalle(0).subscribe((data: any)=>{
-            this.FacturaDetalle = data;
-          })
-          }
+        
+         
         
       }else{
     
@@ -600,23 +637,23 @@ onSubmitCaja() {
      this.service.EnviarAbierto(this.viewModel2).subscribe((data: MensajeViewModel[]) => {
       if(data["message"] == "Operación completada exitosamente."){
           this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Puede continuar', life: 3000 });
-          this.ConfirmarPago = false;
-          this.submitted = false;
-          this.Collapse= true;
-          this.DataTable = false;
-          this.Valor = "Agregar";
-          this.Agregar= false;
-          this.Detalles = false;
-          this.Tabla = false;
-          this.Subtotal = "0";
-          this.Impuesto = "0"
-          this.Total = "0";
-          this.selectedMetodo = "1";
-          this.Actualizar = ""
-          this.service.getFacturasDetalle(0).subscribe((data: any)=>{
-          this.FacturaDetalle = data;
+          this.yService.changeCajaState('Abrir');
           this.AbrirCaja = false;
-        })
+          this.submitted = false;
+                this.Collapse= true;
+                this.DataTable = false;
+                this.Valor = "Agregar";
+                this.Agregar= false;
+                this.Detalles = false;
+                this.Tabla = false;
+                this.Subtotal = "0";
+                this.Impuesto = "0"
+                this.Total = "0";
+                this.selectedMetodo = "1";
+                this.Actualizar = ""
+                this.service.getFacturasDetalle(0).subscribe((data: any)=>{
+                this.FacturaDetalle = data;
+              })
       }else{
     
        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo cerrar:', life: 3000 });
@@ -634,7 +671,6 @@ onSubmitCaja() {
 
 
   collapse(){
-    
     if (this.Validaciones == "Prueba") {
                 this.submitted = false;
                 this.Collapse= true;
@@ -654,9 +690,8 @@ onSubmitCaja() {
     }else if(this.Validaciones == "Ayer"){
         this.CajaCerradaDialog = true;
     }else if(this.Validaciones == "Hoy"){
-      this.AbrirCaja= true
-    }
-    
+      this.AbrirCaja = true;
+  }
      
     }
 
@@ -761,7 +796,7 @@ onSubmit() {
             this.DataTable = true;
             this.Detalles = false;
             this.submitted = false;
-            this.ngOnInit();
+            this.refrescar();
             this.Agregar= true;
             this.MunCodigo=true;
             this.Fact_ID = "0";

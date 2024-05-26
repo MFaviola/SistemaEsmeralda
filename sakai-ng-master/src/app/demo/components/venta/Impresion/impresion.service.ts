@@ -1,19 +1,22 @@
 import { DatePipe } from '@angular/common';
-import { Component, Injectable, NgModule } from '@angular/core';
+import { Component, EventEmitter, Injectable, NgModule } from '@angular/core';
 import { cu } from '@fullcalendar/core/internal-common';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable'
+import { BehaviorSubject } from 'rxjs';
 import { Impuesto } from 'src/app/Models/ImpuestoViewModel';
 @Injectable({
   providedIn: 'root',
 })
 export class YService {
   private pageCount = 1;
-
+  cajaStateSource: EventEmitter<string> = new EventEmitter<string>();
   constructor() {
    
   }
-
+  changeCajaState(state: string) {
+    this.cajaStateSource.emit(state);
+  }
  
    Reporte1PDF(cuerpo, logoURL, Cliente,DNI,Muni,Depa,Numero,Fecha,Pedido,Imouesto,Metodo,Subtotal,Total): Blob {
     const doc = new jsPDF({
@@ -1008,7 +1011,7 @@ ReportesCaja(logoURL: string,Usuario,FechaCreacion,MontoInicial,MontoFinal,Ganan
   doc.text('Ganancias del dia:'  , 50*2 , 145);
   doc.setFont(undefined, 'normal');
   doc.text(MontoInicial  , 80*2 , 105);
-  doc.text(MontoFinal  , 80*2 , 125);
+  doc.text(MontoFinal , 80*2 , 125);
   doc.text(Ganancias , 90*2 , 145);
 
   doc.setFont(undefined, 'bold');

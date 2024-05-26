@@ -9,6 +9,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DatePipe } from '@angular/common';
 import { CajaEnviar, FillCajaCierre } from '../Models/DashboardViewModel';
 import { C } from '@fullcalendar/core/internal-common';
+import { YService } from '../demo/components/venta/Impresion/impresion.service';
 
 
 @Component({
@@ -34,25 +35,11 @@ export class AppMenuComponent implements OnInit {
     CajaID : string = "0";
     submitted: boolean = false;
     validacion: string = "False";
-    constructor(private datePipe: DatePipe,private servicioLogin: ServiceService, public layoutService: LayoutService, private cookieService: CookieService, private messageService: MessageService) { }
+    constructor(private datePipe: DatePipe,private servicioLogin: ServiceService, public layoutService: LayoutService, private cookieService: CookieService, private messageService: MessageService,private yService: YService) { }
 
     ngOnInit() {
-        this.dateDayAnter.setDate(this.dateDayAnter.getDate());
-        const fechaA = this.datePipe.transform(this.dateDayAnter, 'yyyy-MM-dd');
-        this.servicioLogin.getValidacion(fechaA, this.cookieService.get('SucursalID')).subscribe((data: FillCajaCierre[]) => {
-        
-        if (data.length <= 0 ) {
-            this.validacion = "False"
-        }else{
-            this.validacion = data[0].caja_Finalizado;
-        }
-       
+        this.Verificacion()
 
-           
-          } 
-             
-        
-          )
         this.CajaCerradaForm = new FormGroup({
             caja_MontoFinal: new FormControl("", Validators.required),
             caja_Observacion: new FormControl("", Validators.required),
@@ -61,12 +48,68 @@ export class AppMenuComponent implements OnInit {
           this.CajaForm = new FormGroup({
             caja_MontoInicial: new FormControl("", Validators.required),
           });  
-
-            this.crearMapeo();
+          this.yService.cajaStateSource.subscribe(state => {
+            if (state == 'Cerrada') {
+                this.CajaCerradaForm = new FormGroup({
+                    caja_MontoFinal: new FormControl("", Validators.required),
+                    caja_Observacion: new FormControl("", Validators.required),
+                });  
+              
+                  this.CajaForm = new FormGroup({
+                    caja_MontoInicial: new FormControl("", Validators.required),
+                  });  
+              this.validacion = "False"
+              this.crearMapeo();
+            }else{
+                this.CajaCerradaForm = new FormGroup({
+                    caja_MontoFinal: new FormControl("", Validators.required),
+                    caja_Observacion: new FormControl("", Validators.required),
+                });  
+              
+                  this.CajaForm = new FormGroup({
+                    caja_MontoInicial: new FormControl("", Validators.required),
+                  });  
+            this.validacion = "True"
+                this.crearMapeo();
+            }
+          });
+           
 
        
     }
 
+    Verificacion(){
+        this.dateDayAnter.setDate(this.dateDayAnter.getDate());
+        const fechaA = this.datePipe.transform(this.dateDayAnter, 'yyyy-MM-dd');
+        this.servicioLogin.getValidacion(fechaA, this.cookieService.get('SucursalID')).subscribe((data: FillCajaCierre[]) => {
+            if (data.length <= 0) {
+                this.yService.changeCajaState('Cerrada');
+
+              } else {
+                const cajaSinCerrar = data.some(item => item.caja_Finalizado == "False");
+                this.yService.changeCajaState(cajaSinCerrar ? 'Cerrada' : 'Abrir');
+          
+            
+        
+              }
+
+
+
+
+
+       
+
+           
+          } 
+             
+        
+          )
+
+   
+    }
+   
+
+  
     crearMapeo(){
         const admin = this.cookieService.get('esAdmin').toString();
         if (admin != "true") {
@@ -175,7 +218,9 @@ export class AppMenuComponent implements OnInit {
            this.viewModel2.Sucu_Id = this.cookieService.get('SucursalID');
            this.servicioLogin.EnviarAbierto(this.viewModel2).subscribe((data: MensajeViewModel[]) => {
             if(data["message"] == "Operación completada exitosamente."){
+                this.yService.changeCajaState('Abrir');
                 this.ngOnInit();
+            
                 this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Puede continuar', life: 3000 });
                 this.abrirCajaDialog = false;
                 this.validacion = "True";
@@ -209,8 +254,9 @@ export class AppMenuComponent implements OnInit {
                this.viewModel2.caja_MontoSistema = this.TotalCajaCerrar;
                this.servicioLogin.EnviarCierre(this.viewModel2).subscribe((data: MensajeViewModel[]) => {
                 if(data["message"] == "Operación completada exitosamente."){
+                    this.yService.changeCajaState('Cerrada');
                     this.validacion = "False";
-                    this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Puede operar', life: 3000 });
+                    this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Puede continuar', life: 3000 });
                     this.cerrarCajaDialog = false;
                     this.crearMapeo();
                 

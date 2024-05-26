@@ -108,7 +108,7 @@ AbrirCaja: boolean = false;
 		  return sum + itemTotal;
 			  }, 0);
 				 
-		const MontoInicial =data[0].caja_MontoFinal.toString()
+			  const MontoInicial =data[0].caja_MontoInicial.toString()
 		const MontoFinal = data[0].caja_MontoFinal.toString()
 		const Ganancias = data[0].caja_MontoSistema.toString()
 		const Apertura =data[0].apertura.toString()
@@ -191,7 +191,7 @@ AbrirCaja: boolean = false;
 			  return sum + itemTotal;
 				  }, 0);
 					 
-			const MontoInicial =data[0].caja_MontoFinal.toString()
+				  const MontoInicial =data[0].caja_MontoInicial.toString()
 			const MontoFinal = data[0].caja_MontoFinal.toString()
 			const Ganancias = data[0].caja_MontoSistema.toString()
 			const Apertura =data[0].apertura.toString()
@@ -235,7 +235,8 @@ console.log(event.value);
 		  return sum + itemTotal;
 			  }, 0);
 				 
-		const MontoInicial =data[0].caja_MontoFinal.toString()
+		const MontoInicial =data[0].caja_MontoInicial.toString()
+			  
 		const MontoFinal = data[0].caja_MontoFinal.toString()
 		const Ganancias = data[0].caja_MontoSistema.toString()
 		const Apertura =data[0].apertura.toString()

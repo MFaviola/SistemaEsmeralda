@@ -151,6 +151,23 @@ export class ListFacturaComponent {
 
 
   ngOnInit(): void {
+    this.verifyCajaState();
+
+this.yService.cajaStateSource.subscribe(state => {
+  if (state == 'Cerrada') {
+    this.CajaCerradaForm = new FormGroup({
+      caja_MontoFinal: new FormControl("", Validators.required),
+      caja_Observacion: new FormControl("", Validators.required),
+  });  
+
+    this.CajaForm = new FormGroup({
+      caja_MontoInicial: new FormControl("", Validators.required),
+    });  
+    this.Validaciones = "Hoy"
+    this.Validaciones2 = "Hoy"
+    this.Abrir(); 
+  }
+});
     this.dateDayAnter.setDate(this.dateDayAnter.getDate() - 1);
     const fechaA = this.datePipe.transform(this.dateDayAnter, 'yyyy-MM-dd');
     this.service.getValidacion(fechaA, this.cookie.get('SucursalID')).subscribe((data: FillCajaCierre[]) => {
@@ -177,33 +194,18 @@ export class ListFacturaComponent {
            
       
         )
-    this.dateDayAnter.setDate(this.dateDayAnter.getDate());
-    const fechaAS = this.datePipe.transform(this.dateDayAnter, 'yyyy-MM-dd');
-    this.service.getValidacion(fechaAS, this.cookie.get('SucursalID')).subscribe((data: FillCajaCierre[]) => {
-      const cajaSinCerrar = data.some(item => item.caja_Finalizado == "False");
-      this.AbrirCaja = cajaSinCerrar;
-     
-         
-        } 
-           
-      
-        )
+
+
+
+
 
 
 
 
       
 
-        if (this.Validaciones == "Prueba") {
-          this.service.getFacturasDetalle(0).subscribe((data: any)=>{
-          this.FacturaDetalle = data;
-        })
-}else if(this.Validaciones == "Ayer"){
-  this.CajaCerradaDialog = true;
-}else if(this.Validaciones == "Hoy"){
-this.AbrirCaja= true
-}
     
+
     //Tabla de Factura
     this.service.getFacturasDetalle(this.Fact_ID).subscribe((data: any)=>{
       console.log(data);
@@ -249,12 +251,40 @@ this.AbrirCaja= true
     });
    } 
 
+   verifyCajaState(): void {
+    this.dateDay.setDate(this.dateDay.getDate());
+    const fechaAS = this.datePipe.transform(this.dateDay, 'yyyy-MM-dd');
+    this.service.getValidacion(fechaAS, this.cookie.get('SucursalID')).subscribe((data: FillCajaCierre[]) => {
+      if (data.length <= 0) {
+        this.yService.changeCajaState('Cerrada');
+      } else {
+        const cajaSinCerrar = data.some(item => item.caja_Finalizado == "False");
+        this.yService.changeCajaState(cajaSinCerrar ? 'Cerrada' : 'Abrir');
+       
+    
+
+      }
+    });
+
+  }
    refrescar(){
       
       this.reinicio();
       this.subirCaja = false
   }
   
+  Abrir(){
+ 
+    if (this.Validaciones == "Prueba") {
+      this.service.getFacturasDetalle(0).subscribe((data: any)=>{
+      this.FacturaDetalle = data;
+    })
+}else if(this.Validaciones == "Ayer"){
+this.CajaCerradaDialog = true;
+}else if(this.Validaciones == "Hoy"){
+  this.AbrirCaja = true;
+  }
+}
 
   
 onSubmitCajaCerrada() {
@@ -270,6 +300,7 @@ onSubmitCajaCerrada() {
       if(data["message"] == "Operación completada exitosamente."){
           this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Puede continuar', life: 3000 });
           this.CajaCerradaDialog = false;
+          this.yService.changeCajaState('Cerrada');
             this.service.getFacturasDetalle(0).subscribe((data: any)=>{
             this.FacturaDetalle = data;
           })
@@ -299,6 +330,7 @@ onSubmitCaja() {
      this.service.EnviarAbierto(this.viewModel2).subscribe((data: MensajeViewModel[]) => {
       if(data["message"] == "Operación completada exitosamente."){
           this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Puede continuar', life: 3000 });
+          this.yService.changeCajaState('Abrir');
           this.ConfirmarPago = false;
           this.submitted = false;
           this.Collapse= true;
