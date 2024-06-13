@@ -7,14 +7,27 @@
   "targets": {
     ".NETCoreApp,Version=v5.0": {
       "SistemaEsmeralda.Common/1.0.0": {
+        "dependencies": {
+          "SistemaEsmeralda.Entities": "1.0.0"
+        },
         "runtime": {
           "SistemaEsmeralda.Common.dll": {}
+        }
+      },
+      "SistemaEsmeralda.Entities/1.0.0": {
+        "runtime": {
+          "SistemaEsmeralda.Entities.dll": {}
         }
       }
     }
   },
   "libraries": {
     "SistemaEsmeralda.Common/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "SistemaEsmeralda.Entities/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

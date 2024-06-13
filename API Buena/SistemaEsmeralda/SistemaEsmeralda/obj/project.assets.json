@@ -1786,6 +1786,9 @@
       "SistemaEsmeralda.Common/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v5.0",
+        "dependencies": {
+          "SistemaEsmeralda.Entities": "1.0.0"
+        },
         "compile": {
           "bin/placeholder/SistemaEsmeralda.Common.dll": {}
         },
@@ -6580,19 +6583,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Mine\\.nuget\\packages\\": {}
+    "C:\\Users\\informatica\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Mine\\Documents\\GitHub\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda\\SistemaEsmeralda.API.csproj",
+      "projectUniqueName": "C:\\Users\\informatica\\Desktop\\ProyectoBK\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda\\SistemaEsmeralda.API.csproj",
       "projectName": "SistemaEsmeralda.API",
-      "projectPath": "C:\\Users\\Mine\\Documents\\GitHub\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda\\SistemaEsmeralda.API.csproj",
-      "packagesPath": "C:\\Users\\Mine\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Mine\\Documents\\GitHub\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda\\obj\\",
+      "projectPath": "C:\\Users\\informatica\\Desktop\\ProyectoBK\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda\\SistemaEsmeralda.API.csproj",
+      "packagesPath": "C:\\Users\\informatica\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\informatica\\Desktop\\ProyectoBK\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Mine\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\informatica\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -6606,14 +6609,14 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\Users\\Mine\\Documents\\GitHub\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.BusinessLogic\\SistemaEsmeralda.BusinessLogic.csproj": {
-              "projectPath": "C:\\Users\\Mine\\Documents\\GitHub\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.BusinessLogic\\SistemaEsmeralda.BusinessLogic.csproj"
+            "C:\\Users\\informatica\\Desktop\\ProyectoBK\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.BusinessLogic\\SistemaEsmeralda.BusinessLogic.csproj": {
+              "projectPath": "C:\\Users\\informatica\\Desktop\\ProyectoBK\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.BusinessLogic\\SistemaEsmeralda.BusinessLogic.csproj"
             },
-            "C:\\Users\\Mine\\Documents\\GitHub\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.Common\\SistemaEsmeralda.Common.csproj": {
-              "projectPath": "C:\\Users\\Mine\\Documents\\GitHub\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.Common\\SistemaEsmeralda.Common.csproj"
+            "C:\\Users\\informatica\\Desktop\\ProyectoBK\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.Common\\SistemaEsmeralda.Common.csproj": {
+              "projectPath": "C:\\Users\\informatica\\Desktop\\ProyectoBK\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.Common\\SistemaEsmeralda.Common.csproj"
             },
-            "C:\\Users\\Mine\\Documents\\GitHub\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.Entities\\SistemaEsmeralda.Entities.csproj": {
-              "projectPath": "C:\\Users\\Mine\\Documents\\GitHub\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.Entities\\SistemaEsmeralda.Entities.csproj"
+            "C:\\Users\\informatica\\Desktop\\ProyectoBK\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.Entities\\SistemaEsmeralda.Entities.csproj": {
+              "projectPath": "C:\\Users\\informatica\\Desktop\\ProyectoBK\\SistemaEsmeralda\\API Buena\\SistemaEsmeralda\\SistemaEsmeralda.Entities\\SistemaEsmeralda.Entities.csproj"
             }
           }
         }
